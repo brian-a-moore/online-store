@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { TItem, TProduct } from '../api';
 
-export type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId'> & {
+export type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId' | 'maxQuantityPerOrder'> & {
   product: Pick<TProduct, 'productName'>;
   quantity: number;
 };
@@ -30,6 +30,14 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const [items, setItems] = useState<TCartItem[]>([]);
 
   const addItem = (item: TCartItem) => {
+    const existingItem = items.find((i) => i.itemId === item.itemId);
+    if (existingItem) {
+      let updatedItem = { ...existingItem, quantity: existingItem.quantity + item.quantity };
+      if(updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
+        updateItem(item.itemId, updatedItem.quantity);
+      };
+      return;
+    }
     setItems((prevItems) => [...prevItems, item]);
   };
 
