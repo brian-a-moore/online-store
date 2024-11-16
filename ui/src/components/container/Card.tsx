@@ -4,7 +4,7 @@ export const Card: React.FC<Props> = ({ children, className, ...rest }) => {
   return (
     <div
       {...rest}
-      className={`flex flex-col bg-white border-[1px] border-gray-300 rounded shadow-md flex-1 gap-4 p-4 ${className}`}
+      className={`flex flex-col bg-white border-[1px] border-gray-300 rounded shadow-md gap-4 p-4 ${className}`}
     >
       {children}
     </div>

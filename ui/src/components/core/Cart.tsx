@@ -3,7 +3,6 @@ import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { CartContext } from '../../context/CartContext';
 import { formatCurrency, getTotalPrice, totalItems } from '../../utils';
-import { Card } from '../container';
 import { Button, Stepper } from '../interactive';
 
 type Props = {};
@@ -30,8 +29,8 @@ export const Cart: React.FC<Props> = () => {
   };
 
   return (
-    <Card
-      className={`fixed right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-80' : 'w-auto'} p-0 gap-0`}
+    <div
+      className={`fixed flex flex-col flex-1 p-0 gap-0 right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-80' : 'w-auto'} bg-white border-[1px] border-gray-300 rounded shadow-md`}
     >
       <div className="flex px-4 py-2 gap-4 border-b-2 bg-gray-100 items-center justify-between">
         <p className="font-semibold justify-between">Cart ({totalItems(items)})</p>
@@ -82,6 +81,6 @@ export const Cart: React.FC<Props> = () => {
           ) : null}
         </>
       ) : null}
-    </Card>
+    </div>
   );
 };

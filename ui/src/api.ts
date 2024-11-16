@@ -44,6 +44,21 @@ export const getStores = async (): Promise<{ stores: TStore[] }> => {
   };
 };
 
+export const getStore = async (storeId: string): Promise<{ store: TStore }> => {
+  console.log({ storeId });
+  return {
+    store: {
+      storeId: 1,
+      storeName: 'Carroll Magnet Middle School Theatre Company',
+      storeWebsite: 'https://www.cmmstheatre.com/',
+      storeDescription:
+        'Carroll Magnet Middle School Theatre Company is a group of students who love to perform and create theatre. We are a part of Carroll Magnet Middle School in Raleigh, NC.',
+      storeImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+      storeHeroImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/2_orig.png',
+    },
+  };
+};
+
 export const getProducts = async (
   storeId: string,
 ): Promise<{
@@ -57,7 +72,7 @@ export const getProducts = async (
         productName: 'High School Musical Jr. Admission',
         productDescription:
           'Admission to the Carroll Magnet Middle School Theatre Company production of High School Musical Jr.',
-        productImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/published/hsm.jpeg?1730151383',
+        productImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/editor/hsm-graphic.jpg?1730155750',
         totalAvailable: 500,
       },
     ],
