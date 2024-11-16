@@ -43,6 +43,6 @@ const createCheckoutSessionMock = async (req: Request, res: Response) => {
 //   }
 // };
 
-router.get('/create-checkout-session', createCheckoutSessionMock);
+router.post('/create-checkout-session', createCheckoutSessionMock);
 
 export default router;

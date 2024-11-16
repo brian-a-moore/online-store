@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { TItem, TProduct } from '../api';
 
-type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId'> & {
+export type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId'> & {
   product: Pick<TProduct, 'productName'>;
   quantity: number;
 };
