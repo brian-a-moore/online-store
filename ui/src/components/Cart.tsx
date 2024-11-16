@@ -1,9 +1,9 @@
-import { mdiChevronDown, mdiChevronUp, mdiDelete, mdiMinus, mdiPlus } from '@mdi/js';
+import { mdiChevronDown, mdiChevronUp, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { CartContext } from '../context/CartContext';
 import { formatCurrency, getTotalPrice, totalItems } from '../utils';
-import { Button } from './interactive';
+import { Button, Stepper } from './interactive';
 
 type Props = {};
 
@@ -57,27 +57,11 @@ const Cart: React.FC<Props> = () => {
                     >
                       {item.product.productName}
                     </h2>
-                    <div className="flex gap-4 items-center">
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleQuantityChange(item.itemId, '-')}
-                        title="Remove One"
-                      >
-                        <Icon path={mdiMinus} size={0.55} />
-                      </Button>
-                      <p>{item.quantity}</p>
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleQuantityChange(item.itemId, '+')}
-                        title="Add One"
-                      >
-                        <Icon path={mdiPlus} size={0.55} />
-                      </Button>
-                      <p>{formatCurrency(item.quantity * item.itemPrice)}</p>
+                    <Stepper item={item} handleQuantityChange={handleQuantityChange} />
+                     <p>{formatCurrency(item.quantity * item.itemPrice)}</p>
                       <Button variant="destructive" onClick={() => handleDeleteItem(item.itemId)} title="Delete Item">
                         <Icon path={mdiDelete} size={0.55} />
                       </Button>
-                    </div>
                   </div>
                 ))}
               </>
