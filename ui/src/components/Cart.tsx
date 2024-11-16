@@ -57,11 +57,13 @@ const Cart: React.FC<Props> = () => {
                     >
                       {item.product.productName}
                     </h2>
-                    <Stepper item={item} handleQuantityChange={handleQuantityChange} />
-                     <p>{formatCurrency(item.quantity * item.itemPrice)}</p>
+                    <div className='flex gap-4 items-center'>
+                      <Stepper item={item} handleQuantityChange={handleQuantityChange} />
+                      <p>{formatCurrency(item.quantity * item.itemPrice)}</p>
                       <Button variant="destructive" onClick={() => handleDeleteItem(item.itemId)} title="Delete Item">
                         <Icon path={mdiDelete} size={0.55} />
                       </Button>
+                    </div>
                   </div>
                 ))}
               </>
