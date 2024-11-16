@@ -1,5 +1,7 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { TItem, TProduct } from '../api';
+import { deleteCart, getCart, saveCart } from '../utils/localStorage';
 
 export type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId' | 'maxQuantityPerOrder'> & {
   product: Pick<TProduct, 'productName'>;
@@ -27,7 +29,21 @@ interface Props {
 }
 
 export const CartProvider: React.FC<Props> = ({ children }) => {
+  const { storeId } = useParams<{ storeId: string }>();
+  
   const [items, setItems] = useState<TCartItem[]>([]);
+
+  useEffect(() => {
+    const existingCart = getCart(storeId!);
+    if(existingCart) setItems(JSON.parse(existingCart));
+  }, []);
+
+  useEffect(() => {
+    saveCart(storeId!.toString(), JSON.stringify(items));
+    if(items.length === 0) {
+      deleteCart(storeId!);
+    }
+  }, [JSON.stringify(items)]);
 
   const addItem = (item: TCartItem) => {
     const existingItem = items.find((i) => i.itemId === item.itemId);

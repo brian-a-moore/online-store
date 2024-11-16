@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --container-background-color: #252b3c;
+  --container-background-hover-color: #1b1f2b;
+  --input-background-color: #414c6a;
+  --input-background-error-color: #7f1d1d;
+  --primary: #454c65;
+  --border-color: #414c6a;
+  --btn-color: #fff;
+  --header-color: #b7bed3;
+  --text-error-color: #fef2f2;
+  --link-color: #8daafe;
+  --outline-color: #8daafe;
+  --outline-error-color: #f87171;
+  --selection-color: #8daafe;
+  --btn-primary-default-bg-color: #5d86fe;
+  --btn-primary-hover-bg-color: #0d6efd;
+  --btn-secondary-default-bg-color: #6c809e;
+  --btn-secondary-hover-bg-color: #4c668c;
+  --btn-destructive-default-bg-color: #fe5d5d;
+  --btn-destructive-hover-bg-color: #fd0d0d;
+}
+
+input,
+select,
+textarea {
+  outline-color: var(--outline-color);
+}
+
+::selection {
+  background-color: var(--selection-color);
+}
+
+a {
+  color: var(--link-color);
+  font-weight: 500;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+hr {
+  border-color: var(--border-color);
+}
