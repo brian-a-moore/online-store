@@ -34,11 +34,7 @@ const Items: React.FC<Props> = () => {
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>Error: {error}</h1>;
 
-  return (
-    <Grid>
-      {items?.map((item) => <Item key={item.itemId} item={item} />)}
-    </Grid>
-  );
+  return <Grid>{items?.map((item) => <Item key={item.itemId} item={item} />)}</Grid>;
 };
 
 const Item: React.FC<{ item: TItem }> = ({ item }) => {
@@ -47,12 +43,12 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
 
   // @ts-ignore
   const handleQuantityChange = (itemId: number, dir: '-' | '+') => {
-      if (dir === '-' && quantity > 1) {
-        setQuantity(prevState => prevState - 1);
-      }
-      if (dir === '+' && quantity < item.maxQuantityPerOrder) {
-        setQuantity(prevState => prevState + 1);
-      }
+    if (dir === '-' && quantity > 1) {
+      setQuantity((prevState) => prevState - 1);
+    }
+    if (dir === '+' && quantity < item.maxQuantityPerOrder) {
+      setQuantity((prevState) => prevState + 1);
+    }
   };
 
   const addItemToCart = (item: TItem, quantity: number) => {
@@ -65,15 +61,15 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
       {item.itemImage ? (
         <img src={item.itemImage} alt={item.itemName} className="w-full h-48 object-cover rounded" />
       ) : null}
-      <h1 className="font-semibold line-clamp-1" title={item.itemName}>
+      <h1 className="font-semibold line-clamp-2" title={item.itemName}>
         {item.itemName}
       </h1>
-      <p className="text-sm line-clamp-3 flex-1" title={item.itemDescription}>
+      <p className="text-sm line-clamp-5 flex-1" title={item.itemDescription}>
         {item.itemDescription}
       </p>
       <div className="flex justify-between">
         <p className="font-semibold">{formatCurrency(item.itemPrice)}</p>
-        <Stepper item={{...item, quantity }} handleQuantityChange={handleQuantityChange} />
+        <Stepper item={{ ...item, quantity }} handleQuantityChange={handleQuantityChange} />
       </div>
       <Button onClick={() => addItemToCart(item, quantity)}>Add to Cart</Button>
     </Card>

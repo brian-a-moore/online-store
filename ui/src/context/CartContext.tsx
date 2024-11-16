@@ -3,7 +3,10 @@ import { useParams } from 'react-router-dom';
 import { TItem, TProduct } from '../api';
 import { deleteCart, getCart, saveCart } from '../utils/localStorage';
 
-export type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId' | 'maxQuantityPerOrder'> & {
+export type TCartItem = Pick<
+  TItem,
+  'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId' | 'maxQuantityPerOrder'
+> & {
   product: Pick<TProduct, 'productName'>;
   quantity: number;
 };
@@ -30,17 +33,17 @@ interface Props {
 
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const { storeId } = useParams<{ storeId: string }>();
-  
+
   const [items, setItems] = useState<TCartItem[]>([]);
 
   useEffect(() => {
     const existingCart = getCart(storeId!);
-    if(existingCart) setItems(JSON.parse(existingCart));
+    if (existingCart) setItems(JSON.parse(existingCart));
   }, []);
 
   useEffect(() => {
     saveCart(storeId!.toString(), JSON.stringify(items));
-    if(items.length === 0) {
+    if (items.length === 0) {
       deleteCart(storeId!);
     }
   }, [JSON.stringify(items)]);
@@ -49,9 +52,9 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     const existingItem = items.find((i) => i.itemId === item.itemId);
     if (existingItem) {
       let updatedItem = { ...existingItem, quantity: existingItem.quantity + item.quantity };
-      if(updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
+      if (updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
         updateItem(item.itemId, updatedItem.quantity);
-      };
+      }
       return;
     }
     setItems((prevItems) => [...prevItems, item]);

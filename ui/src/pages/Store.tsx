@@ -13,14 +13,14 @@ const Store: React.FC<Props> = () => {
 
   return (
     <CartProvider>
-        <Routes>
-          <Route path="/" element={<Products storeId={storeId!} />} />
-          <Route path="product/:productId" element={<Items />} />
-          <Route path="/order/success" element={<OrderSuccess />} />
-          <Route path="/order/cancelled" element={<OrderCancelled />} />
-        </Routes>
-        <Cart />
-      </CartProvider>
+      <Routes>
+        <Route path="/" element={<Products storeId={storeId!} />} />
+        <Route path="product/:productId" element={<Items />} />
+        <Route path="/order/success" element={<OrderSuccess />} />
+        <Route path="/order/cancelled" element={<OrderCancelled />} />
+      </Routes>
+      <Cart />
+    </CartProvider>
   );
 };
 

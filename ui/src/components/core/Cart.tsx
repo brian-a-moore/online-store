@@ -31,7 +31,7 @@ export const Cart: React.FC<Props> = () => {
 
   return (
     <Card
-      className={`fixed right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-80' : 'w-auto'} p-0`}
+      className={`fixed right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-80' : 'w-auto'} p-0 gap-0`}
     >
       <div className="flex px-4 py-2 gap-4 border-b-2 bg-gray-100 items-center justify-between">
         <p className="font-semibold justify-between">Cart ({totalItems(items)})</p>
@@ -41,7 +41,7 @@ export const Cart: React.FC<Props> = () => {
       </div>
       {isMaximized ? (
         <>
-          <div className="flex-1 overflow-y-auto ">
+          <div className="flex-1 overflow-y-auto">
             {items.length > 0 ? (
               <>
                 {items.map((item) => (
@@ -58,7 +58,7 @@ export const Cart: React.FC<Props> = () => {
                     >
                       {item.product.productName}
                     </h2>
-                    <div className='flex gap-4 items-center'>
+                    <div className="flex gap-4 items-center">
                       <Stepper item={item} handleQuantityChange={handleQuantityChange} />
                       <p>{formatCurrency(item.quantity * item.itemPrice)}</p>
                       <Button variant="destructive" onClick={() => handleDeleteItem(item.itemId)} title="Delete Item">

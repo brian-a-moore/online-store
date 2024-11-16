@@ -8,26 +8,26 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: ButtonVariant;
 }
 
-export const ButtonLink: React.FC<Props>= ({ href, children, variant = 'primary', ...props }) => {
-  let className = '';
+export const ButtonLink: React.FC<Props> = ({ href, children, variant = 'primary', className, ...props }) => {
+  let computedClassName = '';
 
   switch (variant) {
     case 'primary':
-      className =
+      computedClassName =
         'text-[var(--btn-color)] bg-[var(--btn-primary-default-bg-color)] hover:bg-[var(--btn-primary-hover-bg-color)] font-semibold py-2 px-4 rounded';
       break;
     case 'secondary':
-      className =
+      computedClassName =
         'text-[var(--text-color)] bg-[var(--btn-secondary-default-bg-color)] hover:bg-[var(--btn-secondary-hover-bg-color)] font-semibold py-2 px-4 rounded';
       break;
     case 'destructive':
-      className =
+      computedClassName =
         'text-[var(--btn-color)] bg-[var(--btn-destructive-default-bg-color)] hover:bg-[var(--btn-destructive-hover-bg-color)] text-white font-semibold py-2 px-4 rounded';
       break;
   }
 
   return (
-    <RouterLink to={href} className={(className += ' hover:no-underline')} {...props}>
+    <RouterLink to={href} className={(computedClassName += className += ' hover:no-underline')} {...props}>
       {children}
     </RouterLink>
   );

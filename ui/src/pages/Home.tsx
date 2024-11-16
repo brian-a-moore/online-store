@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStores, Store } from '../api';
+import { getStores, TStore } from '../api';
+import { Card, Grid } from '../components/container';
 
 type Props = {};
 
 const Home: React.FC<Props> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [stores, setStores] = useState<Store[] | null>(null);
+  const [stores, setStores] = useState<TStore[] | null>(null);
 
   useEffect(() => {
     try {
@@ -29,20 +30,23 @@ const Home: React.FC<Props> = () => {
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>Error: {error}</h1>;
 
+  return <Grid>{stores?.map((store) => <Store key={store.storeId} store={store} />)}</Grid>;
+};
+
+const Store: React.FC<{ store: TStore }> = ({ store }) => {
   return (
-    <div>
-      <h1>Home</h1>
-      <hr />
-      <h2>Stores</h2>
-      <hr />
-      <ul>
-        {stores?.map((store) => (
-          <Link to={`/store/${store.storeId}`} key={store.storeId}>
-            {store.storeName}
-          </Link>
-        ))}
-      </ul>
-    </div>
+    <Card key={store.storeId}>
+      {store.storeImage ? (
+        <img src={store.storeImage} alt={store.storeName} className="w-full h-48 object-cover rounded" />
+      ) : null}
+      <h1 className="font-semibold line-clamp-2" title={store.storeName}>
+        {store.storeName}
+      </h1>
+      <p className="text-sm line-clamp-5 flex-1" title={store.storeDescription}>
+        {store.storeDescription}
+      </p>
+      <Link to={`store/${store.storeId}`}>View Store</Link>
+    </Card>
   );
 };
 
