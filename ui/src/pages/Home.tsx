@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getStores, Store } from "../api";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getStores, Store } from '../api';
 
 type Props = {};
 
@@ -37,7 +37,9 @@ const Home: React.FC<Props> = () => {
       <hr />
       <ul>
         {stores?.map((store) => (
-          <Link to={`/store/${store.storeId}`} key={store.storeId}>{store.storeName}</Link>
+          <Link to={`/store/${store.storeId}`} key={store.storeId}>
+            {store.storeName}
+          </Link>
         ))}
       </ul>
     </div>

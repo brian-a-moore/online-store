@@ -6,12 +6,4 @@ import OrderCancelled from './OrderCancelled';
 import OrderSuccess from './OrderSuccess';
 import Store from './Store';
 
-export {
-  Home,
-  OrderCancelled,
-  OrderSuccess,
-  PageNotFound,
-  Product,
-  ServerError,
-  Store,
-};
+export { Home, OrderCancelled, OrderSuccess, PageNotFound, Product, ServerError, Store };

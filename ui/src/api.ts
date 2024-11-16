@@ -36,8 +36,7 @@ export const getStores = async (): Promise<{ stores: TStore[] }> => {
         storeWebsite: 'https://www.cmmstheatre.com/',
         storeDescription:
           'Carroll Magnet Middle School Theatre Company is a group of students who love to perform and create theatre. We are a part of Carroll Magnet Middle School in Raleigh, NC.',
-        storeHeroImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        storeHeroImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
       },
     ],
   };
@@ -62,9 +61,7 @@ export const getProducts = async (
   };
 };
 
-export const getItems = async (
-  productId: string,
-): Promise<{ items: TItem[] }> => {
+export const getItems = async (productId: string): Promise<{ items: TItem[] }> => {
   console.log({ productId });
   return {
     items: [
@@ -75,11 +72,9 @@ export const getItems = async (
           productName: 'High School Musical Jr. Admission',
         },
         itemName: 'General Admission - Night 1',
-        itemDescription:
-          'General Admission ticket for the first night of High School Musical Jr.',
+        itemDescription: 'General Admission ticket for the first night of High School Musical Jr.',
         itemPrice: 10,
-        itemImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        itemImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
         maxQuantityPerOrder: 10,
       },
       {
@@ -89,11 +84,9 @@ export const getItems = async (
           productName: 'High School Musical Jr. Admission',
         },
         itemName: 'General Admission - Night 2',
-        itemDescription:
-          'General Admission ticket for the second night of High School Musical Jr.',
+        itemDescription: 'General Admission ticket for the second night of High School Musical Jr.',
         itemPrice: 10,
-        itemImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        itemImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
         maxQuantityPerOrder: 10,
       },
       {
@@ -103,11 +96,9 @@ export const getItems = async (
           productName: 'High School Musical Jr. Admission',
         },
         itemName: 'General Admission - Night 3',
-        itemDescription:
-          'General Admission ticket for the last night of High School Musical Jr.',
+        itemDescription: 'General Admission ticket for the last night of High School Musical Jr.',
         itemPrice: 10,
-        itemImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        itemImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
         maxQuantityPerOrder: 10,
       },
       {
@@ -117,11 +108,9 @@ export const getItems = async (
           productName: 'High School Musical Jr. Admission',
         },
         itemName: 'Child/Student Admission - Night 1',
-        itemDescription:
-          'Child/Student Admission ticket for the first night of High School Musical Jr.',
+        itemDescription: 'Child/Student Admission ticket for the first night of High School Musical Jr.',
         itemPrice: 5,
-        itemImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        itemImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
         maxQuantityPerOrder: 10,
       },
       {
@@ -131,11 +120,9 @@ export const getItems = async (
           productName: 'High School Musical Jr. Admission',
         },
         itemName: 'Child/Student Admission - Night 2',
-        itemDescription:
-          'Child/Student ticket for the second night of High School Musical Jr.',
+        itemDescription: 'Child/Student ticket for the second night of High School Musical Jr.',
         itemPrice: 5,
-        itemImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        itemImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
         maxQuantityPerOrder: 10,
       },
       {
@@ -145,11 +132,9 @@ export const getItems = async (
           productName: 'High School Musical Jr. Admission',
         },
         itemName: 'Child/Student Admission - Night 3',
-        itemDescription:
-          'Child/Student Admission ticket for the last night of High School Musical Jr.',
+        itemDescription: 'Child/Student Admission ticket for the last night of High School Musical Jr.',
         itemPrice: 5,
-        itemImage:
-          'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
+        itemImage: 'https://www.cmmstheatre.com/uploads/3/8/8/3/38832803/ctc-header_orig.png',
         maxQuantityPerOrder: 10,
       },
     ],

@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { TItem, TProduct } from '../api';
 
-type TCartItem =Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId'> & {
+type TCartItem = Pick<TItem, 'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId'> & {
   product: Pick<TProduct, 'productName'>;
   quantity: number;
 };
@@ -48,9 +48,5 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
   };
 
-  return (
-    <CartContext.Provider value={{ items, addItem, updateItem, removeItem }}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={{ items, addItem, updateItem, removeItem }}>{children}</CartContext.Provider>;
 };

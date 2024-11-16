@@ -36,9 +36,7 @@ const Items: React.FC<Props> = () => {
     <div>
       <h2>{'Product > Items'}</h2>
       <hr />
-      <ul>
-        {items?.map((item) => <Item key={item.itemId} item={item} />)}
-      </ul>
+      <ul>{items?.map((item) => <Item key={item.itemId} item={item} />)}</ul>
     </div>
   );
 };
