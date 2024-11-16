@@ -1,0 +1,15 @@
+node_modules
+images
+uploads
+dist
+docker
+oriter_code.zip
+.terraform
+.terraform.lock.hcl
+.DS_Store
+*.tfstate
+*.tfstate.backup
+.aws-sam
+.env
+.env.local
+outputfile.txt

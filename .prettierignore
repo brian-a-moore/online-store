@@ -1,0 +1,17 @@
+# dependencies
+node_modules
+
+# NextJS
+.next
+
+# misc
+.DS_Store
+
+# local env files
+.env*.local
+.env*.test
+
+# api
+coverage
+cache
+dist

@@ -1,0 +1,44 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "local": "dotenv -e .env.local -- nodemon ./src/server.ts"
+  },
+  "nodemon": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts,json",
+    "exec": "node -r ts-node/register src/server.ts"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Brian Moore",
+    "email": "brian@sunami.io"
+  },
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@codegenie/serverless-express": "^4.16.0",
+    "@sunami/auth": "^0.4.0",
+    "@sunami/constants": "^0.1.0",
+    "@sunami/logger": "^0.1.1",
+    "aws-lambda": "^1.0.7",
+    "cls-hooked": "^4.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/cls-hooked": "^4.3.9",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "dotenv": "^16.4.5",
+    "morgan": "^1.10.0",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
