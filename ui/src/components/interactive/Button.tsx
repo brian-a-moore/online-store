@@ -2,17 +2,17 @@ import { ButtonHTMLAttributes } from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'transparent' | 'destructive';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
 }
 
-export const Button = ({
+export const Button: React.FC<Props> = ({
   children,
   variant = 'primary',
   disabled = false,
   className: styles,
   ...props
-}: ButtonProps) => {
+}) => {
   let className = '';
 
   switch (variant) {

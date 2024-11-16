@@ -1,13 +1,14 @@
 import { mdiChevronDown, mdiChevronUp, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
-import { CartContext } from '../context/CartContext';
-import { formatCurrency, getTotalPrice, totalItems } from '../utils';
-import { Button, Stepper } from './interactive';
+import { CartContext } from '../../context/CartContext';
+import { formatCurrency, getTotalPrice, totalItems } from '../../utils';
+import { Card } from '../container';
+import { Button, Stepper } from '../interactive';
 
 type Props = {};
 
-const Cart: React.FC<Props> = () => {
+export const Cart: React.FC<Props> = () => {
   const { items, updateItem, removeItem } = useContext(CartContext);
   const [isMaximized, setIsMaximized] = useState(false);
 
@@ -29,8 +30,8 @@ const Cart: React.FC<Props> = () => {
   };
 
   return (
-    <div
-      className={`fixed flex flex-col right-4 bottom-4 border-[1px] bg-white border-gray-300 z-20 rounded shadow-md overflow-hidden max-h-[60vh] ${isMaximized ? 'w-80' : 'w-auto'} transition-width transition-height`}
+    <Card
+      className={`fixed right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-80' : 'w-auto'} p-0`}
     >
       <div className="flex px-4 py-2 gap-4 border-b-2 bg-gray-100 items-center justify-between">
         <p className="font-semibold justify-between">Cart ({totalItems(items)})</p>
@@ -81,8 +82,6 @@ const Cart: React.FC<Props> = () => {
           ) : null}
         </>
       ) : null}
-    </div>
+    </Card>
   );
 };
-
-export default Cart;

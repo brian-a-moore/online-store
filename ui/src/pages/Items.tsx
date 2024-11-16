@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getItems, TItem } from '../api';
+import { Card, Grid } from '../components/container';
 import { Button, Stepper } from '../components/interactive';
 import { CartContext } from '../context/CartContext';
 import { formatCurrency } from '../utils';
@@ -34,9 +35,9 @@ const Items: React.FC<Props> = () => {
   if (error) return <h1>Error: {error}</h1>;
 
   return (
-    <div className="grid gap-4 p-4 mx-auto w-full max-w-[960px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <Grid>
       {items?.map((item) => <Item key={item.itemId} item={item} />)}
-    </div>
+    </Grid>
   );
 };
 
@@ -60,7 +61,7 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
   };
 
   return (
-    <div key={item.itemId} className="flex flex-col bg-white border-2 rounded shadow-md flex-1 gap-4 p-4">
+    <Card key={item.itemId}>
       {item.itemImage ? (
         <img src={item.itemImage} alt={item.itemName} className="w-full h-48 object-cover rounded" />
       ) : null}
@@ -75,7 +76,7 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
         <Stepper item={{...item, quantity }} handleQuantityChange={handleQuantityChange} />
       </div>
       <Button onClick={() => addItemToCart(item, quantity)}>Add to Cart</Button>
-    </div>
+    </Card>
   );
 };
 

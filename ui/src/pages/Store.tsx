@@ -1,5 +1,5 @@
 import { Route, Routes, useParams } from 'react-router-dom';
-import Cart from '../components/Cart';
+import { Cart } from '../components/core';
 import { CartProvider } from '../context/CartContext';
 import Items from './Items';
 import OrderCancelled from './OrderCancelled';

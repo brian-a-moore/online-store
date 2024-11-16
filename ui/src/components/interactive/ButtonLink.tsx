@@ -3,12 +3,12 @@ import { Link as RouterLink } from 'react-router-dom';
 
 type ButtonVariant = 'primary' | 'secondary' | 'destructive';
 
-interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
   variant?: ButtonVariant;
 }
 
-export const ButtonLink = ({ href, children, variant = 'primary', ...props }: ButtonProps) => {
+export const ButtonLink: React.FC<Props>= ({ href, children, variant = 'primary', ...props }) => {
   let className = '';
 
   switch (variant) {
