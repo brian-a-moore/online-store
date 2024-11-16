@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #eee;
+}
+
 :root {
   --container-background-color: #252b3c;
   --container-background-hover-color: #1b1f2b;

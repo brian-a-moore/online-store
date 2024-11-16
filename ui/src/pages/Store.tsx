@@ -12,10 +12,7 @@ const Store: React.FC<Props> = () => {
   const { storeId } = useParams<{ storeId: string }>();
 
   return (
-    <div>
-      <CartProvider>
-        <h1>Store</h1>
-        <hr />
+    <CartProvider>
         <Routes>
           <Route path="/" element={<Products storeId={storeId!} />} />
           <Route path="product/:productId" element={<Items />} />
@@ -24,7 +21,6 @@ const Store: React.FC<Props> = () => {
         </Routes>
         <Cart />
       </CartProvider>
-    </div>
   );
 };
 
