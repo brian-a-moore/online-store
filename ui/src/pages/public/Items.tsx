@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getItems, TItem } from '../api';
-import { Card, Grid } from '../components/container';
-import { Button, Stepper } from '../components/interactive';
-import { CartContext } from '../context/CartContext';
-import { formatCurrency } from '../utils';
+import { getItems, TItem } from '../../api';
+import { Card, Grid } from '../../components/container';
+import { Button, Stepper } from '../../components/interactive';
+import { CartContext } from '../../context/CartContext';
+import { formatCurrency } from '../../utils';
 
 type Props = {};
 
-const Items: React.FC<Props> = () => {
+export const Items: React.FC<Props> = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
   
@@ -77,5 +77,3 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
     </Card>
   );
 };
-
-export default Items;

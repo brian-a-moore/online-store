@@ -1,8 +1,8 @@
-import { Link } from "../components/interactive";
+import { Link } from "../../components/interactive";
 
 type Props = {};
 
-const PageNotFound: React.FC<Props> = () => {
+export const PageNotFound: React.FC<Props> = () => {
   return (
     <div>
       <h1>It seems we've gotten lost...</h1>
@@ -12,5 +12,3 @@ const PageNotFound: React.FC<Props> = () => {
     </div>
   );
 };
-
-export default PageNotFound;

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProducts, TProduct } from '../api';
-import { Card, Grid } from '../components/container';
-import { Link } from '../components/interactive';
+import { getProducts, TProduct } from '../../api';
+import { Card, Grid } from '../../components/container';
+import { Link } from '../../components/interactive';
 
-const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
+export const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
   const navigate = useNavigate();
   
   const [isLoading, setIsLoading] = useState<boolean>(true);

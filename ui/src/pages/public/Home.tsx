@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getStores, TStore } from '../api';
-import { Card, Grid } from '../components/container';
+import { getStores, TStore } from '../../api';
+import { Card, Grid } from '../../components/container';
 
 type Props = {};
 
-const Home: React.FC<Props> = () => {
+export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
   
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,5 +51,3 @@ const Store: React.FC<{ store: TStore }> = ({ store }) => {
     </Card>
   );
 };
-
-export default Home;

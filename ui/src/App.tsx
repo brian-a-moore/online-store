@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Home, PageNotFound, ServerError, Store } from './pages';
+import { Home, PageNotFound, ServerError, Store } from './pages/public';
 
 function App() {
   return (

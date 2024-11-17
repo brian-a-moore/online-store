@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
-import { getStore, TStore } from '../api';
-import { Cart } from '../components/core';
-import { CartProvider } from '../context/CartContext';
-import Items from './Items';
-import OrderCancelled from './OrderCancelled';
-import OrderSuccess from './OrderSuccess';
+import { getStore, TStore } from '../../api';
+import { Cart } from '../../components/core';
+import { CartProvider } from '../../context/CartContext';
+import { Items } from './Items';
+import { OrderCancelled } from './OrderCancelled';
+import { OrderSuccess } from './OrderSuccess';
 import Products from './Products';
 
 type Props = {};
 
-const Store: React.FC<Props> = () => {
+export const Store: React.FC<Props> = () => {
   const { storeId } = useParams<{ storeId: string }>();
   const navigate  = useNavigate();
 
@@ -54,5 +54,3 @@ const Store: React.FC<Props> = () => {
     </div>
   );
 };
-
-export default Store;

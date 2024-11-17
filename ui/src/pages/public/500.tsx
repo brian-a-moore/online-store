@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import { Link } from "../components/interactive";
+import { Link } from "../../components/interactive";
 
 type Props = {};
 
-const ServerError: React.FC<Props> = () => {
+export const ServerError: React.FC<Props> = () => {
   const { error } = useParams<{ error: string }>();
   return (
     <div>
@@ -14,5 +14,3 @@ const ServerError: React.FC<Props> = () => {
     </div>
   );
 };
-
-export default ServerError;
