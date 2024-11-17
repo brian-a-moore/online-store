@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getStores, TStore } from '../api';
 import { Card, Grid } from '../components/container';
 
 type Props = {};
 
 const Home: React.FC<Props> = () => {
+  const navigate = useNavigate();
+  
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [stores, setStores] = useState<TStore[] | null>(null);
@@ -28,7 +30,7 @@ const Home: React.FC<Props> = () => {
   }, []);
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error}</h1>;
+  if (error) navigate(`/500?error=${error}`);
 
   return <Grid>{stores?.map((store) => <Store key={store.storeId} store={store} />)}</Grid>;
 };

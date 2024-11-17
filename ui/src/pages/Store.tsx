@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { getStore, TStore } from '../api';
-import { Card } from '../components/container';
 import { Cart } from '../components/core';
-import { Link } from '../components/interactive';
 import { CartProvider } from '../context/CartContext';
 import Items from './Items';
 import OrderCancelled from './OrderCancelled';
@@ -14,6 +12,7 @@ type Props = {};
 
 const Store: React.FC<Props> = () => {
   const { storeId } = useParams<{ storeId: string }>();
+  const navigate  = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,17 +36,12 @@ const Store: React.FC<Props> = () => {
   }, []);
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error}</h1>;
+  if (error) navigate(`/500?error=${error}`);
+
+  console.log({ store })
 
   return (
-    <div className='flex flex-col p-4'>
-      <Card className='mx-auto w-full max-w-[960px]'>
-        {store?.storeHeroImage ? <img src={store?.storeHeroImage} alt={store?.storeName} className='h-60 object-cover rounded' /> : null}
-        <h1 className='text-2xl font-bold'>{store?.storeName}</h1>
-        <p className='max-w-[80ch]'>{store?.storeDescription}</p>
-        <hr />
-        <Link href={store?.storeWebsite!} target="_blank">Visit Website</Link>
-      </Card>
+    <div className='flex flex-col'>
       <CartProvider>
         <Routes>
           <Route path="/" element={<Products storeId={storeId!} />} />

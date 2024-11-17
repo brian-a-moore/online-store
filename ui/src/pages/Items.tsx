@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getItems, TItem } from '../api';
 import { Card, Grid } from '../components/container';
 import { Button, Stepper } from '../components/interactive';
@@ -10,6 +10,8 @@ type Props = {};
 
 const Items: React.FC<Props> = () => {
   const { productId } = useParams<{ productId: string }>();
+  const navigate = useNavigate();
+  
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [items, setItems] = useState<TItem[] | null>(null);
@@ -32,7 +34,7 @@ const Items: React.FC<Props> = () => {
   }, []);
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error}</h1>;
+  if (error) navigate(`/500?error=${error}`);
 
   return <Grid>{items?.map((item) => <Item key={item.itemId} item={item} />)}</Grid>;
 };

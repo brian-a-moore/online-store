@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getProducts, TProduct } from '../api';
 import { Card, Grid } from '../components/container';
 import { Link } from '../components/interactive';
 
 const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
+  const navigate = useNavigate();
+  
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [products, setProducts] = useState<TProduct[] | null>(null);
@@ -26,7 +29,7 @@ const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
   }, []);
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error}</h1>;
+  if (error) navigate(`/500?error=${error}`);
 
   return <Grid>{products?.map((product) => <Product key={product.productId} product={product} />)}</Grid>;
 };
