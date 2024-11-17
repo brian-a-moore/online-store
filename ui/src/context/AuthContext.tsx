@@ -41,19 +41,23 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  console.log({ user });
+  // TODO: Get auth token for local storage and check with API, set user automatically if it exists, do this while loading
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    // TODO: add !isLoading to the condition so these won't fire before checking the auth token
     if (location.pathname.includes('/admin') && !user) {
       navigate('/login');
     }
+    // TODO: add !isLoading to the condition so these won't fire before checking the auth token
     if(location.pathname.includes('/login') && user) {
       navigate('/admin');
     }
   }, [location.pathname, user, navigate]);
+
+  // TODO: Handle the loading state here 
 
   return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
 };

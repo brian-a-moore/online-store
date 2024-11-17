@@ -36,11 +36,13 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
   const [items, setItems] = useState<TCartItem[]>([]);
 
+  // Check for an existing cart in local storage
   useEffect(() => {
     const existingCart = getCart(storeId!);
     if (existingCart) setItems(JSON.parse(existingCart));
   }, []);
 
+  // Update/Delete the cart in local storage on every change
   useEffect(() => {
     saveCart(storeId!.toString(), JSON.stringify(items));
     if (items.length === 0) {
@@ -48,6 +50,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     }
   }, [JSON.stringify(items)]);
 
+  // Add an item to the cart but update item if it already exists
   const addItem = (item: TCartItem) => {
     const existingItem = items.find((i) => i.itemId === item.itemId);
     if (existingItem) {
@@ -60,6 +63,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     setItems((prevItems) => [...prevItems, item]);
   };
 
+  // Update the quantity of an item in the cart
   const updateItem = (itemId: number, quantity: number) => {
     setItems((prevItems) =>
       prevItems.map((item) => {
@@ -71,6 +75,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     );
   };
 
+  // Remove an item from the cart
   const removeItem = (itemId: number) => {
     setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
   };
