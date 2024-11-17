@@ -29,8 +29,11 @@ export const Home: React.FC<Props> = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
+
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) navigate(`/500?error=${error}`);
 
   return <Grid>{stores?.map((store) => <Store key={store.storeId} store={store} />)}</Grid>;
 };

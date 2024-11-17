@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProducts, TProduct } from '../../api';
 import { Card, Grid } from '../../components/container';
 import { Link } from '../../components/interactive';
 
-export const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
+type Props = {};
+
+export const Products: React.FC<Props> = () => {
   const navigate = useNavigate();
+  const { storeId } = useParams<{ storeId: string }>();
   
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +18,7 @@ export const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
     try {
       const fetchProducts = async () => {
         try {
-          const { products } = await getProducts(storeId);
+          const { products } = await getProducts(storeId!);
           setProducts(products);
           setIsLoading(false);
         } catch (e: any | unknown) {
@@ -28,8 +31,11 @@ export const Products: React.FC<{ storeId: string }> = ({ storeId }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
+
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) navigate(`/500?error=${error}`);
 
   return <Grid>{products?.map((product) => <Product key={product.productId} product={product} />)}</Grid>;
 };

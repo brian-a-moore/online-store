@@ -33,8 +33,11 @@ export const Items: React.FC<Props> = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
+
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) navigate(`/500?error=${error}`);
 
   return <Grid>{items?.map((item) => <Item key={item.itemId} item={item} />)}</Grid>;
 };

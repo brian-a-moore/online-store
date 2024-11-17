@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { getStore, TStore } from '../../api';
 import { Cart } from '../../components/core';
 import { CartProvider } from '../../context/CartContext';
-import { Items } from './Items';
-import { OrderCancelled } from './OrderCancelled';
-import { OrderSuccess } from './OrderSuccess';
-import Products from './Products';
 
 type Props = {};
 
@@ -35,20 +31,18 @@ export const Store: React.FC<Props> = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
+
   if (isLoading) return <h1>Loading...</h1>;
-  if (error) navigate(`/500?error=${error}`);
 
   console.log({ store })
 
   return (
     <div className='flex flex-col'>
       <CartProvider>
-        <Routes>
-          <Route path="/" element={<Products storeId={storeId!} />} />
-          <Route path="product/:productId" element={<Items />} />
-          <Route path="/order/success" element={<OrderSuccess />} />
-          <Route path="/order/cancelled" element={<OrderCancelled />} />
-        </Routes>
+        <Outlet />
         <Cart />
       </CartProvider>
     </div>
