@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-enum Role {
+export enum Role {
   ADMIN = 'admin', // CRUD on all stores, CRUD on owners, CRUD on managers, CRUD on products, CRUD on items
   OWNER = 'owner', // RUD their own store, CRUD on own managers, products, and items
   MANAGER = 'manager', // CRUD on own store products and items
@@ -13,8 +13,8 @@ type User = {
   lastName: string;
   email: string;
   role: Role;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 interface AuthContextProps {
@@ -41,11 +41,19 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  console.log({ user });
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (!user) navigate('/login');
-  }, [user]);
+    if (location.pathname.includes('/admin') && !user) {
+      navigate('/login');
+    }
+    if(location.pathname.includes('/login') && user) {
+      navigate('/admin');
+    }
+  }, [location.pathname, user, navigate]);
 
   return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
 };
