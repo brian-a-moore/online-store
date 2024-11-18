@@ -4,6 +4,7 @@ import { getItems, TItem } from '../../api';
 import { Card, Grid } from '../../components/container';
 import { Button, Stepper } from '../../components/interactive';
 import { CartContext } from '../../context/CartContext';
+import { ToastContext } from '../../context/ToastContext';
 import { formatCurrency } from '../../utils';
 
 type Props = {};
@@ -44,6 +45,7 @@ export const Items: React.FC<Props> = () => {
 
 const Item: React.FC<{ item: TItem }> = ({ item }) => {
   const { addItem } = useContext(CartContext);
+  const { setToast } = useContext(ToastContext);
   const [quantity, setQuantity] = useState<number>(1);
 
   // @ts-ignore
@@ -59,6 +61,12 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
   const addItemToCart = (item: TItem, quantity: number) => {
     setQuantity(1);
     addItem({ ...item, quantity });
+    // TODO: Improvement, could move this somewhere else, maybe to the Cart
+    // TODO: Because as-is it counts the quantity you pass in even though the cart might not accept that many
+    setToast({
+      message: `${quantity} item(s) added to cart`,
+      type: 'success',
+    });
   };
 
   return (
