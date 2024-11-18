@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getStores, TStore } from '../../api';
 import { Card, Grid } from '../../components/container';
+import { ButtonLink } from '../../components/interactive';
 
 type Props = {};
 
@@ -35,7 +36,15 @@ export const Home: React.FC<Props> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  return <Grid>{stores?.map((store) => <Store key={store.id} store={store} />)}</Grid>;
+  return (
+    <div>
+      <header className='bg-teal-600 flex items-center justify-between p-4'>
+        <h1 className='text-white'>Online Store</h1>
+        <ButtonLink href="login">Login</ButtonLink>
+      </header>
+      <Grid>{stores?.map((store) => <Store key={store.id} store={store} />)}</Grid>
+    </div>
+  );
 };
 
 const Store: React.FC<{ store: TStore }> = ({ store }) => {

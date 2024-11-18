@@ -182,7 +182,7 @@ model Role {
 model User {
     userId    String   @id
     email     String   @unique
-    clerkId   String
+    name      String
     storeId   String
     roleId    Int
     createdAt DateTime @default(now())
