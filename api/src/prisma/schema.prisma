@@ -146,9 +146,8 @@ model DonationItem {
     description         String?
     image               String?
     maxQuantityPerOrder Int
-    customAmount        Boolean
-    customAmountMin     Float?
-    customAmountMax     Float?
+    amountMin           Float
+    amountMax           Float
     presetAmounts       Float[]
     isAvailable         Boolean
     createdAt           DateTime           @default(now())
