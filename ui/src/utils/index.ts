@@ -14,5 +14,5 @@ export const totalItems = (items: TCartItem[]): string => {
 };
 
 export const getTotalPrice = (items: TCartItem[]) => {
-  return items.reduce((acc, item) => acc + item.quantity * item.itemPrice, 0);
+  return items.reduce((acc, item) => acc + item.quantity * item.price, 0);
 };

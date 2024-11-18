@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getItems, TItem } from '../../api';
+import { getItems, TDisplayDonationItem, TDisplayItem, TDisplayMerchandiseItem, TDisplayTicketItem } from '../../api';
 import { Card, Grid } from '../../components/container';
 import { Button, Stepper } from '../../components/interactive';
-import { CartContext } from '../../context/CartContext';
-import { ToastContext } from '../../context/ToastContext';
+import { CartContext, TCartItem } from '../../context/CartContext';
 import { formatCurrency } from '../../utils';
 
 type Props = {};
@@ -15,7 +14,7 @@ export const Items: React.FC<Props> = () => {
   
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [items, setItems] = useState<TItem[] | null>(null);
+  const [items, setItems] = useState<TDisplayItem[] | null>(null);
 
   useEffect(() => {
     try {
@@ -40,16 +39,47 @@ export const Items: React.FC<Props> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  return <Grid>{items?.map((item) => <Item key={item.itemId} item={item} />)}</Grid>;
+  return <Grid>{items?.map((item) => <ItemContainer key={item.id} item={item} />)}</Grid>;
 };
 
-const Item: React.FC<{ item: TItem }> = ({ item }) => {
+const ItemContainer: React.FC<{ item: TDisplayItem }> = ({ item }) => {
   const { addItem } = useContext(CartContext);
-  const { setToast } = useContext(ToastContext);
+
+  const addItemToCart = (item: TCartItem) => addItem(item);
+
+  const showItemType = (item: TDisplayItem) => {
+    switch(item.itemType) {
+      case 'ticket':
+        return <TicketItem item={item as TDisplayTicketItem} addItemToCart={addItemToCart} />;
+      case 'merchandise':
+        return <MerchandiseItem item={item as TDisplayMerchandiseItem} addItemToCart={addItemToCart} />;
+      case 'donation':
+        return <DonationItem item={item as TDisplayDonationItem} addItemToCart={addItemToCart} />;
+      default:
+        return null;
+    };
+  };
+  return (
+      <Card key={item.id}>
+      {item.image ? (
+        <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded" />
+      ) : null}
+      <h1 className="font-semibold line-clamp-2" title={item.name}>
+        {item.name}
+      </h1>
+      <p className="text-sm line-clamp-5 flex-1" title={item.description}>
+        {item.description}
+      </p>
+      {showItemType(item)}
+    </Card>
+  )
+};
+
+const TicketItem: React.FC<{ item: TDisplayTicketItem, addItemToCart: (item: TCartItem) => void }> = ({ item, addItemToCart }) => {
   const [quantity, setQuantity] = useState<number>(1);
 
   // @ts-ignore
-  const handleQuantityChange = (itemId: number, dir: '-' | '+') => {
+  const handleQuantityChange = (itemId: string, dir: '-' | '+') => {
     if (dir === '-' && quantity > 1) {
       setQuantity((prevState) => prevState - 1);
     }
@@ -58,33 +88,89 @@ const Item: React.FC<{ item: TItem }> = ({ item }) => {
     }
   };
 
-  const addItemToCart = (item: TItem, quantity: number) => {
-    setQuantity(1);
-    addItem({ ...item, quantity });
-    // TODO: Improvement, could move this somewhere else, maybe to the Cart
-    // TODO: Because as-is it counts the quantity you pass in even though the cart might not accept that many
-    setToast({
-      message: `${quantity} item(s) added to cart`,
-      type: 'success',
-    });
+  return (
+    <>
+      <div className="flex justify-between">
+        <p className="font-semibold">{formatCurrency(item.price)}</p>
+        <Stepper item={{ ...item, quantity }} handleQuantityChange={handleQuantityChange} />
+      </div>
+      <Button onClick={() => {
+        addItemToCart({
+          id: item.id,
+          name: item.name,
+          product: item.product,
+          price: item.price,
+          quantity,
+          maxQuantityPerOrder: item.maxQuantityPerOrder,
+        });
+        setQuantity(1);
+      }}>Add to Cart</Button>
+    </>
+  );
+};
+
+const MerchandiseItem: React.FC<{ item: TDisplayMerchandiseItem, addItemToCart: (item: TCartItem) => void }> = ({ item, addItemToCart }) => {
+  const [quantity, setQuantity] = useState<number>(1);
+
+  // @ts-ignore
+  const handleQuantityChange = (itemId: string, dir: '-' | '+') => {
+    if (dir === '-' && quantity > 1) {
+      setQuantity((prevState) => prevState - 1);
+    }
+    if (dir === '+' && quantity < item.maxQuantityPerOrder) {
+      setQuantity((prevState) => prevState + 1);
+    }
   };
 
   return (
-    <Card key={item.itemId}>
-      {item.itemImage ? (
-        <img src={item.itemImage} alt={item.itemName} className="w-full h-48 object-cover rounded" />
-      ) : null}
-      <h1 className="font-semibold line-clamp-2" title={item.itemName}>
-        {item.itemName}
-      </h1>
-      <p className="text-sm line-clamp-5 flex-1" title={item.itemDescription}>
-        {item.itemDescription}
-      </p>
+    <>
       <div className="flex justify-between">
-        <p className="font-semibold">{formatCurrency(item.itemPrice)}</p>
+        <p className="font-semibold">{formatCurrency(item.price)}</p>
         <Stepper item={{ ...item, quantity }} handleQuantityChange={handleQuantityChange} />
       </div>
-      <Button onClick={() => addItemToCart(item, quantity)}>Add to Cart</Button>
-    </Card>
+      <Button onClick={() => {
+        addItemToCart({
+          id: item.id,
+          name: item.name,
+          product: item.product,
+          price: item.price,
+          quantity,
+          maxQuantityPerOrder: item.maxQuantityPerOrder,
+        });
+        setQuantity(1);
+      }}>Add to Cart</Button>
+    </>
   );
+};
+
+const DonationItem: React.FC<{ item: TDisplayDonationItem, addItemToCart: (item: TCartItem) => void  }> = ({ item, addItemToCart }) => {
+  const [customAmount, setCustomAmount] = useState<number>(0);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setCustomAmount(value < item.amountMin ? item.amountMin : value > item.amountMax ? item.amountMax : value);
+  };
+  return(
+    <>
+      {item.presetAmounts.length ? (
+        <div className='flex flex-wrap gap-2'>
+          {item.presetAmounts.map((amount) => <Button variant='secondary' key={amount} onClick={() => setCustomAmount(amount)}>{formatCurrency(amount)}</Button>)}
+        </div>
+      ) : null}
+      <div className='flex justify-center'>
+        {'$'}<input type="number" onChange={handleChange} min={item.amountMin} step={1} max={item.amountMax} value={customAmount} />{'.00'}
+      </div>
+      <Button disabled={customAmount < 1} onClick={() => {
+        addItemToCart({
+          id: item.id,
+          name: item.name,
+          product: item.product,
+          price: customAmount,
+          quantity: 1,
+          maxQuantityPerOrder: item.maxQuantityPerOrder,
+        });
+        setCustomAmount(0);
+      }}>Add to Cart</Button>
+    </>
+  )
 };

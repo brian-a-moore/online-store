@@ -11,8 +11,8 @@ export const Cart: React.FC<Props> = () => {
   const { items, updateItem, removeItem } = useContext(CartContext);
   const [isMaximized, setIsMaximized] = useState(false);
 
-  const handleQuantityChange = (itemId: number, dir: '-' | '+') => {
-    const thisItem = items.find((item) => item.itemId === itemId);
+  const handleQuantityChange = (itemId: string, dir: '-' | '+') => {
+    const thisItem = items.find((item) => item.id === itemId);
 
     if (thisItem) {
       if (dir === '-' && thisItem.quantity > 1) {
@@ -24,7 +24,7 @@ export const Cart: React.FC<Props> = () => {
     }
   };
 
-  const handleDeleteItem = (itemId: number) => {
+  const handleDeleteItem = (itemId: string) => {
     removeItem(itemId);
   };
 
@@ -44,23 +44,23 @@ export const Cart: React.FC<Props> = () => {
             {items.length > 0 ? (
               <>
                 {items.map((item) => (
-                  <div key={item.itemId} className="flex flex-col gap-2 p-4 items-center">
+                  <div key={item.id} className="flex flex-col gap-2 p-4 items-center">
                     <h1
                       className="font-semibold w-full mb-[-8px] whitespace-nowrap overflow-ellipsis overflow-hidden"
-                      title={item.itemName}
+                      title={item.name}
                     >
-                      {item.itemName}
+                      {item.name}
                     </h1>
                     <h2
                       className="text-sm w-full whitespace-nowrap overflow-ellipsis overflow-hidden"
-                      title={item.product.productName}
+                      title={item.product.name}
                     >
-                      {item.product.productName}
+                      {item.product.name}
                     </h2>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-2">
                       <Stepper item={item} handleQuantityChange={handleQuantityChange} />
-                      <p>{formatCurrency(item.quantity * item.itemPrice)}</p>
-                      <Button variant="destructive" onClick={() => handleDeleteItem(item.itemId)} title="Delete Item">
+                      <p>{formatCurrency(item.quantity * item.price)}</p>
+                      <Button variant="destructive" onClick={() => handleDeleteItem(item.id)} title="Delete Item">
                         <Icon path={mdiDelete} size={0.55} />
                       </Button>
                     </div>

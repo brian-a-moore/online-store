@@ -1,21 +1,22 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TItem, TProduct } from '../api';
+import { TProduct } from '../api';
 import { deleteCart, getCart, saveCart } from '../utils/localStorage';
 
-export type TCartItem = Pick<
-  TItem,
-  'itemId' | 'itemName' | 'itemPrice' | 'itemImage' | 'productId' | 'maxQuantityPerOrder'
-> & {
-  product: Pick<TProduct, 'productName'>;
+export type TCartItem = {
+  id: string;
+  name: string;
+  product: Pick<TProduct, 'name'>;
+  price: number;
+  maxQuantityPerOrder: number;
   quantity: number;
 };
 
 interface CartContextProps {
   items: TCartItem[];
   addItem: (item: TCartItem) => void;
-  updateItem: (itemId: number, quantity: number) => void;
-  removeItem: (itemId: number) => void;
+  updateItem: (itemId: string, quantity: number) => void;
+  removeItem: (itemId: string) => void;
 }
 
 const DEFAULT_CONTEXT: CartContextProps = {
@@ -52,11 +53,11 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
   // Add an item to the cart but update item if it already exists
   const addItem = (item: TCartItem) => {
-    const existingItem = items.find((i) => i.itemId === item.itemId);
+    const existingItem = items.find((i) => i.id === item.id);
     if (existingItem) {
       let updatedItem = { ...existingItem, quantity: existingItem.quantity + item.quantity };
       if (updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
-        updateItem(item.itemId, updatedItem.quantity);
+        updateItem(item.id, updatedItem.quantity);
       }
       return;
     }
@@ -64,10 +65,10 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   };
 
   // Update the quantity of an item in the cart
-  const updateItem = (itemId: number, quantity: number) => {
+  const updateItem = (itemId: string, quantity: number) => {
     setItems((prevItems) =>
       prevItems.map((item) => {
-        if (item.itemId === itemId) {
+        if (item.id === itemId) {
           return { ...item, quantity };
         }
         return item;
@@ -76,8 +77,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   };
 
   // Remove an item from the cart
-  const removeItem = (itemId: number) => {
-    setItems((prevItems) => prevItems.filter((item) => item.itemId !== itemId));
+  const removeItem = (itemId: string) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
   return <CartContext.Provider value={{ items, addItem, updateItem, removeItem }}>{children}</CartContext.Provider>;

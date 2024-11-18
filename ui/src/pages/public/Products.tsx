@@ -37,22 +37,22 @@ export const Products: React.FC<Props> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  return <Grid>{products?.map((product) => <Product key={product.productId} product={product} />)}</Grid>;
+  return <Grid>{products?.map((product) => <Product key={product.id} product={product} />)}</Grid>;
 };
 
 const Product: React.FC<{ product: TProduct }> = ({ product }) => {
   return (
-    <Card key={product.productId}>
-      {product.productImage ? (
-        <img src={product.productImage} alt={product.productName} className="w-full h-48 object-cover rounded" />
+    <Card key={product.id}>
+      {product.image ? (
+        <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded" />
       ) : null}
-      <h1 className="font-semibold line-clamp-2" title={product.productName}>
-        {product.productName}
+      <h1 className="font-semibold line-clamp-2" title={product.name}>
+        {product.name}
       </h1>
-      <p className="text-sm line-clamp-5 flex-1" title={product.productDescription}>
-        {product.productDescription}
+      <p className="text-sm line-clamp-5 flex-1" title={product.description}>
+        {product.description}
       </p>
-      <Link href={`product/${product.productId}`}>View Items</Link>
+      <Link href={`product/${product.id}`}>View Items</Link>
     </Card>
   );
 };
