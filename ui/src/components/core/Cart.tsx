@@ -74,7 +74,7 @@ export const Cart: React.FC<Props> = () => {
           {items.length ? (
             <div className="flex gap-2 border-t-2 bg-gray-100 items-center justify-between px-4 py-2">
               <h1 className="font-semibold">TOTAL: {formatCurrency(getTotalPrice(items))}</h1>
-              <form action="http://localhost:8080/create-checkout-session" method="POST">
+              <form action="http://localhost:8080/order/checkout" method="POST">
                 <Button type="submit">Checkout</Button>
               </form>
             </div>
