@@ -1,18 +1,16 @@
 import { z } from 'zod';
-import { empty, obj, role, strShort, uuid } from './_presets';
+import { bool, empty, obj, role, strShort, uuid } from './_presets';
 
 export const createUserSchema = {
   body: obj({
     email: strShort.email(),
     name: strShort,
+    isSuperUser: bool,
     stores: z
       .array(
         obj({
-          storeId: uuid.optional(),
+          storeId: uuid,
           roleId: role,
-        }).refine((v) => !(v.roleId > 0 && v.storeId === undefined), {
-          message: 'You must assign a store to any user with a non-admin role',
-          path: ['stores', 'storeId'],
         }),
       )
       .min(0)

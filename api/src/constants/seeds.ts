@@ -2,12 +2,6 @@ import { Role } from '@prisma/client';
 
 export const roles: Role[] = [
   {
-    id: 0,
-    name: 'Admin',
-    description:
-      'Can create and manage stores, and can manage users and store settings, products and items for any store',
-  },
-  {
     id: 1,
     name: 'Owner',
     description:
