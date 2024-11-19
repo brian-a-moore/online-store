@@ -4,7 +4,7 @@ import logger from '../config/logger';
 
 export default (permissionChecks: ((req: Request) => Promise<string | false>)[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    logger.debug('CHECK PERMISSION MIDDLEWARE: Checking permissions', {
+    logger.debug('CHECK PERMISSION MIDDLEWARE: Checking permissions...', {
       permissionChecks: permissionChecks.map((check) => check.name),
     });
     const promises = permissionChecks.map((check) => check(req));

@@ -6,7 +6,7 @@ import logger from '../config/logger';
 export default (schema: { body: ZodSchema<any>; params: ZodSchema<any>; query: ZodSchema<any> }) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      logger.debug('SCHEMA VALIDATOR MIDDLEWARE: Validating schema', { schema: schema });
+      logger.debug('SCHEMA VALIDATOR MIDDLEWARE: Validating schema...');
       const validatedBody = schema.body.parse(req.body);
       const validatedParams = schema.params.parse(req.params);
       const validatedQuery = schema.query.parse(req.query);
