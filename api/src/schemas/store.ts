@@ -8,19 +8,25 @@ export const createStoreSchema = {
 
 export const deleteStoreSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 
 export const getStorePublicSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 
 export const getStorePrivateSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 
@@ -38,6 +44,8 @@ export const listStoresPrivateSchema = {
 
 export const updateStoreSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
