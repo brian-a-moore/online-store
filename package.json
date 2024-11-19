@@ -1,7 +1,7 @@
 {
-  "name": "payment-processing",
+  "name": "online-store",
   "version": "0.1.0",
-  "description": "Application code for Payment Processing",
+  "description": "Application code for Online Store",
   "scripts": {
     "lint": "npx eslint .eslintrc --quiet --fix",
     "prettier": "npx prettier --config .prettierrc --write .",

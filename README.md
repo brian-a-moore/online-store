@@ -1,17 +1,17 @@
-# Payment Processing
+# Online Store
 
-This is the application code for Payment Processing.
+This is the application code for Online Store.
 
 ## Requirements
 
 - Docker
 - AWS CLI
-- You also need to add the `payment-processing` profile to your local AWS configuration
+- You also need to add the `online-store` profile to your local AWS configuration
 
 ### Example
 
 ```
-[payment_processing]
+[online_store]
     aws_access_key_id = <YOUR AWS ACCESS KEY ID>
     aws_secret_access_key = <YOUR AWS SECRET ACCESS KEY>
 ```
@@ -39,4 +39,4 @@ To run the API locally on your machine, see the [Oriter API](./packages/api/READ
 
 ### UI
 
-See [Payment Proccessing UI](./packages/ui/README.md) documentation
+See [Online Store UI](./packages/ui/README.md) documentation
