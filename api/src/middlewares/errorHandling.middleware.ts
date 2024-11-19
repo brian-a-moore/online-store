@@ -1,5 +1,6 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
+import { prismaCodeToStatusCode } from '../config/db';
 import logger from '../config/logger';
 
 export default (err: any | unknown, req: Request, res: Response, next: NextFunction) => {
@@ -15,5 +16,8 @@ export default (err: any | unknown, req: Request, res: Response, next: NextFunct
     error: err.message,
     stack: err.stack,
   });
+
+  if (err.code) err.status = prismaCodeToStatusCode(err.code);
+
   res.status(err.status || STATUS_CODE.SERVER_ERROR).send();
 };

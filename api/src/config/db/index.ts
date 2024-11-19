@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Prisma, PrismaClient } from '@prisma/client';
-import { ENV_TYPE } from '@sunami/constants';
+import { ENV_TYPE, STATUS_CODE } from '@sunami/constants';
 import logger from '../logger';
 
 const isJest = process.env.JEST_WORKER_ID !== undefined;
@@ -39,5 +39,15 @@ prisma.$on('warn', (e: Prisma.QueryEvent) => {
 prisma.$on('error', (e: Prisma.QueryEvent) => {
   logger.error(JSON.stringify(e));
 });
+
+export const prismaCodeToStatusCode = (code: string) => {
+  switch (code) {
+    case 'P2001':
+    case 'P2025':
+      return STATUS_CODE.NOT_FOUND;
+    default:
+      return STATUS_CODE.SERVER_ERROR;
+  }
+};
 
 export default prisma;
