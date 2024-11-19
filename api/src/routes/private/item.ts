@@ -1,12 +1,26 @@
 import { Router } from 'express';
-import { createItem, deleteItem, getItemPrivate, listItemsPrivate, updateItem } from '../../controllers';
+import {
+  createItemController,
+  deleteItemController,
+  getItemPrivateController,
+  listItemsPrivateController,
+  updateItemController,
+} from '../../controllers';
+import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
+import {
+  createItemSchema,
+  deleteItemSchema,
+  getItemPrivateSchema,
+  listItemsPrivateSchema,
+  updateItemSchema,
+} from '../../schemas';
 
 const router = Router({ mergeParams: true });
 
-router.get('/list', listItemsPrivate);
-router.get('/:itemId', getItemPrivate);
-router.post('/', createItem);
-router.put('/:itemId', updateItem);
-router.delete('/:itemId', deleteItem);
+router.get('/list', schemaValidatorMiddleware(listItemsPrivateSchema), listItemsPrivateController);
+router.get('/:itemId', schemaValidatorMiddleware(getItemPrivateSchema), getItemPrivateController);
+router.post('/', schemaValidatorMiddleware(createItemSchema), createItemController);
+router.put('/:itemId', schemaValidatorMiddleware(updateItemSchema), updateItemController);
+router.delete('/:itemId', schemaValidatorMiddleware(deleteItemSchema), deleteItemController);
 
 export default router;

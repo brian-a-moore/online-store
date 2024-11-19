@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { getItemPublic, listProductsPublic } from '../../controllers';
+import { getProductPublicController, listProductsPublicController } from '../../controllers';
+import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
+import { getProductPublicSchema, listProductsPublicSchema } from '../../schemas';
 
 const router = Router({ mergeParams: true });
 
-router.get('/list', listProductsPublic);
-router.get('/:productId', getItemPublic);
+router.get('/list', schemaValidatorMiddleware(listProductsPublicSchema), listProductsPublicController);
+router.get('/:productId', schemaValidatorMiddleware(getProductPublicSchema), getProductPublicController);
 
 export default router;
