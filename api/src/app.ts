@@ -12,7 +12,7 @@ export const app = express();
 app.use(cors());
 app.use(morgan(morganMiddleware));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(contextMiddleware);
 app.use(routeIdMiddleware);
 

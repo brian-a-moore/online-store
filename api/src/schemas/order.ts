@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { empty } from './_presets';
 
 export const createCheckoutSessionSchema = {
-  body: z.object({}),
-  params: z.object({}),
-  query: z.object({}),
+  body: empty,
+  params: empty,
+  query: empty,
 };

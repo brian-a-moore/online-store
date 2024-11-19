@@ -1,49 +1,50 @@
 import { z } from 'zod';
+import { empty, obj, role, strShort, uuid } from './_presets';
 
 export const createUserSchema = {
-  body: z.object({
-    email: z.string().min(1).max(256).email(),
-    name: z.string().min(1).max(256),
-    roleId: z.number().int().min(1).max(3),
-    storeId: z.string().uuid().optional(),
+  body: obj({
+    email: strShort.email(),
+    name: strShort,
+    roleId: role,
+    storeId: uuid.optional(),
   }),
-  params: z.object({}),
-  query: z.object({}),
+  params: empty,
+  query: empty,
 };
 
 export const deleteUserSchema = {
-  body: z.object({}),
-  params: z.object({
-    userId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    userId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const getUserSchema = {
-  body: z.object({}),
-  params: z.object({
-    userId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    userId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const listUsersSchema = {
-  body: z.object({}),
-  params: z.object({}),
-  query: z.object({
-    storeId: z.string().uuid().optional(),
-    roles: z.array(z.number().int().min(1).max(3)).min(1).max(3).optional(),
+  body: empty,
+  params: empty,
+  query: obj({
+    storeId: uuid.optional(),
+    roles: z.array(role).min(1).max(3).optional(),
   }),
 };
 
 export const updateUserSchema = {
-  body: z.object({
-    email: z.string().min(1).max(256).email().optional(),
-    name: z.string().min(1).max(256).optional(),
-    roleId: z.number().int().min(1).max(3).optional(),
+  body: obj({
+    email: strShort.email().optional(),
+    name: strShort.optional(),
+    roleId: role.optional(),
   }),
-  params: z.object({
-    userId: z.string().uuid(),
+  params: obj({
+    userId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };

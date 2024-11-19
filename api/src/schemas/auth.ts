@@ -1,18 +1,19 @@
 import { z } from 'zod';
+import { empty, obj, strShort } from './_presets';
 
 export const authLoginSchema = {
-  body: z.object({
-    email: z.string().min(1).max(256).email(),
-    password: z.string().min(1).max(256),
+  body: obj({
+    email: strShort.email(),
+    password: strShort,
   }),
-  params: z.object({}),
-  query: z.object({}),
+  params: empty,
+  query: empty,
 };
 
 export const authVerifyTokenSchema = {
-  body: z.object({
+  body: obj({
     token: z.string(),
   }),
-  params: z.object({}),
-  query: z.object({}),
+  params: empty,
+  query: empty,
 };

@@ -1,59 +1,59 @@
-import { z } from 'zod';
+import { bool, empty, obj, strLong, strShort } from './_presets';
 
 export const createStoreSchema = {
-  body: z.object({
-    name: z.string().min(1).max(256),
-    description: z.string().min(1).max(2048).optional(),
-    website: z.string().min(1).max(256).optional(),
+  body: obj({
+    name: strShort,
+    description: strLong.optional(),
+    website: strShort.optional(),
   }),
-  params: z.object({}),
-  query: z.object({}),
+  params: empty,
+  query: empty,
 };
 
 export const deleteStoreSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: bool,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const getStorePublicSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: bool,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const getStorePrivateSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: bool,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const listStoresPublicSchema = {
-  body: z.object({}),
-  params: z.object({}),
-  query: z.object({}),
+  body: empty,
+  params: empty,
+  query: empty,
 };
 
 export const listStoresPrivateSchema = {
-  body: z.object({}),
-  params: z.object({}),
-  query: z.object({}),
+  body: empty,
+  params: empty,
+  query: empty,
 };
 
 export const updateStoreSchema = {
-  body: z.object({
-    name: z.string().min(1).max(256).optional(),
-    description: z.string().min(1).max(2048).optional(),
-    website: z.string().min(1).max(256).optional(),
+  body: obj({
+    name: strShort.optional(),
+    description: strLong.optional(),
+    website: strShort.optional(),
   }),
-  params: z.object({
-    storeId: z.string().uuid(),
+  params: obj({
+    storeId: bool,
   }),
-  query: z.object({}),
+  query: empty,
 };

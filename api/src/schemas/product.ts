@@ -1,67 +1,67 @@
-import { z } from 'zod';
+import { bool, empty, obj, strLong, strShort, uuid } from './_presets';
 
 export const createProductSchema = {
-  body: z.object({
-    name: z.string().min(1).max(256),
-    description: z.string().min(1).max(2048).optional(),
+  body: obj({
+    name: strShort,
+    description: strLong.optional(),
   }),
-  params: z.object({}),
-  query: z.object({}),
+  params: empty,
+  query: empty,
 };
 
 export const deleteProductSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
-    productId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: uuid,
+    productId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const getProductPublicSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
-    productId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: uuid,
+    productId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const getProductPrivateSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
-    productId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: uuid,
+    productId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const listProductsPublicSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
 
 export const listProductsPrivateSchema = {
-  body: z.object({}),
-  params: z.object({
-    storeId: z.string().uuid(),
+  body: empty,
+  params: obj({
+    storeId: uuid,
   }),
-  query: z.object({
-    isAvailable: z.boolean().optional(),
+  query: obj({
+    isAvailable: bool.optional(),
   }),
 };
 
 export const updateProductSchema = {
-  body: z.object({
-    name: z.string().min(1).max(256).optional(),
-    description: z.string().min(1).max(2048).optional(),
+  body: obj({
+    name: strShort.optional(),
+    description: strLong.optional(),
   }),
-  params: z.object({
-    storeId: z.string().uuid(),
-    productId: z.string().uuid(),
+  params: obj({
+    storeId: uuid,
+    productId: uuid,
   }),
-  query: z.object({}),
+  query: empty,
 };
