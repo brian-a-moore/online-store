@@ -37,15 +37,15 @@ model Order {
 }
 
 model Store {
-    id          String    @id @default(uuid())
+    id          String      @id @default(uuid())
     name        String
     website     String?
     description String?
     image       String?
     heroImage   String?
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    users       User[]
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    userStores  UserStore[]
     products    Product[]
 
     @@map("stores")
@@ -175,24 +175,34 @@ model DonationItemSale {
 }
 
 model Role {
-    id          Int     @id @default(autoincrement())
+    id          Int         @id @default(autoincrement())
     name        String
     description String?
-    users       User[]
+    stores      UserStore[]
 
     @@map("roles")
 }
 
 model User {
-    id        String   @id @default(uuid())
-    email     String   @unique
+    id        String      @id @default(uuid())
+    email     String      @unique
     name      String
-    storeId   String
-    roleId    Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    store     Store    @relation(fields: [storeId], references: [id])
-    role      Role     @relation(fields: [roleId], references: [id])
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    stores    UserStore[]
 
     @@map("users")
+}
+
+model UserStore {
+    id      String  @id @default(uuid())
+    userId  String
+    storeId String?
+    roleId  Int
+    user    User    @relation(fields: [userId], references: [id])
+    store   Store?  @relation(fields: [storeId], references: [id])
+    role    Role    @relation(fields: [roleId], references: [id])
+
+    @@unique([userId, storeId])
+    @@map("user_stores")
 }
