@@ -1,10 +1,6 @@
-export type RoleOption = {
-  id: number;
-  name: string;
-  description: string;
-};
+import { Role } from '@prisma/client';
 
-export const roles: RoleOption[] = [
+export const roles: Role[] = [
   {
     id: 1,
     name: 'Admin',

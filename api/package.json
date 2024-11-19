@@ -29,6 +29,7 @@
   "description": "",
   "dependencies": {
     "@codegenie/serverless-express": "^4.16.0",
+    "@prisma/client": "^5.22.0",
     "@sunami/auth": "^0.4.0",
     "@sunami/constants": "^0.1.0",
     "@sunami/logger": "^0.1.1",
