@@ -6,7 +6,7 @@ export const createUserSchema = {
     email: strShort.email(),
     name: strShort,
     roleId: role,
-    storeId: uuid.optional(),
+    storeId: uuid,
   }),
   params: empty,
   query: empty,
