@@ -44,9 +44,11 @@ export const prismaCodeToStatusCode = (code: string) => {
   switch (code) {
     case 'P2001':
     case 'P2025':
-      return STATUS_CODE.NOT_FOUND;
+      return { status: STATUS_CODE.NOT_FOUND, message: 'Resource not found' };
+    case 'P2002':
+      return { status: STATUS_CODE.BAD_INPUT, message: 'Resource already exists' };
     default:
-      return STATUS_CODE.SERVER_ERROR;
+      return { status: STATUS_CODE.SERVER_ERROR, message: undefined };
   }
 };
 

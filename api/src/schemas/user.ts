@@ -5,8 +5,18 @@ export const createUserSchema = {
   body: obj({
     email: strShort.email(),
     name: strShort,
-    roleId: role,
-    storeId: uuid,
+    stores: z
+      .array(
+        obj({
+          storeId: uuid.optional(),
+          roleId: role,
+        }).refine((v) => !(v.roleId > 0 && v.storeId === undefined), {
+          message: 'You must assign a store to any user with a non-admin role',
+          path: ['stores', 'storeId'],
+        }),
+      )
+      .min(0)
+      .max(10),
   }),
   params: empty,
   query: empty,
