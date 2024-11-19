@@ -6,7 +6,9 @@ import {
   listProductsPrivateController,
   updateProductController,
 } from '../../controllers';
+import checkPermissionMiddleware from '../../middlewares/checkPermission.middleware';
 import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
+import { canUseAdminRoutes } from '../../permissions';
 import {
   createProductSchema,
   deleteProductSchema,
@@ -17,10 +19,35 @@ import {
 
 const router = Router({ mergeParams: true });
 
-router.get('/list', schemaValidatorMiddleware(listProductsPrivateSchema), listProductsPrivateController);
-router.get('/:productId', schemaValidatorMiddleware(getProductPrivateSchema), getProductPrivateController);
-router.post('/', schemaValidatorMiddleware(createProductSchema), createProductController);
-router.put('/:productId', schemaValidatorMiddleware(updateProductSchema), updateProductController);
-router.delete('/:productId', schemaValidatorMiddleware(deleteProductSchema), deleteProductController);
+router.get(
+  '/list',
+  schemaValidatorMiddleware(listProductsPrivateSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  listProductsPrivateController,
+);
+router.get(
+  '/:productId',
+  schemaValidatorMiddleware(getProductPrivateSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  getProductPrivateController,
+);
+router.post(
+  '/',
+  schemaValidatorMiddleware(createProductSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  createProductController,
+);
+router.put(
+  '/:productId',
+  schemaValidatorMiddleware(updateProductSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  updateProductController,
+);
+router.delete(
+  '/:productId',
+  schemaValidatorMiddleware(deleteProductSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  deleteProductController,
+);
 
 export default router;
