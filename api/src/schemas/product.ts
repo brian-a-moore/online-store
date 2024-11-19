@@ -35,13 +35,17 @@ export const getProductPrivateSchema = {
 
 export const listProductsPublicSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 
 export const listProductsPrivateSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 

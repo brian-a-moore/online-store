@@ -38,13 +38,19 @@ export const getItemPrivateSchema = {
 
 export const listItemsPublicSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+    productId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 
 export const listItemsPrivateSchema = {
   body: z.object({}),
-  params: z.object({}),
+  params: z.object({
+    storeId: z.string().uuid(),
+    productId: z.string().uuid(),
+  }),
   query: z.object({}),
 };
 
