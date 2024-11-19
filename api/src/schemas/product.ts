@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
 export const createProductSchema = {
-  body: z.object({}),
+  body: z.object({
+    name: z.string().min(1).max(256),
+    description: z.string().min(1).max(2048).optional(),
+  }),
   params: z.object({}),
   query: z.object({}),
 };
@@ -46,11 +49,16 @@ export const listProductsPrivateSchema = {
   params: z.object({
     storeId: z.string().uuid(),
   }),
-  query: z.object({}),
+  query: z.object({
+    isAvailable: z.boolean().optional(),
+  }),
 };
 
 export const updateProductSchema = {
-  body: z.object({}),
+  body: z.object({
+    name: z.string().min(1).max(256).optional(),
+    description: z.string().min(1).max(2048).optional(),
+  }),
   params: z.object({
     storeId: z.string().uuid(),
     productId: z.string().uuid(),

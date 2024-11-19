@@ -1,7 +1,11 @@
 import { z } from 'zod';
 
 export const createStoreSchema = {
-  body: z.object({}),
+  body: z.object({
+    name: z.string().min(1).max(256),
+    description: z.string().min(1).max(2048).optional(),
+    website: z.string().min(1).max(256).optional(),
+  }),
   params: z.object({}),
   query: z.object({}),
 };
@@ -43,7 +47,11 @@ export const listStoresPrivateSchema = {
 };
 
 export const updateStoreSchema = {
-  body: z.object({}),
+  body: z.object({
+    name: z.string().min(1).max(256).optional(),
+    description: z.string().min(1).max(2048).optional(),
+    website: z.string().min(1).max(256).optional(),
+  }),
   params: z.object({
     storeId: z.string().uuid(),
   }),
