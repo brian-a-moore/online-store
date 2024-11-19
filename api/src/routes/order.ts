@@ -8,7 +8,7 @@ import { createCheckoutSessionSchema } from '../schemas';
 const router = Router({ mergeParams: true });
 
 router.post(
-  '/create-checkout-session',
+  '/checkout',
   schemaValidatorMiddleware(createCheckoutSessionSchema),
   checkPermissionMiddleware([canAccessDefault]),
   createCheckoutSessionController,
