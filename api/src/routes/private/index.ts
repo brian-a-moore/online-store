@@ -6,8 +6,8 @@ import userRoutes from './user';
 
 const router = Router({ mergeParams: true });
 
-router.use('/item', itemRoutes);
-router.use('/product', productRoutes);
+router.use('/store/:storeId/product/:productId/item', itemRoutes);
+router.use('/store/:storeId/product', productRoutes);
 router.use('/store', storeRoutes);
 router.use('/user', userRoutes);
 
