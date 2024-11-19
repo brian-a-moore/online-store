@@ -17,7 +17,11 @@ export default (err: any | unknown, req: Request, res: Response, next: NextFunct
     stack: err.stack,
   });
 
-  if (err.code) err.status = prismaCodeToStatusCode(err.code);
+  if (err.code) {
+    const { status, message } = prismaCodeToStatusCode(err.code);
+    err.status = status;
+    err.message = message;
+  }
 
-  res.status(err.status || STATUS_CODE.SERVER_ERROR).send();
+  res.status(err.status || STATUS_CODE.SERVER_ERROR).send({ message: err.message || 'Internal server error' });
 };
