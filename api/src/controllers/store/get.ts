@@ -27,7 +27,7 @@ export const getStorePublicController = async (
         heroImage: true,
         website: true,
       },
-      where: { id: storeId },
+      where: { id: storeId, isPublished: true },
     });
 
     res.status(STATUS_CODE.OKAY).json({ store });

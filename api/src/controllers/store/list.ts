@@ -34,6 +34,9 @@ export const listStoresPublicController = async (
         description: true,
         image: true,
       },
+      where: {
+        isPublished: true,
+      },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
