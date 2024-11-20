@@ -1,7 +1,7 @@
 import { STATUS_CODE } from '@sunami/constants';
 import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
-import db from '../../config/db';
+import { db } from '../../config/db';
 import { CreateUserBody, CreateUserParams, CreateUserQuery } from '../../types/routes';
 
 export const createUserController = async (

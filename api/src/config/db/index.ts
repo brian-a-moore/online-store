@@ -52,4 +52,4 @@ export const prismaCodeToStatusCode = (code: string) => {
   }
 };
 
-export default prisma;
+export const db = prisma;
