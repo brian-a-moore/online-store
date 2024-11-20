@@ -46,13 +46,17 @@ export const getStorePrivateSchema = {
 export const listStoresPublicSchema = {
   body: empty,
   params: empty,
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+  }),
 };
 
 export const listStoresPrivateSchema = {
   body: empty,
   params: empty,
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+  }),
 };
 
 export const updateStoreSchema = {

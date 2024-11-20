@@ -14,7 +14,7 @@ export const updateUserController = async (
 
     await db.user.update({ data: updatedUserFields, where: { id: userId } });
 
-    res.status(STATUS_CODE.NO_CONTENT).json({});
+    res.status(STATUS_CODE.NO_CONTENT).json();
   } catch (e: any | unknown) {
     next(e);
   }
