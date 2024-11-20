@@ -58,7 +58,7 @@ model Product {
     name             String
     description      String?
     image            String?
-    isAvailable      Boolean
+    isPublished      Boolean           @default(false)
     createdAt        DateTime          @default(now())
     updatedAt        DateTime          @updatedAt
     ticketItems      TicketItem[]

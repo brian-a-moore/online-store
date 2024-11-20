@@ -9,7 +9,7 @@ export const updateUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const userId = req.params.userId;
+    const { userId } = req.params;
     const updatedUserFields = req.body;
 
     await db.user.update({ data: updatedUserFields, where: { id: userId } });

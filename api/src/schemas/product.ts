@@ -8,7 +8,9 @@ export const createProductSchema = {
       description: strLong.optional(),
     })
     .strict(),
-  params: empty,
+  params: z.object({
+    storeId: uuid,
+  }),
   query: empty,
 };
 
@@ -52,7 +54,9 @@ export const listProductsPublicSchema = {
       storeId: uuid,
     })
     .strict(),
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+  }),
 };
 
 export const listProductsPrivateSchema = {
@@ -62,7 +66,9 @@ export const listProductsPrivateSchema = {
       storeId: uuid,
     })
     .strict(),
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+  }),
 };
 
 export const updateProductSchema = {

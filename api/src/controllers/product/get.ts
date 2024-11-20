@@ -1,5 +1,6 @@
 import { STATUS_CODE } from '@sunami/constants';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { db } from '../../config/db';
 import {
   GetProductPrivateBody,
   GetProductPrivateParams,
@@ -12,13 +13,39 @@ import {
 export const getProductPublicController = async (
   req: Request<GetProductPublicParams, unknown, GetProductPublicBody, GetProductPublicQuery>,
   res: Response,
+  next: NextFunction,
 ) => {
-  res.status(STATUS_CODE.NOT_IMPLEMENTED).json({ message: 'getProductPublic' });
+  const { productId } = req.params;
+
+  try {
+    const product = await db.product.findUniqueOrThrow({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        image: true,
+      },
+      where: { id: productId, isPublished: true },
+    });
+
+    res.status(STATUS_CODE.OKAY).json({ product });
+  } catch (e: any | unknown) {
+    next(e);
+  }
 };
 
 export const getProductPrivateController = async (
   req: Request<GetProductPrivateParams, unknown, GetProductPrivateBody, GetProductPrivateQuery>,
   res: Response,
+  next: NextFunction,
 ) => {
-  res.status(STATUS_CODE.NOT_IMPLEMENTED).json({ message: 'getProductPrivate' });
+  const { productId } = req.params;
+
+  try {
+    const product = await db.product.findUniqueOrThrow({ where: { id: productId } });
+
+    res.status(STATUS_CODE.OKAY).json({ product });
+  } catch (e: any | unknown) {
+    next(e);
+  }
 };

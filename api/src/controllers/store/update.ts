@@ -9,7 +9,7 @@ export const updateStoreController = async (
   next: NextFunction,
 ) => {
   try {
-    const storeId = req.params.storeId;
+    const { storeId } = req.params;
     const updatedStoreFields = req.body;
 
     await db.store.update({ data: updatedStoreFields, where: { id: storeId } });
