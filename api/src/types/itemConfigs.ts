@@ -1,8 +1,9 @@
 import { Item } from '@prisma/client';
 
 export type FixedItemConfig = {
-  generateQRCode: boolean;
-  requireVerification: boolean;
+  isRedeemable: boolean;
+  redeemedAt?: boolean;
+  redeemByDate?: string;
   price: string;
 };
 
