@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { bool, empty, itemType, price, qty, strLong, strShort, uuid } from './_presets';
+import { empty, itemType, price, qty, strLong, strShort, uuid } from './_presets';
 
 export const createItemSchema = {
   body: z
@@ -76,12 +76,7 @@ export const listItemsPrivateSchema = {
       productId: uuid,
     })
     .strict(),
-  query: z
-    .object({
-      itemTypes: z.array(itemType).min(1).max(3),
-      isAvailable: bool.optional(),
-    })
-    .strict(),
+  query: empty,
 };
 
 export const updateItemSchema = {

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { bool, empty, strLong, strShort } from './_presets';
+import { empty, strLong, strShort, uuid } from './_presets';
 
 export const createStoreSchema = {
   body: z
@@ -17,7 +17,7 @@ export const deleteStoreSchema = {
   body: empty,
   params: z
     .object({
-      storeId: bool,
+      storeId: uuid,
     })
     .strict(),
   query: empty,
@@ -27,7 +27,7 @@ export const getStorePublicSchema = {
   body: empty,
   params: z
     .object({
-      storeId: bool,
+      storeId: uuid,
     })
     .strict(),
   query: empty,
@@ -37,7 +37,7 @@ export const getStorePrivateSchema = {
   body: empty,
   params: z
     .object({
-      storeId: bool,
+      storeId: uuid,
     })
     .strict(),
   query: empty,
@@ -65,7 +65,7 @@ export const updateStoreSchema = {
     .strict(),
   params: z
     .object({
-      storeId: bool,
+      storeId: uuid,
     })
     .strict(),
   query: empty,

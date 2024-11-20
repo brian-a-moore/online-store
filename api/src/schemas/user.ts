@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { bool, empty, page, role, strShort, uuid } from './_presets';
+import { bool, empty, role, strShort, uuid } from './_presets';
 
 export const createUserSchema = {
   body: z
@@ -45,13 +45,7 @@ export const getUserSchema = {
 export const listUsersSchema = {
   body: empty,
   params: empty,
-  query: z
-    .object({
-      page: page,
-      roles: z.array(role).min(1).max(2),
-      storeId: uuid.optional(),
-    })
-    .strict(),
+  query: empty,
 };
 
 export const updateUserSchema = {
