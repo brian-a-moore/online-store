@@ -1,3 +1,5 @@
+import { Item } from '@prisma/client';
+
 export type FixedItemConfig = {
   generateQRCode: boolean;
   requireVerification: boolean;
@@ -11,3 +13,10 @@ export type VariableItemConfig = {
   stepAmount: number;
   presetAmounts: number[];
 };
+
+export interface FixedItem extends Item {
+  config: FixedItemConfig;
+}
+export interface VariableItem extends Item {
+  config: VariableItemConfig;
+}
