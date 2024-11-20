@@ -37,6 +37,7 @@
     "cls-hooked": "^4.2.2",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "generate-password": "^1.7.1",
     "prisma": "^5.22.0",
     "stripe": "^17.3.1",
     "zod": "^3.23.8"
