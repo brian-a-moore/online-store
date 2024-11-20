@@ -7,35 +7,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Customer {
-    id          String   @id @default(uuid())
-    stripeId    String
-    email       String   @unique
-    phoneNumber String?
-    name        String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    orders      Order[]
-
-    @@map("customers")
-}
-
-model Order {
-    id                  String                @id @default(uuid())
-    customerId          String
-    stripeTransactionId String?
-    stripeResponse      String?
-    totalAmount         Float
-    createdAt           DateTime              @default(now())
-    updatedAt           DateTime              @updatedAt
-    ticketItemSales     TicketItemSale[]
-    MerchandiseItemSale MerchandiseItemSale[]
-    DonationItemSale    DonationItemSale[]
-    customer            Customer              @relation(fields: [customerId], references: [id])
-
-    @@map("orders")
-}
-
 model Store {
     id          String      @id @default(uuid())
     name        String
@@ -53,135 +24,44 @@ model Store {
 }
 
 model Product {
-    id               String            @id @default(uuid())
-    storeId          String
-    name             String
-    description      String?
-    image            String?
-    isPublished      Boolean           @default(false)
-    createdAt        DateTime          @default(now())
-    updatedAt        DateTime          @updatedAt
-    ticketItems      TicketItem[]
-    merchandiseItems MerchandiseItem[]
-    donationItems    DonationItem[]
-    store            Store             @relation(fields: [storeId], references: [id])
+    id          String   @id @default(uuid())
+    storeId     String
+    name        String
+    description String?
+    image       String?
+    isPublished Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    items       Item[]
+    store       Store    @relation(fields: [storeId], references: [id])
 
     @@map("products")
 }
 
-model TicketItem {
-    id                  String           @id @default(uuid())
-    productId           String
-    name                String
-    description         String?
-    price               Float
-    image               String?
-    generateQRCode      Boolean
-    maxQuantityPerOrder Int
-    redeemByDate        DateTime?
-    isAvailable         Boolean
-    createdAt           DateTime         @default(now())
-    updatedAt           DateTime         @updatedAt
-    product             Product          @relation(fields: [productId], references: [id])
-    ticketItemSales     TicketItemSale[]
-    ticketId            String?
-
-    @@map("ticket_items")
-}
-
-model TicketItemSale {
-    id           String     @id @default(uuid())
-    ticketItemId String
-    orderId      String
-    createdAt    DateTime   @default(now())
-    updatedAt    DateTime   @updatedAt
-    ticketItem   TicketItem @relation(fields: [ticketItemId], references: [id])
-    order        Order      @relation(fields: [orderId], references: [id])
-    tickets      Ticket[]
-
-    @@map("ticket_item_sales")
-}
-
-model Ticket {
-    id               String         @id @default(uuid())
-    ticketItemSaleId String
-    qrCode           String
-    isRedeemed       Boolean
-    createdAt        DateTime       @default(now())
-    updatedAt        DateTime       @updatedAt
-    redeemedAt       DateTime?
-    ticketItemSale   TicketItemSale @relation(fields: [ticketItemSaleId], references: [id])
-
-    @@map("tickets")
-}
-
-model MerchandiseItem {
-    id                   String                @id @default(uuid())
-    productId            String
-    name                 String
-    description          String?
-    price                Float
-    image                String?
-    maxQuantityPerOrder  Int
-    isAvailable          Boolean
-    createdAt            DateTime              @default(now())
-    updatedAt            DateTime              @updatedAt
-    product              Product               @relation(fields: [productId], references: [id])
-    merchandiseItemSales MerchandiseItemSale[]
-
-    @@map("merchandise_items")
-}
-
-model MerchandiseItemSale {
-    id               String          @id @default(uuid())
-    mechandiseItemId String
-    orderId          String
-    createdAt        DateTime        @default(now())
-    updatedAt        DateTime        @updatedAt
-    mechandiseItem   MerchandiseItem @relation(fields: [mechandiseItemId], references: [id])
-    order            Order           @relation(fields: [orderId], references: [id])
-
-    @@map("mecrchandise_item_sales")
-}
-
-model DonationItem {
-    id                  String             @id @default(uuid())
-    productId           String
-    name                String
-    description         String?
-    image               String?
-    maxQuantityPerOrder Int
-    amountMin           Float
-    amountMax           Float
-    presetAmounts       Float[]
-    isAvailable         Boolean
-    createdAt           DateTime           @default(now())
-    updatedAt           DateTime           @updatedAt
-    product             Product            @relation(fields: [productId], references: [id])
-    donationItemSales   DonationItemSale[]
-
-    @@map("donation_items")
-}
-
-model DonationItemSale {
-    id             String       @id @default(uuid())
-    donationItemId String
-    orderId        String
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime     @updatedAt
-    donationItem   DonationItem @relation(fields: [donationItemId], references: [id])
-    order          Order        @relation(fields: [orderId], references: [id])
-
-    @@map("donation_item_sales")
-}
-
-model Role {
-    id          Int         @id @default(autoincrement())
+model ItemType {
+    id          Int     @id @default(autoincrement())
     name        String
     description String?
-    stores      UserStore[]
+    items       Item[]
 
-    @@map("roles")
+    @@map("item_types")
+}
+
+model Item {
+    id                  String   @id @default(uuid())
+    productId           String
+    itemTypeId          Int
+    name                String
+    description         String?
+    image               String?
+    maxQuantityPerOrder Int
+    config              Json
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt
+    product             Product  @relation(fields: [productId], references: [id])
+    itemType            ItemType @relation(fields: [itemTypeId], references: [id])
+
+    @@map("items")
 }
 
 model User {
@@ -195,6 +75,15 @@ model User {
     stores      UserStore[]
 
     @@map("users")
+}
+
+model Role {
+    id          Int         @id @default(autoincrement())
+    name        String
+    description String?
+    stores      UserStore[]
+
+    @@map("roles")
 }
 
 model UserStore {
