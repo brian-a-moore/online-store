@@ -45,7 +45,11 @@ export const getUserSchema = {
 export const listUsersSchema = {
   body: empty,
   params: empty,
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+    storeId: z.string().min(36).max(36).optional(), // if left out, all stores users are returned
+    roleId: z.string().min(1).max(1).optional(), // if left out, users of all roles are returned
+  }),
 };
 
 export const updateUserSchema = {
