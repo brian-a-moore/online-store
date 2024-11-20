@@ -22,13 +22,9 @@ export type DeleteItemBody = z.infer<(typeof itemSchema.deleteItemSchema)['body'
 export type DeleteItemParams = z.infer<(typeof itemSchema.deleteItemSchema)['params']>;
 export type DeleteItemQuery = z.infer<(typeof itemSchema.deleteItemSchema)['query']>;
 
-export type GetItemPublicBody = z.infer<(typeof itemSchema.getItemPublicSchema)['body']>;
-export type GetItemPublicParams = z.infer<(typeof itemSchema.getItemPublicSchema)['params']>;
-export type GetItemPublicQuery = z.infer<(typeof itemSchema.getItemPublicSchema)['query']>;
-
-export type GetItemPrivateBody = z.infer<(typeof itemSchema.getItemPrivateSchema)['body']>;
-export type GetItemPrivateParams = z.infer<(typeof itemSchema.getItemPrivateSchema)['params']>;
-export type GetItemPrivateQuery = z.infer<(typeof itemSchema.getItemPrivateSchema)['query']>;
+export type GetItemBody = z.infer<(typeof itemSchema.getItemSchema)['body']>;
+export type GetItemParams = z.infer<(typeof itemSchema.getItemSchema)['params']>;
+export type GetItemQuery = z.infer<(typeof itemSchema.getItemSchema)['query']>;
 
 export type ListItemsPublicBody = z.infer<(typeof itemSchema.listItemsPublicSchema)['body']>;
 export type ListItemsPublicParams = z.infer<(typeof itemSchema.listItemsPublicSchema)['params']>;

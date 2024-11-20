@@ -1,14 +1,32 @@
 import { z } from 'zod';
-import { empty, itemType, price, qty, strLong, strShort, uuid } from './_presets';
+import { empty, itemTypeId, price, qty, strLong, strShort, uuid } from './_presets';
+
+const fixedItemConfig = z
+  .object({
+    isReemable: z.boolean(),
+    redeemedAt: z.string().optional(),
+    redeemByDate: z.string().optional(),
+    price: price,
+  })
+  .strict();
+
+const variableItemConfig = z
+  .object({
+    defaultAmount: price,
+    minAmount: z.number().int().positive(),
+    maxAmount: price,
+    stepAmount: z.number().int().positive(),
+    presetAmounts: z.array(price).min(0).max(5),
+  })
+  .strict();
 
 export const createItemSchema = {
   body: z
     .object({
-      productId: uuid,
-      itemType: itemType,
+      itemTypeId: itemTypeId,
       name: strShort,
       description: strLong.optional(),
-      price: price,
+      config: z.union([fixedItemConfig, variableItemConfig]),
       maxQuantityPerOrder: qty,
     })
     .strict(),
@@ -33,19 +51,7 @@ export const deleteItemSchema = {
   query: empty,
 };
 
-export const getItemPublicSchema = {
-  body: empty,
-  params: z
-    .object({
-      storeId: uuid,
-      productId: uuid,
-      itemId: uuid,
-    })
-    .strict(),
-  query: empty,
-};
-
-export const getItemPrivateSchema = {
+export const getItemSchema = {
   body: empty,
   params: z
     .object({
@@ -65,7 +71,9 @@ export const listItemsPublicSchema = {
       productId: uuid,
     })
     .strict(),
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+  }),
 };
 
 export const listItemsPrivateSchema = {
@@ -76,7 +84,9 @@ export const listItemsPrivateSchema = {
       productId: uuid,
     })
     .strict(),
-  query: empty,
+  query: z.object({
+    page: z.string().min(1).max(6),
+  }),
 };
 
 export const updateItemSchema = {

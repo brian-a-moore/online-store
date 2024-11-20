@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   createItemController,
   deleteItemController,
-  getItemPrivateController,
+  getItemController,
   listItemsPrivateController,
   updateItemController,
 } from '../../controllers';
@@ -12,7 +12,7 @@ import { canUseAdminRoutes } from '../../permissions';
 import {
   createItemSchema,
   deleteItemSchema,
-  getItemPrivateSchema,
+  getItemSchema,
   listItemsPrivateSchema,
   updateItemSchema,
 } from '../../schemas';
@@ -27,9 +27,9 @@ router.get(
 );
 router.get(
   '/:itemId',
-  schemaValidatorMiddleware(getItemPrivateSchema),
+  schemaValidatorMiddleware(getItemSchema),
   checkPermissionMiddleware([canUseAdminRoutes]),
-  getItemPrivateController,
+  getItemController,
 );
 router.post(
   '/',

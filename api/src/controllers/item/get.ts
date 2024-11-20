@@ -1,23 +1,22 @@
 import { STATUS_CODE } from '@sunami/constants';
-import { Request, Response } from 'express';
-import {
-  GetItemPrivateBody,
-  GetItemPrivateParams,
-  GetItemPrivateQuery,
-  GetItemPublicBody,
-  GetItemPublicQuery,
-} from '../../types/routes';
+import { NextFunction, Request, Response } from 'express';
+import { db } from '../../config/db';
+import { GetItemBody, GetItemParams, GetItemQuery } from '../../types/routes';
 
-export const getItemPublicController = async (
-  req: Request<GetItemPrivateParams, unknown, GetItemPublicBody, GetItemPublicQuery>,
+export const getItemController = async (
+  req: Request<GetItemParams, unknown, GetItemBody, GetItemQuery>,
   res: Response,
+  next: NextFunction,
 ) => {
-  res.status(STATUS_CODE.NOT_IMPLEMENTED).json({ message: 'getItemPublic' });
-};
+  const { itemId } = req.params;
 
-export const getItemPrivateController = async (
-  req: Request<GetItemPrivateParams, unknown, GetItemPrivateBody, GetItemPrivateQuery>,
-  res: Response,
-) => {
-  res.status(STATUS_CODE.NOT_IMPLEMENTED).json({ message: 'getItemPrivate' });
+  try {
+    const item = await db.item.findUniqueOrThrow({
+      where: { id: itemId },
+    });
+
+    res.status(STATUS_CODE.OKAY).json({ item });
+  } catch (e: any | unknown) {
+    next(e);
+  }
 };
