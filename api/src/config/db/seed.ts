@@ -1,8 +1,8 @@
 import { roles } from '../../constants/seeds';
-import prisma from '../db';
+import { db } from '../db';
 
 (async () => {
-  await prisma.role.createMany({
+  await db.role.createMany({
     data: roles,
   });
 })();
