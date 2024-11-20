@@ -45,6 +45,7 @@ CREATE TABLE "items" (
     "description" TEXT,
     "image" TEXT,
     "maxQuantityPerOrder" INTEGER NOT NULL,
+    "isPublished" BOOLEAN NOT NULL DEFAULT false,
     "config" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

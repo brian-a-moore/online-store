@@ -1,4 +1,4 @@
-import { compareStrings, createToken, hashString } from '@sunami/auth';
+import { compareStrings, createToken } from '@sunami/auth';
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
@@ -12,11 +12,10 @@ export const authLoginController = async (
 ) => {
   try {
     const { email, password } = req.body;
-    const passswordHash = await hashString(password);
 
     const user = await db.user.findUniqueOrThrow({ select: { id: true, password: true }, where: { email } });
 
-    const isPasswordValid = await compareStrings(passswordHash, user.password);
+    const isPasswordValid = await compareStrings(password, user.password);
 
     if (!isPasswordValid) {
       logger.warn(`User with email ${email} tried to login with invalid password`);
@@ -26,7 +25,7 @@ export const authLoginController = async (
 
     const token = createToken({ id: user.id });
 
-    res.status(STATUS_CODE.OKAY).json({ token });
+    res.status(STATUS_CODE.OKAY).json({ id: user.id, token });
   } catch (e: any | unknown) {
     next(e);
   }

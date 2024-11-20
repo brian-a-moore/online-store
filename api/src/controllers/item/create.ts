@@ -1,4 +1,5 @@
 import { STATUS_CODE } from '@sunami/constants';
+import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import { CreateItemBody, CreateItemParams, CreateItemQuery } from '../../types/routes';
@@ -10,7 +11,7 @@ export const createItemController = async (
 ) => {
   try {
     const { productId } = req.params;
-    const incomingItem = req.body;
+    const { config, ...incomingItem } = req.body;
 
     const id = crypto.randomUUID();
 
@@ -19,6 +20,8 @@ export const createItemController = async (
         ...incomingItem,
         id,
         productId,
+        config: JSON.stringify(config),
+        isPublished: false,
       },
     });
 

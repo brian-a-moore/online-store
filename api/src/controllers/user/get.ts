@@ -11,7 +11,27 @@ export const getUserController = async (
   const { userId } = req.params;
 
   try {
-    const user = await db.user.findUniqueOrThrow({ where: { id: userId } });
+    const user = await db.user.findUniqueOrThrow({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        isSuperUser: true,
+        createdAt: true,
+        updatedAt: true,
+        stores: {
+          select: {
+            store: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      where: { id: userId },
+    });
 
     res.status(STATUS_CODE.OKAY).json({ user });
   } catch (e: any | unknown) {

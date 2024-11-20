@@ -57,7 +57,7 @@ export const updateUserSchema = {
     .object({
       email: strShort.email().optional(),
       name: strShort.optional(),
-      roleId: role.optional(),
+      isSuperUser: bool.optional(),
     })
     .strict(),
   params: z.object({

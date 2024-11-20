@@ -3,7 +3,7 @@ import { empty, itemTypeId, price, qty, strLong, strShort, uuid } from './_prese
 
 const fixedItemConfig = z
   .object({
-    isReemable: z.boolean(),
+    isRedeemable: z.boolean(),
     redeemedAt: z.string().optional(),
     redeemByDate: z.string().optional(),
     price: price,
@@ -12,7 +12,7 @@ const fixedItemConfig = z
 
 const variableItemConfig = z
   .object({
-    defaultAmount: price,
+    defaultAmount: price.or(z.literal(0)),
     minAmount: z.number().int().positive(),
     maxAmount: price,
     stepAmount: z.number().int().positive(),
