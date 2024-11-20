@@ -1,5 +1,6 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { Request, Response } from 'express';
+import { CreateCheckoutSessionBody, CreateCheckoutSessionParams, CreateCheckoutSessionQuery } from '../types/routes';
 // import Stripe from 'stripe';
 
 const { FRONTEND_URL, STRIPE_API_KEY } = process.env;
@@ -14,7 +15,10 @@ if (!STRIPE_API_KEY) {
 
 // const stripe = new Stripe(STRIPE_API_KEY);
 
-export const createCheckoutSessionController = async (req: Request, res: Response) => {
+export const createCheckoutSessionController = async (
+  req: Request<CreateCheckoutSessionParams, unknown, CreateCheckoutSessionBody, CreateCheckoutSessionQuery>,
+  res: Response,
+) => {
   res.status(STATUS_CODE.NOT_IMPLEMENTED).send({ message: 'createCheckoutSession' });
   // const session = await stripe.checkout.sessions.create({
   //   line_items: [

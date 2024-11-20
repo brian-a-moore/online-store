@@ -1,36 +1,45 @@
-import { bool, empty, obj, strLong, strShort } from './_presets';
+import { z } from 'zod';
+import { bool, empty, strLong, strShort } from './_presets';
 
 export const createStoreSchema = {
-  body: obj({
-    name: strShort,
-    description: strLong.optional(),
-    website: strShort.optional(),
-  }),
+  body: z
+    .object({
+      name: strShort,
+      description: strLong.optional(),
+      website: strShort.optional(),
+    })
+    .strict(),
   params: empty,
   query: empty,
 };
 
 export const deleteStoreSchema = {
   body: empty,
-  params: obj({
-    storeId: bool,
-  }),
+  params: z
+    .object({
+      storeId: bool,
+    })
+    .strict(),
   query: empty,
 };
 
 export const getStorePublicSchema = {
   body: empty,
-  params: obj({
-    storeId: bool,
-  }),
+  params: z
+    .object({
+      storeId: bool,
+    })
+    .strict(),
   query: empty,
 };
 
 export const getStorePrivateSchema = {
   body: empty,
-  params: obj({
-    storeId: bool,
-  }),
+  params: z
+    .object({
+      storeId: bool,
+    })
+    .strict(),
   query: empty,
 };
 
@@ -47,13 +56,17 @@ export const listStoresPrivateSchema = {
 };
 
 export const updateStoreSchema = {
-  body: obj({
-    name: strShort.optional(),
-    description: strLong.optional(),
-    website: strShort.optional(),
-  }),
-  params: obj({
-    storeId: bool,
-  }),
+  body: z
+    .object({
+      name: strShort.optional(),
+      description: strLong.optional(),
+      website: strShort.optional(),
+    })
+    .strict(),
+  params: z
+    .object({
+      storeId: bool,
+    })
+    .strict(),
   query: empty,
 };
