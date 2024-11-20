@@ -1,10 +1,33 @@
+import { compareStrings, createToken, hashString } from '@sunami/auth';
 import { STATUS_CODE } from '@sunami/constants';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { db } from '../../config/db';
+import logger from '../../config/logger';
 import { AuthLoginBody, AuthLoginParams, AuthLoginQuery } from '../../types/routes';
 
 export const authLoginController = async (
   req: Request<AuthLoginParams, unknown, AuthLoginBody, AuthLoginQuery>,
   res: Response,
+  next: NextFunction,
 ) => {
-  res.status(STATUS_CODE.NOT_IMPLEMENTED).json({ message: 'authLogin' });
+  try {
+    const { email, password } = req.body;
+    const passswordHash = await hashString(password);
+
+    const user = await db.user.findUniqueOrThrow({ select: { id: true, password: true }, where: { email } });
+
+    const isPasswordValid = await compareStrings(passswordHash, user.password);
+
+    if (!isPasswordValid) {
+      logger.warn(`User with email ${email} tried to login with invalid password`);
+      res.status(STATUS_CODE.BAD_INPUT).json({ message: 'Password incorrect' });
+      return;
+    }
+
+    const token = createToken({ id: user.id });
+
+    res.status(STATUS_CODE.OKAY).json({ token });
+  } catch (e: any | unknown) {
+    next(e);
+  }
 };
