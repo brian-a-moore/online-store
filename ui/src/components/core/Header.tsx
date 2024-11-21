@@ -9,7 +9,7 @@ export const Header: React.FC<Props> = () => {
   return (
       <header className='bg-teal-600 flex items-center justify-between p-4'>
         <H3 className='text-white'>Online Store</H3>
-        <ButtonLink href="login" className='flex gap-2 items-center'>
+        <ButtonLink href="/login" className='flex gap-2 items-center'>
           <p className='text-sm'>Log In</p>
           <Icon path={mdiLogin} size={0.75} className='ml-[-4px] opacity-50' />
         </ButtonLink>
