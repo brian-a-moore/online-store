@@ -23,8 +23,6 @@ export const Store: React.FC<Props> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  console.log({ store: response?.store })
-
   return (
     <div className='flex flex-col'>
       <CartProvider>

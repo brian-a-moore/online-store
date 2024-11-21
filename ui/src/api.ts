@@ -268,7 +268,6 @@ const items: { [k: string]: TDisplayItem[] } = {
 };
 
 export const getItems = async (productId: string): Promise<{ items: TDisplayItem[] }> => {
-  console.log(productId);
   return { items: items[productId] };
 };
 
