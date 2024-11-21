@@ -1,4 +1,4 @@
-import { mdiLogin } from '@mdi/js';
+import { mdiHome, mdiLogin } from '@mdi/js';
 import Icon from '@mdi/react';
 import { ButtonLink } from '../interactive';
 import { H3 } from '../typography';
@@ -8,6 +8,9 @@ type Props = {};
 export const Header: React.FC<Props> = () => {
   return (
       <header className='bg-sky-600 flex items-center justify-between p-4'>
+        <ButtonLink href='/'>
+          <Icon path={mdiHome} size={1} color='white' />
+        </ButtonLink>
         <H3 className='text-white'>Online Store</H3>
         <ButtonLink href="/login" className='flex gap-2 items-center'>
           <p className='text-sm'>Log In</p>
