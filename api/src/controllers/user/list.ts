@@ -37,6 +37,7 @@ export const listUsersController = async (
       select: {
         id: true,
         name: true,
+        email: true,
         isSuperUser: true,
         stores: {
           select: {

@@ -270,6 +270,7 @@ export type ListUsersResponse = {
   users: {
     id: string;
     name: string;
+    email: string;
     isSuperUser: boolean;
     stores: {
       storeId: string | null;
