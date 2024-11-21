@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { TStore } from '../../api';
+import { ListStoresPrivateQuery, ListStoresPublicBody, ListStoresPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { ButtonLink } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
@@ -11,10 +11,10 @@ type Props = {};
 export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
   
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<ListStoresPublicBody, ListStoresPrivateQuery, ListStoresPublicResponse>({
     url: `/store/list`,
     method: HTTP_METHOD.GET,
-    params: { page: 1 },
+    params: { page: '1' },
   }, true);
 
   useEffect(() => {
@@ -29,12 +29,19 @@ export const Home: React.FC<Props> = () => {
         <h1 className='text-white'>Online Store</h1>
         <ButtonLink href="login">Login</ButtonLink>
       </header>
-      <Grid>{response?.stores?.map((store: any) => <Store key={store.id} store={store} />)}</Grid>
+      <Grid>{response?.stores?.map((store) => <Store key={store.id} store={store} />)}</Grid>
     </div>
   );
 };
 
-const Store: React.FC<{ store: TStore }> = ({ store }) => {
+const Store: React.FC<{
+  store: {
+    id: string;
+    name: string;
+    description: string | null;
+    image: string | null;
+  }
+}> = ({ store }) => {
   return (
     <Card key={store.id}>
       {store.image ? (
@@ -43,7 +50,7 @@ const Store: React.FC<{ store: TStore }> = ({ store }) => {
       <h1 className="font-semibold line-clamp-2" title={store.name}>
         {store.name}
       </h1>
-      <p className="text-sm line-clamp-5 flex-1" title={store.description}>
+      <p className="text-sm line-clamp-5 flex-1" title={store?.description || 'No Description'}>
         {store.description}
       </p>
       <Link to={`store/${store.id}`}>View Store</Link>

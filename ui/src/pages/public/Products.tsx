@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TProduct } from '../../api';
+import { ListProductsPrivateBody, ListProductsPublicQuery, ListProductsPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Link } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
@@ -12,10 +12,10 @@ export const Products: React.FC<Props> = () => {
   const navigate = useNavigate();
   const { storeId } = useParams<{ storeId: string }>();
   
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<ListProductsPrivateBody, ListProductsPublicQuery, ListProductsPublicResponse>({
     url: `/store/${storeId}/product/list`,
     method: HTTP_METHOD.GET,
-    params: { page: 1 },
+    params: { page: '1' },
   }, true);
 
   useEffect(() => {
@@ -24,10 +24,15 @@ export const Products: React.FC<Props> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  return <Grid>{response.products?.map((product: any) => <Product key={product.id} product={product} />)}</Grid>;
+  return <Grid>{response?.products?.map((product) => <Product key={product.id} product={product} />)}</Grid>;
 };
 
-const Product: React.FC<{ product: TProduct }> = ({ product }) => {
+const Product: React.FC<{ product: {
+    id: string;
+    name: string;
+    description: string | null;
+    image: string | null;
+}}> = ({ product }) => {
   return (
     <Card key={product.id}>
       {product.image ? (
@@ -36,7 +41,7 @@ const Product: React.FC<{ product: TProduct }> = ({ product }) => {
       <h1 className="font-semibold line-clamp-2" title={product.name}>
         {product.name}
       </h1>
-      <p className="text-sm line-clamp-5 flex-1" title={product.description}>
+      <p className="text-sm line-clamp-5 flex-1" title={product.description || 'No Description'}>
         {product.description}
       </p>
       <Link href={`product/${product.id}`}>View Items</Link>

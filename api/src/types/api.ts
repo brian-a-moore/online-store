@@ -4,8 +4,7 @@ import { z } from 'zod';
 // AUTH ROUTES
 import * as authSchema from '../schemas/auth';
 
-type ErrorResponse = { message: string };
-type Response<T> = T | ErrorResponse;
+type Response<T> = T & { message?: string };
 
 export type AuthLoginBody = z.infer<(typeof authSchema.authLoginSchema)['body']>;
 export type AuthLoginParams = z.infer<(typeof authSchema.authLoginSchema)['params']>;
