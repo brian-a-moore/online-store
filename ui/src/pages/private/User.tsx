@@ -1,9 +1,10 @@
+import { mdiAccountCircle, mdiAccountPlus, mdiSecurity, mdiStorefront } from '@mdi/js';
+import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { GetUserBody, GetUserQuery, GetUserResponse, ListUsersBody, ListUsersQuery, ListUsersResponse } from '../../../../api/src/types/api';
-import { Card } from '../../components/container';
 import Loader from '../../components/core/Loader';
-import { Button, ButtonLink, Link } from '../../components/interactive';
+import { Button, FloatingActionButton, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -68,17 +69,21 @@ export const UserList: React.FC<UserListProps> = () => {
   const users = response?.users;
 
   return (
-    <div>
-      <ButtonLink href="../user/new">New User</ButtonLink>
-      <div className="flex flex-col p-4 gap-4">
-        {users?.map((user: any) => (
-          <RouterLink key={user.id} to={`../user/${user.id}`}>
-            <Card>
-              <p>{user.name}</p>
-            </Card>
+    <div className='w-full p-4'>
+      <div className='flex flex-col w-full max-w-[960px] mx-auto gap-4'>
+        {users?.map((user) => (
+          <RouterLink className='flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md' key={user.id} to={`../user/${user.id}`} title={`View user: ${user.name}`}>
+              <Icon path={user.isSuperUser ? mdiSecurity : mdiAccountCircle} size={0.75} />
+              <p className='flex-1 whitespace-nowrap text-ellipsis overflow-hidden'>{user.name}</p>
+              <p className='text-sm opacity-60 whitespace-nowrap text-ellipsis overflow-hidden'>{user.email}</p>
+              <div className='flex gap-2 items-center'>
+                <Icon path={mdiStorefront} size={0.75} />
+                <p className='flex items-center bg-orange-400 text-white text-sm px-2 rounded'>{user.stores.length}</p>
+              </div>
           </RouterLink>
         ))}
       </div>
+      <FloatingActionButton path={mdiAccountPlus} label='New User' onClick={() => navigate('../user/new')} />
     </div>
   );
 };
