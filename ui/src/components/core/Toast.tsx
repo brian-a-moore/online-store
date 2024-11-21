@@ -29,8 +29,8 @@ const COLORS = {
     icon: 'var(--text-color)',
   },
   success: {
-    background: 'bg-teal-700 hover:bg-teal-600',
-    text: 'text-teal-100',
+    background: 'bg-sky-700 hover:bg-sky-600',
+    text: 'text-sky-100',
     icon: '#F0FDFA',
   },
 };

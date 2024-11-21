@@ -27,7 +27,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = () => {
           </div>
           <Button onClick={signOut} className='flex gap-2 items-center'>
             <p className='text-sm'>Sign Out</p>
-            <Icon path={mdiLogout} size={0.75} className='ml-[-4px] opacity-50' />
+            <Icon path={mdiLogout} size={0.75} className='opacity-50' />
           </Button>
         </header>
         <div className='flex-1 overflow-y-auto'>

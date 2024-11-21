@@ -12,7 +12,7 @@ type ItemLayoutProps = {};
 export const ItemLayout: React.FC<ItemLayoutProps> = () => {
   return (
     <div>
-      <nav className="bg-teal-900 flex gap-4 p-4">
+      <nav className="bg-sky-900 flex gap-4 p-4">
         <Link href=".">About Item</Link>
       </nav>
       <div>

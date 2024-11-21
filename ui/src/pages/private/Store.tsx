@@ -12,7 +12,7 @@ type StoreLayoutProps = {};
 export const StoreLayout: React.FC<StoreLayoutProps> = () => {
   return (
     <div>
-      <nav className="bg-teal-700 flex gap-4 p-4">
+      <nav className="bg-sky-700 flex gap-4 p-4">
         <Link href=".">About Store</Link>
         <Link href="product/list">View Products</Link>
       </nav>
