@@ -69,7 +69,8 @@ export const StoreList: React.FC<StoreListProps> = () => {
 
   const { error, isLoading, response } = useApi<ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse>({
     url: `/store/list`,
-    method: HTTP_METHOD.GET
+    method: HTTP_METHOD.GET,
+    params: { page: '1' },
   });
 
   useEffect(() => {
