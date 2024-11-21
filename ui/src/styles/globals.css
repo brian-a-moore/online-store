@@ -11,21 +11,21 @@ body {
 }
 
 :root {
-  --input-background-color: #ECEFF1;
-  --input-background-error-color: #FFCDD2;
-  --border-color: #B0BEC5;
+  --input-background-color: #F1F5F9F1;
+  --input-background-error-color: #FEE2E2;
+  --border-color: #E2E8F0;
   --btn-color: #fff;
-  --text-error-color: #D32F2F;
-  --link-color: #00796B;
-  --outline-color: #4DB6AC;
-  --outline-error-color: #D32F2F;
-  --selection-color: #B2DFDB;
-  --btn-primary-default-bg-color: #009688;
-  --btn-primary-hover-bg-color: #00796B;
-  --btn-secondary-default-bg-color: #ECEFF1;
-  --btn-secondary-hover-bg-color: #CFD8DC;
-  --btn-destructive-default-bg-color: #F44336;
-  --btn-destructive-hover-bg-color: #D32F2F;
+  --text-error-color: #EF4444;
+  --link-color: #0284C7;
+  --outline-color: #7DD3FC;
+  --outline-error-color: #EF4444;
+  --selection-color: #BAE6FD;
+  --btn-primary-default-bg-color: #0284C7;
+  --btn-primary-hover-bg-color: #0369A1;
+  --btn-secondary-default-bg-color: #F1F5F9;
+  --btn-secondary-hover-bg-color: #CBD5E1;
+  --btn-destructive-default-bg-color: #EF4444;
+  --btn-destructive-hover-bg-color: #B91C1C;
 }
 
 input,

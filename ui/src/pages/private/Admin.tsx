@@ -18,7 +18,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = () => {
 
   return (
       <div className='flex flex-col h-screen overflow-hidden'>
-        <header className='bg-teal-600 flex items-center justify-between p-4'>
+        <header className='bg-sky-600 flex items-center justify-between p-4'>
           <div className='flex gap-4 items-center'>
             <ButtonLink href='.'>
               <Icon path={mdiHome} size={1} color='white' />
