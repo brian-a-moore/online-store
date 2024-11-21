@@ -11,7 +11,7 @@ type Props = {
 
 export const Stepper: React.FC<Props> = ({ item, handleQuantityChange }) => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-4 items-center">
       <Button variant="secondary" onClick={() => handleQuantityChange(item.id, '-')} title="Remove One">
         <Icon path={mdiMinus} size={1} />
       </Button>
