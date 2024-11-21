@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { GetItemBody, GetItemQuery, GetItemResponse, ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
+import Loader from '../../components/core/Loader';
 import { ButtonLink, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -37,7 +38,7 @@ export const ItemHome: React.FC<ItemHomeProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   console.log('response', response);
 
@@ -77,7 +78,7 @@ export const ItemList: React.FC<ItemListProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   const items = response?.items;
 

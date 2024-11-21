@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse, ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
+import Loader from '../../components/core/Loader';
 import { ButtonLink, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -38,7 +39,7 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   const store = response?.store;
 
@@ -77,7 +78,7 @@ export const StoreList: React.FC<StoreListProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   const stores = response?.stores;
 

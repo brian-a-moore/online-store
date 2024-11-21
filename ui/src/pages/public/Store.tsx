@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse } from '../../../../api/src/types/api';
 import { Cart, Header } from '../../components/core';
+import Loader from '../../components/core/Loader';
 import { HTTP_METHOD } from '../../constants';
 import { CartProvider } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
@@ -21,7 +22,7 @@ export const Store: React.FC<Props> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   return (
     <div className='flex flex-col'>

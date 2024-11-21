@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ListStoresPrivateQuery, ListStoresPublicBody, ListStoresPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Header } from '../../components/core';
+import Loader from '../../components/core/Loader';
 import { H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -22,7 +23,7 @@ export const Home: React.FC<Props> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   return (
     <div>

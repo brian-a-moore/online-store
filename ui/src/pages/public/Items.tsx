@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse } from '../../../../api/src/types/api';
 import { FixedItemConfig, VariableItemConfig } from '../../../../api/src/types/itemConfigs';
 import { Card, Grid } from '../../components/container';
+import Loader from '../../components/core/Loader';
 import { Button, Stepper } from '../../components/interactive';
 import { H5 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -45,7 +46,7 @@ export const Items: React.FC<Props> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   return <Grid>{response?.items?.map((item) => <ItemContainer key={item.id} item={item} />)}</Grid>;
 };
