@@ -22,7 +22,7 @@ export const Button: React.FC<Props> = ({
       break;
     case 'secondary':
       className =
-        'text-[var(--btn-color)] bg-[var(--btn-secondary-default-bg-color)] hover:bg-[var(--btn-secondary-hover-bg-color)] font-semibold py-2 px-4 rounded';
+        'text-[var(--color)] bg-[var(--btn-secondary-default-bg-color)] hover:bg-[var(--btn-secondary-hover-bg-color)] font-semibold py-2 px-4 rounded';
       break;
     case 'transparent':
       className =
