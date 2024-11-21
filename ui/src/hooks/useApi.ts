@@ -10,6 +10,8 @@ function useApi<D = undefined, P = undefined, R = undefined>(
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState<R | null>(null);
 
+  const isAutoTriggered = opts?.isAutoTriggered || true;
+
   const argsRef = useRef(args);
   if (JSON.stringify(argsRef.current) !== JSON.stringify(args)) {
     argsRef.current = args;
@@ -31,14 +33,14 @@ function useApi<D = undefined, P = undefined, R = undefined>(
   useEffect(() => {
     const controller = new AbortController();
 
-    if (opts?.isAutoTriggered) _getData(controller);
+    if (isAutoTriggered) _getData(controller);
     else setIsLoading(false);
 
     return () => {
       // TODO: Fix this
       // controller.abort();
     };
-  }, [_getData, opts?.isAutoTriggered]);
+  }, [_getData, isAutoTriggered]);
 
   return { error, isLoading, response };
 }
