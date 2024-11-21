@@ -1,20 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export enum Role {
-  ADMIN = 'admin', // CRUD on all stores, CRUD on owners, CRUD on managers, CRUD on products, CRUD on items
-  OWNER = 'owner', // RUD their own store, CRUD on own managers, products, and items
-  MANAGER = 'manager', // CRUD on own store products and items
-}
-
 type User = {
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: Role;
-  createdAt?: string;
-  updatedAt?: string;
+  id: string;
 };
 
 interface AuthContextProps {
