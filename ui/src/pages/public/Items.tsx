@@ -1,37 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getItems, TDisplayDonationItem, TDisplayItem, TDisplayMerchandiseItem, TDisplayTicketItem } from '../../api';
+import { TDisplayDonationItem, TDisplayItem, TDisplayMerchandiseItem, TDisplayTicketItem } from '../../api';
 import { Card, Grid } from '../../components/container';
 import { Button, Stepper } from '../../components/interactive';
+import { HTTP_METHOD } from '../../constants';
 import { CartContext, TCartItem } from '../../context/CartContext';
+import useApi from '../../hooks/useApi';
 import { formatCurrency } from '../../utils';
 
+type Params = {
+  storeId: string;
+  productId: string;
+};
 type Props = {};
 
 export const Items: React.FC<Props> = () => {
-  const { productId } = useParams<{ productId: string }>();
+  const { storeId, productId } = useParams<Params>();
   const navigate = useNavigate();
   
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [items, setItems] = useState<TDisplayItem[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchItems = async () => {
-        try {
-          const { items } = await getItems(productId!);
-          setItems(items);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchItems();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/store/${storeId}/product/${productId}/item/list`,
+    method: HTTP_METHOD.GET,
+    params: { page: 1 },
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -39,7 +30,7 @@ export const Items: React.FC<Props> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
-  return <Grid>{items?.map((item) => <ItemContainer key={item.id} item={item} />)}</Grid>;
+  return <Grid>{response?.items?.map((item: any) => <ItemContainer key={item.id} item={item} />)}</Grid>;
 };
 
 const ItemContainer: React.FC<{ item: TDisplayItem }> = ({ item }) => {

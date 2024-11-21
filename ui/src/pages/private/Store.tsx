@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { getStore, getStores, TStore } from '../../api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
+import { HTTP_METHOD } from '../../constants';
+import useApi from '../../hooks/useApi';
 
 type StoreLayoutProps = {};
 
@@ -26,33 +27,18 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [store, setStore] = useState<TStore | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchStore = async () => {
-        try {
-          const { store } = await getStore(storeId!);
-          if(!store) throw new Error('Store not found');
-          setStore(store);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchStore();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/admin/store/${storeId}`,
+    method: HTTP_METHOD.GET,
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
   if (isLoading) return <h1>Loading...</h1>;
+
+  const store = response?.store;
 
   return (
     <div>
@@ -79,26 +65,11 @@ type StoreListProps = {};
 export const StoreList: React.FC<StoreListProps> = () => {
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [stores, setStores] = useState<TStore[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchStores = async () => {
-        try {
-          const { stores } = await getStores();
-          setStores(stores);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchStores();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/admin/store/list`,
+    method: HTTP_METHOD.GET,
+    params: { page: 1 },
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -106,11 +77,13 @@ export const StoreList: React.FC<StoreListProps> = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
 
+  const stores = response?.stores;
+
   return (
     <div>
       <ButtonLink href="../store/new">New Store</ButtonLink>
       <div className="flex flex-col p-4 gap-4">
-        {stores?.map((store) => (
+        {stores?.map((store: any) => (
           <RouterLink key={store.id} to={`../store/${store.id}`}>
             <Card>
               <p>{store.name}</p>

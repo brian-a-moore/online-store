@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { getItems, TDisplayItem } from '../../api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
+import { HTTP_METHOD } from '../../constants';
+import useApi from '../../hooks/useApi';
 
 type ItemLayoutProps = {};
 
@@ -45,40 +46,28 @@ export const ItemEdit: React.FC<ItemEditProps> = () => {
 type ItemListProps = {};
 
 export const ItemList: React.FC<ItemListProps> = () => {
-  const { productId } = useParams();
+  const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [items, setItems] = useState<TDisplayItem[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchItems = async () => {
-        try {
-          const { items } = await getItems(productId!);
-          setItems(items);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchItems();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/admin/store/${storeId}/product/${productId}/item/list`,
+    method: HTTP_METHOD.GET,
+    params: { page: 1 },
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
   if (isLoading) return <h1>Loading...</h1>;
+
+  const items = response?.items;
+
   return (
     <div>
       <ButtonLink href="../item/new">New Item</ButtonLink>
       <div className="flex flex-col p-4 gap-4">
-        {items?.map((item) => (
+        {items?.map((item: any) => (
           <RouterLink key={item.id} to={`../item/${item.id}`}>
             <Card>
               <p>{item.name}</p>

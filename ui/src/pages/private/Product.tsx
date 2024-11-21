@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { getProduct, getProducts, TProduct } from '../../api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
+import { HTTP_METHOD } from '../../constants';
+import useApi from '../../hooks/useApi';
 
 type ProductLayoutProps = {};
 
@@ -23,36 +24,21 @@ export const ProductLayout: React.FC<ProductLayoutProps> = () => {
 type ProductHomeProps = {};
 
 export const ProductHome: React.FC<ProductHomeProps> = () => {
-  const { productId } = useParams();
+  const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [product, setProduct] = useState<TProduct | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchProduct = async () => {
-        try {
-          const { product } = await getProduct(productId!);
-          if(!product) throw new Error('Product not found');
-          setProduct(product);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchProduct();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/admin/store/${storeId}/product/${productId}`,
+    method: HTTP_METHOD.GET,
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
   if (isLoading) return <h1>Loading...</h1>;
+
+  const product = response?.product;
 
   return (
     <div>
@@ -80,37 +66,25 @@ export const ProductList: React.FC<ProductListProps> = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [products, setProducts] = useState<TProduct[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchProducts = async () => {
-        try {
-          const { products } = await getProducts(storeId!);
-          setProducts(products);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchProducts();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/admin/store/${storeId}/product/list`,
+    method: HTTP_METHOD.GET,
+    params: { page: 1 },
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
   if (isLoading) return <h1>Loading...</h1>;
+
+  const products = response?.products;
+
   return (
     <div>
       <ButtonLink href="../product/new">New Product</ButtonLink>
       <div className="flex flex-col p-4 gap-4">
-        {products?.map((product) => (
+        {products?.map((product: any) => (
           <RouterLink key={product.id} to={`../product/${product.id}`}>
             <Card>
               <p>{product.name}</p>

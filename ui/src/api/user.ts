@@ -16,21 +16,6 @@ export const deleteUser = async (userId: string) => {
   });
 };
 
-export const getUser = async (userId: string) => {
-  return apiCall<any, any, any>({
-    url: `/admin/user/${userId}`,
-    method: HTTP_METHOD.GET,
-  });
-};
-
-export const listUsers = async (params: any) => {
-  return apiCall<any, any, any>({
-    url: `/admin/user/list`,
-    method: HTTP_METHOD.GET,
-    params,
-  });
-};
-
 export const updateUser = async (userId: string, userUpdate: any) => {
   return apiCall<any, any, any>({
     url: `/admin/user/${userId}`,

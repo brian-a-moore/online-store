@@ -1,34 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getStores, TStore } from '../../api';
+import { TStore } from '../../api';
 import { Card, Grid } from '../../components/container';
 import { ButtonLink } from '../../components/interactive';
+import { HTTP_METHOD } from '../../constants';
+import useApi from '../../hooks/useApi';
 
 type Props = {};
 
 export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
   
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [stores, setStores] = useState<TStore[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchStores = async () => {
-        try {
-          const { stores } = await getStores();
-          setStores(stores);
-          setIsLoading(false);
-        } catch (e: any | unknown) {
-          setError(e.message);
-        }
-      };
-      fetchStores();
-    } catch (e: any | unknown) {
-      setError(e.message);
-    }
-  }, []);
+  const { error, isLoading, response } = useApi<any, any, any>({
+    url: `/store/list`,
+    method: HTTP_METHOD.GET,
+    params: { page: 1 },
+  }, true);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -42,7 +29,7 @@ export const Home: React.FC<Props> = () => {
         <h1 className='text-white'>Online Store</h1>
         <ButtonLink href="login">Login</ButtonLink>
       </header>
-      <Grid>{stores?.map((store) => <Store key={store.id} store={store} />)}</Grid>
+      <Grid>{response?.stores?.map((store: any) => <Store key={store.id} store={store} />)}</Grid>
     </div>
   );
 };
