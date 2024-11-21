@@ -4,6 +4,7 @@ import { ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse } fr
 import { FixedItemConfig, VariableItemConfig } from '../../../../api/src/types/itemConfigs';
 import { Card, Grid } from '../../components/container';
 import { Button, Stepper } from '../../components/interactive';
+import { H5 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { CartContext, TCartItem } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
@@ -44,7 +45,7 @@ export const Items: React.FC<Props> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   return <Grid>{response?.items?.map((item) => <ItemContainer key={item.id} item={item} />)}</Grid>;
 };
@@ -61,9 +62,10 @@ const ItemContainer: React.FC<{
       {item.image ? (
         <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded" />
       ) : null}
-      <h1 className="font-semibold line-clamp-2" title={item.name}>
+      <H5 className="line-clamp-2" title={item.name}>
         {item.name}
-      </h1>
+      </H5>
+      <hr />
       <p className="text-sm line-clamp-5 flex-1" title={item.description || 'No Description'}>
         {item.description}
       </p>
@@ -92,7 +94,7 @@ const FixedPriceItem: React.FC<{ item: Item, addItemToCart: (item: TCartItem) =>
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <p className="font-semibold">{formatCurrency(config.price)}</p>
         <Stepper item={{ ...item, quantity }} handleQuantityChange={handleQuantityChange} />
       </div>
@@ -131,8 +133,8 @@ const VariablePriceItem: React.FC<{ item: Item, addItemToCart: (item: TCartItem)
           {presetAmounts.map((amount) => <Button variant='secondary' key={amount} onClick={() => setCustomAmount(amount)}>{formatCurrency(amount)}</Button>)}
         </div>
       ) : null}
-      <div className='flex justify-center'>
-        {'$'}<input type="number" onChange={handleChange} min={minAmount} step={stepAmount} max={maxAmount} value={customAmount} />{'.00'}
+      <div className='flex items-center justify-center gap-4'>
+        {'$'}<input className={`h-12 px-4 rounded`} type="number" onChange={handleChange} min={minAmount} max={maxAmount} value={customAmount} />{'.00'}
       </div>
       <Button disabled={customAmount < 1} onClick={() => {
         addItemToCart({

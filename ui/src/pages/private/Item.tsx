@@ -3,6 +3,7 @@ import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router
 import { GetItemBody, GetItemQuery, GetItemResponse, ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
+import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
@@ -36,7 +37,7 @@ export const ItemHome: React.FC<ItemHomeProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   console.log('response', response);
 
@@ -54,7 +55,7 @@ type ItemEditProps = {};
 export const ItemEdit: React.FC<ItemEditProps> = () => {
   return (
     <div>
-      <h1>Edit Item</h1>
+      <H2>Edit Item</H2>
       <Link href="..">Back</Link>
     </div>
   );
@@ -76,7 +77,7 @@ export const ItemList: React.FC<ItemListProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const items = response?.items;
 

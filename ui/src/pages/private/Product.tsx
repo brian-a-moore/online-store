@@ -3,6 +3,7 @@ import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router
 import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
+import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
@@ -37,13 +38,13 @@ export const ProductHome: React.FC<ProductHomeProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const product = response?.product;
 
   return (
     <div>
-      <h1>{product!.name}</h1>
+      <H2>{product!.name}</H2>
       <Link href="edit">Edit Product</Link>
       <Link href="..">Back</Link>
     </div>
@@ -55,7 +56,7 @@ type ProductEditProps = {};
 export const ProductEdit: React.FC<ProductEditProps> = () => {
   return (
     <div>
-      <h1>Edit Product</h1>
+      <H2>Edit Product</H2>
       <Link href="..">Back</Link>
     </div>
   );
@@ -77,7 +78,7 @@ export const ProductList: React.FC<ProductListProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const products = response?.products;
 

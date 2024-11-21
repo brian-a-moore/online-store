@@ -21,7 +21,7 @@ export const Store: React.FC<Props> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className='flex flex-col'>

@@ -3,6 +3,7 @@ import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router
 import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse, ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
+import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
@@ -37,13 +38,13 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const store = response?.store;
 
   return (
     <div>
-      <h1>{store!.name}</h1>
+      <H2>{store!.name}</H2>
       <Link href="edit">Edit Store</Link>
       <Link href="..">Back</Link>
     </div>
@@ -55,7 +56,7 @@ type StoreEditProps = {};
 export const StoreEdit: React.FC<StoreEditProps> = () => {
   return (
     <div>
-      <h1>Edit Store</h1>
+      <H2>Edit Store</H2>
       <Link href="..">Back</Link>
     </div>
   );
@@ -75,7 +76,7 @@ export const StoreList: React.FC<StoreListProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const stores = response?.stores;
 

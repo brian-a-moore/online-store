@@ -3,6 +3,7 @@ import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { GetUserBody, GetUserQuery, GetUserResponse, ListUsersBody, ListUsersQuery, ListUsersResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { Button, ButtonLink, Link } from '../../components/interactive';
+import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
@@ -21,13 +22,13 @@ export const UserHome: React.FC<UserHomeProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const user = response?.user;
 
   return (
     <div>
-      <h1>{user!.name}</h1>
+      <H2>{user!.name}</H2>
       <Link href="edit">Edit User</Link>
       <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
@@ -40,7 +41,7 @@ export const UserEdit: React.FC<UserEditProps> = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <h1>Edit User</h1>
+      <H2>Edit User</H2>
       <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );
@@ -61,7 +62,7 @@ export const UserList: React.FC<UserListProps> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   const users = response?.users;
 

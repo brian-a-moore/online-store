@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ListProductsPrivateBody, ListProductsPublicQuery, ListProductsPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Link } from '../../components/interactive';
+import { H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
@@ -22,7 +23,7 @@ export const Products: React.FC<Props> = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <p>Loading...</p>;
 
   return <Grid>{response?.products?.map((product) => <Product key={product.id} product={product} />)}</Grid>;
 };
@@ -38,9 +39,10 @@ const Product: React.FC<{ product: {
       {product.image ? (
         <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded" />
       ) : null}
-      <h1 className="font-semibold line-clamp-2" title={product.name}>
+      <H4 className="line-clamp-2" title={product.name}>
         {product.name}
-      </h1>
+      </H4>
+      <hr />
       <p className="text-sm line-clamp-5 flex-1" title={product.description || 'No Description'}>
         {product.description}
       </p>
