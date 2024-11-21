@@ -2,11 +2,11 @@ import { STATUS_CODE } from '@sunami/constants';
 import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { CreateProductBody, CreateProductParams, CreateProductQuery } from '../../types/routes';
+import { CreateProductBody, CreateProductParams, CreateProductQuery, CreateProductResponse } from '../../types/routes';
 
 export const createProductController = async (
   req: Request<CreateProductParams, unknown, CreateProductBody, CreateProductQuery>,
-  res: Response,
+  res: Response<CreateProductResponse>,
   next: NextFunction,
 ) => {
   try {

@@ -1,11 +1,11 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { UpdateProductBody, UpdateProductParams, UpdateProductQuery } from '../../types/routes';
+import { UpdateProductBody, UpdateProductParams, UpdateProductQuery, UpdateProductResponse } from '../../types/routes';
 
 export const updateProductController = async (
   req: Request<UpdateProductParams, unknown, UpdateProductBody, UpdateProductQuery>,
-  res: Response,
+  res: Response<UpdateProductResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -14,7 +14,7 @@ export const updateProductController = async (
 
     await db.product.update({ data: updatedProductFields, where: { id: productId } });
 
-    res.status(STATUS_CODE.NO_CONTENT).json();
+    res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
     next(e);
   }

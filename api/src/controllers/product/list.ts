@@ -6,15 +6,17 @@ import {
   ListProductsPrivateBody,
   ListProductsPrivateParams,
   ListProductsPrivateQuery,
+  ListProductsPrivateResponse,
   ListProductsPublicBody,
   ListProductsPublicParams,
   ListProductsPublicQuery,
+  ListProductsPublicResponse,
 } from '../../types/routes';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listProductsPublicController = async (
   req: Request<ListProductsPublicParams, unknown, ListProductsPublicBody, ListProductsPublicQuery>,
-  res: Response,
+  res: Response<ListProductsPublicResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -49,7 +51,7 @@ export const listProductsPublicController = async (
 
 export const listProductsPrivateController = async (
   req: Request<ListProductsPrivateParams, unknown, ListProductsPrivateBody, ListProductsPrivateQuery>,
-  res: Response,
+  res: Response<ListProductsPrivateResponse>,
   next: NextFunction,
 ) => {
   try {

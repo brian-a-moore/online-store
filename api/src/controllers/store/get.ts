@@ -5,14 +5,16 @@ import {
   GetStorePrivateBody,
   GetStorePrivateParams,
   GetStorePrivateQuery,
+  GetStorePrivateResponse,
   GetStorePublicBody,
   GetStorePublicParams,
   GetStorePublicQuery,
+  GetStorePublicResponse,
 } from '../../types/routes';
 
 export const getStorePublicController = async (
   req: Request<GetStorePublicParams, unknown, GetStorePublicBody, GetStorePublicQuery>,
-  res: Response,
+  res: Response<GetStorePublicResponse>,
   next: NextFunction,
 ) => {
   const { storeId } = req.params;
@@ -38,7 +40,7 @@ export const getStorePublicController = async (
 
 export const getStorePrivateController = async (
   req: Request<GetStorePrivateParams, unknown, GetStorePrivateBody, GetStorePrivateQuery>,
-  res: Response,
+  res: Response<GetStorePrivateResponse>,
   next: NextFunction,
 ) => {
   const { storeId } = req.params;

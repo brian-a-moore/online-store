@@ -1,11 +1,11 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { UpdateUserBody, UpdateUserParams, UpdateUserQuery } from '../../types/routes';
+import { UpdateUserBody, UpdateUserParams, UpdateUserQuery, UpdateUserResponse } from '../../types/routes';
 
 export const updateUserController = async (
   req: Request<UpdateUserParams, unknown, UpdateUserBody, UpdateUserQuery>,
-  res: Response,
+  res: Response<UpdateUserResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -14,7 +14,7 @@ export const updateUserController = async (
 
     await db.user.update({ data: updatedUserFields, where: { id: userId } });
 
-    res.status(STATUS_CODE.NO_CONTENT).json();
+    res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
     next(e);
   }

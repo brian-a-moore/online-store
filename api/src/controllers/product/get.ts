@@ -5,14 +5,16 @@ import {
   GetProductPrivateBody,
   GetProductPrivateParams,
   GetProductPrivateQuery,
+  GetProductPrivateResponse,
   GetProductPublicBody,
   GetProductPublicParams,
   GetProductPublicQuery,
+  GetProductPublicResponse,
 } from '../../types/routes';
 
 export const getProductPublicController = async (
   req: Request<GetProductPublicParams, unknown, GetProductPublicBody, GetProductPublicQuery>,
-  res: Response,
+  res: Response<GetProductPublicResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;
@@ -36,7 +38,7 @@ export const getProductPublicController = async (
 
 export const getProductPrivateController = async (
   req: Request<GetProductPrivateParams, unknown, GetProductPrivateBody, GetProductPrivateQuery>,
-  res: Response,
+  res: Response<GetProductPrivateResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;

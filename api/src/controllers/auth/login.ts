@@ -3,11 +3,11 @@ import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import logger from '../../config/logger';
-import { AuthLoginBody, AuthLoginParams, AuthLoginQuery } from '../../types/routes';
+import { AuthLoginBody, AuthLoginParams, AuthLoginQuery, AuthLoginResponse } from '../../types/routes';
 
 export const authLoginController = async (
-  req: Request<AuthLoginParams, unknown, AuthLoginBody, AuthLoginQuery>,
-  res: Response,
+  req: Request<AuthLoginParams, AuthLoginResponse, AuthLoginBody, AuthLoginQuery>,
+  res: Response<AuthLoginResponse>,
   next: NextFunction,
 ) => {
   try {

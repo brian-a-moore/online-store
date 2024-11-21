@@ -3,12 +3,12 @@ import { STATUS_CODE } from '@sunami/constants';
 import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { CreateUserBody, CreateUserParams, CreateUserQuery } from '../../types/routes';
+import { CreateUserBody, CreateUserParams, CreateUserQuery, CreateUserResponse } from '../../types/routes';
 import { generatePassword } from '../../utils/auth';
 
 export const createUserController = async (
   req: Request<CreateUserParams, unknown, CreateUserBody, CreateUserQuery>,
-  res: Response,
+  res: Response<CreateUserResponse>,
   next: NextFunction,
 ) => {
   try {

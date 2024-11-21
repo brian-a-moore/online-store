@@ -1,11 +1,11 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { GetItemBody, GetItemParams, GetItemQuery } from '../../types/routes';
+import { GetItemBody, GetItemParams, GetItemQuery, GetItemResponse } from '../../types/routes';
 
 export const getItemController = async (
   req: Request<GetItemParams, unknown, GetItemBody, GetItemQuery>,
-  res: Response,
+  res: Response<GetItemResponse>,
   next: NextFunction,
 ) => {
   const { itemId } = req.params;

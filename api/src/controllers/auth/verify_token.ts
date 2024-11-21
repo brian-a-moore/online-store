@@ -3,11 +3,16 @@ import { STATUS_CODE } from '@sunami/constants';
 import { Request, Response } from 'express';
 import { db } from '../../config/db';
 import logger from '../../config/logger';
-import { AuthVerifyTokenBody, AuthVerifyTokenParams, AuthVerifyTokenQuery } from '../../types/routes';
+import {
+  AuthVerifyTokenBody,
+  AuthVerifyTokenParams,
+  AuthVerifyTokenQuery,
+  AuthVerifyTokenResponse,
+} from '../../types/routes';
 
 export const authVerifyTokenController = async (
   req: Request<AuthVerifyTokenParams, unknown, AuthVerifyTokenBody, AuthVerifyTokenQuery>,
-  res: Response,
+  res: Response<AuthVerifyTokenResponse>,
 ) => {
   try {
     logger.debug('Verifying token', { token: req.body.token });
@@ -24,6 +29,6 @@ export const authVerifyTokenController = async (
     });
   } catch (e: any | unknown) {
     logger.error('Unable to verify token', { token: req.body.token, error: e.message, stack: e.stack });
-    res.status(STATUS_CODE.NO_AUTH).json({});
+    res.status(STATUS_CODE.NO_AUTH).send();
   }
 };

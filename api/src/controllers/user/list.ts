@@ -3,12 +3,12 @@ import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import { PAGE_SIZE } from '../../constants';
-import { ListUsersBody, ListUsersParams, ListUsersQuery } from '../../types/routes';
+import { ListUsersBody, ListUsersParams, ListUsersQuery, ListUsersResponse } from '../../types/routes';
 import { getPageNumber, getRoleId } from '../../utils/queryParsing';
 
 export const listUsersController = async (
   req: Request<ListUsersParams, unknown, ListUsersBody, ListUsersQuery>,
-  res: Response,
+  res: Response<ListUsersResponse>,
   next: NextFunction,
 ) => {
   try {
