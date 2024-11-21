@@ -3,23 +3,23 @@ import { AUTH_TOKEN } from '../constants';
 import { Params } from '../types';
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL + '/',
+  baseURL: import.meta.env.VITE_BACKEND_URL + '/',
   timeout: 10000,
 });
 
 export const apiCall = async <D = undefined, P = undefined, R = undefined>(
   params: Params<D, P>,
   ctrl?: AbortController,
-  authenticated = true,
+  isPrivateEndpoint = true,
 ): Promise<R> => {
   const secureAxios = async (contoller: AbortController, args: Params<D, P>) => {
     const authToken = localStorage.getItem(AUTH_TOKEN);
 
-    if (!authToken && authenticated) throw new Error('Authentication required but no auth token found');
+    if (!authToken && isPrivateEndpoint) throw new Error('Authentication required but no auth token found');
 
     const headers: any = {};
 
-    if (authenticated) headers['Authorization'] = `Bearer ${authToken}`;
+    if (isPrivateEndpoint) headers['Authorization'] = `Bearer ${authToken}`;
 
     const res = await instance<any, AxiosResponse<R>>({
       ...args,

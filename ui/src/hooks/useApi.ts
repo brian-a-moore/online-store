@@ -2,7 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiCall } from '../config/axios';
 import { Params } from '../types';
 
-function useApi<D = undefined, P = undefined, R = undefined>(args: Params<D, P>, trigger: boolean) {
+function useApi<D = undefined, P = undefined, R = undefined>(
+  args: Params<D, P>,
+  opts?: { isAutoTriggered?: boolean; isPrivateEndpoint?: boolean },
+) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState<R | null>(null);
@@ -14,7 +17,7 @@ function useApi<D = undefined, P = undefined, R = undefined>(args: Params<D, P>,
 
   const _getData = useCallback(async (controller: AbortController) => {
     try {
-      const data = await apiCall<D, P, R>(argsRef.current, controller);
+      const data = await apiCall<D, P, R>(argsRef.current, controller, opts?.isPrivateEndpoint);
       setResponse(data);
       setError(null);
     } catch (err: any | unknown) {
@@ -28,14 +31,14 @@ function useApi<D = undefined, P = undefined, R = undefined>(args: Params<D, P>,
   useEffect(() => {
     const controller = new AbortController();
 
-    if (trigger) _getData(controller);
+    if (opts?.isAutoTriggered) _getData(controller);
     else setIsLoading(false);
 
     return () => {
       // TODO: Fix this
       // controller.abort();
     };
-  }, [_getData, trigger]);
+  }, [_getData, opts?.isAutoTriggered]);
 
   return { error, isLoading, response };
 }

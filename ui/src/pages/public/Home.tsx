@@ -15,7 +15,7 @@ export const Home: React.FC<Props> = () => {
     url: `/store/list`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
-  }, true);
+  }, { isPrivateEndpoint: false });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

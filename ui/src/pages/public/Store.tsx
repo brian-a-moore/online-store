@@ -15,7 +15,7 @@ export const Store: React.FC<Props> = () => {
   const { error, isLoading, response } = useApi<GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse>({
     url: `/store/${storeId}`,
     method: HTTP_METHOD.GET
-  }, true);
+  }, { isPrivateEndpoint: false });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
