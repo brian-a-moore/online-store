@@ -21,6 +21,8 @@ export const getUserController = async (
         updatedAt: true,
         stores: {
           select: {
+            storeId: true,
+            roleId: true,
             store: {
               select: {
                 id: true,
