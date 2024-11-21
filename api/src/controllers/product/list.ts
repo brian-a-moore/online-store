@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import { PAGE_SIZE } from '../../constants';
 import {
+  ErrorResponse,
   ListProductsPrivateBody,
   ListProductsPrivateParams,
   ListProductsPrivateQuery,
@@ -16,7 +17,7 @@ import { getPageNumber } from '../../utils/queryParsing';
 
 export const listProductsPublicController = async (
   req: Request<ListProductsPublicParams, unknown, ListProductsPublicBody, ListProductsPublicQuery>,
-  res: Response<ListProductsPublicResponse>,
+  res: Response<ListProductsPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -51,7 +52,7 @@ export const listProductsPublicController = async (
 
 export const listProductsPrivateController = async (
   req: Request<ListProductsPrivateParams, unknown, ListProductsPrivateBody, ListProductsPrivateQuery>,
-  res: Response<ListProductsPrivateResponse>,
+  res: Response<ListProductsPrivateResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
