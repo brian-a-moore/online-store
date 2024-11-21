@@ -1,11 +1,11 @@
 import { mdiMinus, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { TDisplayItem } from '../../api';
 import { TCartItem } from '../../context/CartContext';
+import { Item } from '../../pages/public';
 import { Button } from '../interactive';
 
 type Props = {
-  item: (TDisplayItem | TCartItem) & { quantity: number };
+  item: (Item | TCartItem) & { quantity: number };
   handleQuantityChange: (itemId: string, dir: '-' | '+') => void;
 };
 

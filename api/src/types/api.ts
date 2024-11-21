@@ -54,6 +54,7 @@ export type ListItemsPublicQuery = z.infer<(typeof itemSchema.listItemsPublicSch
 export type ListItemsPublicResponse = {
   items: {
     id: string;
+    itemTypeId: number;
     name: string;
     description: string | null;
     image: string | null;

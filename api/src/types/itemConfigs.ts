@@ -4,7 +4,7 @@ export type FixedItemConfig = {
   isRedeemable: boolean;
   redeemedAt?: boolean;
   redeemByDate?: string;
-  price: string;
+  price: number;
 };
 
 export type VariableItemConfig = {

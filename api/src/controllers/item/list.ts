@@ -33,6 +33,7 @@ export const listItemsPublicController = async (
     const items = await db.item.findMany({
       select: {
         id: true,
+        itemTypeId: true,
         name: true,
         description: true,
         image: true,
