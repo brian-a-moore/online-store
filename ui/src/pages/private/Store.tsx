@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse, ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
@@ -27,10 +28,10 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse>({
     url: `/admin/store/${storeId}`,
-    method: HTTP_METHOD.GET,
-  }, true);
+    method: HTTP_METHOD.GET
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -65,11 +66,10 @@ type StoreListProps = {};
 export const StoreList: React.FC<StoreListProps> = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
-    url: `/admin/store/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: 1 },
-  }, true);
+  const { error, isLoading, response } = useApi<ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse>({
+    url: `/store/list`,
+    method: HTTP_METHOD.GET
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

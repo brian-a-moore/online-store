@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
@@ -27,10 +28,10 @@ export const ProductHome: React.FC<ProductHomeProps> = () => {
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse>({
     url: `/admin/store/${storeId}/product/${productId}`,
     method: HTTP_METHOD.GET,
-  }, true);
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -66,11 +67,11 @@ export const ProductList: React.FC<ProductListProps> = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse>({
     url: `/admin/store/${storeId}/product/list`,
     method: HTTP_METHOD.GET,
-    params: { page: 1 },
-  }, true);
+    params: { page: '1' },
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

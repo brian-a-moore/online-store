@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { GetUserBody, GetUserQuery, GetUserResponse, ListUsersBody, ListUsersQuery, ListUsersResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { Button, ButtonLink, Link } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
@@ -11,10 +12,10 @@ export const UserHome: React.FC<UserHomeProps> = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<GetUserBody, GetUserQuery, GetUserResponse>({
     url: `/admin/user/${userId}`,
     method: HTTP_METHOD.GET
-  }, true);
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -50,11 +51,11 @@ type UserListProps = {};
 export const UserList: React.FC<UserListProps> = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<ListUsersBody, ListUsersQuery, ListUsersResponse>({
     url: `/admin/user/list`,
     method: HTTP_METHOD.GET,
-    params: { page: 1 },
-  }, true);
+    params: { page: '1' },
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { GetItemBody, GetItemQuery, GetItemResponse, ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse } from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { ButtonLink, Link } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
@@ -23,6 +24,22 @@ export const ItemLayout: React.FC<ItemLayoutProps> = () => {
 type ItemHomeProps = {};
 
 export const ItemHome: React.FC<ItemHomeProps> = () => {
+  const { storeId, productId } = useParams();
+  const navigate = useNavigate();
+
+  const { error, isLoading, response } = useApi<GetItemBody, GetItemQuery, GetItemResponse>({
+    url: `/admin/store/${storeId}/product/${productId}/item/list`,
+    method: HTTP_METHOD.GET,
+  });
+
+  useEffect(() => {
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
+
+  if (isLoading) return <h1>Loading...</h1>;
+
+  console.log('response', response);
+
   return (
     <div>
       <h1>About Item</h1>
@@ -49,11 +66,11 @@ export const ItemList: React.FC<ItemListProps> = () => {
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<any, any, any>({
+  const { error, isLoading, response } = useApi<ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse>({
     url: `/admin/store/${storeId}/product/${productId}/item/list`,
     method: HTTP_METHOD.GET,
-    params: { page: 1 },
-  }, true);
+    params: { page: '1' },
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
