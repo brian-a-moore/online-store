@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Toast } from './components/core';
+import Modal from './components/core/Modal';
+import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import { ItemEdit, ItemHome, ItemLayout, ItemList, ProductEdit, ProductHome, ProductLayout, ProductList, StoreEdit, StoreHome, StoreLayout, StoreList } from './pages/private';
 import { AdminHome, AdminLayout } from './pages/private/Admin';
@@ -8,6 +10,7 @@ import { UserEdit, UserHome, UserList } from './pages/private/User';
 import { Home, Items, Login, OrderCancelled, OrderSuccess, PageNotFound, Products, ServerError, Store } from './pages/public';
 
 function App() {
+  const { modal } = useContext(ModalContext);
   const { toast } = useContext(ToastContext);
   return (
     <div>
@@ -62,6 +65,7 @@ function App() {
         <Route path="500" element={<ServerError />} />
         <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
+      <Modal modal={modal} />
       {toast && <Toast toast={toast} />}
     </div>
   );
