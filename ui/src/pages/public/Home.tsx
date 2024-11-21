@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ListStoresPrivateQuery, ListStoresPublicBody, ListStoresPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
-import { ButtonLink } from '../../components/interactive';
+import { Header } from '../../components/core';
 import { H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -26,10 +26,7 @@ export const Home: React.FC<Props> = () => {
 
   return (
     <div>
-      <header className='bg-teal-600 flex items-center justify-between p-4'>
-        <H3 className='text-white'>Online Store</H3>
-        <ButtonLink href="login">Login</ButtonLink>
-      </header>
+      <Header />
       <Grid>{response?.stores?.map((store) => <Store key={store.id} store={store} />)}</Grid>
     </div>
   );

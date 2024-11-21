@@ -27,7 +27,7 @@ export const ButtonLink: React.FC<Props> = ({ href, children, variant = 'primary
   }
 
   return (
-    <RouterLink to={href} className={(computedClassName += className += ' hover:no-underline')} {...props}>
+    <RouterLink to={href} className={`${computedClassName} hover:no-underline ${className}`} {...props}>
       {children}
     </RouterLink>
   );
