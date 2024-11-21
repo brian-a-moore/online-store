@@ -1,7 +1,7 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { UpdateUserBody, UpdateUserParams, UpdateUserQuery, UpdateUserResponse } from '../../types/routes';
+import { UpdateUserBody, UpdateUserParams, UpdateUserQuery, UpdateUserResponse } from '../../types/api';
 
 export const updateUserController = async (
   req: Request<UpdateUserParams, unknown, UpdateUserBody, UpdateUserQuery>,

@@ -11,7 +11,7 @@ import {
   ListStoresPublicParams,
   ListStoresPublicQuery,
   ListStoresPublicResponse,
-} from '../../types/routes';
+} from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listStoresPublicController = async (

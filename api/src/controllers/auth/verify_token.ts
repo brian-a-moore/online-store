@@ -8,7 +8,7 @@ import {
   AuthVerifyTokenParams,
   AuthVerifyTokenQuery,
   AuthVerifyTokenResponse,
-} from '../../types/routes';
+} from '../../types/api';
 
 export const authVerifyTokenController = async (
   req: Request<AuthVerifyTokenParams, unknown, AuthVerifyTokenBody, AuthVerifyTokenQuery>,

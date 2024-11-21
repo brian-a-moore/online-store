@@ -10,7 +10,7 @@ import {
   GetProductPublicParams,
   GetProductPublicQuery,
   GetProductPublicResponse,
-} from '../../types/routes';
+} from '../../types/api';
 
 export const getProductPublicController = async (
   req: Request<GetProductPublicParams, unknown, GetProductPublicBody, GetProductPublicQuery>,

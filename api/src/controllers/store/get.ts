@@ -10,7 +10,7 @@ import {
   GetStorePublicParams,
   GetStorePublicQuery,
   GetStorePublicResponse,
-} from '../../types/routes';
+} from '../../types/api';
 
 export const getStorePublicController = async (
   req: Request<GetStorePublicParams, unknown, GetStorePublicBody, GetStorePublicQuery>,

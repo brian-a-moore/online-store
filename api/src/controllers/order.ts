@@ -1,6 +1,6 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { Request, Response } from 'express';
-import { CreateCheckoutSessionBody, CreateCheckoutSessionParams, CreateCheckoutSessionQuery } from '../types/routes';
+import { CreateCheckoutSessionBody, CreateCheckoutSessionParams, CreateCheckoutSessionQuery } from '../types/api';
 // import Stripe from 'stripe';
 
 const { FRONTEND_URL, STRIPE_API_KEY } = process.env;

@@ -1,7 +1,7 @@
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { DeleteUserBody, DeleteUserParams, DeleteUserQuery, DeleteUserResponse } from '../../types/routes';
+import { DeleteUserBody, DeleteUserParams, DeleteUserQuery, DeleteUserResponse } from '../../types/api';
 
 export const deleteUserController = async (
   req: Request<DeleteUserParams, unknown, DeleteUserBody, DeleteUserQuery>,

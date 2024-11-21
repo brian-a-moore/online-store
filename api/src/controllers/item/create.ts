@@ -2,7 +2,7 @@ import { STATUS_CODE } from '@sunami/constants';
 import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
-import { CreateItemBody, CreateItemParams, CreateItemQuery, CreateItemResponse } from '../../types/routes';
+import { CreateItemBody, CreateItemParams, CreateItemQuery, CreateItemResponse } from '../../types/api';
 
 export const createItemController = async (
   req: Request<CreateItemParams, unknown, CreateItemBody, CreateItemQuery>,
