@@ -13,11 +13,11 @@ export const Stepper: React.FC<Props> = ({ item, handleQuantityChange }) => {
   return (
     <div className="flex gap-2 items-center">
       <Button variant="secondary" onClick={() => handleQuantityChange(item.id, '-')} title="Remove One">
-        <Icon path={mdiMinus} size={0.55} />
+        <Icon path={mdiMinus} size={1} />
       </Button>
       <p title={`Current quantity: ${item.quantity}`}>{item.quantity}</p>
       <Button variant="secondary" onClick={() => handleQuantityChange(item.id, '+')} title="Add One">
-        <Icon path={mdiPlus} size={0.55} />
+        <Icon path={mdiPlus} size={1} />
       </Button>
     </div>
   );
