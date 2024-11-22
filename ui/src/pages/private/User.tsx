@@ -73,11 +73,11 @@ export const UserList: React.FC<UserListProps> = () => {
       <div className='flex flex-col w-full max-w-[960px] mx-auto gap-4'>
         {users?.map((user) => (
           <RouterLink className='flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md' key={user.id} to={`../user/${user.id}`} title={`View user: ${user.name}`}>
-              <Icon path={user.isSuperUser ? mdiSecurity : mdiAccountCircle} size={0.75} />
               <p className='flex-1 whitespace-nowrap text-ellipsis overflow-hidden'>{user.name}</p>
               <p className='text-sm opacity-60 whitespace-nowrap text-ellipsis overflow-hidden'>{user.email}</p>
+              <Icon path={user.isSuperUser ? mdiSecurity : mdiAccountCircle} size={0.75} title={user.isSuperUser ? 'Super User' : 'Standard User'} />
               <div className='flex gap-2 items-center'>
-                <Icon path={mdiStorefront} size={0.75} />
+                <Icon className='opacity-60' path={mdiStorefront} size={0.75} />
                 <p className='flex items-center bg-orange-400 text-white text-sm px-2 rounded'>{user.stores.length}</p>
               </div>
           </RouterLink>
