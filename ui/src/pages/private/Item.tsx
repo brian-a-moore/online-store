@@ -1,6 +1,6 @@
 import { mdiBarcode, mdiBarcodeOff, mdiDelete, mdiPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import {
   GetItemBody,
@@ -15,6 +15,7 @@ import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const ItemLayout: React.FC = () => {
@@ -26,6 +27,7 @@ export const ItemLayout: React.FC = () => {
 };
 
 export const ItemEdit: React.FC = () => {
+  const { setModal } = useContext(ModalContext);
   const { storeId, productId, itemId } = useParams();
   const navigate = useNavigate();
 
@@ -50,7 +52,24 @@ export const ItemEdit: React.FC = () => {
           <div className="flex justify-between">
             <H2>{itemId ? 'Edit' : 'New'} Item</H2>
             {itemId ? (
-              <Button variant="destructive" title="Delete Item" onClick={() => {}}>
+<Button
+              variant="destructive"
+              title="Delete Item"
+              onClick={() =>
+                setModal({
+                  title: 'Delete Item',
+                  Body: <p>Deleting an item will remove all the items data, including its sales and history. This is immediate and unrecoverable. Are you sure you want to delete this item?</p>,
+                  ActionBar: [
+                    <Button variant="secondary" onClick={() => setModal(null)}>
+                      Cancel
+                    </Button>,
+                    <Button variant="destructive" onClick={() => {}}>
+                      Delete Item
+                    </Button>,
+                  ],
+                })
+              }
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
             ) : null}

@@ -1,6 +1,6 @@
 import { mdiAccountCircle, mdiAccountPlus, mdiDelete, mdiSecurity, mdiStorefront } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   GetUserBody,
@@ -15,11 +15,13 @@ import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const UserHome: React.FC = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const { setModal } = useContext(ModalContext);
 
   const { error, isLoading, response } = useApi<GetUserBody, GetUserQuery, GetUserResponse>({
     url: `/admin/user/${userId}`,
@@ -40,15 +42,34 @@ export const UserHome: React.FC = () => {
         <Card>
           <div className="flex justify-between">
             <H2>{user!.name}</H2>
-            <Button variant="destructive" title="Delete User" onClick={() => {}}>
+            <Button
+              variant="destructive"
+              title="Delete User"
+              onClick={() =>
+                setModal({
+                  title: 'Delete User',
+                  Body: <p>Deleting a user will remove the person's access to this account. It will not delete any other data. This is immediate and unrecoverable. Are you sure you want to delete this user?</p>,
+                  ActionBar: [
+                    <Button variant="secondary" onClick={() => setModal(null)}>
+                      Cancel
+                    </Button>,
+                    <Button variant="destructive" onClick={() => {}}>
+                      Delete User
+                    </Button>,
+                  ],
+                })
+              }
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
           <hr />
           <p>{JSON.stringify(user)}</p>
           <hr />
-          <div className='flex justify-between'>
-            <Button variant='secondary' onClick={() => navigate(-1)}>Back</Button>
+          <div className="flex justify-between">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+              Back
+            </Button>
             <Button onClick={() => navigate('edit')}>Edit User</Button>
           </div>
         </Card>

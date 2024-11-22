@@ -1,6 +1,6 @@
 import { mdiDelete, mdiTag, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
@@ -8,6 +8,7 @@ import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const ProductLayout: React.FC = () => {
@@ -19,6 +20,7 @@ export const ProductLayout: React.FC = () => {
 };
 
 export const ProductHome: React.FC = () => {
+  const { setModal } = useContext(ModalContext);
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
@@ -41,7 +43,24 @@ export const ProductHome: React.FC = () => {
         <Card>
           <div className="flex justify-between">
             <H2>{product!.name}</H2>
-            <Button variant="destructive" title="Delete Product" onClick={() => {}}>
+<Button
+              variant="destructive"
+              title="Delete Product"
+              onClick={() =>
+                setModal({
+                  title: 'Delete Product',
+                  Body: <p>Deleting a product will remove all the products data, including its; items, sales and history. This is immediate and unrecoverable. Are you sure you want to delete this product?</p>,
+                  ActionBar: [
+                    <Button variant="secondary" onClick={() => setModal(null)}>
+                      Cancel
+                    </Button>,
+                    <Button variant="destructive" onClick={() => {}}>
+                      Delete Product
+                    </Button>,
+                  ],
+                })
+              }
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>

@@ -1,6 +1,6 @@
-import { mdiStore, mdiStorefrontPlus, mdiStoreOff, mdiUpdate } from '@mdi/js';
+import { mdiDelete, mdiStore, mdiStorefrontPlus, mdiStoreOff, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   GetStorePrivateBody,
@@ -16,6 +16,7 @@ import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 type StoreLayoutProps = {};
@@ -32,6 +33,7 @@ export const StoreLayout: React.FC<StoreLayoutProps> = () => {
 type StoreHomeProps = {};
 
 export const StoreHome: React.FC<StoreHomeProps> = () => {
+  const { setModal } = useContext(ModalContext);
   const { storeId } = useParams();
   const navigate = useNavigate();
 
@@ -54,8 +56,25 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
         <Card>
           <div className="flex justify-between">
             <H2>{store!.name}</H2>
-            <Button variant="destructive" title="Delete Store" onClick={() => {}}>
-              <Icon path={mdiStore} size={0.75} />
+            <Button
+              variant="destructive"
+              title="Delete Store"
+              onClick={() =>
+                setModal({
+                  title: 'Delete Store',
+                  Body: <p>Deleting a store will remove all the stores data, including its; products, items, sales and history. This is immediate and unrecoverable. Are you sure you want to delete this store?</p>,
+                  ActionBar: [
+                    <Button variant="secondary" onClick={() => setModal(null)}>
+                      Cancel
+                    </Button>,
+                    <Button variant="destructive" onClick={() => {}}>
+                      Delete Store
+                    </Button>,
+                  ],
+                })
+              }
+            >
+              <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
           <hr />
