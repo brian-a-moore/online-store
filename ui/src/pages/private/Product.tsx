@@ -43,7 +43,8 @@ export const ProductHome: React.FC = () => {
   return (
     <div>
       <H2>{product!.name}</H2>
-      <Link href="..">Back</Link>
+      <p>{JSON.stringify(product)}</p>
+      <Link href="../product/list">Back</Link>
       <FloatingActionButton onClick={() => navigate('edit', { state: { product }})} path={mdiTagEdit} label='Edit Product' />
     </div>
   );
@@ -68,6 +69,7 @@ export const ProductEdit: React.FC = () => {
   return (
     <div>
       <H2>{product?.id ? 'Edit' : 'New'} Product</H2>
+      <p>{JSON.stringify(product)}</p>
       <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );

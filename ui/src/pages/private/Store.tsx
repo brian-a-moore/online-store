@@ -1,10 +1,10 @@
-import { mdiStore, mdiStorefrontPlus, mdiStoreOff, mdiUpdate } from '@mdi/js';
+import { mdiStore, mdiStorefrontEdit, mdiStorefrontPlus, mdiStoreOff, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
-import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse, ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse } from '../../../../api/src/types/api';
 import Loader from '../../components/core/Loader';
-import { FloatingActionButton, Link } from '../../components/interactive';
+import { Button, FloatingActionButton, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -47,19 +47,35 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
   return (
     <div>
       <H2>{store!.name}</H2>
-      <Link href="edit">Edit Store</Link>
-      <Link href="..">Back</Link>
+      <p>{JSON.stringify(store)}</p>
+      <Link href="../store/list">Back</Link>
+      <FloatingActionButton onClick={() => navigate('edit', { state: { store }})} path={mdiStorefrontEdit} label='Edit Store' />
     </div>
   );
 };
 
-type StoreEditProps = {};
+type StoreState = {
+    id: string;
+    name: string;
+    website: string | null;
+    description: string | null;
+    image: string | null;
+    heroImage: string | null;
+    isPublished: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+};
 
-export const StoreEdit: React.FC<StoreEditProps> = () => {
+export const StoreEdit: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const store: StoreState | undefined = location.state?.store;
+
   return (
     <div>
-      <H2>Edit Store</H2>
-      <Link href="..">Back</Link>
+      <H2>{store?.id ? 'Edit' : 'New'} Store</H2>
+      <p>{JSON.stringify(store)}</p>
+      <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );
 };

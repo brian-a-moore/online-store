@@ -42,7 +42,8 @@ export const ItemHome: React.FC = () => {
   return (
     <div>
       <H2>{item!.name}</H2>
-      <Link href="..">Back</Link>
+      <p>{JSON.stringify(item)}</p>
+      <Link href="../item/list">Back</Link>
       <FloatingActionButton onClick={() => navigate('edit', { state: { item }})} path={mdiSquareEditOutline} label='Edit Item' />
     </div>
   );
@@ -71,6 +72,7 @@ export const ItemEdit: React.FC = () => {
   return (
     <div>
       <H2>{item?.id ? 'Edit' : 'New'} Item</H2>
+      <p>{JSON.stringify(item)}</p>
       <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );
