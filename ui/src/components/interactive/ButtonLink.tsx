@@ -8,26 +8,26 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: ButtonVariant;
 }
 
-export const ButtonLink: React.FC<Props> = ({ href, children, variant = 'primary', className, ...props }) => {
-  let computedClassName = '';
+export const ButtonLink: React.FC<Props> = ({ href, children, variant = 'primary', className: incomingClassName, ...props }) => {
+  let className = '';
 
   switch (variant) {
     case 'primary':
-      computedClassName =
-        'text-[var(--btn-color)] bg-[var(--btn-primary-default-bg-color)] hover:bg-[var(--btn-primary-hover-bg-color)] font-semibold py-2 px-4 rounded';
+      className =
+        'bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded';
       break;
     case 'secondary':
-      computedClassName =
-        'text-[var(--text-color)] bg-[var(--btn-secondary-default-bg-color)] hover:bg-[var(--btn-secondary-hover-bg-color)] font-semibold py-2 px-4 rounded';
+      className =
+        ' bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded';
       break;
     case 'destructive':
-      computedClassName =
-        'text-[var(--btn-color)] bg-[var(--btn-destructive-default-bg-color)] hover:bg-[var(--btn-destructive-hover-bg-color)] text-white font-semibold py-2 px-4 rounded';
+      className =
+        'bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded';
       break;
   }
 
   return (
-    <RouterLink to={href} className={`${computedClassName} hover:no-underline ${className}`} {...props}>
+    <RouterLink to={href} className={`${className} hover:no-underline ${incomingClassName}`} {...props}>
       {children}
     </RouterLink>
   );

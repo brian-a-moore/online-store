@@ -7,7 +7,7 @@ type Props = {};
 
 export const Header: React.FC<Props> = () => {
   return (
-      <header className='bg-sky-600 flex items-center justify-between p-4'>
+      <header className='bg-slate-600 flex items-center justify-between p-4'>
         <ButtonLink href='/'>
           <Icon path={mdiHome} size={1} color='white' />
         </ButtonLink>

@@ -18,19 +18,19 @@ export const Button: React.FC<Props> = ({
   switch (variant) {
     case 'primary':
       className =
-        'text-[var(--btn-color)] bg-[var(--btn-primary-default-bg-color)] hover:bg-[var(--btn-primary-hover-bg-color)] font-semibold py-2 px-4 rounded';
+        'bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded';
       break;
     case 'secondary':
       className =
-        'text-[var(--color)] bg-[var(--btn-secondary-default-bg-color)] hover:bg-[var(--btn-secondary-hover-bg-color)] font-semibold py-2 px-4 rounded';
+        ' bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded';
       break;
     case 'transparent':
       className =
-        'text-[var(--btn-color)] bg-[transparent] hover:bg-[rgba(255,255,255,0.2)] font-semibold py-2 px-4 rounded';
+        'bg-[transparent] hover:bg-[rgba(255,255,255,0.2)] text-white font-semibold py-2 px-4 rounded';
       break;
     case 'destructive':
       className =
-        'text-[var(--btn-color)] bg-[var(--btn-destructive-default-bg-color)] hover:bg-[var(--btn-destructive-hover-bg-color)] text-white font-semibold py-2 px-4 rounded';
+        'bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded';
       break;
   }
 

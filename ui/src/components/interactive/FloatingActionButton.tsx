@@ -11,7 +11,7 @@ export const FloatingActionButton: React.FC<Props> = ({ label, path, onClick }) 
     <div className='fixed bottom-0 left-0 w-screen pointer-events-none'>
       <div className='relative mx-auto w-full max-w-[960px] pointer-events-none'>
       <button
-        className="absolute bottom-4 right-4 bg-sky-600 hover:bg-sky-700 p-6 rounded-full shadow-lg z-30 pointer-events-auto"
+        className="absolute bottom-4 right-4 bg-slate-600 hover:bg-slate-700 p-6 rounded-full shadow-lg z-30 pointer-events-auto"
         title={label}
         onClick={onClick}
       >
