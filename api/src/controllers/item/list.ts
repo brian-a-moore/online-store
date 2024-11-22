@@ -78,6 +78,7 @@ export const listItemsPrivateController = async (
         id: true,
         name: true,
         updatedAt: true,
+        isPublished: true,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,

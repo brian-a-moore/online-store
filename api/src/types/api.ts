@@ -74,6 +74,7 @@ export type ListItemsPrivateResponse = {
     id: string;
     name: string;
     updatedAt: Date;
+    isPublished: boolean;
   }[];
 };
 
