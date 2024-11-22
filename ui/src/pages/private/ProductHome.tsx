@@ -71,13 +71,13 @@ export const ProductHome: React.FC = () => {
                   })
                 }
               >
-                <Icon path={mdiDelete} size={1} />
+                <Icon path={mdiDelete} size={0.75} />
               </Button>
               <Button variant="secondary" onClick={() => navigate('edit', { state: { product } })} title="Edit Product">
-                <Icon path={mdiPencil} size={1} />
+                <Icon path={mdiPencil} size={0.75} />
               </Button>
               <Button onClick={() => navigate('item/new')} title="New Item">
-                <Icon path={mdiPlus} size={1} />
+                <Icon path={mdiPlus} size={0.75} />
               </Button>
             </div>
           </div>
