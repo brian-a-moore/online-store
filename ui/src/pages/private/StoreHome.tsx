@@ -1,4 +1,4 @@
-import { mdiDelete, mdiPencil, mdiStore, mdiStoreOff, mdiTag, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
+import { mdiDelete, mdiPencil, mdiTagPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
-import { BannerImage, IconImage } from '../../components/display';
+import { BannerImage, IconImage, IsPublished } from '../../components/display';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { EmptyText, H1 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -78,15 +78,7 @@ export const StoreHome: React.FC = () => {
           <div className="flex flex-col gap-4 p-4 pt-0">
             <div className="flex pl-40 items-center justify-between">
               <H1>{store!.name}</H1>
-              <div className="flex items-center gap-2">
-                <Icon
-                  path={store!.isPublished ? mdiStore : mdiStoreOff}
-                  size={0.75}
-                  title={store!.isPublished ? 'Public' : 'Unlisted'}
-                  color={store!.isPublished ? '#64748B' : '#F87171'}
-                />
-                <p>{store!.isPublished ? 'Public' : 'Unlisted'}</p>
-              </div>
+              <IsPublished isPublished={store!.isPublished} pathType='store' longForm />
             </div>
             {store?.description ? <p>{store.description}</p> : <EmptyText>No Description</EmptyText>}
           </div>
@@ -132,12 +124,7 @@ const ProductList: React.FC<Props> = ({ storeId }) => {
           title={`View product: ${product.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</p>
-          <Icon
-            path={product.isPublished ? mdiTag : mdiTagOff}
-            size={0.75}
-            title={product.isPublished ? 'Public' : 'Unlisted'}
-            color={product.isPublished ? '#64748B' : '#F87171'}
-          />
+          <IsPublished isPublished={product.isPublished} pathType='product' />
           <div
             className="flex gap-2 items-center opacity-60"
             title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}

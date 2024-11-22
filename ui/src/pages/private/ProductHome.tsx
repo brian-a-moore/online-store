@@ -1,4 +1,4 @@
-import { mdiBarcode, mdiBarcodeOff, mdiDelete, mdiPencil, mdiPlus, mdiUpdate } from '@mdi/js';
+import { mdiDelete, mdiPencil, mdiPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
@@ -12,9 +12,9 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
-import { IconImage } from '../../components/display';
+import { IconImage, IsPublished } from '../../components/display';
 import { Button, FloatingActionButton } from '../../components/interactive';
-import { H2 } from '../../components/typography';
+import { EmptyText, H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
@@ -47,8 +47,8 @@ export const ProductHome: React.FC = () => {
         <Card>
           <div className="flex justify-between">
             <H2>{product!.name}</H2>
-            <div className='flex gap-4'>
-              <Button variant='secondary' onClick={() => navigate('edit', { state: { product }})} title='Edit Product'>
+            <div className="flex gap-4">
+              <Button variant="secondary" onClick={() => navigate('edit', { state: { product } })} title="Edit Product">
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
               <Button
@@ -59,8 +59,8 @@ export const ProductHome: React.FC = () => {
                     title: 'Delete Product',
                     Body: (
                       <p>
-                        Deleting a product will remove all the products data, including its; items, sales and
-                        history. This is immediate and unrecoverable. Are you sure you want to delete this product?
+                        Deleting a product will remove all the products data, including its; items, sales and history.
+                        This is immediate and unrecoverable. Are you sure you want to delete this product?
                       </p>
                     ),
                     ActionBar: [
@@ -78,12 +78,29 @@ export const ProductHome: React.FC = () => {
               </Button>
             </div>
           </div>
-          <div>
-            <IconImage image={product?.image} name={product!.name} />
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-4 items-center">
+              <IconImage image={product?.image} name={product!.name} />
+            </div>
+            <div className="flex flex-col gap-4 flex-1">
+              <div className="flex-1">
+                {product?.description ? <p>{product.description}</p> : <EmptyText>No Description</EmptyText>}
+              </div>
+              <hr />
+              <div className="flex gap-4 items-center justify-end text-sm">
+                <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> | 
+                <p className='text-sm'>
+                  <strong>Created:</strong> {new Date(product!.createdAt).toLocaleDateString()}
+                </p>
+                 | 
+                <p className='text-sm'>
+                  <strong>Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
           </div>
-          <p>{JSON.stringify(product)}</p>
         </Card>
-      <ItemList storeId={storeId!} productId={productId!} />
+        <ItemList storeId={storeId!} productId={productId!} />
       </Container>
     </Page>
   );
@@ -121,12 +138,7 @@ const ItemList: React.FC<Props> = ({ storeId, productId }) => {
           title={`View item: ${item.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{item.name}</p>
-          <Icon
-            path={item.isPublished ? mdiBarcode : mdiBarcodeOff}
-            size={0.75}
-            title={item.isPublished ? 'Public' : 'Unlisted'}
-            color={item.isPublished ? '#64748B' : '#F87171'}
-          />
+          <IsPublished isPublished={item.isPublished} pathType="item" />
           <div
             className="flex gap-2 items-center opacity-60"
             title={`Last Updated: ${new Date(item.updatedAt).toLocaleDateString()}`}
