@@ -1,4 +1,4 @@
-import { mdiDelete, mdiPencil, mdiTagPlus, mdiUpdate } from '@mdi/js';
+import { mdiDelete, mdiPencil, mdiPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
@@ -8,12 +8,12 @@ import {
   GetStorePrivateResponse,
   ListProductsPrivateBody,
   ListProductsPrivateQuery,
-  ListProductsPrivateResponse
+  ListProductsPrivateResponse,
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
-import { Button, FloatingActionButton } from '../../components/interactive';
+import { Button } from '../../components/interactive';
 import { EmptyText, H1 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -44,12 +44,9 @@ export const StoreHome: React.FC = () => {
           <div className="relative h-40">
             <BannerImage className="absolute top-0 left-0" image={store?.heroImage} name={store!.name} />
             <IconImage className="absolute top-20 left-8 z-10" image={store?.image} name={store!.name} />
-            <div className='absolute top-4 right-4 flex gap-4 z-10'>
-              <Button variant='secondary' onClick={() => navigate('edit', { state: { store }})} title='Edit Store'>
-                <Icon path={mdiPencil} size={0.75} />
-              </Button>
+            <div className="absolute top-4 right-4 flex gap-4 z-10">
               <Button
-                variant="destructive"
+                variant="secondary"
                 title="Delete Store"
                 onClick={() =>
                   setModal({
@@ -71,14 +68,20 @@ export const StoreHome: React.FC = () => {
                   })
                 }
               >
-                <Icon path={mdiDelete} size={0.75} />
+                <Icon path={mdiDelete} size={1} />
+              </Button>
+              <Button variant="secondary" onClick={() => navigate('edit', { state: { store } })} title="Edit Store">
+                <Icon path={mdiPencil} size={1} />
+              </Button>
+              <Button onClick={() => navigate('product/new')} title="New Product">
+                <Icon path={mdiPlus} size={1} />
               </Button>
             </div>
           </div>
           <div className="flex flex-col gap-4 p-4 pt-0">
             <div className="flex pl-40 items-center justify-between">
               <H1>{store!.name}</H1>
-              <IsPublished isPublished={store!.isPublished} pathType='store' longForm />
+              <IsPublished isPublished={store!.isPublished} pathType="store" longForm />
             </div>
             {store?.description ? <p>{store.description}</p> : <EmptyText>No Description</EmptyText>}
           </div>
@@ -91,7 +94,7 @@ export const StoreHome: React.FC = () => {
 
 type Props = {
   storeId: string;
-}
+};
 
 const ProductList: React.FC<Props> = ({ storeId }) => {
   const navigate = useNavigate();
@@ -124,7 +127,7 @@ const ProductList: React.FC<Props> = ({ storeId }) => {
           title={`View product: ${product.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</p>
-          <IsPublished isPublished={product.isPublished} pathType='product' />
+          <IsPublished isPublished={product.isPublished} pathType="product" />
           <div
             className="flex gap-2 items-center opacity-60"
             title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}
@@ -134,7 +137,6 @@ const ProductList: React.FC<Props> = ({ storeId }) => {
           </div>
         </RouterLink>
       ))}
-      <FloatingActionButton path={mdiTagPlus} label="New Product" onClick={() => navigate('product/new')} />
     </>
   );
 };

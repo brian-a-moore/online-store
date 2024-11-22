@@ -1,4 +1,4 @@
-import { mdiAccountCircle, mdiAccountPlus, mdiDelete, mdiSecurity, mdiStorefront } from '@mdi/js';
+import { mdiAccountCircle, mdiDelete, mdiPlus, mdiSecurity, mdiStorefront } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -150,7 +150,7 @@ export const UserList: React.FC = () => {
           </RouterLink>
         ))}
       </Container>
-      <FloatingActionButton path={mdiAccountPlus} label="New User" onClick={() => navigate('../user/new')} />
+      <FloatingActionButton path={mdiPlus} label="New User" onClick={() => navigate('../user/new')} />
     </Page>
   );
 };

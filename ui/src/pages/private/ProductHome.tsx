@@ -13,7 +13,7 @@ import {
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IconImage, IsPublished } from '../../components/display';
-import { Button, FloatingActionButton } from '../../components/interactive';
+import { Button } from '../../components/interactive';
 import { EmptyText, H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -48,11 +48,8 @@ export const ProductHome: React.FC = () => {
           <div className="flex justify-between">
             <H2>{product!.name}</H2>
             <div className="flex gap-4">
-              <Button variant="secondary" onClick={() => navigate('edit', { state: { product } })} title="Edit Product">
-                <Icon path={mdiPencil} size={0.75} />
-              </Button>
               <Button
-                variant="destructive"
+                variant="secondary"
                 title="Delete Store"
                 onClick={() =>
                   setModal({
@@ -74,7 +71,13 @@ export const ProductHome: React.FC = () => {
                   })
                 }
               >
-                <Icon path={mdiDelete} size={0.75} />
+                <Icon path={mdiDelete} size={1} />
+              </Button>
+              <Button variant="secondary" onClick={() => navigate('edit', { state: { product } })} title="Edit Product">
+                <Icon path={mdiPencil} size={1} />
+              </Button>
+              <Button onClick={() => navigate('item/new')} title="New Item">
+                <Icon path={mdiPlus} size={1} />
               </Button>
             </div>
           </div>
@@ -148,7 +151,6 @@ const ItemList: React.FC<Props> = ({ storeId, productId }) => {
           </div>
         </RouterLink>
       ))}
-      <FloatingActionButton path={mdiPlus} label="New Item" onClick={() => navigate('item/new')} />
     </>
   );
 };

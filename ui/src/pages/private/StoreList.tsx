@@ -1,4 +1,4 @@
-import { mdiStore, mdiStorefrontPlus, mdiStoreOff, mdiUpdate } from "@mdi/js";
+import { mdiPlus, mdiStore, mdiStoreOff, mdiUpdate } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -57,7 +57,7 @@ export const StoreList: React.FC = () => {
           </RouterLink>
         ))}
       </Container>
-      <FloatingActionButton path={mdiStorefrontPlus} label="New Store" onClick={() => navigate('../store/new')} />
+      <FloatingActionButton path={mdiPlus} label="New Store" onClick={() => navigate('../store/new')} />
     </div>
   );
 };
