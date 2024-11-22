@@ -48,7 +48,7 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
     <div>
       <H2>{store!.name}</H2>
       <p>{JSON.stringify(store)}</p>
-      <Link href="../store/list">Back</Link>
+      <Button onClick={() => navigate(-1)}>Back</Button>
       <FloatingActionButton onClick={() => navigate('edit', { state: { store }})} path={mdiStorefrontEdit} label='Edit Store' />
     </div>
   );

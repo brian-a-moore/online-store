@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetUserBody, GetUserQuery, GetUserResponse, ListUsersBody, ListUsersQuery, ListUsersResponse } from '../../../../api/src/types/api';
 import Loader from '../../components/core/Loader';
-import { Button, FloatingActionButton, Link } from '../../components/interactive';
+import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -29,7 +29,7 @@ export const UserHome: React.FC = () => {
   return (
     <div>
       <H2>{user!.name}</H2>
-      <Link href="edit">Edit User</Link>
+      <p>{JSON.stringify(user)}</p>
       <Button onClick={() => navigate(-1)}>Back</Button>
       <FloatingActionButton onClick={() => navigate('edit', { state: { user }})} path={mdiAccountEdit} label='Edit User' />
     </div>
@@ -61,6 +61,7 @@ export const UserEdit: React.FC = () => {
   return (
     <div>
       <H2>{user?.id ? 'Edit' : 'New'} User</H2>
+      <p>{JSON.stringify(user)}</p>
       <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );

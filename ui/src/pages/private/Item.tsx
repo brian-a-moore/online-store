@@ -43,7 +43,7 @@ export const ItemHome: React.FC = () => {
     <div>
       <H2>{item!.name}</H2>
       <p>{JSON.stringify(item)}</p>
-      <Link href="../item/list">Back</Link>
+      <Button onClick={() => navigate(-1)}>Back</Button>
       <FloatingActionButton onClick={() => navigate('edit', { state: { item }})} path={mdiSquareEditOutline} label='Edit Item' />
     </div>
   );
