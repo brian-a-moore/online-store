@@ -150,6 +150,7 @@ export type ListProductsPrivateResponse = {
     id: string;
     name: string;
     updatedAt: Date;
+    isPublished: boolean;
   }[];
 };
 

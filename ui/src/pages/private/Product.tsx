@@ -1,9 +1,10 @@
+import { mdiTag, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
+import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
-import { Card } from '../../components/container';
 import Loader from '../../components/core/Loader';
-import { ButtonLink, Link } from '../../components/interactive';
+import { FloatingActionButton, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -84,17 +85,20 @@ export const ProductList: React.FC<ProductListProps> = () => {
   const products = response?.products;
 
   return (
-    <div>
-      <ButtonLink href="../product/new">New Product</ButtonLink>
-      <div className="flex flex-col p-4 gap-4">
-        {products?.map((product: any) => (
-          <RouterLink key={product.id} to={`../product/${product.id}`}>
-            <Card>
-              <p>{product.name}</p>
-            </Card>
+    <div className='w-full p-4'>
+      <div className='flex flex-col w-full max-w-[960px] mx-auto gap-4'>
+        {products?.map((product) => (
+          <RouterLink className='flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md' key={product.id} to={`../product/${product.id}`}  title={`View product: ${product.name}`}>
+              <p className='flex-1 whitespace-nowrap text-ellipsis overflow-hidden'>{product.name}</p>
+              <Icon path={product.isPublished ? mdiTag : mdiTagOff} size={0.75} title={product.isPublished ? 'Public' : 'Unlisted'} color={product.isPublished ? '#64748B' : '#F87171'} />
+              <div className='flex gap-2 items-center opacity-60' title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}>
+                <Icon path={mdiUpdate} size={0.75} />
+                <p className='text-sm'>{new Date(product.updatedAt).toLocaleDateString()}</p>
+              </div>
           </RouterLink>
         ))}
       </div>
+      <FloatingActionButton path={mdiTagPlus} label='New Product' onClick={() => navigate('../product/new')} />
     </div>
   );
 };
