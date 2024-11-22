@@ -1,7 +1,7 @@
-import { mdiAccountCircle, mdiAccountPlus, mdiSecurity, mdiStorefront } from '@mdi/js';
+import { mdiAccountCircle, mdiAccountEdit, mdiAccountPlus, mdiSecurity, mdiStorefront } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetUserBody, GetUserQuery, GetUserResponse, ListUsersBody, ListUsersQuery, ListUsersResponse } from '../../../../api/src/types/api';
 import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton, Link } from '../../components/interactive';
@@ -9,9 +9,7 @@ import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
-type UserHomeProps = {};
-
-export const UserHome: React.FC<UserHomeProps> = () => {
+export const UserHome: React.FC = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
@@ -33,25 +31,44 @@ export const UserHome: React.FC<UserHomeProps> = () => {
       <H2>{user!.name}</H2>
       <Link href="edit">Edit User</Link>
       <Button onClick={() => navigate(-1)}>Back</Button>
+      <FloatingActionButton onClick={() => navigate('edit', { state: { user }})} path={mdiAccountEdit} label='Edit User' />
     </div>
   );
 };
 
-type UserEditProps = {};
+type UserState = {
+    id: string;
+    email: string;
+    name: string;
+    isSuperUser: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    stores: {
+        storeId: string | null;
+        roleId: number;
+        store: {
+            name: string;
+            id: string;
+        } | null;
+    }[];
+}
 
-export const UserEdit: React.FC<UserEditProps> = () => {
+export const UserEdit: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const user: UserState | undefined = location.state?.user;
+
+  console.log({ location });
+
   return (
     <div>
-      <H2>Edit User</H2>
+      <H2>{user?.id ? 'Edit' : 'New'} User</H2>
       <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );
 };
 
-type UserListProps = {};
-
-export const UserList: React.FC<UserListProps> = () => {
+export const UserList: React.FC = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<ListUsersBody, ListUsersQuery, ListUsersResponse>({
