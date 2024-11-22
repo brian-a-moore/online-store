@@ -11,7 +11,7 @@ import {
   ListItemsPrivateResponse,
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
-import Loader from '../../components/core/Loader';
+import { Loader } from '../../components/core';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';

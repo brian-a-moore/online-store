@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
-import Loader from '../../components/core/Loader';
+import { Loader } from '../../components/core';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -134,7 +134,7 @@ export const ProductList: React.FC = () => {
   const products = response?.products;
 
   return (
-    <div className='w-full p-4'>
+    <Page>
       <Container>
         {products?.map((product) => (
           <RouterLink className='flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md' key={product.id} to={`../product/${product.id}`}  title={`View product: ${product.name}`}>
@@ -148,6 +148,6 @@ export const ProductList: React.FC = () => {
         ))}
       </Container>
       <FloatingActionButton path={mdiTagPlus} label='New Product' onClick={() => navigate('../product/new')} />
-    </div>
+    </Page>
   );
 };

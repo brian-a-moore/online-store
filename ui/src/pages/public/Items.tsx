@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse } from '../../../../api/src/types/api';
 import { FixedItemConfig, VariableItemConfig } from '../../../../api/src/types/itemConfigs';
 import { Card, Grid } from '../../components/container';
-import Loader from '../../components/core/Loader';
+import { Loader } from '../../components/core';
 import { Button, Stepper } from '../../components/interactive';
 import { H5 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';

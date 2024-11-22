@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListProductsPrivateBody, ListProductsPublicQuery, ListProductsPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
-import Loader from '../../components/core/Loader';
+import { Loader } from '../../components/core';
 import { Link } from '../../components/interactive';
 import { H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';

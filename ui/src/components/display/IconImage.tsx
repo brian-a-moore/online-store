@@ -9,7 +9,7 @@ type Props = {
 };
 export const IconImage: React.FC<Props> = ({ className, image, name, rounded = true }) => {
   return (
-    <div className={`bg-slate-200 flex items-center justify-center size-40 ${rounded ? 'rounded-full' : 'rounded-sm'} overflow-hidden shadow-md ${className}`}>
+    <div className={`bg-slate-200 flex items-center justify-center size-[132px] ${rounded ? 'rounded-full' : 'rounded-sm'} overflow-hidden shadow-md ${className}`}>
       {image ? (
         <img className="w-full h-full object-cover object-center" src={image} alt={name} />
       ) : (

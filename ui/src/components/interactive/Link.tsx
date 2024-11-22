@@ -7,8 +7,10 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 
 export const Link: React.FC<Props> = ({ href, children, className, ...props }) => {
   return (
-    <RouterLink className={`hover:underline ${className}`} to={href} {...props}>
-      {children}
-    </RouterLink>
+    <span>
+      <RouterLink className={`hover:underline ${className}`} to={href} {...props}>
+        {children}
+      </RouterLink>
+    </span>
   );
 };

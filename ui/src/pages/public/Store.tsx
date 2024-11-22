@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse } from '../../../../api/src/types/api';
-import { Cart, Header } from '../../components/core';
-import Loader from '../../components/core/Loader';
+import { Cart, Header, Loader } from '../../components/core';
 import { HTTP_METHOD } from '../../constants';
 import { CartProvider } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
