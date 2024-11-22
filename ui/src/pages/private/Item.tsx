@@ -1,4 +1,4 @@
-import { mdiBarcode, mdiBarcodeOff, mdiPlus, mdiUpdate } from '@mdi/js';
+import { mdiBarcode, mdiBarcodeOff, mdiDelete, mdiPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
@@ -46,7 +46,15 @@ export const ItemEdit: React.FC = () => {
     <Page>
       <Container>
         <Card>
-          <H2>{itemId ? 'Edit' : 'New'} Item</H2>
+          
+          <div className="flex justify-between">
+            <H2>{itemId ? 'Edit' : 'New'} Item</H2>
+            {itemId ? (
+              <Button variant="destructive" title="Delete Item" onClick={() => {}}>
+              <Icon path={mdiDelete} size={0.75} />
+            </Button>
+            ) : null}
+          </div>
           <hr />
           <p>{JSON.stringify(item)}</p>
           <hr />
