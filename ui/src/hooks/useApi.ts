@@ -17,18 +17,21 @@ function useApi<D = undefined, P = undefined, R = undefined>(
     argsRef.current = args;
   }
 
-  const _getData = useCallback(async (controller: AbortController) => {
-    try {
-      const data = await apiCall<D, P, R>(argsRef.current, controller, opts?.isPrivateEndpoint);
-      setResponse(data);
-      setError(null);
-    } catch (err: any | unknown) {
-      if (err.name === 'AbortError') return;
-      setError(err.response?.data?.message || 'Unknown Error: Please try again later.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const _getData = useCallback(
+    async (controller: AbortController) => {
+      try {
+        const data = await apiCall<D, P, R>(argsRef.current, controller, opts?.isPrivateEndpoint);
+        setResponse(data);
+        setError(null);
+      } catch (err: any | unknown) {
+        if (err.name === 'AbortError') return;
+        setError(err.response?.data?.message || 'Unknown Error: Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [JSON.stringify(args)],
+  );
 
   useEffect(() => {
     const controller = new AbortController();
