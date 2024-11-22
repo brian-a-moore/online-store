@@ -65,8 +65,10 @@ export const StoreHome: React.FC<StoreHomeProps> = () => {
             <Button variant="secondary" onClick={() => navigate(-1)}>
               Back
             </Button>
-            <div className='flex gap-4'>
-              <Button variant='secondary' onClick={() => navigate('edit')}>Edit Store</Button>
+            <div className="flex gap-4">
+              <Button variant="secondary" onClick={() => navigate('edit', { state: { store }})}>
+                Edit Store
+              </Button>
               <Button onClick={() => navigate('product/list')}>View Products</Button>
             </div>
           </div>
@@ -94,11 +96,19 @@ export const StoreEdit: React.FC = () => {
   const store: StoreState | undefined = location.state?.store;
 
   return (
-    <div>
-      <H2>{store?.id ? 'Edit' : 'New'} Store</H2>
-      <p>{JSON.stringify(store)}</p>
-      <Button onClick={() => navigate(-1)}>Back</Button>
-    </div>
+    <Page>
+      <Container>
+        <Card>
+          <H2>{store?.id ? 'Edit' : 'New'} Store</H2>
+          <hr />
+          <p>{JSON.stringify(store)}</p>
+          <hr />
+          <div className="flex justify-between">
+            <Button variant='secondary' onClick={() => navigate(-1)}>Back</Button>
+          </div>
+        </Card>
+      </Container>
+    </Page>
   );
 };
 

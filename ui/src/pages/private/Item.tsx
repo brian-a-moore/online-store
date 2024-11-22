@@ -10,7 +10,7 @@ import {
   ListItemsPrivateQuery,
   ListItemsPrivateResponse,
 } from '../../../../api/src/types/api';
-import { Container } from '../../components/container';
+import { Card, Container, Page } from '../../components/container';
 import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
@@ -43,11 +43,19 @@ export const ItemEdit: React.FC = () => {
   const item = response?.item;
 
   return (
-    <div>
-      <H2>{itemId ? 'Edit' : 'New'} Item</H2>
-      <p>{JSON.stringify(item)}</p>
-      <Button onClick={() => navigate(-1)}>Back</Button>
-    </div>
+    <Page>
+      <Container>
+        <Card>
+          <H2>{itemId ? 'Edit' : 'New'} Item</H2>
+          <hr />
+          <p>{JSON.stringify(item)}</p>
+          <hr />
+          <div className="flex justify-between">
+            <Button variant='secondary' onClick={() => navigate(-1)}>Back</Button>
+          </div>
+        </Card>
+      </Container>
+    </Page>
   );
 };
 

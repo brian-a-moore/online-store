@@ -53,7 +53,7 @@ export const ProductHome: React.FC = () => {
               Back
             </Button>
             <div className='flex gap-4'>
-              <Button variant='secondary' onClick={() => navigate('edit')}>Edit Product</Button>
+              <Button variant='secondary' onClick={() => navigate('edit', { state: { product }})}>Edit Product</Button>
               <Button onClick={() => navigate('item/list')}>View Items</Button>
             </div>
           </div>
@@ -80,11 +80,19 @@ export const ProductEdit: React.FC = () => {
   const product: ProductState | undefined = location.state?.product;
 
   return (
-    <div>
-      <H2>{product?.id ? 'Edit' : 'New'} Product</H2>
-      <p>{JSON.stringify(product)}</p>
-      <Button onClick={() => navigate(-1)}>Back</Button>
-    </div>
+    <Page>
+      <Container>
+        <Card>
+          <H2>{product?.id ? 'Edit' : 'New'} Product</H2>
+          <hr />
+          <p>{JSON.stringify(product)}</p>
+          <hr />
+          <div className='flex justify-between'>
+            <Button variant='secondary' onClick={() => navigate(-1)}>Back</Button>
+          </div>
+        </Card>
+      </Container>
+    </Page>
   );
 };
 
