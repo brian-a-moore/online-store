@@ -1,10 +1,11 @@
-import { mdiTag, mdiTagEdit, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
+import { mdiDelete, mdiTag, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
+import { Card, Container, Page } from '../../components/container';
 import Loader from '../../components/core/Loader';
-import { Button, FloatingActionButton, Link } from '../../components/interactive';
+import { Button, FloatingActionButton } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -12,13 +13,7 @@ import useApi from '../../hooks/useApi';
 export const ProductLayout: React.FC = () => {
   return (
     <div>
-      <nav className="bg-sky-800 flex gap-4 p-4">
-        <Link href=".">About Product</Link>
-        <Link href="item/list">View Items</Link>
-      </nav>
-      <div>
         <Outlet />
-      </div>
     </div>
   );
 };
@@ -41,12 +36,30 @@ export const ProductHome: React.FC = () => {
   const product = response?.product;
 
   return (
-    <div>
-      <H2>{product!.name}</H2>
-      <p>{JSON.stringify(product)}</p>
-      <Button onClick={() => navigate(-1)}>Back</Button>
-      <FloatingActionButton onClick={() => navigate('edit', { state: { product }})} path={mdiTagEdit} label='Edit Product' />
-    </div>
+    <Page>
+      <Container>
+        <Card>
+          <div className="flex justify-between">
+            <H2>{product!.name}</H2>
+            <Button variant="destructive" title="Delete Product" onClick={() => {}}>
+              <Icon path={mdiDelete} size={0.75} />
+            </Button>
+          </div>
+          <hr />
+          <p>{JSON.stringify(product)}</p>
+          <hr />
+          <div className="flex justify-between">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+              Back
+            </Button>
+            <div className='flex gap-4'>
+              <Button variant='secondary' onClick={() => navigate('edit')}>Edit Product</Button>
+              <Button onClick={() => navigate('item/list')}>View Items</Button>
+            </div>
+          </div>
+        </Card>
+      </Container>
+    </Page>
   );
 };
 
@@ -95,7 +108,7 @@ export const ProductList: React.FC = () => {
 
   return (
     <div className='w-full p-4'>
-      <div className='flex flex-col w-full max-w-[960px] mx-auto gap-4'>
+      <Container>
         {products?.map((product) => (
           <RouterLink className='flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md' key={product.id} to={`../product/${product.id}`}  title={`View product: ${product.name}`}>
               <p className='flex-1 whitespace-nowrap text-ellipsis overflow-hidden'>{product.name}</p>
@@ -106,7 +119,7 @@ export const ProductList: React.FC = () => {
               </div>
           </RouterLink>
         ))}
-      </div>
+      </Container>
       <FloatingActionButton path={mdiTagPlus} label='New Product' onClick={() => navigate('../product/new')} />
     </div>
   );

@@ -4,7 +4,7 @@ import { Toast } from './components/core';
 import Modal from './components/core/Modal';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
-import { ItemEdit, ItemHome, ItemLayout, ItemList, ProductEdit, ProductHome, ProductLayout, ProductList, StoreEdit, StoreHome, StoreLayout, StoreList } from './pages/private';
+import { ItemEdit, ItemLayout, ItemList, ProductEdit, ProductHome, ProductLayout, ProductList, StoreEdit, StoreHome, StoreLayout, StoreList } from './pages/private';
 import { AdminHome, AdminLayout } from './pages/private/Admin';
 import { UserEdit, UserHome, UserList } from './pages/private/User';
 import { Home, Items, Login, OrderCancelled, OrderSuccess, PageNotFound, Products, ServerError, Store } from './pages/public';
@@ -45,8 +45,7 @@ function App() {
               <Route path='item/list' element={<ItemList />} />
               <Route path='item/new' element={<ItemEdit />} />
               <Route path='item/:itemId' element={<ItemLayout />}>
-                <Route index element={<ItemHome />} />
-                <Route path='edit' element={<ItemEdit />} />
+                <Route index element={<ItemEdit />} />
               </Route>
             </Route>
           </Route>
