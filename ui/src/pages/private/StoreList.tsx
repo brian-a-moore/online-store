@@ -1,10 +1,11 @@
-import { mdiPlus, mdiStore, mdiStoreOff, mdiUpdate } from "@mdi/js";
+import { mdiPlus, mdiUpdate } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse } from "../../../../api/src/types/api";
 import { Container } from "../../components/container";
 import { Loader } from "../../components/core";
+import { IsPublished } from "../../components/display";
 import { FloatingActionButton } from "../../components/interactive";
 import { HTTP_METHOD } from "../../constants";
 import useApi from "../../hooks/useApi";
@@ -41,12 +42,7 @@ export const StoreList: React.FC = () => {
             title={`View store: ${store.name}`}
           >
             <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{store.name}</p>
-            <Icon
-              path={store.isPublished ? mdiStore : mdiStoreOff}
-              size={0.75}
-              title={store.isPublished ? 'Public' : 'Unlisted'}
-              color={store.isPublished ? '#64748B' : '#F87171'}
-            />
+            <IsPublished isPublished={store.isPublished} pathType='store' />
             <div
               className="flex gap-2 items-center opacity-60"
               title={`Last Updated: ${new Date(store.updatedAt).toLocaleDateString()}`}
