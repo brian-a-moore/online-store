@@ -1,17 +1,15 @@
-import { mdiTag, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
+import { mdiTag, mdiTagEdit, mdiTagOff, mdiTagPlus, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
-import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetProductPrivateBody, GetProductPrivateQuery, GetProductPrivateResponse, ListProductsPrivateBody, ListProductsPrivateQuery, ListProductsPrivateResponse } from '../../../../api/src/types/api';
 import Loader from '../../components/core/Loader';
-import { FloatingActionButton, Link } from '../../components/interactive';
+import { Button, FloatingActionButton, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
-type ProductLayoutProps = {};
-
-export const ProductLayout: React.FC<ProductLayoutProps> = () => {
+export const ProductLayout: React.FC = () => {
   return (
     <div>
       <nav className="bg-sky-800 flex gap-4 p-4">
@@ -25,9 +23,7 @@ export const ProductLayout: React.FC<ProductLayoutProps> = () => {
   );
 };
 
-type ProductHomeProps = {};
-
-export const ProductHome: React.FC<ProductHomeProps> = () => {
+export const ProductHome: React.FC = () => {
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
@@ -47,26 +43,37 @@ export const ProductHome: React.FC<ProductHomeProps> = () => {
   return (
     <div>
       <H2>{product!.name}</H2>
-      <Link href="edit">Edit Product</Link>
       <Link href="..">Back</Link>
+      <FloatingActionButton onClick={() => navigate('edit', { state: { product }})} path={mdiTagEdit} label='Edit Product' />
     </div>
   );
 };
 
-type ProductEditProps = {};
+type ProductState = {
+    id: string;
+    storeId: string;
+    name: string;
+    description: string | null;
+    image: string | null;
+    isPublished: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+};
 
-export const ProductEdit: React.FC<ProductEditProps> = () => {
+export const ProductEdit: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const product: ProductState | undefined = location.state?.product;
+
   return (
     <div>
-      <H2>Edit Product</H2>
-      <Link href="..">Back</Link>
+      <H2>{product?.id ? 'Edit' : 'New'} Product</H2>
+      <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );
 };
 
-type ProductListProps = {};
-
-export const ProductList: React.FC<ProductListProps> = () => {
+export const ProductList: React.FC = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 

@@ -58,8 +58,6 @@ export const UserEdit: React.FC = () => {
   const location = useLocation();
   const user: UserState | undefined = location.state?.user;
 
-  console.log({ location });
-
   return (
     <div>
       <H2>{user?.id ? 'Edit' : 'New'} User</H2>
