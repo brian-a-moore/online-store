@@ -34,8 +34,7 @@ export const listStoresPublicController = async (
       select: {
         id: true,
         name: true,
-        description: true,
-        image: true,
+        updatedAt: true,
       },
       where: {
         isPublished: true,
@@ -70,6 +69,7 @@ export const listStoresPrivateController = async (
         id: true,
         name: true,
         updatedAt: true,
+        isPublished: true,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,

@@ -207,8 +207,7 @@ export type ListStoresPublicResponse = {
   stores: {
     id: string;
     name: string;
-    description: string | null;
-    image: string | null;
+    updatedAt: Date;
   }[];
 };
 
@@ -220,6 +219,7 @@ export type ListStoresPrivateResponse = {
     id: string;
     name: string;
     updatedAt: Date;
+    isPublished: boolean;
   }[];
 };
 
