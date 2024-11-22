@@ -1,17 +1,15 @@
-import { mdiBarcode, mdiBarcodeOff, mdiPlus, mdiUpdate } from '@mdi/js';
+import { mdiBarcode, mdiBarcodeOff, mdiPlus, mdiSquareEditOutline, mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
-import { Outlet, Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetItemBody, GetItemQuery, GetItemResponse, ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse } from '../../../../api/src/types/api';
 import Loader from '../../components/core/Loader';
-import { FloatingActionButton, Link } from '../../components/interactive';
+import { Button, FloatingActionButton, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
-type ItemLayoutProps = {};
-
-export const ItemLayout: React.FC<ItemLayoutProps> = () => {
+export const ItemLayout: React.FC = () => {
   return (
     <div>
       <nav className="bg-sky-900 flex gap-4 p-4">
@@ -24,14 +22,12 @@ export const ItemLayout: React.FC<ItemLayoutProps> = () => {
   );
 };
 
-type ItemHomeProps = {};
-
-export const ItemHome: React.FC<ItemHomeProps> = () => {
-  const { storeId, productId } = useParams();
+export const ItemHome: React.FC = () => {
+  const { storeId, productId, itemId } = useParams();
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<GetItemBody, GetItemQuery, GetItemResponse>({
-    url: `/admin/store/${storeId}/product/${productId}/item/list`,
+    url: `/admin/store/${storeId}/product/${productId}/item/${itemId}`,
     method: HTTP_METHOD.GET,
   });
 
@@ -41,31 +37,46 @@ export const ItemHome: React.FC<ItemHomeProps> = () => {
 
   if (isLoading) return <Loader />;
 
-  console.log('response', response);
+  const item = response?.item;
 
   return (
     <div>
-      <h1>About Item</h1>
-      <Link href="edit">Edit Item</Link>
+      <H2>{item!.name}</H2>
       <Link href="..">Back</Link>
+      <FloatingActionButton onClick={() => navigate('edit', { state: { item }})} path={mdiSquareEditOutline} label='Edit Item' />
     </div>
   );
 };
 
-type ItemEditProps = {};
+type JsonValue = any;
+type ItemState = {
+    id: string;
+    productId: string;
+    itemTypeId: number;
+    name: string;
+    description: string | null;
+    image: string | null;
+    config: JsonValue;
+    isPublished: boolean;
+    maxQuantityPerOrder: number;
+    createdAt: Date;
+    updatedAt: Date;
+  }
 
-export const ItemEdit: React.FC<ItemEditProps> = () => {
+export const ItemEdit: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const item: ItemState | undefined = location.state?.item;
+
   return (
     <div>
-      <H2>Edit Item</H2>
-      <Link href="..">Back</Link>
+      <H2>{item?.id ? 'Edit' : 'New'} Item</H2>
+      <Button onClick={() => navigate(-1)}>Back</Button>
     </div>
   );
 };
 
-type ItemListProps = {};
-
-export const ItemList: React.FC<ItemListProps> = () => {
+export const ItemList: React.FC = () => {
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
