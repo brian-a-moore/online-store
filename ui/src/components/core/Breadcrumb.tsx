@@ -44,16 +44,16 @@ export const BreadCrumb: React.FC = () => {
   return (
     <div>
       {isLoading ? <p>Loading...</p> : (
-        <nav className='bg-slate-700 flex gap-2 px-4 py-2 items-center text-slate-100'>
+        <nav className='bg-sky-800 flex gap-4 px-4 py-2 items-center text-slate-100'>
         {crumbs.map((crumb, index) => (
             <>
                 <Link className='text-slate-100' href={getCrumbLink(index)} title={`${LABELS[index]}${crumb.name}`}>
                     <div className='flex gap-2 items-center'>
                         <Icon path={ICONS[index]} size={0.75} color='#CBD5E1' />
-                        <p>{crumb.name}</p>
+                        <p className='text-sm'>{crumb.name}</p>
                     </div>
                 </Link>
-                {index !== crumbs.length - 1 && <Icon className='opacity-60' path={mdiChevronRight} size={1} />}
+                {index !== crumbs.length - 1 && <Icon className='opacity-60' path={mdiChevronRight} size={0.75} />}
             </>
         ))}
         </nav>
