@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { authLoginSchema } from '../../../../api/src/schemas/auth';
 import { AuthLoginBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
@@ -21,7 +20,6 @@ const DEFAULT_VALUES: AuthLoginBody = {
 
 export const Login: React.FC<Props> = () => {
   const { setUser } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
   const {
@@ -52,7 +50,7 @@ export const Login: React.FC<Props> = () => {
     <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-8">
       <Card className="w-full max-w-[640px]">
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
-          <H1>Administrator Login</H1>
+          <H1>Login</H1>
           <hr />
           <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
           <TextInput
@@ -65,7 +63,7 @@ export const Login: React.FC<Props> = () => {
           <Button disabled={isSubmitting}>{isSubmitting ? 'Logging in...' : 'Log In'}</Button>
           {formError ? <ErrorText>{formError}</ErrorText> : null}
         </form>
-        <p>Not a store administrator? <Link href='/'>View Stores</Link></p>
+        <p>Not here to manage a store? <Link href='/'>View Stores</Link></p>
       </Card>
     </div>
   );
