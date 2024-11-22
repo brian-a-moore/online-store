@@ -3,7 +3,7 @@ import { HTTP_METHOD } from '../constants';
 export type Modal = {
   title: string;
   Body: React.ReactNode;
-  ActionBar?: React.ReactNode;
+  ActionBar?: JSX.Element[];
 };
 
 export type Params<D = unknown, P = unknown> = {
