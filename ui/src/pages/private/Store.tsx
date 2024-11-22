@@ -3,6 +3,7 @@ import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse, ListStoresPrivateBody, ListStoresPrivateQuery, ListStoresPrivateResponse } from '../../../../api/src/types/api';
+import { BreadCrumb } from '../../components/core/Breadcrumb';
 import Loader from '../../components/core/Loader';
 import { Button, FloatingActionButton, Link } from '../../components/interactive';
 import { H2 } from '../../components/typography';
@@ -14,6 +15,7 @@ type StoreLayoutProps = {};
 export const StoreLayout: React.FC<StoreLayoutProps> = () => {
   return (
     <div>
+      <BreadCrumb />
       <nav className="bg-sky-700 flex gap-4 p-4">
         <Link href=".">About Store</Link>
         <Link href="product/list">View Products</Link>
