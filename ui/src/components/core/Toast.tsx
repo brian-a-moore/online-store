@@ -19,18 +19,18 @@ const ICON = {
 
 const COLORS = {
   error: {
-    background: 'bg-red-700 hover:bg-red-600',
-    text: 'text-red-100',
+    background: 'bg-red-500 hover:bg-red-600',
+    text: 'text-red-50',
     icon: '#FEF2F2',
   },
   info: {
-    background: 'bg-[var(--card-bg)] hover:bg-[var(--card-bg-hover)]',
+    background: 'bg-white hover:bg-[#efefef]',
     text: 'text-[var(--text-color)]',
     icon: 'var(--text-color)',
   },
   success: {
-    background: 'bg-sky-700 hover:bg-sky-600',
-    text: 'text-sky-100',
+    background: 'bg-green-600 hover:bg-green-600',
+    text: 'text-green-50',
     icon: '#F0FDFA',
   },
 };
@@ -82,7 +82,7 @@ export const Toast: React.FC<Props> = ({ toast }) => {
   }, [setToast, status]);
 
   return (
-    <div className="fixed flex top-8 right-8 pointer-events-none z-40">
+    <div className="fixed flex top-20 right-8 pointer-events-none z-40">
       <button
         style={{
           transition: 'opacity, transform 0.3s ease',
@@ -107,7 +107,7 @@ export const Toast: React.FC<Props> = ({ toast }) => {
           >
             {toast.message}
           </p>
-          <p className="text-sm opacity-50 text-left">
+          <p className={`text-xs opacity-70 text-left ${COLORS[toast.type].text}`}>
             {formatDate(new Date())}
           </p>
         </div>
