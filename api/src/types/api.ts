@@ -230,6 +230,16 @@ export type UpdateStoreParams = z.infer<(typeof storeSchema.updateStoreSchema)['
 export type UpdateStoreQuery = z.infer<(typeof storeSchema.updateStoreSchema)['query']>;
 export type UpdateStoreResponse = never;
 
+// UI ROUTES
+import * as uiSchema from '../schemas/ui';
+
+export type GetBreadcrumbBody = z.infer<(typeof uiSchema.getBreadcrumbSchema)['body']>;
+export type GetBreadcrumbParams = z.infer<(typeof uiSchema.getBreadcrumbSchema)['params']>;
+export type GetBreadcrumbQuery = z.infer<(typeof uiSchema.getBreadcrumbSchema)['query']>;
+export type GetBreadcrumbResponse = {
+  crumbs: { id: string; name: string }[];
+};
+
 // USER ROUTES
 import * as userSchema from '../schemas/user';
 
