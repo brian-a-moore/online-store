@@ -10,7 +10,7 @@ function useApi<D = undefined, P = undefined, R = undefined>(
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState<R | null>(null);
 
-  const isAutoTriggered = opts?.isAutoTriggered || true;
+  const isAutoTriggered = opts?.isAutoTriggered !== undefined ? opts?.isAutoTriggered : true;
 
   const argsRef = useRef(args);
   if (JSON.stringify(argsRef.current) !== JSON.stringify(args)) {
