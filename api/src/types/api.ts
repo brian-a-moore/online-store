@@ -193,7 +193,6 @@ export type GetStorePrivateResponse = {
     id: string;
     name: string;
     website: string | null;
-    description: string | null;
     image: string | null;
     bannerImage: string | null;
     isPublished: boolean;

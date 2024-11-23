@@ -7,7 +7,7 @@ import { Card, Container, Page } from "../../components/container";
 import { Loader } from "../../components/core";
 import { BannerImage, IconImage, IsPublished } from "../../components/display";
 import { Button } from "../../components/interactive";
-import { EmptyText, H1 } from "../../components/typography";
+import { H1 } from "../../components/typography";
 import { HTTP_METHOD } from "../../constants";
 import { ModalContext } from "../../context/ModalContext";
 import useApi from "../../hooks/useApi";
@@ -76,7 +76,6 @@ export const StoreLayout: React.FC = () => {
               <H1>{store!.name}</H1>
               <IsPublished isPublished={store!.isPublished} pathType="store" longForm />
             </div>
-            {store?.description ? <p>{store.description}</p> : <EmptyText>No Description</EmptyText>}
           </div>
         </Card>
         <Outlet />

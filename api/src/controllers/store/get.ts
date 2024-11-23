@@ -46,7 +46,19 @@ export const getStorePrivateController = async (
   const { storeId } = req.params;
 
   try {
-    const store = await db.store.findUniqueOrThrow({ where: { id: storeId } });
+    const store = await db.store.findUniqueOrThrow({
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        bannerImage: true,
+        website: true,
+        isPublished: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      where: { id: storeId },
+    });
 
     res.status(STATUS_CODE.OKAY).json({ store });
   } catch (e: any | unknown) {
