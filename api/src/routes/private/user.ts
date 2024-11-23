@@ -6,10 +6,18 @@ import {
   listUsersController,
   updateUserController,
 } from '../../controllers';
+import { searchUsersController } from '../../controllers/user/search';
 import checkPermissionMiddleware from '../../middlewares/checkPermission.middleware';
 import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
 import { canUseAdminRoutes } from '../../permissions';
-import { createUserSchema, deleteUserSchema, getUserSchema, listUsersSchema, updateUserSchema } from '../../schemas';
+import {
+  createUserSchema,
+  deleteUserSchema,
+  getUserSchema,
+  listUsersSchema,
+  searchUsersSchema,
+  updateUserSchema,
+} from '../../schemas';
 
 const router = Router({ mergeParams: true });
 
@@ -18,6 +26,12 @@ router.get(
   schemaValidatorMiddleware(listUsersSchema),
   checkPermissionMiddleware([canUseAdminRoutes]),
   listUsersController,
+);
+router.get(
+  '/search',
+  schemaValidatorMiddleware(searchUsersSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  searchUsersController,
 );
 router.get(
   '/:userId',

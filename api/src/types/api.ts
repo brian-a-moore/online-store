@@ -287,6 +287,17 @@ export type ListUsersResponse = {
   }[];
 };
 
+export type SearchUsersBody = z.infer<(typeof userSchema.searchUsersSchema)['body']>;
+export type SearchUsersParams = z.infer<(typeof userSchema.searchUsersSchema)['params']>;
+export type SearchUsersQuery = z.infer<(typeof userSchema.searchUsersSchema)['query']>;
+export type SearchUsersResponse = {
+  users: {
+    id: string;
+    name: string;
+    email: string;
+  }[];
+};
+
 export type UpdateUserBody = z.infer<(typeof userSchema.updateUserSchema)['body']>;
 export type UpdateUserParams = z.infer<(typeof userSchema.updateUserSchema)['params']>;
 export type UpdateUserQuery = z.infer<(typeof userSchema.updateUserSchema)['query']>;

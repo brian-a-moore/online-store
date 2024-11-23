@@ -52,6 +52,15 @@ export const listUsersSchema = {
   }),
 };
 
+export const searchUsersSchema = {
+  body: empty,
+  params: empty,
+  query: z.object({
+    search: strShort,
+    field: z.enum(['email', 'name']),
+  }),
+};
+
 export const updateUserSchema = {
   body: z
     .object({
