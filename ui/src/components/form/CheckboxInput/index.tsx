@@ -9,7 +9,7 @@ type Props<F extends FieldValues> = {
 export default function CheckboxInput<F extends FieldValues>({ name, label, control }: Props<F>) {
   return (
     <div>
-      <label className="flex gap-x-4 h-[76px] pt-7 items-center">
+      <label className="flex gap-x-4 items-center">
         <Controller
           name={name}
           control={control}
