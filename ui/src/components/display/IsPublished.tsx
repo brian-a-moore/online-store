@@ -7,6 +7,7 @@ type Props = {
   pathType: PathType;
   isPublished: boolean;
   longForm?: boolean;
+  invert?: boolean;
 };
 
 const pathMap = new Map<PathType, [string, string]>([
@@ -15,7 +16,7 @@ const pathMap = new Map<PathType, [string, string]>([
   ['item', [mdiBarcode, mdiBarcodeOff]],
 ]);
 
-export const IsPublished: React.FC<Props> = ({ pathType, isPublished, longForm = false }) => {
+export const IsPublished: React.FC<Props> = ({ pathType, isPublished, longForm = false, invert = false }) => {
   return (
     <div className="flex items-center gap-2">
       <Icon
@@ -24,7 +25,7 @@ export const IsPublished: React.FC<Props> = ({ pathType, isPublished, longForm =
         title={isPublished ? 'Public' : 'Unlisted'}
         color={isPublished ? '#64748B' : '#F87171'}
       />
-      {longForm && <p>{isPublished ? 'Public' : 'Unlisted'}</p>}
+      {longForm && <p className={invert ? 'text-shadow text-white' : ''}>{isPublished ? 'Public' : 'Unlisted'}</p>}
     </div>
   );
 };
