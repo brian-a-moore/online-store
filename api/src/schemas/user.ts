@@ -58,6 +58,7 @@ export const searchUsersSchema = {
   query: z.object({
     search: strShort,
     field: z.enum(['email', 'name']),
+    page: z.string().min(1).max(6),
   }),
 };
 
