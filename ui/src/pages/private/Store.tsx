@@ -6,7 +6,7 @@ import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse } fr
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
-import { Button } from '../../components/interactive';
+import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
 import { H1 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -30,6 +30,14 @@ export const StoreLayout: React.FC = () => {
 
   const toggleList = (list: 'products' | 'team') => {
     setActiveList(list);
+  };
+
+  const goToAddPage = () => {
+    if (activeList === 'products') {
+      navigate(`/product/new`);
+    } else {
+      navigate(`/admin/user/new`);
+    }
   };
 
   if (isLoading) return <Loader />;
@@ -58,18 +66,15 @@ export const StoreLayout: React.FC = () => {
           </div>
           <div className="flex gap-4 p-4 pt-0 pl-44 items-center justify-between">
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => toggleList('products')}
-                className={`${activeList === 'products' ? 'font-semibold text-sky-600' : 'opacity-50'}`}
-              >
+              <TextButton onClick={() => toggleList('products')} isActive={activeList === 'products'}>
                 View Products
-              </button>{' '}
+              </TextButton>
               |
-              <button onClick={() => toggleList('team')} className={`${activeList === 'team' ? 'font-semibold text-sky-600' : 'opacity-50'}`}>
+              <TextButton onClick={() => toggleList('team')} isActive={activeList === 'team'}>
                 View Team
-              </button>
+              </TextButton>
             </div>
-            <Button>
+            <Button onClick={goToAddPage}>
               <Icon path={mdiPlus} size={1} />
             </Button>
           </div>

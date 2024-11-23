@@ -3,3 +3,4 @@ export * from './ButtonLink';
 export * from './FloatingActionButton';
 export * from './Link';
 export * from './Stepper';
+export * from './TextButton';
