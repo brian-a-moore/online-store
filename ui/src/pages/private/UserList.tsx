@@ -2,11 +2,7 @@ import { mdiAccountCircle, mdiPlus, mdiSecurity, mdiStore } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import {
-  ListUsersBody,
-  ListUsersQuery,
-  ListUsersResponse
-} from '../../../../api/src/types/api';
+import { ListUsersBody, ListUsersQuery, ListUsersResponse } from '../../../../api/src/types/api';
 import { Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { FloatingActionButton } from '../../components/interactive';

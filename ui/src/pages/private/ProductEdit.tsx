@@ -1,17 +1,17 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { Card, Container, Page } from "../../components/container";
-import { Button } from "../../components/interactive";
-import { H2 } from "../../components/typography";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Card, Container, Page } from '../../components/container';
+import { Button } from '../../components/interactive';
+import { H2 } from '../../components/typography';
 
 type ProductState = {
-    id: string;
-    storeId: string;
-    name: string;
-    description: string | null;
-    image: string | null;
-    isPublished: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+  id: string;
+  storeId: string;
+  name: string;
+  description: string | null;
+  image: string | null;
+  isPublished: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const ProductEdit: React.FC = () => {
@@ -27,8 +27,10 @@ export const ProductEdit: React.FC = () => {
           <hr />
           <p>{JSON.stringify(product)}</p>
           <hr />
-          <div className='flex justify-between'>
-            <Button variant='secondary' onClick={() => navigate(-1)}>Back</Button>
+          <div className="flex justify-between">
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+              Back
+            </Button>
           </div>
         </Card>
       </Container>

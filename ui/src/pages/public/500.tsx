@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { Link } from "../../components/interactive";
+import { useParams } from 'react-router-dom';
+import { Link } from '../../components/interactive';
 
 type Props = {};
 
@@ -10,7 +10,7 @@ export const ServerError: React.FC<Props> = () => {
       <h1>Something didn't quite go right...</h1>
       <p>{error}</p>
       <hr />
-      <Link href='/'>Go Home</Link>
+      <Link href="/">Go Home</Link>
     </div>
   );
 };

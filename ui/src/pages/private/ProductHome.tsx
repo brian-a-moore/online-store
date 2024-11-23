@@ -91,12 +91,12 @@ export const ProductHome: React.FC = () => {
               </div>
               <hr />
               <div className="flex gap-4 items-center justify-end text-sm">
-                <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> | 
-                <p className='text-sm'>
+                <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> |
+                <p className="text-sm">
                   <strong>Created:</strong> {new Date(product!.createdAt).toLocaleDateString()}
                 </p>
-                 | 
-                <p className='text-sm'>
+                |
+                <p className="text-sm">
                   <strong>Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
                 </p>
               </div>

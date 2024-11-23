@@ -11,12 +11,15 @@ type Props = {};
 
 export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
-  
-  const { error, isLoading, response } = useApi<ListStoresPublicBody, ListStoresPrivateQuery, ListStoresPublicResponse>({
-    url: `/store/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  }, { isPrivateEndpoint: false });
+
+  const { error, isLoading, response } = useApi<ListStoresPublicBody, ListStoresPrivateQuery, ListStoresPublicResponse>(
+    {
+      url: `/store/list`,
+      method: HTTP_METHOD.GET,
+      params: { page: '1' },
+    },
+    { isPrivateEndpoint: false },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -38,13 +41,11 @@ const Store: React.FC<{
     name: string;
     description: string | null;
     image: string | null;
-  }
+  };
 }> = ({ store }) => {
   return (
     <Card key={store.id}>
-      {store.image ? (
-        <img src={store.image} alt={store.name} className="w-full h-48 object-cover rounded" />
-      ) : null}
+      {store.image ? <img src={store.image} alt={store.name} className="w-full h-48 object-cover rounded" /> : null}
       <H3 className="line-clamp-2" title={store.name}>
         {store.name}
       </H3>

@@ -40,12 +40,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       navigate('/login');
     }
     // TODO: add !isLoading to the condition so these won't fire before checking the auth token
-    if(location.pathname.includes('/login') && user) {
+    if (location.pathname.includes('/login') && user) {
       navigate('/admin');
     }
   }, [location.pathname, user, navigate]);
 
-  // TODO: Handle the loading state here 
+  // TODO: Handle the loading state here
 
   return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
 };

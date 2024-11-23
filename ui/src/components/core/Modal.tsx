@@ -14,7 +14,9 @@ const Modal: React.FC<Props> = ({ modal }) => {
         <Card className="flex flex-col gap-y-4">
           <H2>{modal.title}</H2>
           <div>{modal.Body}</div>
-          {modal.ActionBar && <div className={`flex gap-4 justify-between`}>{modal.ActionBar.map(Element => Element)}</div>}
+          {modal.ActionBar && (
+            <div className={`flex gap-4 justify-between`}>{modal.ActionBar.map((Element) => Element)}</div>
+          )}
         </Card>
       </div>
     </div>

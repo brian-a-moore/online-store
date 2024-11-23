@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ListProductsPrivateBody, ListProductsPublicQuery, ListProductsPublicResponse } from '../../../../api/src/types/api';
+import {
+  ListProductsPrivateBody,
+  ListProductsPublicQuery,
+  ListProductsPublicResponse,
+} from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
 import { Link } from '../../components/interactive';
@@ -13,12 +17,19 @@ type Props = {};
 export const Products: React.FC<Props> = () => {
   const navigate = useNavigate();
   const { storeId } = useParams<{ storeId: string }>();
-  
-  const { error, isLoading, response } = useApi<ListProductsPrivateBody, ListProductsPublicQuery, ListProductsPublicResponse>({
-    url: `/store/${storeId}/product/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  }, { isPrivateEndpoint: false });
+
+  const { error, isLoading, response } = useApi<
+    ListProductsPrivateBody,
+    ListProductsPublicQuery,
+    ListProductsPublicResponse
+  >(
+    {
+      url: `/store/${storeId}/product/list`,
+      method: HTTP_METHOD.GET,
+      params: { page: '1' },
+    },
+    { isPrivateEndpoint: false },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -29,12 +40,14 @@ export const Products: React.FC<Props> = () => {
   return <Grid>{response?.products?.map((product) => <Product key={product.id} product={product} />)}</Grid>;
 };
 
-const Product: React.FC<{ product: {
+const Product: React.FC<{
+  product: {
     id: string;
     name: string;
     description: string | null;
     image: string | null;
-}}> = ({ product }) => {
+  };
+}> = ({ product }) => {
   return (
     <Card key={product.id}>
       {product.image ? (

@@ -55,8 +55,13 @@ export const Cart: React.FC<Props> = () => {
                     </p>
                     <div className="flex gap-2 items-center">
                       <Stepper item={item} handleQuantityChange={handleQuantityChange} />
-                      <p className='flex-1 px-2'>{formatCurrency(item.quantity * item.price)}</p>
-                      <Button className='opacity-30 hover:opacity-100' variant="destructive" onClick={() => handleDeleteItem(item.id)} title="Delete Item">
+                      <p className="flex-1 px-2">{formatCurrency(item.quantity * item.price)}</p>
+                      <Button
+                        className="opacity-30 hover:opacity-100"
+                        variant="destructive"
+                        onClick={() => handleDeleteItem(item.id)}
+                        title="Delete Item"
+                      >
                         <Icon path={mdiDelete} size={0.75} />
                       </Button>
                     </div>

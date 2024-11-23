@@ -1,7 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { Card, Container, Page } from "../../components/container";
-import { Button } from "../../components/interactive";
-import { H2 } from "../../components/typography";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Card, Container, Page } from '../../components/container';
+import { Button } from '../../components/interactive';
+import { H2 } from '../../components/typography';
 
 type StoreState = {
   id: string;

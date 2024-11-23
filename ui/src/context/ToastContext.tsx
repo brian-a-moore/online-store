@@ -24,9 +24,5 @@ interface Props {
 export const ToastProvider: React.FC<Props> = ({ children }) => {
   const [toast, setToast] = useState<ToastProps | null>(null);
 
-  return (
-    <ToastContext.Provider value={{ toast, setToast }}>
-      {children}
-    </ToastContext.Provider>
-  );
+  return <ToastContext.Provider value={{ toast, setToast }}>{children}</ToastContext.Provider>;
 };

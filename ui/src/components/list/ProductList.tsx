@@ -3,9 +3,9 @@ import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
-    ListProductsPrivateBody,
-    ListProductsPrivateQuery,
-    ListProductsPrivateResponse
+  ListProductsPrivateBody,
+  ListProductsPrivateQuery,
+  ListProductsPrivateResponse,
 } from '../../../../api/src/types/api';
 import { Loader } from '../../components/core';
 import { IsPublished } from '../../components/display';
@@ -13,8 +13,8 @@ import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
 type Props = {
-    storeId: string;
-}
+  storeId: string;
+};
 
 export const ProductList: React.FC<Props> = ({ storeId }) => {
   const navigate = useNavigate();

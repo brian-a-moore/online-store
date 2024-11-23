@@ -17,20 +17,16 @@ export const Button: React.FC<Props> = ({
 
   switch (variant) {
     case 'primary':
-      className =
-        'bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded';
+      className = 'bg-slate-600 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded';
       break;
     case 'secondary':
-      className =
-        ' bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded';
+      className = ' bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded';
       break;
     case 'transparent':
-      className =
-        'bg-[transparent] hover:bg-[rgba(255,255,255,0.2)] text-white font-semibold py-2 px-4 rounded';
+      className = 'bg-[transparent] hover:bg-[rgba(255,255,255,0.2)] text-white font-semibold py-2 px-4 rounded';
       break;
     case 'destructive':
-      className =
-        'bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded';
+      className = 'bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded';
       break;
   }
 

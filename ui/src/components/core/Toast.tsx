@@ -95,21 +95,11 @@ export const Toast: React.FC<Props> = ({ toast }) => {
         onClick={() => setStatus('closing')}
       >
         <div className="bg-[rgba(100,100,100,0.1)] flex h-full items-center justify-center px-4">
-          <Icon
-            path={ICON[toast.type]}
-            size={1.25}
-            color={COLORS[toast.type].icon}
-          />
+          <Icon path={ICON[toast.type]} size={1.25} color={COLORS[toast.type].icon} />
         </div>
         <div className="flex flex-col flex-1 gap-2 p-4">
-          <p
-            className={`${COLORS[toast.type].text} h-full text-left line-clamp-3 text-sm`}
-          >
-            {toast.message}
-          </p>
-          <p className={`text-xs opacity-70 text-left ${COLORS[toast.type].text}`}>
-            {formatDate(new Date())}
-          </p>
+          <p className={`${COLORS[toast.type].text} h-full text-left line-clamp-3 text-sm`}>{toast.message}</p>
+          <p className={`text-xs opacity-70 text-left ${COLORS[toast.type].text}`}>{formatDate(new Date())}</p>
         </div>
       </button>
     </div>

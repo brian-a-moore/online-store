@@ -49,7 +49,7 @@ export const Login: React.FC<Props> = () => {
   return (
     <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-8">
       <Card className="w-full max-w-[640px]">
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <H1>Login</H1>
           <hr />
           <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
@@ -63,7 +63,9 @@ export const Login: React.FC<Props> = () => {
           <Button disabled={isSubmitting}>{isSubmitting ? 'Logging in...' : 'Log In'}</Button>
           {formError ? <ErrorText>{formError}</ErrorText> : null}
         </form>
-        <p>Not here to manage a store? <Link href='/'>View Stores</Link></p>
+        <p>
+          Not here to manage a store? <Link href="/">View Stores</Link>
+        </p>
       </Card>
     </div>
   );

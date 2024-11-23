@@ -51,10 +51,10 @@ export const ItemEdit: React.FC = () => {
   });
 
   useEffect(() => {
-    if(response?.item) {
+    if (response?.item) {
       setValue('name', response.item.name);
       setValue('itemTypeId', response.item.itemTypeId);
-      if(response.item.description) setValue('description', response.item.description);
+      if (response.item.description) setValue('description', response.item.description);
       setValue('maxQuantityPerOrder', response.item.maxQuantityPerOrder);
     }
   }, [JSON.stringify(response), setValue]);
