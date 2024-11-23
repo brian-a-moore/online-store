@@ -1,4 +1,4 @@
-import { mdiBarcode, mdiChevronRight, mdiStorefront, mdiTag } from '@mdi/js';
+import { mdiBarcode, mdiChevronRight, mdiStore, mdiTag } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -29,7 +29,7 @@ export const BreadCrumb: React.FC = () => {
   ];
 
   const ICONS = [
-    mdiStorefront,
+    mdiStore,
     mdiTag,
     mdiBarcode
   ];

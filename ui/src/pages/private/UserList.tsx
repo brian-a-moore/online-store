@@ -1,4 +1,4 @@
-import { mdiAccountCircle, mdiPlus, mdiSecurity, mdiStorefront } from '@mdi/js';
+import { mdiAccountCircle, mdiPlus, mdiSecurity, mdiStore } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -48,7 +48,7 @@ export const UserList: React.FC = () => {
               title={user.isSuperUser ? 'Super User' : 'Standard User'}
             />
             <div className="flex gap-2 items-center">
-              <Icon className="opacity-60" path={mdiStorefront} size={0.75} />
+              <Icon className="opacity-60" path={mdiStore} size={0.75} />
               <p className="flex items-center bg-orange-400 text-white text-sm px-2 rounded">{user.stores.length}</p>
             </div>
           </RouterLink>
