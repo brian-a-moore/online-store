@@ -229,6 +229,20 @@ export type UpdateStoreParams = z.infer<(typeof storeSchema.updateStoreSchema)['
 export type UpdateStoreQuery = z.infer<(typeof storeSchema.updateStoreSchema)['query']>;
 export type UpdateStoreResponse = never;
 
+// TEAM ROUTES
+import * as teamSchema from '../schemas/team';
+
+export type GetTeamBody = z.infer<(typeof teamSchema.getTeamSchema)['body']>;
+export type GetTeamParams = z.infer<(typeof teamSchema.getTeamSchema)['params']>;
+export type GetTeamQuery = z.infer<(typeof teamSchema.getTeamSchema)['query']>;
+export type GetTeamResponse = {
+  team: {
+    id: string;
+    name: string;
+    email: string;
+  }[];
+};
+
 // UI ROUTES
 import * as uiSchema from '../schemas/ui';
 
