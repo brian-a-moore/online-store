@@ -4,10 +4,32 @@ import { Toast } from './components/core';
 import Modal from './components/core/Modal';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
-import { ItemEdit, ItemLayout, ProductEdit, ProductHome, ProductLayout, StoreEdit, StoreHome, StoreLayout, StoreList } from './pages/private';
-import { AdminHome, AdminLayout } from './pages/private/Admin';
-import { UserEdit, UserHome, UserList } from './pages/private/User';
-import { Home, Items, Login, OrderCancelled, OrderSuccess, PageNotFound, Products, ServerError, Store } from './pages/public';
+import {
+  AdminHome,
+  AdminLayout,
+  ItemEdit,
+  ItemLayout,
+  ProductEdit,
+  ProductHome,
+  ProductLayout,
+  StoreEdit,
+  StoreHome,
+  StoreLayout,
+  StoreList,
+  UserEdit,
+  UserList,
+} from './pages/private';
+import {
+  Home,
+  Items,
+  Login,
+  OrderCancelled,
+  OrderSuccess,
+  PageNotFound,
+  Products,
+  ServerError,
+  Store,
+} from './pages/public';
 
 function App() {
   const { modal } = useContext(ModalContext);
@@ -16,8 +38,8 @@ function App() {
     <div>
       <Routes>
         <Route index path="/" element={<Home />} />
-        <Route path='login' element={<Login />} />
-        
+        <Route path="login" element={<Login />} />
+
         {/* Public Store Pages */}
         <Route path="store/:storeId" element={<Store />}>
           <Route index element={<Products />} />
@@ -27,31 +49,30 @@ function App() {
         </Route>
 
         {/* Admin Pages */}
-        <Route path='admin' element={<AdminLayout />}>
+        <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
           {/* Store Pages */}
-          <Route path='store/list' element={<StoreList />} />
-          <Route path='store/new' element={<StoreEdit />} />
-          <Route path='store/:storeId' element={<StoreLayout />}>
+          <Route path="store/list" element={<StoreList />} />
+          <Route path="store/new" element={<StoreEdit />} />
+          <Route path="store/:storeId" element={<StoreLayout />}>
             <Route index element={<StoreHome />} />
-            <Route path='edit' element={<StoreEdit />} />
+            <Route path="edit" element={<StoreEdit />} />
             {/* Product Pages */}
-            <Route path='product/new' element={<ProductEdit />} />
-            <Route path='product/:productId' element={<ProductLayout />}>
+            <Route path="product/new" element={<ProductEdit />} />
+            <Route path="product/:productId" element={<ProductLayout />}>
               <Route index element={<ProductHome />} />
-              <Route path='edit' element={<ProductEdit />} />
+              <Route path="edit" element={<ProductEdit />} />
               {/* Item Pages */}
-              <Route path='item/new' element={<ItemEdit />} />
-              <Route path='item/:itemId' element={<ItemLayout />}>
+              <Route path="item/new" element={<ItemEdit />} />
+              <Route path="item/:itemId" element={<ItemLayout />}>
                 <Route index element={<ItemEdit />} />
               </Route>
             </Route>
           </Route>
           {/* User Pages */}
-          <Route path='user/list' element={<UserList />} />
-          <Route path='user/new' element={<UserEdit />} />
-          <Route path='user/:userId' element={<UserHome />} />
-          <Route path='user/:userId/edit' element={<UserEdit />} />
+          <Route path="user/list" element={<UserList />} />
+          <Route path="user/new" element={<UserEdit />} />
+          <Route path="user/:userId" element={<UserEdit />} />
 
           {/* System Pages */}
           <Route path="*" element={<Navigate to="/404" />} />
