@@ -23,12 +23,6 @@ export const getUserController = async (
           select: {
             storeId: true,
             roleId: true,
-            store: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
           },
         },
       },

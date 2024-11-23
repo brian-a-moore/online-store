@@ -79,7 +79,7 @@ CREATE TABLE "roles" (
 CREATE TABLE "user_stores" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "storeId" TEXT,
+    "storeId" TEXT NOT NULL,
     "roleId" INTEGER NOT NULL,
 
     CONSTRAINT "user_stores_pkey" PRIMARY KEY ("id")
@@ -104,7 +104,7 @@ ALTER TABLE "items" ADD CONSTRAINT "items_itemTypeId_fkey" FOREIGN KEY ("itemTyp
 ALTER TABLE "user_stores" ADD CONSTRAINT "user_stores_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "user_stores" ADD CONSTRAINT "user_stores_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "user_stores" ADD CONSTRAINT "user_stores_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "user_stores" ADD CONSTRAINT "user_stores_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

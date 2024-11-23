@@ -265,12 +265,8 @@ export type GetUserResponse = {
     createdAt: Date;
     updatedAt: Date;
     stores: {
-      storeId: string | null;
+      storeId: string;
       roleId: number;
-      store: {
-        name: string;
-        id: string;
-      } | null;
     }[];
   };
 };

@@ -88,13 +88,13 @@ model Role {
 }
 
 model UserStore {
-    id      String  @id @default(uuid())
+    id      String @id @default(uuid())
     userId  String
-    storeId String?
+    storeId String
     roleId  Int
-    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    store   Store?  @relation(fields: [storeId], references: [id])
-    role    Role    @relation(fields: [roleId], references: [id])
+    user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    store   Store  @relation(fields: [storeId], references: [id])
+    role    Role   @relation(fields: [roleId], references: [id])
 
     @@unique([userId, storeId])
     @@map("user_stores")
