@@ -1,12 +1,9 @@
-import { mdiDelete, mdiPencil, mdiPlus } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useContext, useEffect } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse } from "../../../../api/src/types/api";
 import { Card, Container, Page } from "../../components/container";
 import { Loader } from "../../components/core";
 import { BannerImage, IconImage, IsPublished } from "../../components/display";
-import { Button } from "../../components/interactive";
 import { H1 } from "../../components/typography";
 import { HTTP_METHOD } from "../../constants";
 import { ModalContext } from "../../context/ModalContext";
@@ -36,46 +33,15 @@ export const StoreLayout: React.FC = () => {
         <Card className="!p-0">
           <div className="relative h-40">
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
-            <IconImage className="absolute top-20 left-8 z-10" image={store?.image} name={store!.name} />
-            <div className="absolute top-4 right-4 flex gap-4 z-10">
-              <Button
-                variant="secondary"
-                title="Delete Store"
-                onClick={() =>
-                  setModal({
-                    title: 'Delete Store',
-                    Body: (
-                      <p>
-                        Deleting a store will remove all the stores data, including its; products, items, sales and
-                        history. This is immediate and unrecoverable. Are you sure you want to delete this store?
-                      </p>
-                    ),
-                    ActionBar: [
-                      <Button variant="secondary" onClick={() => setModal(null)}>
-                        Cancel
-                      </Button>,
-                      <Button variant="destructive" onClick={() => {}}>
-                        Delete Store
-                      </Button>,
-                    ],
-                  })
-                }
-              >
-                <Icon path={mdiDelete} size={0.75} />
-              </Button>
-              <Button variant="secondary" onClick={() => navigate('edit', { state: { store } })} title="Edit Store">
-                <Icon path={mdiPencil} size={0.75} />
-              </Button>
-              <Button onClick={() => navigate('product/new')} title="New Product">
-                <Icon path={mdiPlus} size={0.75} />
-              </Button>
+            <IconImage className="absolute -bottom-16 left-8 z-10" image={store?.image} name={store!.name} />
+            
+            <div className='absolute bottom-4 right-0 px-4 pl-44 flex gap-4 items-end justify-between w-full z-10 !text-white'>
+              <H1 className='whitespace-nowrap text-ellipsis overflow-hidden text-shadow'>{store!.name}</H1>
+              <IsPublished isPublished={store!.isPublished} pathType="store" longForm invert />
             </div>
           </div>
-          <div className="flex flex-col gap-4 p-4 pt-0">
-            <div className="flex pl-40 items-center justify-between">
-              <H1>{store!.name}</H1>
-              <IsPublished isPublished={store!.isPublished} pathType="store" longForm />
-            </div>
+          <div className='h-16'>
+
           </div>
         </Card>
         <Outlet />
