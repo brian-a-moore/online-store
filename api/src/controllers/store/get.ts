@@ -26,7 +26,7 @@ export const getStorePublicController = async (
         name: true,
         description: true,
         image: true,
-        heroImage: true,
+        bannerImage: true,
         website: true,
       },
       where: { id: storeId, isPublished: true },

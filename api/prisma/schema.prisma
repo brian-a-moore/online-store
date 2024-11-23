@@ -13,7 +13,7 @@ model Store {
     website     String?
     description String?
     image       String?
-    heroImage   String?
+    bannerImage String?
     isPublished Boolean     @default(false)
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt

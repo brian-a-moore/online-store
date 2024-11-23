@@ -9,7 +9,7 @@ type StoreState = {
   website: string | null;
   description: string | null;
   image: string | null;
-  heroImage: string | null;
+  bannerImage: string | null;
   isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
