@@ -33,14 +33,14 @@ export const StoreLayout: React.FC = () => {
         <Card className="!p-0">
           <div className="relative h-40">
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
-            <IconImage className="absolute -bottom-16 left-8 z-10" image={store?.image} name={store!.name} />
+            <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             
             <div className='absolute bottom-4 right-0 px-4 pl-44 flex gap-4 items-end justify-between w-full z-10 !text-white'>
               <H1 className='whitespace-nowrap text-ellipsis overflow-hidden text-shadow'>{store!.name}</H1>
               <IsPublished isPublished={store!.isPublished} pathType="store" longForm invert />
             </div>
           </div>
-          <div className='h-16'>
+          <div className='h-12'>
 
           </div>
         </Card>
