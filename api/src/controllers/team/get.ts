@@ -15,7 +15,7 @@ export const getTeamController = async (
 
     try {
       page = getPageNumber(req.query.page);
-      storeId = req.query.storeId;
+      storeId = req.params.storeId;
     } catch (e: any | unknown) {
       res.status(STATUS_CODE.BAD_INPUT).json({ message: e.message });
       return;
