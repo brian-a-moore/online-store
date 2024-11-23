@@ -30,9 +30,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = () => {
             <Icon path={mdiLogout} size={0.75} className='opacity-50' />
           </Button>
         </header>
-        <div className='flex-1 overflow-y-auto'>
-          <Outlet />
-        </div>
+       <Outlet />
       </div>
   );
 };
