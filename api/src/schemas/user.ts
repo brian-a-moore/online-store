@@ -56,6 +56,7 @@ export const searchUsersSchema = {
   body: empty,
   params: empty,
   query: z.object({
+    storeId: uuid,
     search: strShort,
     field: z.enum(['email', 'name']),
     page: z.string().min(1).max(6),
