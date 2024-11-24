@@ -63,10 +63,10 @@ export const Items: React.FC<Props> = () => {
     )
   };
 
-  return <Grid>{response?.items?.map((item) => <ItemContainer key={item.id} item={item} />)}</Grid>;
+  return <Grid>{response?.items?.map((item) => <Item key={item.id} item={item} />)}</Grid>;
 };
 
-const ItemContainer: React.FC<{
+const Item: React.FC<{
   item: Item;
 }> = ({ item }) => {
   const { addItem } = useContext(CartContext);

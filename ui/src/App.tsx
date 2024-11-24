@@ -14,12 +14,10 @@ import {
   Home,
   Items,
   Login,
-  OrderCancelled,
-  OrderSuccess,
   PageNotFound,
   Products,
   ServerError,
-  Store,
+  Store
 } from './pages/public';
 
 function App() {
@@ -35,8 +33,6 @@ function App() {
         <Route path="store/:storeId" element={<Store />}>
           <Route index element={<Products />} />
           <Route path="product/:productId" element={<Items />} />
-          <Route path="order/success" element={<OrderSuccess />} />
-          <Route path="order/cancelled" element={<OrderCancelled />} />
         </Route>
 
         {/* Admin Pages */}

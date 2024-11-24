@@ -59,6 +59,7 @@ const Store: React.FC<{
       <H3 className="line-clamp-2" title={store.name}>
         {store.name}
       </H3>
+      <hr />
       <p className="text-sm line-clamp-5 flex-1" title={store?.description || 'No Description'}>
         {store.description}
       </p>
