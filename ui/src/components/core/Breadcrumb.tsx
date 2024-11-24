@@ -29,7 +29,7 @@ export const BreadCrumb: React.FC = () => {
   const getCrumbLink = (index: number) => {
     if (index === 0) return '/admin';
     if (index === 1) return `/admin/store/${crumbs[1].id}`;
-    if (index === 2) return `/admin/store/${crumbs[2].id}/product/${crumbs[2].id}`;
+    if (index === 2) return `/admin/store/${crumbs[1].id}/product/${crumbs[2].id}`;
     else return '/admin';
   };
 
