@@ -21,6 +21,7 @@ import {
   PageNotFound,
   Products,
   ServerError,
+  Store,
 } from './pages/public';
 
 function App() {
