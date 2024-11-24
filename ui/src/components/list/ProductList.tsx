@@ -12,7 +12,7 @@ import { IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { Grid } from '../container';
-import { H5 } from '../typography';
+import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -38,6 +38,14 @@ export const ProductList: React.FC<Props> = ({ storeId }) => {
   if (isLoading) return <Loader />;
 
   const products = response?.products;
+
+  if(!products || products.length === 0) {
+    return(
+      <div className='flex justify-center'>
+        <EmptyText>No products found</EmptyText>
+      </div>
+    )
+  };
 
   return (
     <Grid className='!p-0'>

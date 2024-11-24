@@ -3,16 +3,16 @@ import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
-    ListStoresPrivateBody,
-    ListStoresPrivateQuery,
-    ListStoresPrivateResponse,
+  ListStoresPrivateBody,
+  ListStoresPrivateQuery,
+  ListStoresPrivateResponse,
 } from '../../../../api/src/types/api';
 import { Grid } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
-import { H5 } from '../typography';
+import { EmptyText, H5 } from '../typography';
 
 export const StoreList: React.FC = () => {
   const navigate = useNavigate();
@@ -34,6 +34,14 @@ export const StoreList: React.FC = () => {
   if (isLoading) return <Loader />;
 
   const stores = response?.stores;
+
+  if(!stores || stores.length === 0) {
+    return(
+      <div className='flex justify-center'>
+        <EmptyText>No stores found. Contact your administrator to create or be added to a store.</EmptyText>
+      </div>
+    )
+  };
 
   return (
     <Grid className="!p-0">

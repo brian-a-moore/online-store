@@ -11,7 +11,7 @@ import { Loader } from '../core';
 import { IsPublished } from '../display';
 import { ItemForm } from '../form';
 import { Button } from '../interactive';
-import { H5 } from '../typography';
+import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -35,6 +35,14 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
   if (isLoading) return <Loader />;
 
   const items = response?.items;
+
+  if(!items || items.length === 0) {
+    return(
+      <div className='flex justify-center'>
+        <EmptyText>No items found</EmptyText>
+      </div>
+    )
+  };
 
   return (
     <Grid className='!p-0'>

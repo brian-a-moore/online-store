@@ -8,7 +8,7 @@ import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
 import { TeamMemberForm } from '../form';
 import { Button } from '../interactive';
-import { H5 } from '../typography';
+import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -31,6 +31,14 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   if (isLoading) return <Loader />;
 
   const team = response?.team;
+
+  if(!team || team.length === 0) {
+    return(
+      <div className='flex justify-center'>
+        <EmptyText>No team members found</EmptyText>
+      </div>
+    )
+  };
 
   return (
     <Grid className='!p-0'>
