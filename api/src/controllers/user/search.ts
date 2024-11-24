@@ -40,6 +40,9 @@ export const searchUsersController = async (
       where,
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
+      orderBy: {
+        name: 'asc',
+      },
     });
 
     res.status(STATUS_CODE.OKAY).json({ users });
