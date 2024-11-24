@@ -11,17 +11,19 @@ export const getBreadcrumbController = async (
   const ids = req.query;
 
   try {
-    const store = await db.store.findUniqueOrThrow({ select: { name: true }, where: { id: ids.storeId } });
+    const crumbs: { name: string; id: string }[] = [];
 
-    const crumbs = [{ name: store.name, id: ids.storeId }];
     if (ids.productId) {
-      const product = await db.product.findUniqueOrThrow({ select: { name: true }, where: { id: ids.productId } });
-      crumbs.push({ name: product.name, id: ids.productId });
+      const store = await db.store.findUniqueOrThrow({ select: { id: true, name: true }, where: { id: ids.storeId } });
+      crumbs.push({ name: store.name, id: store.id });
     }
 
-    if (ids.itemId) {
-      const item = await db.item.findUniqueOrThrow({ select: { name: true }, where: { id: ids.itemId } });
-      crumbs.push({ name: item.name, id: ids.itemId });
+    if (ids.productId) {
+      const product = await db.product.findUniqueOrThrow({
+        select: { id: true, name: true },
+        where: { id: ids.productId },
+      });
+      crumbs.push({ name: product.name, id: product.id });
     }
 
     res.status(STATUS_CODE.OKAY).json({ crumbs });

@@ -6,9 +6,8 @@ export const getBreadcrumbSchema = {
   params: empty,
   query: z
     .object({
-      storeId: uuid,
+      storeId: uuid.optional(),
       productId: uuid.optional(),
-      itemId: uuid.optional(),
     })
     .strict(),
 };

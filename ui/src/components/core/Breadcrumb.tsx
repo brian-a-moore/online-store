@@ -1,4 +1,4 @@
-import { mdiBarcode, mdiChevronRight, mdiStore, mdiTag } from '@mdi/js';
+import { mdiBarcode, mdiChevronRight, mdiHome, mdiStore, mdiTag } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,22 +14,22 @@ export const BreadCrumb: React.FC = () => {
     url: '/admin/ui/breadcrumb',
     method: HTTP_METHOD.GET,
     params,
-  });
+  }, { isAutoTriggered: params.storeId !== undefined });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const crumbs = response?.crumbs || [];
+  const crumbs = [{ id: '', name: 'Home' }, ...response?.crumbs || []];
 
-  const LABELS = ['Go to store: ', 'Go to product: ', 'Go to item: '];
+  const LABELS = ['Go Home','Go to store: ', 'Go to product: ', 'Go to item: '];
 
-  const ICONS = [mdiStore, mdiTag, mdiBarcode];
+  const ICONS = [mdiHome, mdiStore, mdiTag, mdiBarcode];
 
   const getCrumbLink = (index: number) => {
-    if (index === 0) return `/admin/store/${crumbs[0].id}`;
-    if (index === 1) return `/admin/store/${crumbs[0].id}/product/${crumbs[1].id}`;
-    if (index === 2) return `/admin/store/${crumbs[0].id}/product/${crumbs[1].id}/item/${crumbs[2].id}`;
+    if (index === 0) return '/admin';
+    if (index === 1) return `/admin/store/${crumbs[1].id}`;
+    if (index === 2) return `/admin/store/${crumbs[2].id}/product/${crumbs[2].id}`;
     else return '/admin';
   };
 
