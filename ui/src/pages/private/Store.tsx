@@ -6,6 +6,7 @@ import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse } fr
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
+import { ProductForm, StoreForm, TeamMemberForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
 import { H1 } from '../../components/typography';
@@ -34,9 +35,31 @@ export const StoreLayout: React.FC = () => {
 
   const goToAddPage = () => {
     if (activeList === 'products') {
-      navigate(`/product/new`);
+      setModal({
+        title: 'New Product',
+        Body: <ProductForm />,
+        ActionBar: [
+          <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+            Cancel
+          </Button>,
+          <Button key="submit" onClick={() => setModal(null)}>
+            Create Product
+          </Button>,
+        ],
+      });
     } else {
-      navigate(`/admin/user/new`);
+      setModal({
+        title: 'New Team Member',
+        Body: <TeamMemberForm />,
+        ActionBar: [
+          <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+            Cancel
+          </Button>,
+          <Button key="submit" onClick={() => setModal(null)}>
+            Create Team Member
+          </Button>,
+        ],
+      });
     }
   };
 
@@ -55,7 +78,22 @@ export const StoreLayout: React.FC = () => {
               <Button variant="destructive">
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
-              <Button>
+              <Button
+                onClick={() =>
+                  setModal({
+                    title: 'Edit Store',
+                    Body: <StoreForm store={store} />,
+                    ActionBar: [
+                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                        Cancel
+                      </Button>,
+                      <Button key="submit" onClick={() => setModal(null)}>
+                        Update Store
+                      </Button>,
+                    ],
+                  })
+                }
+              >
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>
