@@ -11,6 +11,8 @@ import { Loader } from '../../components/core';
 import { IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
+import { Grid } from '../container';
+import { H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -38,25 +40,27 @@ export const ProductList: React.FC<Props> = ({ storeId }) => {
   const products = response?.products;
 
   return (
-    <>
+    <Grid className='!p-0'>
       {products?.map((product) => (
         <RouterLink
-          className="flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
+          className="flex flex-col p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
           key={product.id}
           to={`product/${product.id}`}
           title={`View Product: ${product.name}`}
         >
-          <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</p>
-          <IsPublished isPublished={product.isPublished} pathType="product" />
-          <div
-            className="flex gap-2 items-center opacity-60"
-            title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}
-          >
-            <Icon path={mdiUpdate} size={0.75} />
-            <p className="text-sm">{new Date(product.updatedAt).toLocaleDateString()}</p>
+          <H5 className="w-full text-left whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</H5>
+          <div className='flex gap-4 w-full justify-between'>
+            <div
+              className="flex gap-2 items-center opacity-60"
+              title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}
+            >
+              <Icon path={mdiUpdate} size={0.75} />
+              <p className="text-sm">{new Date(product.updatedAt).toLocaleDateString()}</p>
+            </div>
+            <IsPublished isPublished={product.isPublished} pathType="product" />
           </div>
         </RouterLink>
       ))}
-    </>
+    </Grid>
   );
 };

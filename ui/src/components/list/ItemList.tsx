@@ -6,11 +6,12 @@ import { ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse }
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { ListItem } from '../container';
+import { Grid, ListItem } from '../container';
 import { Loader } from '../core';
 import { IsPublished } from '../display';
 import { ItemForm } from '../form';
 import { Button } from '../interactive';
+import { H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -36,7 +37,7 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
   const items = response?.items;
 
   return (
-    <>
+    <Grid className='!p-0'>
       {items?.map((item) => (
         <ListItem
           key={item.id}
@@ -56,17 +57,19 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
           }}
           title={`Edit Item: ${item.name}`}
         >
-          <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{item.name}</p>
-          <IsPublished isPublished={item.isPublished} pathType="item" />
-          <div
-            className="flex gap-2 items-center opacity-60"
-            title={`Last Updated: ${new Date(item.updatedAt).toLocaleDateString()}`}
-          >
-            <Icon path={mdiUpdate} size={0.75} />
-            <p className="text-sm">{new Date(item.updatedAt).toLocaleDateString()}</p>
+          <H5 className="w-full whitespace-nowrap text-left text-ellipsis overflow-hidden" title={item.name}>{item.name}</H5>
+          <div className='flex gap-4 w-full justify-between'>
+            <div
+              className="flex gap-2 items-center opacity-60"
+              title={`Last Updated: ${new Date(item.updatedAt).toLocaleDateString()}`}
+            >
+              <Icon path={mdiUpdate} size={0.75} />
+              <p className="text-sm">{new Date(item.updatedAt).toLocaleDateString()}</p>
+            </div>
+            <IsPublished isPublished={item.isPublished} pathType="item" />
           </div>
         </ListItem>
       ))}
-    </>
+    </Grid>
   );
 };

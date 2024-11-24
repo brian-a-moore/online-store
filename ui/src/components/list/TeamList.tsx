@@ -5,9 +5,10 @@ import { Loader } from '../../components/core';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { ListItem } from '../container';
+import { Grid, ListItem } from '../container';
 import { TeamMemberForm } from '../form';
 import { Button } from '../interactive';
+import { H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -32,7 +33,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   const team = response?.team;
 
   return (
-    <>
+    <Grid className='!p-0'>
       {team?.map((member) => (
         <ListItem
           key={member.id}
@@ -52,10 +53,10 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
           }}
           title={`Edit Member: ${member.name}`}
         >
-          <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{member.name}</p>
+          <H5 className="whitespace-nowrap text-ellipsis overflow-hidden">{member.name}</H5>
           <p className="text-sm opacity-60 whitespace-nowrap text-ellipsis overflow-hidden">{member.email}</p>
         </ListItem>
       ))}
-    </>
+    </Grid>
   );
 };
