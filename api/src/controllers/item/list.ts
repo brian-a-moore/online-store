@@ -65,6 +65,7 @@ export const listItemsPrivateController = async (
 ) => {
   try {
     let page;
+    const { productId } = req.params;
 
     try {
       page = getPageNumber(req.query.page);
@@ -79,6 +80,9 @@ export const listItemsPrivateController = async (
         name: true,
         updatedAt: true,
         isPublished: true,
+      },
+      where: {
+        productId,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
