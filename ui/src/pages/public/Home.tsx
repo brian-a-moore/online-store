@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ListStoresPrivateQuery, ListStoresPublicBody, ListStoresPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
-import { Header, Loader } from '../../components/core';
+import { Loader } from '../../components/core';
 import { H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -29,7 +29,6 @@ export const Home: React.FC<Props> = () => {
 
   return (
     <div>
-      <Header />
       <Grid>{response?.stores?.map((store) => <Store key={store.id} store={store} />)}</Grid>
     </div>
   );

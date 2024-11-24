@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse } from '../../../../api/src/types/api';
-import { Cart, Header, Loader } from '../../components/core';
+import { Cart, Loader } from '../../components/core';
 import { HTTP_METHOD } from '../../constants';
 import { CartProvider } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
@@ -29,7 +29,6 @@ export const Store: React.FC<Props> = () => {
   return (
     <div className="flex flex-col">
       <CartProvider>
-        <Header />
         <Outlet />
         <Cart />
       </CartProvider>

@@ -208,6 +208,8 @@ export type ListStoresPublicResponse = {
   stores: {
     id: string;
     name: string;
+    description: string | null;
+    image: string | null;
     updatedAt: Date;
   }[];
 };

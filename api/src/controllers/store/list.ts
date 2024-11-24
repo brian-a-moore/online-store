@@ -34,6 +34,8 @@ export const listStoresPublicController = async (
       select: {
         id: true,
         name: true,
+        image: true,
+        description: true,
         updatedAt: true,
       },
       where: {
