@@ -7,11 +7,9 @@ import { ToastContext } from './context/ToastContext';
 import {
   AdminHome,
   AdminLayout,
-  ProductHome,
-  ProductLayout,
-  StoreHome,
-  StoreLayout,
+  ProductPrivate,
   StoreList,
+  StorePrivate,
   UserList
 } from './pages/private';
 import {
@@ -23,7 +21,6 @@ import {
   PageNotFound,
   Products,
   ServerError,
-  Store,
 } from './pages/public';
 
 function App() {
@@ -47,12 +44,8 @@ function App() {
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
           <Route path="store/list" element={<StoreList />} />
-          <Route path="store/:storeId" element={<StoreLayout />}>
-            <Route index element={<StoreHome />} />
-            <Route path="product/:productId" element={<ProductLayout />}>
-              <Route index element={<ProductHome />} />
-            </Route>
-          </Route>
+          <Route path="store/:storeId" element={<StorePrivate />} />
+          <Route path="store/:storeId/product/:productId" element={<ProductPrivate />} />
           <Route path="user/list" element={<UserList />} />
         </Route>
         <Route path="404" element={<PageNotFound />} />
