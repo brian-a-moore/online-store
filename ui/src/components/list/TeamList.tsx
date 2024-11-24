@@ -1,15 +1,20 @@
-import { useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GetTeamBody, GetTeamQuery, GetTeamResponse } from '../../../../api/src/types/api';
 import { Loader } from '../../components/core';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
+import { ListItem } from '../container';
+import { TeamMemberForm } from '../form';
+import { Button } from '../interactive';
 
 type Props = {
   storeId: string;
 };
 
 export const TeamList: React.FC<Props> = ({ storeId }) => {
+  const { setModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<GetTeamBody, GetTeamQuery, GetTeamResponse>({
@@ -29,15 +34,27 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   return (
     <>
       {team?.map((member) => (
-        <RouterLink
-          className="flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
+        <ListItem
           key={member.id}
-          to={`/admin/user/${member.id}`}
+          onClick={() => {
+            setModal({
+              title: 'Edit Team Member',
+              Body: <TeamMemberForm teamMember={member} />,
+              ActionBar: [
+                <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                  Cancel
+                </Button>,
+                <Button key="submit" onClick={() => setModal(null)}>
+                  Update Team Member
+                </Button>,
+              ],
+            })
+          }}
           title={`View user: ${member.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{member.name}</p>
           <p className="text-sm opacity-60 whitespace-nowrap text-ellipsis overflow-hidden">{member.email}</p>
-        </RouterLink>
+        </ListItem>
       ))}
     </>
   );
