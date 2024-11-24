@@ -1,9 +1,10 @@
-import { mdiHome, mdiLogout } from '@mdi/js';
+import { mdiLogout } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Card } from '../../components/container';
-import { Button, ButtonLink, Link } from '../../components/interactive';
+import { BreadCrumb } from '../../components/core/Breadcrumb';
+import { Button, Link } from '../../components/interactive';
 import { H3, H5 } from '../../components/typography';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -19,17 +20,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = () => {
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <header className="bg-slate-600 flex items-center justify-between p-4">
-        <div className="flex gap-4 items-center">
-          <ButtonLink href=".">
-            <Icon path={mdiHome} size={1} color="white" />
-          </ButtonLink>
-          <H5 className="text-white">Store Manager</H5>
-        </div>
+        <H5 className="text-white">Store Manager</H5>
         <Button onClick={signOut} className="flex gap-2 items-center">
           <p className="text-sm">Sign Out</p>
           <Icon path={mdiLogout} size={0.75} className="opacity-50" />
         </Button>
       </header>
+      <BreadCrumb />
       <Outlet />
     </div>
   );

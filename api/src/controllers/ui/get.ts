@@ -13,7 +13,7 @@ export const getBreadcrumbController = async (
   try {
     const crumbs: { name: string; id: string }[] = [];
 
-    if (ids.productId) {
+    if (ids.storeId) {
       const store = await db.store.findUniqueOrThrow({ select: { id: true, name: true }, where: { id: ids.storeId } });
       crumbs.push({ name: store.name, id: store.id });
     }
