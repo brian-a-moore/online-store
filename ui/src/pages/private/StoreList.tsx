@@ -1,4 +1,4 @@
-import { mdiPlus, mdiUpdate } from '@mdi/js';
+import { mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -10,7 +10,6 @@ import {
 import { Container } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IsPublished } from '../../components/display';
-import { FloatingActionButton } from '../../components/interactive';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
@@ -42,7 +41,7 @@ export const StoreList: React.FC = () => {
           <RouterLink
             className="flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
             key={store.id}
-            to={`../store/${store.id}`}
+            to={`store/${store.id}`}
             title={`View store: ${store.name}`}
           >
             <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{store.name}</p>
@@ -57,7 +56,6 @@ export const StoreList: React.FC = () => {
           </RouterLink>
         ))}
       </Container>
-      <FloatingActionButton path={mdiPlus} label="New Store" onClick={() => navigate('../store/new')} />
     </div>
   );
 };
