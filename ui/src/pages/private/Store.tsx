@@ -1,4 +1,4 @@
-import { mdiPencil, mdiPlus } from '@mdi/js';
+import { mdiAccountPlus, mdiPencil, mdiTagPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -109,8 +109,8 @@ export const StorePrivate: React.FC = () => {
                 Edit Team
               </TextButton>
             </div>
-            <Button onClick={goToAddPage} title={`Create ${activeList === 'products' ? 'Product': 'Team Member'}`}>
-              <Icon path={mdiPlus} size={1} />
+            <Button onClick={goToAddPage} title={`New ${activeList === 'products' ? 'Product': 'Team Member'}`}>
+              <Icon path={activeList === 'products' ? mdiTagPlus : mdiAccountPlus} size={1} />
             </Button>
           </div>
         </Card>
