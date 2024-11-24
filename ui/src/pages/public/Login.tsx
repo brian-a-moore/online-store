@@ -5,7 +5,7 @@ import { authLoginSchema } from '../../../../api/src/schemas/auth';
 import { AuthLoginBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card } from '../../components/container';
-import { ErrorText, TextInput } from '../../components/form';
+import { ErrorText, TextInput } from '../../components/input';
 import { Button, Link } from '../../components/interactive';
 import { H1 } from '../../components/typography';
 import { AUTH_TOKEN } from '../../constants';

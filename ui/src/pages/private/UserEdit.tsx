@@ -3,11 +3,11 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  CreateUserBody,
-  GetUserBody,
-  GetUserQuery,
-  GetUserResponse,
-  UpdateUserBody,
+    CreateUserBody,
+    GetUserBody,
+    GetUserQuery,
+    GetUserResponse,
+    UpdateUserBody,
 } from '../../../../api/src/types/api';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { createUserSchema } from '../../../../api/src/schemas/user';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
-import { ErrorText, TextInput } from '../../components/form';
+import { ErrorText, TextInput } from '../../components/input';
 import { Button } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';

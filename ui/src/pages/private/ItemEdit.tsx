@@ -8,7 +8,7 @@ import { createItemSchema } from '../../../../api/src/schemas/item';
 import { CreateItemBody, GetItemBody, GetItemQuery, GetItemResponse } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
-import { SelectInput, TextInput } from '../../components/form';
+import { SelectInput, TextInput } from '../../components/input';
 import { Button } from '../../components/interactive';
 import { H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
