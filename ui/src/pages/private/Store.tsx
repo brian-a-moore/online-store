@@ -75,13 +75,34 @@ export const StorePrivate: React.FC = () => {
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
-              <Button variant="destructive">
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setModal({
+                    title: 'Delete Store',
+                    Body: <p>Are you sure you want to delete this store?</p>,
+                    ActionBar: [
+                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                        Cancel
+                      </Button>,
+                      <Button
+                        key="submit"
+                        onClick={() => {
+                          setModal(null);
+                        }}
+                      >
+                        Delete Store
+                      </Button>,
+                    ],
+                  });
+                }}
+              >
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
               <Button
                 onClick={() =>
                   setModal({
-                    title: 'Edit Store',
+                    title: 'Update Store',
                     Body: <StoreForm store={store} />,
                     ActionBar: [
                       <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
@@ -105,14 +126,14 @@ export const StorePrivate: React.FC = () => {
           <div className="flex gap-4 p-4 pt-0 pl-44 items-center justify-between">
             <div className="flex items-center gap-4">
               <TextButton onClick={() => toggleList('products')} isActive={activeList === 'products'}>
-                View Products
+                Edit Products
               </TextButton>
               |
               <TextButton onClick={() => toggleList('team')} isActive={activeList === 'team'}>
-                View Team
+                Edit Team
               </TextButton>
             </div>
-            <Button onClick={goToAddPage}>
+            <Button onClick={goToAddPage} title={`Create ${activeList === 'products' ? 'Product': 'Team Member'}`}>
               <Icon path={mdiPlus} size={1} />
             </Button>
           </div>

@@ -38,14 +38,14 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
           key={member.id}
           onClick={() => {
             setModal({
-              title: 'Edit Team Member',
+              title: 'Update Member',
               Body: <TeamMemberForm teamMember={member} />,
               ActionBar: [
                 <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                   Cancel
                 </Button>,
                 <Button key="submit" onClick={() => setModal(null)}>
-                  Update Team Member
+                  Update Member
                 </Button>,
               ],
             })
