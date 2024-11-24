@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  addUserToStoreController,
   createStoreController,
   deleteStoreController,
   getStorePrivateController,
@@ -10,6 +11,7 @@ import checkPermissionMiddleware from '../../middlewares/checkPermission.middlew
 import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
 import { canUseAdminRoutes } from '../../permissions';
 import {
+  addUserToStoreSchema,
   createStoreSchema,
   deleteStoreSchema,
   getStorePrivateSchema,
@@ -36,6 +38,12 @@ router.post(
   schemaValidatorMiddleware(createStoreSchema),
   checkPermissionMiddleware([canUseAdminRoutes]),
   createStoreController,
+);
+router.post(
+  '/:storeId/user',
+  schemaValidatorMiddleware(addUserToStoreSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  addUserToStoreController,
 );
 router.put(
   '/:storeId',

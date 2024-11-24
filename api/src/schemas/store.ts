@@ -1,5 +1,20 @@
 import { z } from 'zod';
-import { empty, strLong, strShort, uuid } from './_presets';
+import { empty, role, strLong, strShort, uuid } from './_presets';
+
+export const addUserToStoreSchema = {
+  body: z
+    .object({
+      userId: uuid,
+      roleId: role,
+    })
+    .strict(),
+  params: z
+    .object({
+      storeId: uuid,
+    })
+    .strict(),
+  query: empty,
+};
 
 export const createStoreSchema = {
   body: z

@@ -21,20 +21,35 @@ export const getTeamController = async (
       return;
     }
 
-    const team = await db.user.findMany({
+    const rawTeam = await db.userStore.findMany({
       select: {
-        id: true,
-        name: true,
-        email: true,
+        userId: true,
+        storeId: true,
+        roleId: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
       },
       where: {
-        stores: {
-          some: { storeId },
-        },
+        storeId,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
+
+    const team = rawTeam.map((member) => ({
+      id: member.user.id,
+      name: member.user.name,
+      email: member.user.email,
+      store: {
+        storeId: member.storeId,
+        roleId: member.roleId,
+      },
+    }));
 
     res.status(STATUS_CODE.OKAY).json({ team });
   } catch (e: any | unknown) {

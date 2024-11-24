@@ -163,6 +163,11 @@ export type UpdateProductResponse = never;
 // STORE ROUTES
 import * as storeSchema from '../schemas/store';
 
+export type AddUserToStoreBody = z.infer<(typeof storeSchema.addUserToStoreSchema)['body']>;
+export type AddUserToStoreParams = z.infer<(typeof storeSchema.addUserToStoreSchema)['params']>;
+export type AddUserToStoreQuery = z.infer<(typeof storeSchema.addUserToStoreSchema)['query']>;
+export type AddUserToStoreResponse = never;
+
 export type CreateStoreBody = z.infer<(typeof storeSchema.createStoreSchema)['body']>;
 export type CreateStoreParams = z.infer<(typeof storeSchema.createStoreSchema)['params']>;
 export type CreateStoreQuery = z.infer<(typeof storeSchema.createStoreSchema)['query']>;
@@ -242,6 +247,10 @@ export type GetTeamResponse = {
     id: string;
     name: string;
     email: string;
+    store: {
+      storeId: string;
+      roleId: number;
+    };
   }[];
 };
 
