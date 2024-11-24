@@ -6,6 +6,7 @@ import { HTTP_METHOD } from '../../../constants';
 import useApi from '../../../hooks/useApi';
 import useDebounce from '../../../hooks/useDebounce';
 import { Card } from '../../container';
+import { EmptyText } from '../../typography';
 
 type SearchBoxProps = {
   storeId: string;
@@ -33,7 +34,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId }) => {
   }, [error]);
 
   useEffect(() => {
-    if (response?.users && response.users.length > 0) {
+    if (response?.users) {
       setUsers(response.users);
     }
   }, [response?.users]);
@@ -69,20 +70,39 @@ type ListPopupProps = {
 };
 
 const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
+  const popupRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number; width: number } | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const updatePosition = () => {
     if (inputRef.current) {
       const { bottom, left, width } = inputRef.current.getBoundingClientRect();
       setPosition({ top: bottom, left, width });
+      setIsVisible(true);
     }
   };
 
   useEffect(() => {
     updatePosition();
     window.addEventListener('resize', updatePosition);
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node) || !popupRef.current?.contains(event.target as Node)) {
+        setIsVisible(false);
+      }
+    };
+
+    const handleClickInside = () => {
+      setIsVisible(true);
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    inputRef.current?.addEventListener('focus', handleClickInside);
+
     return () => {
       window.removeEventListener('resize', updatePosition);
+      document.removeEventListener('mousedown', handleClickOutside);
+      inputRef.current?.removeEventListener('focus', handleClickInside);
     };
   }, [inputRef]);
 
@@ -91,16 +111,23 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
     return (
       <>
         {parts.map((part, index) =>
-          part.toLowerCase() === highlight.toLowerCase() ? <span className='bg-sky-100 text-sky-600 font-semibold' key={index}>{part}</span> : part
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <span className="bg-sky-100 text-sky-600 font-semibold" key={index}>
+              {part}
+            </span>
+          ) : (
+            part
+          ),
         )}
       </>
     );
   };
 
-  if (!position || users.length === 0) return null;
+  if (!isVisible || (!position || search.length === 0)) return null;
 
   return ReactDOM.createPortal(
     <div
+      ref={popupRef}
       style={{
         position: 'absolute',
         top: position.top,
@@ -108,14 +135,21 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
         width: position.width,
         zIndex: 1000,
       }}
+
     >
-      <Card className='!p-0'>
-        {users.map((user) => (
-          <button key={user.id} onClick={() => {}} className="flex gap-4 p-4 items-center border-b-2 !text-left">
-            <p className="flex-1">{highlightText(user.name, search)}</p>
-            <p className='text-sm opacity-50'>{user.email}</p>
-          </button>
-        ))}
+      <Card className="!p-0 !gap-0">
+        {users.length ? (
+          <>
+            {users.map((user) => (
+              <button key={user.id} onClick={() => {}} className="flex gap-4 p-4 items-center border-b-2 !text-left">
+                <p className="flex-1">{highlightText(user.name, search)}</p>
+                <p className="text-sm opacity-50">{user.email}</p>
+              </button>
+            ))}
+          </>
+        ) : (
+          <EmptyText className='p-4 text-sm'>No users found</EmptyText>
+        )}
       </Card>
     </div>,
     document.body,
