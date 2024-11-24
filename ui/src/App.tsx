@@ -8,8 +8,7 @@ import {
   AdminLayout,
   ProductPrivate,
   StoreList,
-  StorePrivate,
-  UserList
+  StorePrivate
 } from './pages/private';
 import {
   Home,
@@ -45,8 +44,9 @@ function App() {
           <Route index element={<StoreList />} />
           <Route path="store/:storeId" element={<StorePrivate />} />
           <Route path="store/:storeId/product/:productId" element={<ProductPrivate />} />
-          <Route path="user/list" element={<UserList />} />
         </Route>
+          
+        {/* Error Pages */}
         <Route path="404" element={<PageNotFound />} />
         <Route path="500" element={<ServerError />} />
         <Route path="*" element={<Navigate to="/404" />} />
