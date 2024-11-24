@@ -14,7 +14,7 @@ import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
-export const StoreLayout: React.FC = () => {
+export const StorePrivate: React.FC = () => {
   const { setModal } = useContext(ModalContext);
   const { storeId } = useParams();
   const navigate = useNavigate();
