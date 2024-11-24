@@ -43,7 +43,7 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
           onClick={() => {
             setModal({
               title: 'Update Item',
-              Body: <ItemForm item={item} />,
+              Body: <ItemForm storeId={storeId} productId={productId} itemId={item.id} />,
               ActionBar: [
                 <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                   Cancel

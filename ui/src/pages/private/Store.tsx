@@ -1,4 +1,4 @@
-import { mdiDelete, mdiPencil, mdiPlus } from '@mdi/js';
+import { mdiPencil, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -76,34 +76,10 @@ export const StorePrivate: React.FC = () => {
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
               <Button
-                variant="destructive"
-                onClick={() => {
-                  setModal({
-                    title: 'Delete Store',
-                    Body: <p>Are you sure you want to delete this store?</p>,
-                    ActionBar: [
-                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
-                        Cancel
-                      </Button>,
-                      <Button
-                        key="submit"
-                        onClick={() => {
-                          setModal(null);
-                        }}
-                      >
-                        Delete Store
-                      </Button>,
-                    ],
-                  });
-                }}
-              >
-                <Icon path={mdiDelete} size={0.75} />
-              </Button>
-              <Button
                 onClick={() =>
                   setModal({
                     title: 'Update Store',
-                    Body: <StoreForm store={store} />,
+                    Body: <StoreForm storeId={storeId} />,
                     ActionBar: [
                       <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                         Cancel

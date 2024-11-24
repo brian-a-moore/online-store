@@ -77,7 +77,7 @@ export const ProductPrivate: React.FC = () => {
                 onClick={() =>
                   setModal({
                     title: 'Update Product',
-                    Body: <ProductForm product={product} />,
+                    Body: <ProductForm storeId={storeId} productId={productId} />,
                     ActionBar: [
                       <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                         Cancel
