@@ -10,7 +10,7 @@ const Modal: React.FC<Props> = ({ modal }) => {
   if (!modal) return null;
   return (
     <div className="fixed bg-black bg-opacity-30 top-0 left-0 w-full h-full z-20 p-4 flex items-center justify-center backdrop-blur-sm">
-      <div className="w-full max-w-[460px]">
+      <div className="w-full max-w-[640px]">
         <Card className="flex flex-col gap-y-4">
           <H2>{modal.title}</H2>
           <div>{modal.Body}</div>
