@@ -118,7 +118,7 @@ export const ProductPrivate: React.FC = () => {
             </div>
             <div className="flex flex-col gap-4 flex-1">
               <div className="flex-1">
-                {product?.description ? <p>{product.description}</p> : <EmptyText>No Description</EmptyText>}
+                {product?.description ? <p className='line-clamp-4'>{product.description}</p> : <EmptyText>No Description</EmptyText>}
               </div>
               <hr />
               <div className="flex gap-4 items-center justify-end text-sm">
