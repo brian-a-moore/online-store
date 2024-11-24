@@ -48,7 +48,6 @@ export const StorePrivate: React.FC = () => {
         ],
       });
     } else {
-      console.log('storeId', storeId);
       setModal({
         title: 'New Team Member',
         Body: <TeamMemberForm storeId={storeId!} />,

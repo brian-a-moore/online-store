@@ -49,7 +49,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
   };
 
   const onUserClick = (id: string) => {
-    console.log('User clicked', id);
     selectTeamMember(users.find((user) => user.id === id)!);
     setUsers([]);
     setSearch('');
@@ -57,7 +56,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
 
   return (
     <div className='flex flex-col gap-2'>
-      <Label htmlFor="search">Search for existing user</Label>
+      <Label htmlFor="search">Add existing user to this team</Label>
       <input
         type="search"
         className={`w-full h-12 px-4 rounded`}
