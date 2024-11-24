@@ -1,6 +1,9 @@
-type Props = {};
+type Props = {
+    teamMember?: any;
+};
 
-export const TeamMemberForm: React.FC<Props> = () => {
+export const TeamMemberForm: React.FC<Props> = ({ teamMember }) => {
+    console.log('TeamMemberForm', teamMember);
     return(
         <form>
             <h1>Team Member Form</h1>
