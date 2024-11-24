@@ -48,9 +48,10 @@ export const StorePrivate: React.FC = () => {
         ],
       });
     } else {
+      console.log('storeId', storeId);
       setModal({
         title: 'New Team Member',
-        Body: <TeamMemberForm />,
+        Body: <TeamMemberForm storeId={storeId!} />,
         ActionBar: [
           <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
             Cancel
