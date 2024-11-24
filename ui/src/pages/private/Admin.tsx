@@ -2,15 +2,12 @@ import { mdiLogout } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Card } from '../../components/container';
 import { BreadCrumb } from '../../components/core/Breadcrumb';
-import { Button, Link } from '../../components/interactive';
-import { H3, H5 } from '../../components/typography';
+import { Button } from '../../components/interactive';
+import { H5 } from '../../components/typography';
 import { AuthContext } from '../../context/AuthContext';
 
-type AdminLayoutProps = {};
-
-export const AdminLayout: React.FC<AdminLayoutProps> = () => {
+export const Admin: React.FC = () => {
   const { setUser } = useContext(AuthContext);
 
   const signOut = () => {
@@ -28,27 +25,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = () => {
       </header>
       <BreadCrumb />
       <Outlet />
-    </div>
-  );
-};
-
-type AdminHomeProps = {};
-
-export const AdminHome: React.FC<AdminHomeProps> = () => {
-  return (
-    <div className="grid gap-4 p-4 mx-auto w-full max-w-[1280px] grid-cols-1 sm:grid-cols-2">
-      <Card>
-        <H3>Manage Stores</H3>
-        <hr />
-        <p>View and manage stores for your organization.</p>
-        <Link href="store/list">Manage Stores</Link>
-      </Card>
-      <Card>
-        <H3>Manage Users</H3>
-        <hr />
-        <p>View and manage users for your organization.</p>
-        <Link href="user/list">Manage Users</Link>
-      </Card>
     </div>
   );
 };

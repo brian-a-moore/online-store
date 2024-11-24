@@ -5,9 +5,9 @@ import Modal from './components/core/Modal';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import {
-  AdminLayout,
+  Admin,
+  HomePrivate,
   ProductPrivate,
-  StoreList,
   StorePrivate
 } from './pages/private';
 import {
@@ -40,8 +40,8 @@ function App() {
         </Route>
 
         {/* Admin Pages */}
-        <Route path="admin" element={<AdminLayout />}>
-          <Route index element={<StoreList />} />
+        <Route path="admin" element={<Admin />}>
+          <Route index element={<HomePrivate />} />
           <Route path="store/:storeId" element={<StorePrivate />} />
           <Route path="store/:storeId/product/:productId" element={<ProductPrivate />} />
         </Route>
