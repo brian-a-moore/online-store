@@ -9,9 +9,7 @@ type Props = {
   };
 };
 
-export const TeamMemberForm: React.FC<Props> = ({ storeId, teamMember }) => {
-  console.log('TeamMemberForm searchId', storeId);
-  console.log('TeamMemberForm', teamMember);
+export const TeamMemberForm: React.FC<Props> = ({ storeId }) => {
   return (
     <form>
       <h1>Team Member Form</h1>
