@@ -8,34 +8,43 @@ import { generatePassword } from '../../utils/auth';
 
 export const createUserController = async (
   req: Request<CreateUserParams, unknown, CreateUserBody, CreateUserQuery>,
-  res: Response<CreateUserResponse>,
+  res: Response<CreateUserResponse | never>,
   next: NextFunction,
 ) => {
   try {
     const { store, ...incomingUser } = req.body;
+    let id, defaultPassword;
 
-    const id = crypto.randomUUID();
-    const defaultPassword = generatePassword();
-    const defaultPasswordHash = await hashString(defaultPassword);
+    const existingUser = await db.user.findUnique({ where: { email: incomingUser.email } });
 
-    await db.user.create({
-      data: {
-        ...incomingUser,
-        id,
-        password: defaultPasswordHash,
-      },
-    });
+    if (!existingUser) {
+      id = crypto.randomUUID();
+      defaultPassword = generatePassword();
+      const defaultPasswordHash = await hashString(defaultPassword);
+      await db.user.create({
+        data: {
+          ...incomingUser,
+          id,
+          password: defaultPasswordHash,
+        },
+      });
+    }
 
     if (store) {
       await db.userStore.create({
         data: {
           ...store,
-          userId: id,
+          userId: (existingUser?.id || id) as string,
         },
       });
     }
 
-    res.status(STATUS_CODE.OKAY).json({ id, defaultPassword });
+    if (!existingUser) {
+      res.status(STATUS_CODE.OKAY).json({ id: id!, defaultPassword: defaultPassword! });
+      return;
+    }
+
+    res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
     next(e);
   }
