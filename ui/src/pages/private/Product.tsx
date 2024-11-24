@@ -1,4 +1,4 @@
-import { mdiDelete, mdiPencil, mdiPlus } from '@mdi/js';
+import { mdiDelete, mdiNotePlus, mdiPencil } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -91,6 +91,28 @@ export const ProductPrivate: React.FC = () => {
               >
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-4 items-center">
+              <IconImage image={product?.image} name={product!.name} />
+            </div>
+            <div className="flex flex-col gap-4 flex-1">
+              <div className="flex-1">
+                {product?.description ? <p className='line-clamp-4'>{product.description}</p> : <EmptyText>No Description</EmptyText>}
+              </div>
+              <hr />
+              <div className="flex gap-4 items-center justify-between text-sm">
+                <div className='flex gap-4'>
+                  <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> |
+                  <p className="text-sm">
+                    <strong>Created:</strong> {new Date(product!.createdAt).toLocaleDateString()}
+                  </p>
+                  |
+                  <p className="text-sm">
+                    <strong>Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
+                  </p>
+                </div>
               <Button
                 title="New Item"
                 onClick={() => {
@@ -108,28 +130,8 @@ export const ProductPrivate: React.FC = () => {
                   });
                 }}
               >
-                <Icon path={mdiPlus} size={0.75} />
+                <Icon path={mdiNotePlus} size={0.75} />
               </Button>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <div className="flex flex-col gap-4 items-center">
-              <IconImage image={product?.image} name={product!.name} />
-            </div>
-            <div className="flex flex-col gap-4 flex-1">
-              <div className="flex-1">
-                {product?.description ? <p className='line-clamp-4'>{product.description}</p> : <EmptyText>No Description</EmptyText>}
-              </div>
-              <hr />
-              <div className="flex gap-4 items-center justify-end text-sm">
-                <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> |
-                <p className="text-sm">
-                  <strong>Created:</strong> {new Date(product!.createdAt).toLocaleDateString()}
-                </p>
-                |
-                <p className="text-sm">
-                  <strong>Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
-                </p>
               </div>
             </div>
           </div>
