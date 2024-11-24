@@ -89,3 +89,12 @@ hr {
 .text-shadow {
   text-shadow: 0 1px 4px black;
 }
+
+.store-name {
+  font-size: clamp(3rem, 5vw, 10rem);
+  color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: bold;
+}

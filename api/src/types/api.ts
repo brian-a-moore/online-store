@@ -181,7 +181,7 @@ export type GetStorePublicResponse = {
     id: string;
     name: string;
     description: string | null;
-    image: string | null;
+    bannerImage: string | null;
   };
 };
 

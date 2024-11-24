@@ -25,7 +25,6 @@ export const getStorePublicController = async (
         id: true,
         name: true,
         description: true,
-        image: true,
         bannerImage: true,
         website: true,
       },
