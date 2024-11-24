@@ -1,5 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { api } from '../api';
+import { Loader } from '../components/core';
+import { getAuthToken, saveAuthToken } from '../utils/localStorage';
 
 type User = {
   id: string;
@@ -27,25 +30,49 @@ interface Props {
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  // TODO: Get auth token for local storage and check with API, set user automatically if it exists, do this while loading
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // TODO: add !isLoading to the condition so these won't fire before checking the auth token
-    if (location.pathname.includes('/admin') && !user) {
+    const getUserFromAuthToken = async () => {
+      const token = getAuthToken();
+      if(!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const { user, refreshToken } = await api.auth.authVerifyToken(token);
+        saveAuthToken(refreshToken);
+        setUser(user);
+      } catch(e: any | unknown) {
+        setError(e.message);
+      } finally {
+        setIsLoading(false);
+      };
+    };
+    getUserFromAuthToken();
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname.includes('/admin') && !user && !isLoading) {
       navigate('/login');
     }
-    // TODO: add !isLoading to the condition so these won't fire before checking the auth token
-    if (location.pathname.includes('/login') && user) {
+    if (location.pathname.includes('/login') && user && !isLoading) {
       navigate('/admin');
     }
   }, [location.pathname, user, navigate]);
 
-  // TODO: Handle the loading state here
+  useEffect(() => {
+    if (error) {
+      navigate(`/500?error=${error}`);
+    };
+  }, [error]);
+
+  if(isLoading) return <Loader />;
 
   return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
 };
