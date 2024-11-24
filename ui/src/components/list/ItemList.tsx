@@ -42,19 +42,19 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
           key={item.id}
           onClick={() => {
             setModal({
-              title: 'Update Item',
+              title: 'Edit Item',
               Body: <ItemForm storeId={storeId} productId={productId} itemId={item.id} />,
               ActionBar: [
                 <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                   Cancel
                 </Button>,
                 <Button key="submit" onClick={() => setModal(null)}>
-                  Update Item
+                  Edit Item
                 </Button>,
               ],
             })
           }}
-          title={`Update Item: ${item.name}`}
+          title={`Edit Item: ${item.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{item.name}</p>
           <IsPublished isPublished={item.isPublished} pathType="item" />

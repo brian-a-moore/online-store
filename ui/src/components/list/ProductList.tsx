@@ -44,7 +44,7 @@ export const ProductList: React.FC<Props> = ({ storeId }) => {
           className="flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
           key={product.id}
           to={`product/${product.id}`}
-          title={`View product: ${product.name}`}
+          title={`View Product: ${product.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</p>
           <IsPublished isPublished={product.isPublished} pathType="product" />

@@ -76,14 +76,14 @@ export const ProductPrivate: React.FC = () => {
                 variant="secondary"
                 onClick={() =>
                   setModal({
-                    title: 'Update Product',
+                    title: 'Edit Product',
                     Body: <ProductForm storeId={storeId} productId={productId} />,
                     ActionBar: [
                       <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                         Cancel
                       </Button>,
                       <Button key="submit" onClick={() => setModal(null)}>
-                        Update Product
+                        Edit Product
                       </Button>,
                     ],
                   })

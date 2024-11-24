@@ -38,19 +38,19 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
           key={member.id}
           onClick={() => {
             setModal({
-              title: 'Update Member',
+              title: 'Edit Team Member',
               Body: <TeamMemberForm teamMember={member} />,
               ActionBar: [
                 <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                   Cancel
                 </Button>,
                 <Button key="submit" onClick={() => setModal(null)}>
-                  Update Member
+                  Edit Team Member
                 </Button>,
               ],
             })
           }}
-          title={`View user: ${member.name}`}
+          title={`Edit Member: ${member.name}`}
         >
           <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{member.name}</p>
           <p className="text-sm opacity-60 whitespace-nowrap text-ellipsis overflow-hidden">{member.email}</p>
