@@ -5,7 +5,7 @@ import { FixedItemConfig, VariableItemConfig } from '../../../../api/src/types/i
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
 import { Button, Stepper } from '../../components/interactive';
-import { H5 } from '../../components/typography';
+import { EmptyText, H2, H5 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { CartContext, TCartItem } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
@@ -50,6 +50,18 @@ export const Items: React.FC<Props> = () => {
   }, [error]);
 
   if (isLoading) return <Loader />;
+
+  const items = response?.items;
+
+  if(!items || items.length === 0) {
+    return(
+      <div className='flex flex-col flex-1 gap-4 w-full items-center justify-center'>
+        <H2>Not much going on right now...</H2>
+        <EmptyText>There are no items available right now, please check again later.</EmptyText>
+        <Button variant='transparent' onClick={() => navigate(-1)}>Go Back</Button>
+      </div>
+    )
+  };
 
   return <Grid>{response?.items?.map((item) => <ItemContainer key={item.id} item={item} />)}</Grid>;
 };

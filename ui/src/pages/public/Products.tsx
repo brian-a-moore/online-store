@@ -7,7 +7,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
-import { Link } from '../../components/interactive';
+import { Button, Link } from '../../components/interactive';
 import { EmptyText, H2, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -44,6 +44,7 @@ export const Products: React.FC<Props> = () => {
       <div className='flex flex-col flex-1 gap-4 w-full items-center justify-center'>
         <H2>Not much going on right now...</H2>
         <EmptyText>There are no products available right now, please check again later.</EmptyText>
+        <Button variant='transparent' onClick={() => navigate(-1)}>Go Back</Button>
       </div>
     )
   };
