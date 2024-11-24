@@ -7,18 +7,20 @@ import useApi from '../../../hooks/useApi';
 import useDebounce from '../../../hooks/useDebounce';
 import { Card } from '../../container';
 import { EmptyText } from '../../typography';
+import Label from '../Label';
 
 type SearchBoxProps = {
   storeId: string;
+  selectTeamMember: (teamMember: { id: string; name: string; email: string }) => void;
 };
 
-const SearchBox: React.FC<SearchBoxProps> = ({ storeId }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
   const [search, setSearch] = useState<string>('');
   const [field, setField] = useState<'name' | 'email'>('name');
   const [users, setUsers] = useState<SearchUsersResponse['users']>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const debouncedSearch = useDebounce(search, 1000);
+  const debouncedSearch = useDebounce(search, 300);
 
   const { error, response } = useApi<SearchUsersBody, SearchUsersQuery, SearchUsersResponse>(
     {
@@ -46,8 +48,16 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId }) => {
     }
   };
 
+  const onUserClick = (id: string) => {
+    console.log('User clicked', id);
+    selectTeamMember(users.find((user) => user.id === id)!);
+    setUsers([]);
+    setSearch('');
+  };
+
   return (
-    <div>
+    <div className='flex flex-col gap-2'>
+      <Label htmlFor="search">Search for existing user</Label>
       <input
         type="search"
         className={`w-full h-12 px-4 rounded`}
@@ -56,7 +66,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId }) => {
         placeholder="Search Users"
         ref={inputRef}
       />
-      <ListPopup users={users} inputRef={inputRef} search={debouncedSearch} />
+      <ListPopup users={users} inputRef={inputRef} search={debouncedSearch} onUserClick={onUserClick} />
     </div>
   );
 };
@@ -67,9 +77,10 @@ type ListPopupProps = {
   users: SearchUsersResponse['users'];
   search: string;
   inputRef: React.RefObject<HTMLInputElement>;
+  onUserClick: (id: string) => void;
 };
 
-const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
+const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users, onUserClick }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<{ top: number; left: number; width: number } | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -87,7 +98,7 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
     window.addEventListener('resize', updatePosition);
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(event.target as Node) || !popupRef.current?.contains(event.target as Node)) {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node) && popupRef.current && !popupRef.current.contains(event.target as Node)) {
         setIsVisible(false);
       }
     };
@@ -134,6 +145,8 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
         left: position.left,
         width: position.width,
         zIndex: 1000,
+        maxHeight: '200px',
+        overflowY: 'auto',
       }}
 
     >
@@ -141,7 +154,10 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users }) => {
         {users.length ? (
           <>
             {users.map((user) => (
-              <button key={user.id} onClick={() => {}} className="flex gap-4 p-4 items-center border-b-2 !text-left">
+              <button key={user.id} onClick={() => {
+                onUserClick(user.id);
+                setIsVisible(false);
+              }} className="flex gap-4 p-4 items-center border-b-2 !text-left">
                 <p className="flex-1">{highlightText(user.name, search)}</p>
                 <p className="text-sm opacity-50">{user.email}</p>
               </button>
