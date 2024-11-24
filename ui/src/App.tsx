@@ -7,17 +7,12 @@ import { ToastContext } from './context/ToastContext';
 import {
   AdminHome,
   AdminLayout,
-  ItemEdit,
-  ItemLayout,
-  ProductEdit,
   ProductHome,
   ProductLayout,
-  StoreEdit,
   StoreHome,
   StoreLayout,
   StoreList,
-  UserEdit,
-  UserList,
+  UserList
 } from './pages/private';
 import {
   Home,
@@ -51,34 +46,15 @@ function App() {
         {/* Admin Pages */}
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
-          {/* Store Pages */}
           <Route path="store/list" element={<StoreList />} />
-          <Route path="store/new" element={<StoreEdit />} />
           <Route path="store/:storeId" element={<StoreLayout />}>
             <Route index element={<StoreHome />} />
-            <Route path="edit" element={<StoreEdit />} />
-            {/* Product Pages */}
-            <Route path="product/new" element={<ProductEdit />} />
             <Route path="product/:productId" element={<ProductLayout />}>
               <Route index element={<ProductHome />} />
-              <Route path="edit" element={<ProductEdit />} />
-              {/* Item Pages */}
-              <Route path="item/new" element={<ItemEdit />} />
-              <Route path="item/:itemId" element={<ItemLayout />}>
-                <Route index element={<ItemEdit />} />
-              </Route>
             </Route>
           </Route>
-          {/* User Pages */}
           <Route path="user/list" element={<UserList />} />
-          <Route path="user/new" element={<UserEdit />} />
-          <Route path="user/:userId" element={<UserEdit />} />
-
-          {/* System Pages */}
-          <Route path="*" element={<Navigate to="/404" />} />
         </Route>
-
-        {/* System Pages */}
         <Route path="404" element={<PageNotFound />} />
         <Route path="500" element={<ServerError />} />
         <Route path="*" element={<Navigate to="/404" />} />
