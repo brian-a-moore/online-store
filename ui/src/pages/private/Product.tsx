@@ -1,19 +1,18 @@
-import { mdiDelete, mdiPencil, mdiPlus, mdiUpdate } from '@mdi/js';
+import { mdiDelete, mdiPencil, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   GetProductPrivateBody,
   GetProductPrivateQuery,
-  GetProductPrivateResponse,
-  ListItemsPrivateBody,
-  ListItemsPrivateQuery,
-  ListItemsPrivateResponse,
+  GetProductPrivateResponse
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IconImage, IsPublished } from '../../components/display';
+import { ItemForm, ProductForm } from '../../components/form';
 import { Button } from '../../components/interactive';
+import { ItemList } from '../../components/list/ItemList';
 import { EmptyText, H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -73,10 +72,42 @@ export const ProductPrivate: React.FC = () => {
               >
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
-              <Button variant="secondary" onClick={() => navigate('edit', { state: { product } })} title="Edit Product">
+              <Button
+                variant="secondary"
+                onClick={() =>
+                  setModal({
+                    title: 'Update Product',
+                    Body: <ProductForm product={product} />,
+                    ActionBar: [
+                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                        Cancel
+                      </Button>,
+                      <Button key="submit" onClick={() => setModal(null)}>
+                        Update Product
+                      </Button>,
+                    ],
+                  })
+                }
+              >
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
-              <Button onClick={() => navigate('item/new')} title="New Item">
+              <Button
+                title="New Item"
+                onClick={() => {
+                  setModal({
+                    title: 'New Item',
+                    Body: <ItemForm />,
+                    ActionBar: [
+                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                        Cancel
+                      </Button>,
+                      <Button key="submit" onClick={() => setModal(null)}>
+                        Create Item
+                      </Button>,
+                    ],
+                  });
+                }}
+              >
                 <Icon path={mdiPlus} size={0.75} />
               </Button>
             </div>
@@ -106,51 +137,5 @@ export const ProductPrivate: React.FC = () => {
         <ItemList storeId={storeId!} productId={productId!} />
       </Container>
     </Page>
-  );
-};
-
-type Props = {
-  storeId: string;
-  productId: string;
-};
-
-const ItemList: React.FC<Props> = ({ storeId, productId }) => {
-  const navigate = useNavigate();
-
-  const { error, isLoading, response } = useApi<ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse>({
-    url: `/admin/store/${storeId}/product/${productId}/item/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  });
-
-  useEffect(() => {
-    if (error) navigate(`/500?error=${error}`);
-  }, [error]);
-
-  if (isLoading) return <Loader />;
-
-  const items = response?.items;
-
-  return (
-    <>
-      {items?.map((item) => (
-        <RouterLink
-          className="flex gap-4 p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
-          key={item.id}
-          to={`item/${item.id}`}
-          title={`View item: ${item.name}`}
-        >
-          <p className="flex-1 whitespace-nowrap text-ellipsis overflow-hidden">{item.name}</p>
-          <IsPublished isPublished={item.isPublished} pathType="item" />
-          <div
-            className="flex gap-2 items-center opacity-60"
-            title={`Last Updated: ${new Date(item.updatedAt).toLocaleDateString()}`}
-          >
-            <Icon path={mdiUpdate} size={0.75} />
-            <p className="text-sm">{new Date(item.updatedAt).toLocaleDateString()}</p>
-          </div>
-        </RouterLink>
-      ))}
-    </>
   );
 };
