@@ -16,7 +16,6 @@ export const getUserController = async (
         id: true,
         email: true,
         name: true,
-        isSuperUser: true,
         createdAt: true,
         updatedAt: true,
         stores: {

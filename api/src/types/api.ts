@@ -276,7 +276,6 @@ export type GetUserResponse = {
     id: string;
     email: string;
     name: string;
-    isSuperUser: boolean;
     createdAt: Date;
     updatedAt: Date;
     stores: {
@@ -294,7 +293,6 @@ export type ListUsersResponse = {
     id: string;
     name: string;
     email: string;
-    isSuperUser: boolean;
     stores: {
       storeId: string | null;
       roleId: number;

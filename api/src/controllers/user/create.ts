@@ -12,7 +12,7 @@ export const createUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const { stores, ...incomingUser } = req.body;
+    const { store, ...incomingUser } = req.body;
 
     const id = crypto.randomUUID();
     const defaultPassword = generatePassword();
@@ -26,9 +26,14 @@ export const createUserController = async (
       },
     });
 
-    await db.userStore.createMany({
-      data: stores.map((s) => ({ ...s, userId: id, id: crypto.randomUUID() })),
-    });
+    if (store) {
+      await db.userStore.create({
+        data: {
+          ...store,
+          userId: id,
+        },
+      });
+    }
 
     res.status(STATUS_CODE.OKAY).json({ id, defaultPassword });
   } catch (e: any | unknown) {

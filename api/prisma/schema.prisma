@@ -66,14 +66,13 @@ model Item {
 }
 
 model User {
-    id          String      @id @default(uuid())
-    email       String      @unique
-    name        String
-    isSuperUser Boolean
-    password    String
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
-    stores      UserStore[]
+    id        String      @id @default(uuid())
+    email     String      @unique
+    name      String
+    password  String
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    stores    UserStore[]
 
     @@map("users")
 }

@@ -1,21 +1,18 @@
 import { z } from 'zod';
-import { bool, empty, role, strShort, uuid } from './_presets';
+import { empty, role, strShort, uuid } from './_presets';
 
 export const createUserSchema = {
   body: z
     .object({
       email: strShort.email(),
       name: strShort,
-      isSuperUser: bool,
-      stores: z
-        .array(
-          z.object({
-            storeId: uuid,
-            roleId: role,
-          }),
-        )
-        .min(0)
-        .max(10),
+      store: z
+        .object({
+          storeId: uuid,
+          roleId: role,
+        })
+        .strict()
+        .optional(),
     })
     .strict(),
   params: empty,
@@ -68,7 +65,6 @@ export const updateUserSchema = {
     .object({
       email: strShort.email().optional(),
       name: strShort.optional(),
-      isSuperUser: bool.optional(),
     })
     .strict(),
   params: z.object({
