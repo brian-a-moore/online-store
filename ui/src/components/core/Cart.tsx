@@ -1,4 +1,4 @@
-import { mdiChevronDown, mdiChevronUp, mdiDelete } from '@mdi/js';
+import { mdiCart, mdiChevronDown, mdiChevronUp, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { CartContext } from '../../context/CartContext';
@@ -34,7 +34,10 @@ export const Cart: React.FC<Props> = () => {
       className={`fixed flex flex-col flex-1 p-0 gap-0 right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-96' : 'w-auto'} bg-white border-[1px] border-gray-300 rounded shadow-md`}
     >
       <div className="flex px-4 py-2 gap-4 border-b-2 bg-gray-100 items-center justify-between">
-        <H4 className="justify-between">Cart ({totalItems(items)})</H4>
+        <div className='flex gap-2 items-center'>
+          <Icon path={mdiCart} size={0.75} color='#64748B' />
+          <H4 className="justify-between">Cart ({totalItems(items)})</H4>
+        </div>
         <button onClick={() => setIsMaximized((prevState) => !prevState)}>
           <Icon path={isMaximized ? mdiChevronDown : mdiChevronUp} size={1} />
         </button>
