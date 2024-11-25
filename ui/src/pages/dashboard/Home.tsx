@@ -2,7 +2,7 @@ import { Card, Container, Page } from '../../components/container';
 import { StoreList } from '../../components/list';
 import { H3 } from '../../components/typography';
 
-export const HomePrivate: React.FC = () => {
+export const HomeDashboard: React.FC = () => {
   return (
     <Page>
       <Container>

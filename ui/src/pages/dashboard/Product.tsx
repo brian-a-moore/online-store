@@ -18,7 +18,7 @@ import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
-export const ProductPrivate: React.FC = () => {
+export const ProductDashboard: React.FC = () => {
   const { setModal } = useContext(ModalContext);
   const { storeId, productId } = useParams();
   const navigate = useNavigate();

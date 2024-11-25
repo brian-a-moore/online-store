@@ -6,9 +6,9 @@ import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import {
   Dashboard,
-  HomePrivate,
-  ProductPrivate,
-  StorePrivate
+  HomeDashboard,
+  ProductDashboard,
+  StoreDashboard,
 } from './pages/dashboard';
 import {
   Home,
@@ -37,9 +37,9 @@ function App() {
 
         {/* Dashboard Pages */}
         <Route path="dashboard" element={<Dashboard />}>
-          <Route index element={<HomePrivate />} />
-          <Route path="store/:storeId" element={<StorePrivate />} />
-          <Route path="store/:storeId/product/:productId" element={<ProductPrivate />} />
+          <Route index element={<HomeDashboard />} />
+          <Route path="store/:storeId" element={<StoreDashboard />} />
+          <Route path="store/:storeId/product/:productId" element={<ProductDashboard />} />
         </Route>
           
         {/* Error Pages */}
