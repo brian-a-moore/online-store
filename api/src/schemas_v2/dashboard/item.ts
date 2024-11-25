@@ -1,7 +1,43 @@
 import z from 'zod';
-import { empty, page, uuid } from '../_presets';
+import { empty, itemTypeId, page, price, qty, strLong, strShort, uuid } from '../_presets';
 
-export const createItemDashboardSchema = { body: empty, params: empty, query: empty };
+const fixedItemConfig = z
+  .object({
+    isRedeemable: z.boolean(),
+    redeemedAt: z.string().optional(),
+    redeemByDate: z.string().optional(),
+    price: price,
+  })
+  .strict();
+
+const variableItemConfig = z
+  .object({
+    defaultAmount: price.or(z.literal(0)),
+    minAmount: z.number().int().positive(),
+    maxAmount: price,
+    stepAmount: z.number().int().positive(),
+    presetAmounts: z.array(price).min(0).max(5),
+  })
+  .strict();
+
+export const createItemDashboardSchema = {
+  body: z
+    .object({
+      itemTypeId: itemTypeId,
+      name: strShort,
+      description: strLong.optional(),
+      config: z.union([fixedItemConfig, variableItemConfig]),
+      maxQuantityPerOrder: qty,
+    })
+    .strict(),
+  params: z
+    .object({
+      storeId: uuid,
+      productId: uuid,
+    })
+    .strict(),
+  query: empty,
+};
 
 export const listItemsDashboardSchema = {
   body: empty,
@@ -14,7 +50,7 @@ export const listItemsDashboardSchema = {
     .strict(),
 };
 
-export const getItemDashboardSchema = { body: empty, params: empty, query: empty };
+export const getItemDashboardSchema = { body: empty, params: z.object({ itemId: uuid }).strict(), query: empty };
 
 export const updateItemDashboardSchema = {
   body: empty,
