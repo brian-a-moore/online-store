@@ -6,7 +6,7 @@ import { LoginAuthBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card } from '../../components/container';
 import { ErrorText, TextInput } from '../../components/input';
-import { Button, Link, TextButton } from '../../components/interactive';
+import { Button, TextButton } from '../../components/interactive';
 import { AUTH_TOKEN } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -71,9 +71,6 @@ export const Login: React.FC<Props> = () => {
           <Button disabled={isSubmitting}>{isSubmitting ? 'Logging in...' : 'Log In'}</Button>
           {formError ? <ErrorText>{formError}</ErrorText> : null}
         </form>
-        <p>
-          Not here to manage a store? <Link href="/">View Stores</Link>
-        </p>
       </Card>
     </div>
   );
