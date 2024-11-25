@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { CartContext } from '../../context/CartContext';
 import { formatCurrency, getTotalPrice, totalItems } from '../../utils';
 import { Button, Stepper } from '../interactive';
-import { H3, H4, H5 } from '../typography';
+import { H4, H5 } from '../typography';
 
 type Props = {};
 
@@ -46,7 +46,7 @@ export const Cart: React.FC<Props> = () => {
               <>
                 {items.map((item) => (
                   <div key={item.id} className="flex flex-col border-b-2 pb-4">
-                    <H3 title={item.name}> {item.name} </H3>
+                    <H5 title={item.name}> {item.name} </H5>
                     <p
                       className="text-sm w-full whitespace-nowrap overflow-ellipsis overflow-hidden mb-4"
                       title={item.product.name}
