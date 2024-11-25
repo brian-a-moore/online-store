@@ -9,7 +9,7 @@ import {
   HomePrivate,
   ProductPrivate,
   StorePrivate
-} from './pages/private';
+} from './pages/dashboard';
 import {
   Home,
   Items,
