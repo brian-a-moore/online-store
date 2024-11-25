@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { SearchUsersBody, SearchUsersQuery, SearchUsersResponse } from '../../../../../api/src/types/api';
+import { SearchUsersDashboardBody, SearchUsersDashboardQuery, SearchUsersDashboardResponse } from '../../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../../constants';
 import useApi from '../../../hooks/useApi';
 import useDebounce from '../../../hooks/useDebounce';
@@ -17,16 +17,16 @@ type SearchBoxProps = {
 const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
   const [search, setSearch] = useState<string>('');
   const [field, setField] = useState<'name' | 'email'>('name');
-  const [users, setUsers] = useState<SearchUsersResponse['users']>([]);
+  const [users, setUsersDashboard] = useState<SearchUsersDashboardResponse['users']>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const debouncedSearch = useDebounce(search, 300);
 
-  const { error, response } = useApi<SearchUsersBody, SearchUsersQuery, SearchUsersResponse>(
+  const { error, response } = useApi<SearchUsersDashboardBody, SearchUsersDashboardQuery, SearchUsersDashboardResponse>(
     {
-      url: `/admin/user/search`,
+      url: `/dashboard/user/search`,
       method: HTTP_METHOD.GET,
-      params: { storeId, search: debouncedSearch, field, page: '1' },
+      params: { search: debouncedSearch, field, page: '1' },
     },
     { isAutoTriggered: debouncedSearch.length > 2 },
   );
@@ -37,20 +37,20 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
 
   useEffect(() => {
     if (response?.users) {
-      setUsers(response.users);
+      setUsersDashboard(response.users);
     }
   }, [response?.users]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     if (e.target.value.length === 0) {
-      setUsers([]);
+      setUsersDashboard([]);
     }
   };
 
   const onUserClick = (id: string) => {
     selectTeamMember(users.find((user) => user.id === id)!);
-    setUsers([]);
+    setUsersDashboard([]);
     setSearch('');
   };
 
@@ -62,7 +62,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
         className={`w-full h-12 px-4 rounded`}
         value={search}
         onChange={onChange}
-        placeholder="Search Users"
+        placeholder="Search UsersDashboard"
         ref={inputRef}
       />
       <ListPopup users={users} inputRef={inputRef} search={debouncedSearch} onUserClick={onUserClick} />
@@ -73,7 +73,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
 export default SearchBox;
 
 type ListPopupProps = {
-  users: SearchUsersResponse['users'];
+  users: SearchUsersDashboardResponse['users'];
   search: string;
   inputRef: React.RefObject<HTMLInputElement>;
   onUserClick: (id: string) => void;

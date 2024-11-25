@@ -1,35 +1,36 @@
 import {
-  CreateProductBody,
-  CreateProductQuery,
-  CreateProductResponse,
-  DeleteProductBody,
-  DeleteProductQuery,
-  DeleteProductResponse,
-  UpdateProductBody,
-  UpdateProductQuery,
-  UpdateProductResponse,
+  CreateProductDashboardBody,
+  CreateProductDashboardQuery,
+  CreateProductDashboardResponse,
+  DeleteProductDashboardBody,
+  DeleteProductDashboardQuery,
+  DeleteProductDashboardResponse,
+  UpdateProductDashboardBody,
+  UpdateProductDashboardQuery,
+  UpdateProductDashboardResponse,
 } from '../../../api/src/types/api';
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
 
-export const createProduct = async (storeId: string, newProduct: CreateProductBody) => {
-  return apiCall<CreateProductBody, CreateProductQuery, CreateProductResponse>({
-    url: `/admin/store/${storeId}/product`,
+export const createProduct = async (storeId: string, newProduct: CreateProductDashboardBody) => {
+  return apiCall<CreateProductDashboardBody, CreateProductDashboardQuery, CreateProductDashboardResponse>({
+    url: `/dashboard/product`,
     method: HTTP_METHOD.POST,
     data: newProduct,
+    params: { storeId },
   });
 };
 
-export const deleteProduct = async (storeId: string, productId: string) => {
-  return apiCall<DeleteProductBody, DeleteProductQuery, DeleteProductResponse>({
-    url: `/admin/store/${storeId}/product/${productId}`,
+export const deleteProduct = async (productId: string) => {
+  return apiCall<DeleteProductDashboardBody, DeleteProductDashboardQuery, DeleteProductDashboardResponse>({
+    url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.DELETE,
   });
 };
 
-export const updateProduct = async (storeId: string, productId: string, productUpdate: UpdateProductBody) => {
-  return apiCall<UpdateProductBody, UpdateProductQuery, UpdateProductResponse>({
-    url: `/admin/store/${storeId}/product/${productId}`,
+export const updateProduct = async (productId: string, productUpdate: UpdateProductDashboardBody) => {
+  return apiCall<UpdateProductDashboardBody, UpdateProductDashboardQuery, UpdateProductDashboardResponse>({
+    url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.PUT,
     data: productUpdate,
   });

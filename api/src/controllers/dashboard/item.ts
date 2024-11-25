@@ -33,7 +33,7 @@ export const createItemDashboardController = async (
   next: NextFunction,
 ) => {
   try {
-    const { productId } = req.params;
+    const { productId } = req.query;
     const { config, ...incomingItem } = req.body;
 
     const id = crypto.randomUUID();

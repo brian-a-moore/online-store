@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetItemBody, GetItemParams, GetItemResponse } from '../../../../api/src/types/api';
+import { GetItemDashboardBody, GetItemDashboardParams, GetItemDashboardResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
@@ -14,10 +14,10 @@ type Props = {
 export const ItemForm: React.FC<Props> = ({ storeId, productId, itemId }) => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<GetItemBody, GetItemParams, GetItemResponse>(
+  const { error, isLoading, response } = useApi<GetItemDashboardBody, GetItemDashboardParams, GetItemDashboardResponse>(
     {
       method: HTTP_METHOD.GET,
-      url: `/admin/store/${storeId}/product/${productId}/item/${itemId}`,
+      url: `/dashboard/item/${itemId}`,
     },
     { isAutoTriggered: !!storeId && !!productId && !!itemId },
   );

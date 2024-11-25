@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetStorePrivateBody, GetStorePrivateParams, GetStorePrivateResponse } from '../../../../api/src/types/api';
+import { GetStoreDashboardBody, GetStoreDashboardParams, GetStoreDashboardResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
@@ -12,10 +12,10 @@ type Props = {
 export const StoreForm: React.FC<Props> = ({ storeId }) => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<GetStorePrivateBody, GetStorePrivateParams, GetStorePrivateResponse>(
+  const { error, isLoading, response } = useApi<GetStoreDashboardBody, GetStoreDashboardParams, GetStoreDashboardResponse>(
     {
       method: HTTP_METHOD.GET,
-      url: `/admin/store/${storeId}`,
+      url: `/dashboard/store/${storeId}`,
     },
     { isAutoTriggered: !!storeId },
   );

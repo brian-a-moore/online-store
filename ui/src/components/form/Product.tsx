@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  GetProductPrivateBody,
-  GetProductPrivateParams,
-  GetProductPrivateResponse,
+  GetProductDashboardBody,
+  GetProductDashboardParams,
+  GetProductDashboardResponse,
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -18,13 +18,13 @@ export const ProductForm: React.FC<Props> = ({ storeId, productId }) => {
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<
-    GetProductPrivateBody,
-    GetProductPrivateParams,
-    GetProductPrivateResponse
+    GetProductDashboardBody,
+    GetProductDashboardParams,
+    GetProductDashboardResponse
   >(
     {
       method: HTTP_METHOD.GET,
-      url: `/admin/store/${storeId}/product/${productId}`,
+      url: `/dashboard/product/${productId}`,
     },
     { isAutoTriggered: !!storeId && !!productId },
   );

@@ -30,13 +30,12 @@ export const createItemDashboardSchema = {
       maxQuantityPerOrder: qty,
     })
     .strict(),
-  params: z
+  params: empty,
+  query: z
     .object({
-      storeId: uuid,
       productId: uuid,
     })
     .strict(),
-  query: empty,
 };
 
 export const listItemsDashboardSchema = {
@@ -53,7 +52,15 @@ export const listItemsDashboardSchema = {
 export const getItemDashboardSchema = { body: empty, params: z.object({ itemId: uuid }).strict(), query: empty };
 
 export const updateItemDashboardSchema = {
-  body: empty,
+  body: z
+    .object({
+      name: strShort.optional(),
+      itemTypeId: itemTypeId.optional(),
+      description: strLong.optional(),
+      config: z.union([fixedItemConfig, variableItemConfig]).optional(),
+      maxQuantityPerOrder: qty.optional(),
+    })
+    .strict(),
   params: z
     .object({
       itemId: uuid,

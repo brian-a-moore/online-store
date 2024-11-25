@@ -17,7 +17,7 @@ export const searchUsersDashboardController = async (
   res: Response<SearchUsersDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
-  const { search, field } = req.body;
+  const { search, field } = req.query;
   const page = getPageNumber(req.query.page);
 
   const where: Prisma.UserWhereInput = {};
