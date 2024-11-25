@@ -75,6 +75,9 @@ export const listProductsDashboardController = async (
         updatedAt: true,
         isPublished: true,
       },
+      where: {
+        storeId: req.query.storeId,
+      },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
       orderBy: {
