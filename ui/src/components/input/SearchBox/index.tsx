@@ -62,7 +62,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
         className={`w-full h-12 px-4 rounded`}
         value={search}
         onChange={onChange}
-        placeholder="Search UsersDashboard"
+        placeholder="Search Users"
         ref={inputRef}
       />
       <ListPopup users={users} inputRef={inputRef} search={debouncedSearch} onUserClick={onUserClick} />
