@@ -9,7 +9,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     // Bypass authorization for certain routes
-    if (req.routeId?.includes('-auth') || req.routeId?.includes('url') || req.routeId?.includes('submit')) {
+    if (req.routeId?.includes('-auth') || req.routeId?.includes('-public')) {
       logger.debug('AUTHORIZATION MIDDLEWARE: Authorization middleware: Bypassed');
       next();
       return;
