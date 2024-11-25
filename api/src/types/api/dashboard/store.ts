@@ -29,6 +29,21 @@ export type GetStoreDashboardResponse = {
   };
 };
 
+export type GetStoreTeamDashboardBody = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.body>;
+export type GetStoreTeamDashboardParams = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.params>;
+export type GetStoreTeamDashboardQuery = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.query>;
+export type GetStoreTeamDashboardResponse = {
+  team: {
+    id: string;
+    name: string;
+    email: string;
+    store: {
+      storeId: string;
+      roleId: number;
+    };
+  }[];
+};
+
 export type UpdateStoreDashboardBody = z.infer<typeof storeSchema.updateStoreDashboardSchema.body>;
 export type UpdateStoreDashboardParams = z.infer<typeof storeSchema.updateStoreDashboardSchema.params>;
 export type UpdateStoreDashboardQuery = z.infer<typeof storeSchema.updateStoreDashboardSchema.query>;
