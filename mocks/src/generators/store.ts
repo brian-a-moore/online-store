@@ -29,7 +29,7 @@ export const generateStores = async () => {
 
   await db.store.createMany({ data: stores });
 
-  console.log('stores created');
+  console.log('Stores created');
 
   return stores.map((store) => store.id as string);
 };
