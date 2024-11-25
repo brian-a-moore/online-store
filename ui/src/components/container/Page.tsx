@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const Page: React.FC<Props> = ({ children, className }) => {
-  return <div className={`flex flex-col gap-4 p-4 w-full ${className}`}>{children}</div>;
+  return <div className={`flex flex-col gap-4 p-4 pb-[50vh] w-full h-full overflow-y-auto ${className}`}>{children}</div>;
 };
