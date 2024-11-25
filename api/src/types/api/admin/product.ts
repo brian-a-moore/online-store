@@ -12,7 +12,9 @@ export type GetProductAdminQuery = z.infer<typeof adminProductSchemas.getProduct
 export type UpdateProductAdminBody = z.infer<typeof adminProductSchemas.updateProductAdminSchema.body>;
 export type UpdateProductAdminParams = z.infer<typeof adminProductSchemas.updateProductAdminSchema.params>;
 export type UpdateProductAdminQuery = z.infer<typeof adminProductSchemas.updateProductAdminSchema.query>;
+export type UpdateProductAdminResponse = never;
 
 export type DeleteProductAdminBody = z.infer<typeof adminProductSchemas.deleteProductAdminSchema.body>;
 export type DeleteProductAdminParams = z.infer<typeof adminProductSchemas.deleteProductAdminSchema.params>;
 export type DeleteProductAdminQuery = z.infer<typeof adminProductSchemas.deleteProductAdminSchema.query>;
+export type DeleteProductAdminResponse = never;

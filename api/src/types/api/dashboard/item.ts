@@ -4,6 +4,7 @@ import * as itemSchema from '../../../schemas/dashboard/item';
 export type CreateItemDashboardBody = z.infer<typeof itemSchema.createItemDashboardSchema.body>;
 export type CreateItemDashboardParams = z.infer<typeof itemSchema.createItemDashboardSchema.params>;
 export type CreateItemDashboardQuery = z.infer<typeof itemSchema.createItemDashboardSchema.query>;
+export type CreateItemDashboardResponse = { id: string };
 
 export type ListItemsDashboardBody = z.infer<typeof itemSchema.listItemsDashboardSchema.body>;
 export type ListItemsDashboardParams = z.infer<typeof itemSchema.listItemsDashboardSchema.params>;
@@ -16,7 +17,9 @@ export type GetItemDashboardQuery = z.infer<typeof itemSchema.getItemDashboardSc
 export type UpdateItemDashboardBody = z.infer<typeof itemSchema.updateItemDashboardSchema.body>;
 export type UpdateItemDashboardParams = z.infer<typeof itemSchema.updateItemDashboardSchema.params>;
 export type UpdateItemDashboardQuery = z.infer<typeof itemSchema.updateItemDashboardSchema.query>;
+export type UpdateItemDashboardResponse = never;
 
 export type DeleteItemDashboardBody = z.infer<typeof itemSchema.deleteItemDashboardSchema.body>;
 export type DeleteItemDashboardParams = z.infer<typeof itemSchema.deleteItemDashboardSchema.params>;
 export type DeleteItemDashboardQuery = z.infer<typeof itemSchema.deleteItemDashboardSchema.query>;
+export type DeleteItemDashboardResponse = never;

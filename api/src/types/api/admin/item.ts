@@ -12,7 +12,9 @@ export type GetItemAdminQuery = z.infer<typeof adminItemSchemas.getItemAdminSche
 export type UpdateItemAdminBody = z.infer<typeof adminItemSchemas.updateItemAdminSchema.body>;
 export type UpdateItemAdminParams = z.infer<typeof adminItemSchemas.updateItemAdminSchema.params>;
 export type UpdateItemAdminQuery = z.infer<typeof adminItemSchemas.updateItemAdminSchema.query>;
+export type UpdateItemAdminResponse = never;
 
 export type DeleteItemAdminBody = z.infer<typeof adminItemSchemas.deleteItemAdminSchema.body>;
 export type DeleteItemAdminParams = z.infer<typeof adminItemSchemas.deleteItemAdminSchema.params>;
 export type DeleteItemAdminQuery = z.infer<typeof adminItemSchemas.deleteItemAdminSchema.query>;
+export type DeleteItemAdminResponse = never;

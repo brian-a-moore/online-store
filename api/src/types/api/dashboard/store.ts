@@ -12,3 +12,4 @@ export type GetStoreDashboardQuery = z.infer<typeof storeSchema.getStoreDashboar
 export type UpdateStoreDashboardBody = z.infer<typeof storeSchema.updateStoreDashboardSchema.body>;
 export type UpdateStoreDashboardParams = z.infer<typeof storeSchema.updateStoreDashboardSchema.params>;
 export type UpdateStoreDashboardQuery = z.infer<typeof storeSchema.updateStoreDashboardSchema.query>;
+export type UpdateStoreDashboardResponse = never;
