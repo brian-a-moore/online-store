@@ -28,6 +28,6 @@ export const updateStoreRelationDashboardSchema = {
 
 export const deleteStoreRelationDashboardSchema = {
   body: empty,
-  params: z.object({ relationid: uuid }).strict(),
+  params: z.object({ relationId: uuid }).strict(),
   query: empty,
 };

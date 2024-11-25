@@ -12,7 +12,7 @@ export const listItemsAdminSchema = {
     .strict(),
 };
 
-export const getItemAdminSchema = { body: empty, params: empty, query: empty };
+export const getItemAdminSchema = { body: empty, params: z.object({ itemId: uuid }).strict(), query: empty };
 
 export const updateItemAdminSchema = {
   body: empty,

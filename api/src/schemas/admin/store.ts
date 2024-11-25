@@ -16,15 +16,23 @@ export const createStoreAdminSchema = {
 
 export const listStoresAdminSchema = {
   body: empty,
-  params: z
+  params: empty,
+  query: z
     .object({
       page: page,
     })
     .strict(),
-  query: empty,
 };
 
-export const getStoreAdminSchema = { body: empty, params: empty, query: empty };
+export const getStoreAdminSchema = {
+  body: empty,
+  params: z
+    .object({
+      storeId: uuid,
+    })
+    .strict(),
+  query: empty,
+};
 
 export const updateStoreAdminSchema = {
   body: z

@@ -13,7 +13,7 @@ export const listProductsAdminSchema = {
     .strict(),
 };
 
-export const getProductAdminSchema = { body: empty, params: empty, query: empty };
+export const getProductAdminSchema = { body: empty, params: z.object({ productId: uuid }).strict(), query: empty };
 
 export const updateProductAdminSchema = {
   body: z
@@ -28,4 +28,4 @@ export const updateProductAdminSchema = {
   query: empty,
 };
 
-export const deleteProductAdminSchema = { body: empty, params: empty, query: empty };
+export const deleteProductAdminSchema = { body: empty, params: z.object({ productId: uuid }).strict(), query: empty };

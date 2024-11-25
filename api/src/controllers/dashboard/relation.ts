@@ -72,9 +72,9 @@ export const deleteStoreRelationDashboardController = async (
   next: NextFunction,
 ) => {
   try {
-    const { relationid } = req.params;
+    const { relationId } = req.params;
 
-    await db.userStoreRelation.delete({ where: { id: relationid } });
+    await db.userStoreRelation.delete({ where: { id: relationId } });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {

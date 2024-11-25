@@ -1,7 +1,7 @@
 import z from 'zod';
 import { empty, role, uuid } from '../_presets';
 
-export const createStoreRelationAdminSchema = {
+export const addStoreRelationAdminSchema = {
   body: z
     .object({
       storeId: uuid,

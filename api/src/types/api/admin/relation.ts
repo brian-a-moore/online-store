@@ -1,14 +1,14 @@
 import { z } from 'zod';
 import * as adminRelationSchemas from '../../../schemas/admin/relation';
 
-export type CreateStoreRelationBody = z.infer<typeof adminRelationSchemas.createStoreRelationAdminSchema.body>;
-export type CreateStoreRelationParams = z.infer<typeof adminRelationSchemas.createStoreRelationAdminSchema.params>;
-export type CreateStoreRelationQuery = z.infer<typeof adminRelationSchemas.createStoreRelationAdminSchema.query>;
+export type AddStoreRelationAdminBody = z.infer<typeof adminRelationSchemas.addStoreRelationAdminSchema.body>;
+export type AddStoreRelationAdminParams = z.infer<typeof adminRelationSchemas.addStoreRelationAdminSchema.params>;
+export type AddStoreRelationAdminQuery = z.infer<typeof adminRelationSchemas.addStoreRelationAdminSchema.query>;
 
-export type UpdateStoreRelationBody = z.infer<typeof adminRelationSchemas.updateStoreRelationAdminSchema.body>;
-export type UpdateStoreRelationParams = z.infer<typeof adminRelationSchemas.updateStoreRelationAdminSchema.params>;
-export type UpdateStoreRelationQuery = z.infer<typeof adminRelationSchemas.updateStoreRelationAdminSchema.query>;
+export type UpdateStoreRelationAdminBody = z.infer<typeof adminRelationSchemas.updateStoreRelationAdminSchema.body>;
+export type UpdateStoreRelationAdminParams = z.infer<typeof adminRelationSchemas.updateStoreRelationAdminSchema.params>;
+export type UpdateStoreRelationAdminQuery = z.infer<typeof adminRelationSchemas.updateStoreRelationAdminSchema.query>;
 
-export type DeleteStoreRelationBody = z.infer<typeof adminRelationSchemas.deleteStoreRelationAdminSchema.body>;
-export type DeleteStoreRelationParams = z.infer<typeof adminRelationSchemas.deleteStoreRelationAdminSchema.params>;
-export type DeleteStoreRelationQuery = z.infer<typeof adminRelationSchemas.deleteStoreRelationAdminSchema.query>;
+export type DeleteStoreRelationAdminBody = z.infer<typeof adminRelationSchemas.deleteStoreRelationAdminSchema.body>;
+export type DeleteStoreRelationAdminParams = z.infer<typeof adminRelationSchemas.deleteStoreRelationAdminSchema.params>;
+export type DeleteStoreRelationAdminQuery = z.infer<typeof adminRelationSchemas.deleteStoreRelationAdminSchema.query>;
