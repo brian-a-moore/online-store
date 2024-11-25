@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ListStoresPrivateQuery, ListStoresPublicBody, ListStoresPublicResponse } from '../../../../api/src/types/api';
+import { ListStoresPublicBody, ListStoresPublicQuery, ListStoresPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
 import { EmptyText, H2, H3 } from '../../components/typography';
@@ -12,9 +12,9 @@ type Props = {};
 export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<ListStoresPublicBody, ListStoresPrivateQuery, ListStoresPublicResponse>(
+  const { error, isLoading, response } = useApi<ListStoresPublicBody, ListStoresPublicQuery, ListStoresPublicResponse>(
     {
-      url: `/store/list`,
+      url: `/public/store/list`,
       method: HTTP_METHOD.GET,
       params: { page: '1' },
     },

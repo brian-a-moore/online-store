@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  ListProductsPrivateBody,
+  ListProductsPublicBody,
   ListProductsPublicQuery,
   ListProductsPublicResponse,
 } from '../../../../api/src/types/api';
@@ -19,14 +19,14 @@ export const Products: React.FC<Props> = () => {
   const { storeId } = useParams<{ storeId: string }>();
 
   const { error, isLoading, response } = useApi<
-    ListProductsPrivateBody,
+    ListProductsPublicBody,
     ListProductsPublicQuery,
     ListProductsPublicResponse
   >(
     {
-      url: `/store/${storeId}/product/list`,
+      url: `/public/product/list`,
       method: HTTP_METHOD.GET,
-      params: { page: '1' },
+      params: { storeId: storeId!, page: '1' },
     },
     { isPrivateEndpoint: false },
   );

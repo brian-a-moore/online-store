@@ -16,7 +16,7 @@ export const Store: React.FC<Props> = () => {
 
   const { error, isLoading, response } = useApi<GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse>(
     {
-      url: `/store/${storeId}`,
+      url: `/public/store/${storeId}`,
       method: HTTP_METHOD.GET,
     },
     { isPrivateEndpoint: false },

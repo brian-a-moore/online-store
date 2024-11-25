@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { authLoginSchema } from '../../../../api/src/schemas/auth';
-import { AuthLoginBody } from '../../../../api/src/types/api';
+import { loginAuthSchema } from '../../../../api/src/schemas/auth';
+import { LoginAuthBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card } from '../../components/container';
 import { ErrorText, TextInput } from '../../components/input';
@@ -13,7 +13,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 type Props = {};
 
-const DEFAULT_VALUES: AuthLoginBody = {
+const DEFAULT_VALUES: LoginAuthBody = {
   email: '',
   password: '',
 };
@@ -28,10 +28,10 @@ export const Login: React.FC<Props> = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: DEFAULT_VALUES,
-    resolver: zodResolver(authLoginSchema.body),
+    resolver: zodResolver(loginAuthSchema.body),
   });
 
-  const onSubmit = async (loginCredentials: AuthLoginBody) => {
+  const onSubmit = async (loginCredentials: LoginAuthBody) => {
     try {
       const { token, id } = await api.auth.authLogin(loginCredentials);
       setUser({ id });

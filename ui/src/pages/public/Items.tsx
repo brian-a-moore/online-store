@@ -33,14 +33,14 @@ export type Item = {
 };
 
 export const Items: React.FC<Props> = () => {
-  const { storeId, productId } = useParams<Params>();
+  const { productId } = useParams<Params>();
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse>(
     {
-      url: `/store/${storeId}/product/${productId}/item/list`,
+      url: `/public/item/list`,
       method: HTTP_METHOD.GET,
-      params: { page: '1' },
+      params: { productId: productId!, page: '1' },
     },
     { isPrivateEndpoint: false },
   );
