@@ -2,11 +2,7 @@ import { mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import {
-  ListStoresPrivateBody,
-  ListStoresPrivateQuery,
-  ListStoresPrivateResponse,
-} from '../../../../api/src/types/api';
+import { ListStoresDashboardBody, ListStoresDashboardQuery, ListStoresDashboardResponse } from '../../../../api/src/types/api';
 import { Grid } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IsPublished } from '../../components/display';
@@ -18,11 +14,11 @@ export const StoreList: React.FC = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<
-    ListStoresPrivateBody,
-    ListStoresPrivateQuery,
-    ListStoresPrivateResponse
+    ListStoresDashboardBody,
+    ListStoresDashboardQuery,
+    ListStoresDashboardResponse
   >({
-    url: `/admin/store/list`,
+    url: `/dashboard/store/list`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
   });

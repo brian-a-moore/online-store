@@ -2,7 +2,7 @@ import { mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse } from '../../../../api/src/types/api';
+import { ListItemsDashboardBody, ListItemsDashboardQuery, ListItemsDashboardResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
@@ -22,10 +22,10 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
   const { setModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<ListItemsPrivateBody, ListItemsPrivateQuery, ListItemsPrivateResponse>({
-    url: `/admin/store/${storeId}/product/${productId}/item/list`,
+  const { error, isLoading, response } = useApi<ListItemsDashboardBody, ListItemsDashboardQuery, ListItemsDashboardResponse>({
+    url: `/dashboard/item/list`,
     method: HTTP_METHOD.GET,
-    params: { page: '1' },
+    params: { productId, page: '1' },
   });
 
   useEffect(() => {

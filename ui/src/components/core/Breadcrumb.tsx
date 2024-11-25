@@ -2,7 +2,7 @@ import { mdiBarcode, mdiChevronRight, mdiHome, mdiStore, mdiTag } from '@mdi/js'
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetBreadcrumbBody, GetBreadcrumbQuery, GetBreadcrumbResponse } from '../../../../api/src/types/api';
+import { GetBreadcrumbDashboardBody, GetBreadcrumbDashboardQuery, GetBreadcrumbDashboardResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { Link } from '../interactive';
@@ -12,10 +12,10 @@ import { Link } from '../interactive';
 
 export const BreadCrumb: React.FC = () => {
   const navigate = useNavigate();
-  const params = useParams() as unknown as GetBreadcrumbQuery;
+  const params = useParams() as unknown as GetBreadcrumbDashboardQuery;
 
-  const { error, isLoading, response } = useApi<GetBreadcrumbBody, GetBreadcrumbQuery, GetBreadcrumbResponse>({
-    url: '/admin/ui/breadcrumb',
+  const { error, isLoading, response } = useApi<GetBreadcrumbDashboardBody, GetBreadcrumbDashboardQuery, GetBreadcrumbDashboardResponse>({
+    url: '/dashboard/breadcrumb',
     method: HTTP_METHOD.GET,
     params,
   });

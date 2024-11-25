@@ -2,7 +2,7 @@ import { mdiAccountPlus, mdiPencil, mdiTagPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse } from '../../../../api/src/types/api';
+import { GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
@@ -20,8 +20,8 @@ export const StorePrivate: React.FC = () => {
   const navigate = useNavigate();
   const [activeList, setActiveList] = useState<'products' | 'team'>('products');
 
-  const { error, isLoading, response } = useApi<GetStorePrivateBody, GetStorePrivateQuery, GetStorePrivateResponse>({
-    url: `/admin/store/${storeId}`,
+  const { error, isLoading, response } = useApi<GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse>({
+    url: `/dashboard/store/${storeId}`,
     method: HTTP_METHOD.GET,
   });
 

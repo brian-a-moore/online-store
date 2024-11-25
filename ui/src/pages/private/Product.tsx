@@ -3,9 +3,9 @@ import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  GetProductPrivateBody,
-  GetProductPrivateQuery,
-  GetProductPrivateResponse
+  GetProductDashboardBody,
+  GetProductDashboardQuery,
+  GetProductDashboardResponse
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
@@ -24,11 +24,11 @@ export const ProductPrivate: React.FC = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<
-    GetProductPrivateBody,
-    GetProductPrivateQuery,
-    GetProductPrivateResponse
+    GetProductDashboardBody,
+    GetProductDashboardQuery,
+    GetProductDashboardResponse
   >({
-    url: `/admin/store/${storeId}/product/${productId}`,
+    url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.GET,
   });
 
