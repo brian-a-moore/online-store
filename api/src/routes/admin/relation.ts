@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  createStoreRelationAdminController,
+  addStoreRelationAdminController,
   deleteStoreRelationAdminController,
   updateStoreRelationAdminController,
 } from '../../controllers/admin';
@@ -8,7 +8,7 @@ import checkPermissionMiddleware from '../../middlewares/checkPermission.middlew
 import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
 import { canUseAdminRoutes } from '../../permissions';
 import {
-  createStoreRelationAdminSchema,
+  addStoreRelationAdminSchema,
   deleteStoreRelationAdminSchema,
   updateStoreRelationAdminSchema,
 } from '../../schemas/admin';
@@ -23,9 +23,9 @@ router.delete(
 );
 router.post(
   '/',
-  schemaValidatorMiddleware(createStoreRelationAdminSchema),
+  schemaValidatorMiddleware(addStoreRelationAdminSchema),
   checkPermissionMiddleware([canUseAdminRoutes]),
-  createStoreRelationAdminController,
+  addStoreRelationAdminController,
 );
 router.put(
   '/:relationId',

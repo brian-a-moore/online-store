@@ -7,7 +7,7 @@ export const listProductsAdminSchema = {
   params: empty,
   query: z
     .object({
-      storeId: uuid,
+      storeId: uuid.optional(),
       page: page,
     })
     .strict(),

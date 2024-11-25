@@ -4,7 +4,7 @@ export const canUseAdminRoutes = async (req: Request): Promise<false | string> =
   // TODO: Remove bypass before deploying
   const bypass = true;
 
-  if (req.user?.isAdmin || bypass) {
+  if (req.user?.domain === 'admin' || bypass) {
     return false;
   } else {
     return 'You do not have permission to access this resource';

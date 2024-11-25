@@ -4,6 +4,7 @@ import { Toast } from './components/core';
 import Modal from './components/core/Modal';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
+import { Admin, HomeAdmin, ItemsAdmin, ProductsAdmin, StoresAdmin, SuperusersAdmin, UsersAdmin } from './pages/admin';
 import {
   Dashboard,
   HomeDashboard,
@@ -33,6 +34,16 @@ function App() {
         <Route path="store/:storeId" element={<Store />}>
           <Route index element={<Products />} />
           <Route path="product/:productId" element={<Items />} />
+        </Route>
+
+        {/* Admin Pages */}
+        <Route path='admin' element={<Admin />}>
+            <Route index element={<HomeAdmin />} />
+            <Route path='items' element={<ItemsAdmin />} />
+            <Route path='products' element={<ProductsAdmin />} />
+            <Route path='stores' element={<StoresAdmin />} />
+            <Route path='superusers' element={<SuperusersAdmin />} />
+            <Route path='users' element={<UsersAdmin />} />
         </Route>
 
         {/* Dashboard Pages */}
