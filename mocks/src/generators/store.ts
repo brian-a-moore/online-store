@@ -13,6 +13,7 @@ export const generateStores = async () => {
       website: 'https://www.amazon.com',
       image: 'https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png',
       bannerImage: 'https://thinkmarketingmagazine.com/wp-content/uploads/2022/08/Cover-26.png',
+      isPublished: true,
     },
     {
       id: '633cd7e7-2673-4716-9753-944f0ffd23c1',
@@ -22,6 +23,7 @@ export const generateStores = async () => {
       website: 'https://www.walmart.com',
       image: 'https://s3.amazonaws.com/www-inside-design/uploads/2018/04/walmart-square.jpg',
       bannerImage: 'https://www.hatchwise.com/wp-content/uploads/2022/08/download-1-1024x538.jpeg',
+      isPublished: true,
     },
   ];
 

@@ -15,6 +15,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
         'https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/104/720/508/original/1373130_01.jpg.jpeg?action=crop&width=900',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 350,
@@ -29,6 +30,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       image: 'https://solectionlv.com/cdn/shop/products/1_1_21becbf2-4e79-4994-be8a-d4cb1d18a031.jpg?v=1641849865',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 420,
@@ -45,6 +47,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYFRrbQ9WDJ6hiIreMaoOfVVLfR6gzKlr5bw&s',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 479,
@@ -60,6 +63,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
         'https://assets.xboxservices.com/assets/97/d3/97d3bf27-1a7d-4db6-85bc-929f2badf14e.png?n=389964_Buy-Box-0_857x676_01.png',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 349,
@@ -77,6 +81,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
         'https://i5.walmartimages.com/seo/Ozark-Trail-8-x-8-5-x-50-4-Person-Clip-Camp-Dome-Tent_7610003e-44cc-44bb-8233-f045ff5e08f1.bf2296d5412c648b46e407a584196a54.jpeg',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 79,
@@ -92,6 +97,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
         'https://i5.walmartimages.com/seo/Ozark-Trail-12-Person-Cabin-Tent-with-Convertible-Screen-Room_ce455232-6439-4fec-984b-497faaa4ceae.10085e2811e514137c992e8a6a7fd23e.jpeg',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 224,
@@ -109,6 +115,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
         'https://i5.walmartimages.com/seo/Coleman-2179160-316-Series-120QT-Hard-Chest-Cooler-Silver-Ash_60cc4f61-04d0-4bfa-9c1b-f35985994351.8b535c55f369aa160d6bcad227f40bd1.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 5,
@@ -124,6 +131,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
         'https://i5.walmartimages.com/seo/Coleman-Brand-Matchlight-10-000-BTU-2-Burner-Propane-Stove-black_91d46721-8192-48a1-b990-db171cf23614.d9ffe85f76efd81d93d2517fc08a7682.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
+      isPublished: true,
       config: JSON.stringify({
         isReedemable: false,
         price: 5,
