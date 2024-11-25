@@ -1,12 +1,26 @@
 import { Router } from 'express';
-import itemRoutes from './item';
-import productRoutes from './product';
-import storeRoutes from './store';
+import {
+  getProductPublicController,
+  getStorePublicController,
+  listItemsPublicController,
+  listProductsPublicController,
+  listStoresPublicController,
+} from '../../controllers/public';
+import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middleware';
+import {
+  getProductPublicSchema,
+  getStorePublicSchema,
+  listItemsPublicSchema,
+  listProductsPublicSchema,
+  listStoresPublicSchema,
+} from '../../schemas/public';
 
 const router = Router({ mergeParams: true });
 
-router.use('/store/:storeId/product/:productId/item', itemRoutes);
-router.use('/store/:storeId/product', productRoutes);
-router.use('/store', storeRoutes);
+router.get('/store/list', schemaValidatorMiddleware(listStoresPublicSchema), listStoresPublicController);
+router.get('/store/:storeId', schemaValidatorMiddleware(getStorePublicSchema), getStorePublicController);
+router.get('/product/list', schemaValidatorMiddleware(listProductsPublicSchema), listProductsPublicController);
+router.get('/product/:productId', schemaValidatorMiddleware(getProductPublicSchema), getProductPublicController);
+router.get('/item/list', schemaValidatorMiddleware(listItemsPublicSchema), listItemsPublicController);
 
 export default router;

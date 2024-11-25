@@ -1,14 +1,14 @@
 import { Router } from 'express';
+import adminRoutes from './admin';
 import authRoutes from './auth';
-import orderRoutes from './order';
-import privateRoutes from './private';
+import dashboardRoutes from './dashboard';
 import publicRoutes from './public';
 
 const router = Router({ mergeParams: true });
 
+router.use('/admin', adminRoutes);
 router.use('/auth', authRoutes);
-router.use('/admin', privateRoutes);
-router.use('/order', orderRoutes);
-router.use('/', publicRoutes);
+router.use('/dashboard', dashboardRoutes);
+router.use('/public', publicRoutes);
 
 export default router;
