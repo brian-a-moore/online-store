@@ -45,7 +45,6 @@ export const listItemsAdminController = async (
         productId: true,
         name: true,
         isPublished: true,
-        maxQuantityPerOrder: true,
         product: {
           select: {
             name: true,
@@ -64,21 +63,28 @@ export const listItemsAdminController = async (
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
+      orderBy: [
+        {
+          product: {
+            name: 'asc',
+          },
+        },
+        {
+          name: 'asc',
+        },
+      ],
     });
 
-    const items = rawItems.map(
-      ({ id, productId, name, isPublished, maxQuantityPerOrder, itemType, product, createdAt, updatedAt }) => ({
-        id,
-        productId,
-        name,
-        productName: product.name,
-        isPublished: isPublished ? 'Published' : 'Unlisted',
-        maxQuantityPerOrder,
-        itemType: itemType.name,
-        createdAt,
-        updatedAt,
-      }),
-    );
+    const items = rawItems.map(({ id, productId, name, isPublished, itemType, product, createdAt, updatedAt }) => ({
+      id,
+      productId,
+      name,
+      productName: product.name,
+      isPublished: isPublished ? 'Published' : 'Unlisted',
+      itemType: itemType.name,
+      createdAt,
+      updatedAt,
+    }));
 
     res.status(STATUS_CODE.OKAY).json({ items });
   } catch (e: any | unknown) {

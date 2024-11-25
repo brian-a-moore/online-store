@@ -54,9 +54,16 @@ export const listProductsAdminController = async (
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
-      orderBy: {
-        name: 'asc',
-      },
+      orderBy: [
+        {
+          store: {
+            name: 'asc',
+          },
+        },
+        {
+          name: 'asc',
+        },
+      ],
     });
 
     const products = rawProducts.map((product) => ({

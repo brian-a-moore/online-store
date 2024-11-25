@@ -20,10 +20,6 @@ const columns: ColumnConfig[] = [{
   label: 'Status',
   render: (value) => <p>{value}</p>,
 },{
-  key: 'maxQuantityPerOrder',
-  label: 'Qty. Per Order',
-  render: (value) => <p>{value}</p>,
-}, {
   key: 'createdAt',
   label: 'Created Date',
   render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,

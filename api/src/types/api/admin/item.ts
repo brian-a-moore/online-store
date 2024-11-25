@@ -13,7 +13,6 @@ export type ListItemsAdminResponse = {
     name: string;
     productName: string;
     isPublished: string;
-    maxQuantityPerOrder: number;
     itemType: string;
     createdAt: Date;
     updatedAt: Date;
