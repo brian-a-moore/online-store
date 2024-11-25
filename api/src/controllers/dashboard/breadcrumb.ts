@@ -6,11 +6,12 @@ import {
   GetBreadcrumbDashboardBody,
   GetBreadcrumbDashboardParams,
   GetBreadcrumbDashboardQuery,
+  GetBreadcrumbDashboardResponse,
 } from '../../types/api';
 
 export const getBreadcrumbDashboardController = async (
   req: Request<GetBreadcrumbDashboardParams, unknown, GetBreadcrumbDashboardBody, GetBreadcrumbDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetBreadcrumbDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const ids = req.query;

@@ -6,25 +6,30 @@ import {
   CreateStoreAdminBody,
   CreateStoreAdminParams,
   CreateStoreAdminQuery,
+  CreateStoreAdminResponse,
   DeleteStoreAdminBody,
   DeleteStoreAdminParams,
   DeleteStoreAdminQuery,
+  DeleteStoreAdminResponse,
   ErrorResponse,
   GetStoreAdminBody,
   GetStoreAdminParams,
   GetStoreAdminQuery,
+  GetStoreAdminResponse,
   ListStoresAdminBody,
   ListStoresAdminParams,
   ListStoresAdminQuery,
+  ListStoresAdminResponse,
   UpdateStoreAdminBody,
   UpdateStoreAdminParams,
   UpdateStoreAdminQuery,
+  UpdateStoreAdminResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createStoreAdminController = async (
   req: Request<CreateStoreAdminParams, unknown, CreateStoreAdminBody, CreateStoreAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<CreateStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -48,7 +53,7 @@ export const createStoreAdminController = async (
 
 export const listStoresAdminController = async (
   req: Request<ListStoresAdminParams, unknown, ListStoresAdminBody, ListStoresAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListStoresAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -80,7 +85,7 @@ export const listStoresAdminController = async (
 
 export const getStoreAdminController = async (
   req: Request<GetStoreAdminParams, unknown, GetStoreAdminBody, GetStoreAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { storeId } = req.params;
@@ -108,7 +113,7 @@ export const getStoreAdminController = async (
 
 export const updateStoreAdminController = async (
   req: Request<UpdateStoreAdminParams, unknown, UpdateStoreAdminBody, UpdateStoreAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -125,7 +130,7 @@ export const updateStoreAdminController = async (
 
 export const deleteStoreAdminController = async (
   req: Request<DeleteStoreAdminParams, unknown, DeleteStoreAdminBody, DeleteStoreAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

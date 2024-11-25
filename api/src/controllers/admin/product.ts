@@ -6,22 +6,26 @@ import {
   DeleteProductAdminBody,
   DeleteProductAdminParams,
   DeleteProductAdminQuery,
+  DeleteProductAdminResponse,
   ErrorResponse,
   GetProductAdminBody,
   GetProductAdminParams,
   GetProductAdminQuery,
+  GetProductAdminResponse,
   ListProductsAdminBody,
   ListProductsAdminParams,
   ListProductsAdminQuery,
+  ListProductsAdminResponse,
   UpdateProductAdminBody,
   UpdateProductAdminParams,
   UpdateProductAdminQuery,
+  UpdateProductAdminResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listProductsAdminController = async (
   req: Request<ListProductsAdminParams, unknown, ListProductsAdminBody, ListProductsAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListProductsAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -50,7 +54,7 @@ export const listProductsAdminController = async (
 
 export const getProductAdminController = async (
   req: Request<GetProductAdminParams, unknown, GetProductAdminBody, GetProductAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetProductAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;
@@ -66,7 +70,7 @@ export const getProductAdminController = async (
 
 export const updateProductAdminController = async (
   req: Request<UpdateProductAdminParams, unknown, UpdateProductAdminBody, UpdateProductAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateProductAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -83,7 +87,7 @@ export const updateProductAdminController = async (
 
 export const deleteProductAdminController = async (
   req: Request<DeleteProductAdminParams, unknown, DeleteProductAdminBody, DeleteProductAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteProductAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

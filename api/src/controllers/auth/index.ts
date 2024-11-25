@@ -8,14 +8,16 @@ import {
   LoginAuthBody,
   LoginAuthParams,
   LoginAuthQuery,
+  LoginAuthResponse,
   VerifyTokenAuthBody,
   VerifyTokenAuthParams,
   VerifyTokenAuthQuery,
+  VerifyTokenAuthResponse,
 } from '../../types/api';
 
 export const loginAuthController = async (
   req: Request<LoginAuthParams, unknown, LoginAuthBody, LoginAuthQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<LoginAuthResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -48,7 +50,7 @@ export const loginAuthController = async (
 
 export const verifyTokenAuthController = async (
   req: Request<VerifyTokenAuthParams, unknown, VerifyTokenAuthBody, VerifyTokenAuthQuery>,
-  res: Response<any>,
+  res: Response<VerifyTokenAuthResponse | ErrorResponse>,
 ) => {
   try {
     logger.debug('Verifying token', { token: req.body.token });

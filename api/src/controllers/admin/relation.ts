@@ -5,18 +5,21 @@ import {
   AddStoreRelationAdminBody,
   AddStoreRelationAdminParams,
   AddStoreRelationAdminQuery,
+  AddStoreRelationAdminResponse,
   DeleteStoreRelationAdminBody,
   DeleteStoreRelationAdminParams,
   DeleteStoreRelationAdminQuery,
+  DeleteStoreRelationAdminResponse,
   ErrorResponse,
   UpdateStoreRelationAdminBody,
   UpdateStoreRelationAdminParams,
   UpdateStoreRelationAdminQuery,
+  UpdateStoreRelationAdminResponse,
 } from '../../types/api';
 
 export const addStoreRelationAdminController = async (
   req: Request<AddStoreRelationAdminParams, unknown, AddStoreRelationAdminBody, AddStoreRelationAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<AddStoreRelationAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const userId = req.user!.id;
@@ -41,7 +44,7 @@ export const addStoreRelationAdminController = async (
 
 export const updateStoreRelationAdminController = async (
   req: Request<UpdateStoreRelationAdminParams, unknown, UpdateStoreRelationAdminBody, UpdateStoreRelationAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateStoreRelationAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -58,7 +61,7 @@ export const updateStoreRelationAdminController = async (
 
 export const deleteStoreRelationAdminController = async (
   req: Request<DeleteStoreRelationAdminParams, unknown, DeleteStoreRelationAdminBody, DeleteStoreRelationAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteStoreRelationAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

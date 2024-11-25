@@ -5,18 +5,21 @@ import {
   AddStoreRelationDashboardBody,
   AddStoreRelationDashboardParams,
   AddStoreRelationDashboardQuery,
+  AddStoreRelationDashboardResponse,
   DeleteStoreRelationDashboardBody,
   DeleteStoreRelationDashboardParams,
   DeleteStoreRelationDashboardQuery,
+  DeleteStoreRelationDashboardResponse,
   ErrorResponse,
   UpdateStoreRelationDashboardBody,
   UpdateStoreRelationDashboardParams,
   UpdateStoreRelationDashboardQuery,
+  UpdateStoreRelationDashboardResponse,
 } from '../../types/api';
 
 export const addStoreRelationDashboardController = async (
   req: Request<AddStoreRelationDashboardParams, unknown, AddStoreRelationDashboardBody, AddStoreRelationDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<AddStoreRelationDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const userId = req.user!.id;
@@ -46,7 +49,7 @@ export const updateStoreRelationDashboardController = async (
     UpdateStoreRelationDashboardBody,
     UpdateStoreRelationDashboardQuery
   >,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateStoreRelationDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -68,7 +71,7 @@ export const deleteStoreRelationDashboardController = async (
     DeleteStoreRelationDashboardBody,
     DeleteStoreRelationDashboardQuery
   >,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteStoreRelationDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

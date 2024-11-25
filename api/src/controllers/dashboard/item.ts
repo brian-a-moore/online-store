@@ -6,25 +6,30 @@ import {
   CreateItemDashboardBody,
   CreateItemDashboardParams,
   CreateItemDashboardQuery,
+  CreateItemDashboardResponse,
   DeleteItemDashboardBody,
   DeleteItemDashboardParams,
   DeleteItemDashboardQuery,
+  DeleteItemDashboardResponse,
   ErrorResponse,
   GetItemDashboardBody,
   GetItemDashboardParams,
   GetItemDashboardQuery,
+  GetItemDashboardResponse,
   ListItemsDashboardBody,
   ListItemsDashboardParams,
   ListItemsDashboardQuery,
+  ListItemsDashboardResponse,
   UpdateItemDashboardBody,
   UpdateItemDashboardParams,
   UpdateItemDashboardQuery,
+  UpdateItemDashboardResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createItemDashboardController = async (
   req: Request<CreateItemDashboardParams, unknown, CreateItemDashboardBody, CreateItemDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<CreateItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -51,7 +56,7 @@ export const createItemDashboardController = async (
 
 export const listItemsDashboardController = async (
   req: Request<ListItemsDashboardParams, unknown, ListItemsDashboardBody, ListItemsDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListItemsDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -87,7 +92,7 @@ export const listItemsDashboardController = async (
 
 export const getItemDashboardController = async (
   req: Request<GetItemDashboardParams, unknown, GetItemDashboardBody, GetItemDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { itemId } = req.params;
@@ -105,7 +110,7 @@ export const getItemDashboardController = async (
 
 export const updateItemDashboardController = async (
   req: Request<UpdateItemDashboardParams, unknown, UpdateItemDashboardBody, UpdateItemDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -122,7 +127,7 @@ export const updateItemDashboardController = async (
 
 export const deleteItemDashboardController = async (
   req: Request<DeleteItemDashboardParams, unknown, DeleteItemDashboardBody, DeleteItemDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

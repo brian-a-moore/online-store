@@ -7,26 +7,31 @@ import {
   CreateUserAdminBody,
   CreateUserAdminParams,
   CreateUserAdminQuery,
+  CreateUserAdminResponse,
   DeleteUserAdminBody,
   DeleteUserAdminParams,
   DeleteUserAdminQuery,
+  DeleteUserAdminResponse,
   ErrorResponse,
   GetUserAdminBody,
   GetUserAdminParams,
   GetUserAdminQuery,
+  GetUserAdminResponse,
   ListUsersAdminBody,
   ListUsersAdminParams,
   ListUsersAdminQuery,
+  ListUsersAdminResponse,
   UpdateUserAdminBody,
   UpdateUserAdminParams,
   UpdateUserAdminQuery,
+  UpdateUserAdminResponse,
 } from '../../types/api';
 import { generatePassword } from '../../utils/auth';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createUserAdminController = async (
   req: Request<CreateUserAdminParams, unknown, CreateUserAdminBody, CreateUserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<CreateUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -52,7 +57,7 @@ export const createUserAdminController = async (
 
 export const listUsersAdminController = async (
   req: Request<ListUsersAdminParams, unknown, ListUsersAdminBody, ListUsersAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListUsersAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -68,11 +73,15 @@ export const listUsersAdminController = async (
     const users = await db.user.findMany({
       select: {
         id: true,
+        email: true,
         name: true,
         updatedAt: true,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
+      orderBy: {
+        name: 'asc',
+      },
     });
 
     res.status(STATUS_CODE.OKAY).json({ users });
@@ -83,13 +92,20 @@ export const listUsersAdminController = async (
 
 export const getUserAdminController = async (
   req: Request<GetUserAdminParams, unknown, GetUserAdminBody, GetUserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { userId } = req.params;
 
   try {
     const user = await db.user.findUniqueOrThrow({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       where: { id: userId },
     });
 
@@ -101,7 +117,7 @@ export const getUserAdminController = async (
 
 export const updateUserAdminController = async (
   req: Request<UpdateUserAdminParams, unknown, UpdateUserAdminBody, UpdateUserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -118,7 +134,7 @@ export const updateUserAdminController = async (
 
 export const deleteUserAdminController = async (
   req: Request<DeleteUserAdminParams, unknown, DeleteUserAdminBody, DeleteUserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

@@ -6,25 +6,30 @@ import {
   CreateProductDashboardBody,
   CreateProductDashboardParams,
   CreateProductDashboardQuery,
+  CreateProductDashboardResponse,
   DeleteProductDashboardBody,
   DeleteProductDashboardParams,
   DeleteProductDashboardQuery,
+  DeleteProductDashboardResponse,
   ErrorResponse,
   GetProductDashboardBody,
   GetProductDashboardParams,
   GetProductDashboardQuery,
+  GetProductDashboardResponse,
   ListProductsDashboardBody,
   ListProductsDashboardParams,
   ListProductsDashboardQuery,
+  ListProductsDashboardResponse,
   UpdateProductDashboardBody,
   UpdateProductDashboardParams,
   UpdateProductDashboardQuery,
+  UpdateProductDashboardResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createProductDashboardController = async (
   req: Request<CreateProductDashboardParams, unknown, CreateProductDashboardBody, CreateProductDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<CreateProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -50,7 +55,7 @@ export const createProductDashboardController = async (
 
 export const listProductsDashboardController = async (
   req: Request<ListProductsDashboardParams, unknown, ListProductsDashboardBody, ListProductsDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListProductsDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -85,7 +90,7 @@ export const listProductsDashboardController = async (
 
 export const getProductDashboardController = async (
   req: Request<GetProductDashboardParams, unknown, GetProductDashboardBody, GetProductDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;
@@ -101,7 +106,7 @@ export const getProductDashboardController = async (
 
 export const updateProductDashboardController = async (
   req: Request<UpdateProductDashboardParams, unknown, UpdateProductDashboardBody, UpdateProductDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -118,7 +123,7 @@ export const updateProductDashboardController = async (
 
 export const deleteProductDashboardController = async (
   req: Request<DeleteProductDashboardParams, unknown, DeleteProductDashboardBody, DeleteProductDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

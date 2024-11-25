@@ -9,10 +9,30 @@ export type CreateStoreAdminResponse = { id: string };
 export type ListStoresAdminBody = z.infer<typeof adminStoreSchemas.listStoresAdminSchema.body>;
 export type ListStoresAdminParams = z.infer<typeof adminStoreSchemas.listStoresAdminSchema.params>;
 export type ListStoresAdminQuery = z.infer<typeof adminStoreSchemas.listStoresAdminSchema.query>;
+export type ListStoresAdminResponse = {
+  stores: {
+    name: string;
+    id: string;
+    isPublished: boolean;
+    updatedAt: Date;
+  }[];
+};
 
 export type GetStoreAdminBody = z.infer<typeof adminStoreSchemas.getStoreAdminSchema.body>;
 export type GetStoreAdminParams = z.infer<typeof adminStoreSchemas.getStoreAdminSchema.params>;
 export type GetStoreAdminQuery = z.infer<typeof adminStoreSchemas.getStoreAdminSchema.query>;
+export type GetStoreAdminResponse = {
+  store: {
+    name: string;
+    website: string | null;
+    id: string;
+    image: string | null;
+    bannerImage: string | null;
+    isPublished: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+};
 
 export type UpdateStoreAdminBody = z.infer<typeof adminStoreSchemas.updateStoreAdminSchema.body>;
 export type UpdateStoreAdminParams = z.infer<typeof adminStoreSchemas.updateStoreAdminSchema.params>;

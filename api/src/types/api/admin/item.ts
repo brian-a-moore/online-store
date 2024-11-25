@@ -1,13 +1,45 @@
 import { z } from 'zod';
 import * as adminItemSchemas from '../../../schemas/admin/item';
 
+type JsonValue = string | any;
+
 export type ListItemsAdminBody = z.infer<typeof adminItemSchemas.listItemsAdminSchema.body>;
 export type ListItemsAdminParams = z.infer<typeof adminItemSchemas.listItemsAdminSchema.params>;
 export type ListItemsAdminQuery = z.infer<typeof adminItemSchemas.listItemsAdminSchema.query>;
+export type ListItemsAdminResponse = {
+  items: {
+    id: string;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+    productId: string;
+    itemTypeId: number;
+    description: string | null;
+    image: string | null;
+    maxQuantityPerOrder: number;
+    isPublished: boolean;
+    config: JsonValue;
+  }[];
+};
 
 export type GetItemAdminBody = z.infer<typeof adminItemSchemas.getItemAdminSchema.body>;
 export type GetItemAdminParams = z.infer<typeof adminItemSchemas.getItemAdminSchema.params>;
 export type GetItemAdminQuery = z.infer<typeof adminItemSchemas.getItemAdminSchema.query>;
+export type GetItemAdminResponse = {
+  item: {
+    productId: string;
+    id: string;
+    itemTypeId: number;
+    name: string;
+    description: string | null;
+    image: string | null;
+    maxQuantityPerOrder: number;
+    isPublished: boolean;
+    config: JsonValue;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+};
 
 export type UpdateItemAdminBody = z.infer<typeof adminItemSchemas.updateItemAdminSchema.body>;
 export type UpdateItemAdminParams = z.infer<typeof adminItemSchemas.updateItemAdminSchema.params>;

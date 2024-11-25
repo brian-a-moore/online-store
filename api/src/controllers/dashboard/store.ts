@@ -7,18 +7,21 @@ import {
   GetStoreDashboardBody,
   GetStoreDashboardParams,
   GetStoreDashboardQuery,
+  GetStoreDashboardResponse,
   ListStoresDashboardBody,
   ListStoresDashboardParams,
   ListStoresDashboardQuery,
+  ListStoresDashboardResponse,
   UpdateStoreDashboardBody,
   UpdateStoreDashboardParams,
   UpdateStoreDashboardQuery,
+  UpdateStoreDashboardResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listStoresDashboardController = async (
   req: Request<ListStoresDashboardParams, unknown, ListStoresDashboardBody, ListStoresDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListStoresDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -50,7 +53,7 @@ export const listStoresDashboardController = async (
 
 export const getStoreDashboardController = async (
   req: Request<GetStoreDashboardParams, unknown, GetStoreDashboardBody, GetStoreDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetStoreDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { storeId } = req.params;
@@ -78,7 +81,7 @@ export const getStoreDashboardController = async (
 
 export const updateStoreDashboardController = async (
   req: Request<UpdateStoreDashboardParams, unknown, UpdateStoreDashboardBody, UpdateStoreDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateStoreDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

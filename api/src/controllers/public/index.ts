@@ -7,24 +7,29 @@ import {
   GetProductPublicBody,
   GetProductPublicParams,
   GetProductPublicQuery,
+  GetProductPublicResponse,
   GetStorePublicBody,
   GetStorePublicParams,
   GetStorePublicQuery,
+  GetStorePublicResponse,
   ListItemsPublicBody,
   ListItemsPublicParams,
   ListItemsPublicQuery,
+  ListItemsPublicResponse,
   ListProductsPublicBody,
   ListProductsPublicParams,
   ListProductsPublicQuery,
+  ListProductsPublicResponse,
   ListStoresPublicBody,
   ListStoresPublicParams,
   ListStoresPublicQuery,
+  ListStoresPublicResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listStoresPublicController = async (
   req: Request<ListStoresPublicParams, unknown, ListStoresPublicBody, ListStoresPublicQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListStoresPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -63,7 +68,7 @@ export const listStoresPublicController = async (
 
 export const getStorePublicController = async (
   req: Request<GetStorePublicParams, unknown, GetStorePublicBody, GetStorePublicQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetStorePublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { storeId } = req.params;
@@ -88,7 +93,7 @@ export const getStorePublicController = async (
 
 export const listProductsPublicController = async (
   req: Request<ListProductsPublicParams, unknown, ListProductsPublicBody, ListProductsPublicQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListProductsPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -126,7 +131,7 @@ export const listProductsPublicController = async (
 
 export const getProductPublicController = async (
   req: Request<GetProductPublicParams, unknown, GetProductPublicBody, GetProductPublicQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetProductPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;
@@ -150,7 +155,7 @@ export const getProductPublicController = async (
 
 export const listItemsPublicController = async (
   req: Request<ListItemsPublicParams, unknown, ListItemsPublicBody, ListItemsPublicQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListItemsPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

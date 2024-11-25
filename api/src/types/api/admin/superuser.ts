@@ -9,10 +9,27 @@ export type CreateSuperuserAdminResponse = { id: string; defaultPassword: string
 export type ListSuperusersAdminBody = z.infer<typeof adminSuperuser.listSuperusersAdminSchema.body>;
 export type ListSuperusersAdminParams = z.infer<typeof adminSuperuser.listSuperusersAdminSchema.params>;
 export type ListSuperusersAdminQuery = z.infer<typeof adminSuperuser.listSuperusersAdminSchema.query>;
+export type ListSuperusersAdminResponse = {
+  superusers: {
+    email: string;
+    name: string;
+    id: string;
+    updatedAt: Date;
+  }[];
+};
 
 export type GetSuperuserAdminBody = z.infer<typeof adminSuperuser.getSuperuserAdminSchema.body>;
 export type GetSuperuserAdminParams = z.infer<typeof adminSuperuser.getSuperuserAdminSchema.params>;
 export type GetSuperuserAdminQuery = z.infer<typeof adminSuperuser.getSuperuserAdminSchema.query>;
+export type GetSuperuserAdminResponse = {
+  superuser: {
+    email: string;
+    name: string;
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+};
 
 export type UpdateSuperuserAdminBody = z.infer<typeof adminSuperuser.updateSuperuserAdminSchema.body>;
 export type UpdateSuperuserAdminParams = z.infer<typeof adminSuperuser.updateSuperuserAdminSchema.params>;

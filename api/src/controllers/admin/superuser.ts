@@ -7,26 +7,31 @@ import {
   CreateSuperuserAdminBody,
   CreateSuperuserAdminParams,
   CreateSuperuserAdminQuery,
+  CreateSuperuserAdminResponse,
   DeleteSuperuserAdminBody,
   DeleteSuperuserAdminParams,
   DeleteSuperuserAdminQuery,
+  DeleteSuperuserAdminResponse,
   ErrorResponse,
   GetSuperuserAdminBody,
   GetSuperuserAdminParams,
   GetSuperuserAdminQuery,
+  GetSuperuserAdminResponse,
   ListSuperusersAdminBody,
   ListSuperusersAdminParams,
   ListSuperusersAdminQuery,
+  ListSuperusersAdminResponse,
   UpdateSuperuserAdminBody,
   UpdateSuperuserAdminParams,
   UpdateSuperuserAdminQuery,
+  UpdateSuperuserAdminResponse,
 } from '../../types/api';
 import { generatePassword } from '../../utils/auth';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createSuperuserAdminController = async (
   req: Request<CreateSuperuserAdminParams, unknown, CreateSuperuserAdminBody, CreateSuperuserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<CreateSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -52,7 +57,7 @@ export const createSuperuserAdminController = async (
 
 export const listSuperusersAdminController = async (
   req: Request<ListSuperusersAdminParams, unknown, ListSuperusersAdminBody, ListSuperusersAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<ListSuperusersAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -68,11 +73,15 @@ export const listSuperusersAdminController = async (
     const superusers = await db.superuser.findMany({
       select: {
         id: true,
+        email: true,
         name: true,
         updatedAt: true,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
+      orderBy: {
+        name: 'asc',
+      },
     });
 
     res.status(STATUS_CODE.OKAY).json({ superusers });
@@ -83,13 +92,20 @@ export const listSuperusersAdminController = async (
 
 export const getSuperuserAdminController = async (
   req: Request<GetSuperuserAdminParams, unknown, GetSuperuserAdminBody, GetSuperuserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<GetSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { superuserId } = req.params;
 
   try {
     const superuser = await db.superuser.findUniqueOrThrow({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       where: { id: superuserId },
     });
 
@@ -101,7 +117,7 @@ export const getSuperuserAdminController = async (
 
 export const updateSuperuserAdminController = async (
   req: Request<UpdateSuperuserAdminParams, unknown, UpdateSuperuserAdminBody, UpdateSuperuserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<UpdateSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {
@@ -118,7 +134,7 @@ export const updateSuperuserAdminController = async (
 
 export const deleteSuperuserAdminController = async (
   req: Request<DeleteSuperuserAdminParams, unknown, DeleteSuperuserAdminBody, DeleteSuperuserAdminQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<DeleteSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   try {

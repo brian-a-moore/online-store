@@ -8,12 +8,13 @@ import {
   SearchUsersDashboardBody,
   SearchUsersDashboardParams,
   SearchUsersDashboardQuery,
+  SearchUsersDashboardResponse,
 } from '../../types/api';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const searchUsersDashboardController = async (
   req: Request<SearchUsersDashboardParams, unknown, SearchUsersDashboardBody, SearchUsersDashboardQuery>,
-  res: Response<any | ErrorResponse>,
+  res: Response<SearchUsersDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { search, field } = req.body;
