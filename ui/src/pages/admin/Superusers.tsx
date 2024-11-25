@@ -3,14 +3,30 @@ import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListSuperusersAdminBody, ListSuperusersAdminQuery, ListSuperusersAdminResponse } from '../../../../api/src/types/api';
-import { Card, Container, Page, Table } from '../../components/container';
+import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
 import { Button } from '../../components/interactive';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
-type ListSuperuser = ListSuperusersAdminResponse['superusers'][0];
+const columns: ColumnConfig[] = [{
+  key: 'name',
+  label: 'User Name',
+  render: (value) => <p>{value}</p>,
+},{
+  key: 'email',
+  label: 'Email',
+  render: (value) => <p>{value}</p>,
+}, {
+  key: 'createdAt',
+  label: 'Created Date',
+  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+}, {
+  key: 'updatedAt',
+  label: 'Last Updated',
+  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+}];
 
 export const SuperusersAdmin: React.FC = () => {
   const navigate = useNavigate();
@@ -24,16 +40,6 @@ export const SuperusersAdmin: React.FC = () => {
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
-
-  const getColumns = (superuser: ListSuperuser) => {
-    const keys = Object.keys(superuser);
-    return keys.map((key) => {
-      return {
-        key,
-        label: key,
-      };
-    });
-  };
 
   if (isLoading) return <Loader />;
 
@@ -49,7 +55,7 @@ export const SuperusersAdmin: React.FC = () => {
           </Button>
         </Card>
         <Card>
-          {superusers && superusers.length ? (<Table columns={getColumns(superusers[0])} data={superusers} />) : <EmptyText>No superusers found</EmptyText>}
+          {superusers && superusers.length ? (<Table columns={columns} data={superusers} />) : <EmptyText>No superusers found</EmptyText>}
         </Card>
       </Container>
     </Page>

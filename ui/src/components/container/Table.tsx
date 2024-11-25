@@ -1,15 +1,12 @@
-interface Column {
+export type ColumnConfig = {
   key: string;
   label: string;
+  render: (value: any) => React.JSX.Element;
 }
 
 interface Props<T> {
-  columns: Column[];
+  columns: ColumnConfig[];
   data: T[];
-  config?: {
-    columnSorting: boolean;
-    striped: boolean;
-  };
 }
 
 export const Table = <T,>({ columns, data }: Props<T>) => {
@@ -19,7 +16,7 @@ export const Table = <T,>({ columns, data }: Props<T>) => {
         <thead>
           <tr className="flex">
             {columns.map((column) => (
-              <th className="flex-1 border-2 px-4 py-2 bg-slate-200 text-left" key={column.key}>
+              <th className="flex-1 border-b-2 px-4 py-2 bg-slate-200 text-left" key={column.key}>
                 {column.label}
               </th>
             ))}
@@ -28,11 +25,14 @@ export const Table = <T,>({ columns, data }: Props<T>) => {
         <tbody>
           {data.map((item, index) => (
             <tr key={index} className="flex flex-1 hover:bg-sky-200 !text-left hover:cursor-pointer">
-              {columns.map((column) => (
-                <td key={column.key} className="flex-1 border-2 px-4 py-2 whitespace-nowrap line-clamp-1">
-                  {(item as any)[column.key].toString().slice(0, 100)}
-                </td>
-              ))}
+              {columns.map((column: ColumnConfig) => {
+                const value = item[column.key as keyof T];
+                return (
+                  <td className="flex-1 border-b-2 px-4 py-2" key={column.key}>
+                    {column.render(value)}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
@@ -40,3 +40,4 @@ export const Table = <T,>({ columns, data }: Props<T>) => {
     </div>
   );
 };
+

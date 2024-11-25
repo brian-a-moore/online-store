@@ -14,6 +14,7 @@ export type ListUsersAdminResponse = {
     email: string;
     name: string;
     id: string;
+    createdAt: Date;
     updatedAt: Date;
   }[];
 };

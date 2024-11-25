@@ -3,14 +3,30 @@ import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse } from '../../../../api/src/types/api';
-import { Card, Container, Page, Table } from '../../components/container';
+import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
 import { Button } from '../../components/interactive';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
-type ListUser = ListUsersAdminResponse['users'][0];
+const columns: ColumnConfig[] = [{
+  key: 'name',
+  label: 'User Name',
+  render: (value) => <p>{value}</p>,
+},{
+  key: 'email',
+  label: 'Email',
+  render: (value) => <p>{value}</p>,
+}, {
+  key: 'createdAt',
+  label: 'Created Date',
+  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+}, {
+  key: 'updatedAt',
+  label: 'Last Updated',
+  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+}];
 
 export const UsersAdmin: React.FC = () => {
   const navigate = useNavigate();
@@ -24,16 +40,6 @@ export const UsersAdmin: React.FC = () => {
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
-
-  const getColumns = (user: ListUser) => {
-    const keys = Object.keys(user);
-    return keys.map((key) => {
-      return {
-        key,
-        label: key,
-      };
-    });
-  };
 
   if (isLoading) return <Loader />;
 
@@ -49,7 +55,7 @@ export const UsersAdmin: React.FC = () => {
           </Button>
         </Card>
         <Card>
-          {users && users.length ? (<Table columns={getColumns(users[0])} data={users} />) : <EmptyText>No users found</EmptyText>}
+          {users && users.length ? (<Table columns={columns} data={users} />) : <EmptyText>No users found</EmptyText>}
         </Card>
       </Container>
     </Page>
