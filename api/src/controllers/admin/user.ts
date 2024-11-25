@@ -75,6 +75,7 @@ export const listUsersAdminController = async (
         id: true,
         email: true,
         name: true,
+        createdAt: true,
         updatedAt: true,
       },
       take: PAGE_SIZE,

@@ -11,10 +11,11 @@ export type ListStoresAdminParams = z.infer<typeof adminStoreSchemas.listStoresA
 export type ListStoresAdminQuery = z.infer<typeof adminStoreSchemas.listStoresAdminSchema.query>;
 export type ListStoresAdminResponse = {
   stores: {
-    name: string;
     id: string;
-    isPublished: boolean;
+    name: string;
+    createdAt: Date;
     updatedAt: Date;
+    isPublished: string;
   }[];
 };
 

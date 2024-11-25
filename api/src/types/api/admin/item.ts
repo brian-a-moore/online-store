@@ -9,16 +9,14 @@ export type ListItemsAdminQuery = z.infer<typeof adminItemSchemas.listItemsAdmin
 export type ListItemsAdminResponse = {
   items: {
     id: string;
+    productId: string;
     name: string;
+    productName: string;
+    isPublished: string;
+    maxQuantityPerOrder: number;
+    itemType: string;
     createdAt: Date;
     updatedAt: Date;
-    productId: string;
-    itemTypeId: number;
-    description: string | null;
-    image: string | null;
-    maxQuantityPerOrder: number;
-    isPublished: boolean;
-    config: JsonValue;
   }[];
 };
 

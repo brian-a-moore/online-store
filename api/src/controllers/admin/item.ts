@@ -39,13 +39,46 @@ export const listItemsAdminController = async (
       return;
     }
 
-    const items = await db.item.findMany({
+    const rawItems = await db.item.findMany({
+      select: {
+        id: true,
+        productId: true,
+        name: true,
+        isPublished: true,
+        maxQuantityPerOrder: true,
+        product: {
+          select: {
+            name: true,
+          },
+        },
+        itemType: {
+          select: {
+            name: true,
+          },
+        },
+        createdAt: true,
+        updatedAt: true,
+      },
       where: {
         productId,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
+
+    const items = rawItems.map(
+      ({ id, productId, name, isPublished, maxQuantityPerOrder, itemType, product, createdAt, updatedAt }) => ({
+        id,
+        productId,
+        name,
+        productName: product.name,
+        isPublished: isPublished ? 'Published' : 'Unlisted',
+        maxQuantityPerOrder,
+        itemType: itemType.name,
+        createdAt,
+        updatedAt,
+      }),
+    );
 
     res.status(STATUS_CODE.OKAY).json({ items });
   } catch (e: any | unknown) {

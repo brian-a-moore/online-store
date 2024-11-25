@@ -66,16 +66,25 @@ export const listStoresAdminController = async (
       return;
     }
 
-    const stores = await db.store.findMany({
+    const rawStores = await db.store.findMany({
       select: {
         id: true,
         name: true,
+        createdAt: true,
         updatedAt: true,
         isPublished: true,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
+
+    const stores = rawStores.map(({ id, name, createdAt, updatedAt, isPublished }) => ({
+      id,
+      name,
+      createdAt,
+      updatedAt,
+      isPublished: isPublished ? 'Published' : 'Unlisted',
+    }));
 
     res.status(STATUS_CODE.OKAY).json({ stores });
   } catch (e: any | unknown) {

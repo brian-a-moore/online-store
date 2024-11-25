@@ -7,13 +7,12 @@ export type ListProductsAdminQuery = z.infer<typeof adminProductSchemas.listProd
 export type ListProductsAdminResponse = {
   products: {
     id: string;
+    storeId: string;
     name: string;
-    description: string | null;
-    image: string | null;
-    isPublished: boolean;
+    storeName: string;
+    isPublished: string;
     createdAt: Date;
     updatedAt: Date;
-    storeId: string;
   }[];
 };
 

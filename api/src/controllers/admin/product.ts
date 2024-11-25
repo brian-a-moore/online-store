@@ -38,13 +38,36 @@ export const listProductsAdminController = async (
       return;
     }
 
-    const products = await db.product.findMany({
+    const rawProducts = await db.product.findMany({
+      select: {
+        id: true,
+        storeId: true,
+        name: true,
+        isPublished: true,
+        createdAt: true,
+        updatedAt: true,
+        store: {
+          select: {
+            name: true,
+          },
+        },
+      },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
       orderBy: {
         name: 'asc',
       },
     });
+
+    const products = rawProducts.map((product) => ({
+      id: product.id,
+      storeId: product.storeId,
+      name: product.name,
+      storeName: product.store.name,
+      isPublished: product.isPublished ? 'Published' : 'Unlisted',
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    }));
 
     res.status(STATUS_CODE.OKAY).json({ products });
   } catch (e: any | unknown) {
