@@ -8,16 +8,16 @@ datasource db {
 }
 
 model Store {
-    id          String      @id @default(uuid())
+    id          String              @id @default(uuid())
     name        String
     website     String?
     description String?
     image       String?
     bannerImage String?
-    isPublished Boolean     @default(false)
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
-    userStores  UserStore[]
+    isPublished Boolean             @default(false)
+    createdAt   DateTime            @default(now())
+    updatedAt   DateTime            @updatedAt
+    userStores  UserStoreRelation[]
     products    Product[]
 
     @@map("stores")
@@ -65,28 +65,39 @@ model Item {
     @@map("items")
 }
 
-model User {
-    id        String      @id @default(uuid())
-    email     String      @unique
+model Superuser {
+    id        String   @id @default(uuid())
+    email     String   @unique
     name      String
     password  String
-    createdAt DateTime    @default(now())
-    updatedAt DateTime    @updatedAt
-    stores    UserStore[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("superusers")
+}
+
+model User {
+    id                String              @id @default(uuid())
+    email             String              @unique
+    name              String
+    password          String
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @updatedAt
+    UserStoreRelation UserStoreRelation[]
 
     @@map("users")
 }
 
 model Role {
-    id          Int         @id @default(autoincrement())
-    name        String
-    description String?
-    stores      UserStore[]
+    id             Int                 @id @default(autoincrement())
+    name           String
+    description    String?
+    storeRelations UserStoreRelation[]
 
     @@map("roles")
 }
 
-model UserStore {
+model UserStoreRelation {
     id      String @id @default(uuid())
     userId  String
     storeId String
@@ -96,5 +107,5 @@ model UserStore {
     role    Role   @relation(fields: [roleId], references: [id])
 
     @@unique([userId, storeId])
-    @@map("user_stores")
+    @@map("user_store_relations")
 }
