@@ -1,0 +1,25 @@
+{
+  "name": "mocks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "cp -Rf ../api/prisma . && cp -f ../api/.env.local .",
+    "prisma:mock": "npm run prebuild && cd ../api && npm run prisma:reset && cd ../mocks && dotenv -e .env.local -- ts-node ./src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/random-name": "^0.1.2",
+    "lorem-ipsum": "^2.0.8",
+    "prisma": "^5.14.0",
+    "random-name": "^0.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "@sunami/auth": "^0.4.0"
+  }
+}
