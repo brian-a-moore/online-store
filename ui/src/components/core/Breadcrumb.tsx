@@ -27,10 +27,10 @@ export const BreadCrumb: React.FC = () => {
   const crumbs = [{ id: '/', name: 'Home' }, ...response?.crumbs || []];
 
   const getCrumbLink = (index: number) => {
-    if (index === 0) return '/admin';
-    if (index === 1) return `/admin/store/${crumbs[1].id}`;
-    if (index === 2) return `/admin/store/${crumbs[1].id}/product/${crumbs[2].id}`;
-    else return '/admin';
+    if (index === 0) return '/dashboard';
+    if (index === 1) return `/dashboard/store/${crumbs[1].id}`;
+    if (index === 2) return `/dashboard/store/${crumbs[1].id}/product/${crumbs[2].id}`;
+    else return '/dashboard';
   };
 
   return (

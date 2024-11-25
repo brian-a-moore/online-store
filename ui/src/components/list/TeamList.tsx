@@ -19,7 +19,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<GetTeamBody, GetTeamQuery, GetTeamResponse>({
-    url: `/admin/store/${storeId}/team/list`,
+    url: `/dashboard/store/${storeId}/team`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
   });

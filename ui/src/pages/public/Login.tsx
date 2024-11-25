@@ -6,8 +6,7 @@ import { LoginAuthBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card } from '../../components/container';
 import { ErrorText, TextInput } from '../../components/input';
-import { Button, Link } from '../../components/interactive';
-import { H1 } from '../../components/typography';
+import { Button, Link, TextButton } from '../../components/interactive';
 import { AUTH_TOKEN } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -21,6 +20,7 @@ const DEFAULT_VALUES: LoginAuthBody = {
 export const Login: React.FC<Props> = () => {
   const { setUser } = useContext(AuthContext);
   const [formError, setFormError] = useState<string | null>(null);
+  const [domain, setDomain] = useState<'admin' | 'user'>('user');
 
   const {
     control,
@@ -33,8 +33,8 @@ export const Login: React.FC<Props> = () => {
 
   const onSubmit = async (loginCredentials: LoginAuthBody) => {
     try {
-      const { token, id } = await api.auth.authLogin(loginCredentials);
-      setUser({ id });
+      const { token, user } = await api.auth.authLogin(loginCredentials, domain);
+      setUser(user);
 
       localStorage.setItem(AUTH_TOKEN, token);
     } catch (error: any | unknown) {
@@ -50,7 +50,15 @@ export const Login: React.FC<Props> = () => {
     <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-8">
       <Card className="w-full max-w-[640px]">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <H1>Login</H1>
+          <div className="flex items-center gap-4">
+            <TextButton onClick={() => setDomain('user')} isActive={domain === 'user'}>
+              Dashboard Login
+            </TextButton>
+            |
+            <TextButton onClick={() => setDomain('admin')} isActive={domain === 'admin'}>
+              Admin Login
+            </TextButton>
+          </div>
           <hr />
           <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
           <TextInput

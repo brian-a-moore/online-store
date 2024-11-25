@@ -42,7 +42,7 @@ export const loginAuthController = async (
 
     const token = createToken({ id: user.id, domain });
 
-    res.status(STATUS_CODE.OKAY).json({ id: user.id, token });
+    res.status(STATUS_CODE.OKAY).json({ user: { id: user.id, domain }, token });
   } catch (e: any | unknown) {
     next(e);
   }

@@ -6,6 +6,7 @@ import { getAuthToken, saveAuthToken } from '../utils/localStorage';
 
 type User = {
   id: string;
+  domain: 'admin' | 'user';
 };
 
 interface AuthContextProps {
@@ -21,6 +22,8 @@ const DEFAULT_CONTEXT: AuthContextProps = {
   setUser: () => {},
   setIsLoading: () => {},
 };
+
+const PRIVATE_PATHS = ['/admin', '/dashboard'];
 
 export const AuthContext = createContext<AuthContextProps>(DEFAULT_CONTEXT);
 
@@ -58,11 +61,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (location.pathname.includes('/admin') && !user && !isLoading) {
+    if (PRIVATE_PATHS.some(path => location.pathname.includes(path)) && !user && !isLoading) {
       navigate('/login');
     }
     if (location.pathname.includes('/login') && user && !isLoading) {
-      navigate('/admin');
+      navigate(user.domain === 'admin' ? '/admin' : '/dashboard');
     }
   }, [location.pathname, user, navigate]);
 

@@ -9,13 +9,13 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants'; // dpr
 
-export const authLogin = async (loginCredentials: LoginAuthBody) => {
+export const authLogin = async (loginCredentials: LoginAuthBody, domain: 'admin' | 'user') => {
   return apiCall<LoginAuthBody, LoginAuthQuery, LoginAuthResponse>(
     {
       url: `/auth/login`,
       method: HTTP_METHOD.POST,
       data: loginCredentials,
-      params: { domain: 'user' },
+      params: { domain },
     },
     undefined,
     false,

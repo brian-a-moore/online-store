@@ -5,7 +5,7 @@ import Modal from './components/core/Modal';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import {
-  Admin,
+  Dashboard,
   HomePrivate,
   ProductPrivate,
   StorePrivate
@@ -35,8 +35,8 @@ function App() {
           <Route path="product/:productId" element={<Items />} />
         </Route>
 
-        {/* Admin Pages */}
-        <Route path="admin" element={<Admin />}>
+        {/* Dashboard Pages */}
+        <Route path="dashboard" element={<Dashboard />}>
           <Route index element={<HomePrivate />} />
           <Route path="store/:storeId" element={<StorePrivate />} />
           <Route path="store/:storeId/product/:productId" element={<ProductPrivate />} />
