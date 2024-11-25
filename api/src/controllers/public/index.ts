@@ -97,6 +97,7 @@ export const listProductsPublicController = async (
   next: NextFunction,
 ) => {
   try {
+    const { storeId } = req.query;
     let page;
 
     try {
@@ -114,6 +115,7 @@ export const listProductsPublicController = async (
         image: true,
       },
       where: {
+        storeId,
         isPublished: true,
       },
       take: PAGE_SIZE,
@@ -134,9 +136,9 @@ export const getProductPublicController = async (
   res: Response<GetProductPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
-  const { productId } = req.params;
-
   try {
+    const { productId } = req.params;
+
     const product = await db.product.findUniqueOrThrow({
       select: {
         id: true,
@@ -159,6 +161,7 @@ export const listItemsPublicController = async (
   next: NextFunction,
 ) => {
   try {
+    const { productId } = req.query;
     let page;
 
     try {
@@ -184,6 +187,7 @@ export const listItemsPublicController = async (
         },
       },
       where: {
+        productId,
         isPublished: true,
       },
       take: PAGE_SIZE,
