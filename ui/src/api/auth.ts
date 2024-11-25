@@ -1,20 +1,21 @@
 import {
-  AuthLoginBody,
-  AuthLoginQuery,
-  AuthLoginResponse,
-  AuthVerifyTokenBody,
-  AuthVerifyTokenQuery,
-  AuthVerifyTokenResponse,
+  LoginAuthBody,
+  LoginAuthQuery,
+  LoginAuthResponse,
+  VerifyTokenAuthBody,
+  VerifyTokenAuthQuery,
+  VerifyTokenAuthResponse,
 } from '../../../api/src/types/api';
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants'; // dpr
 
-export const authLogin = async (loginCredentials: any) => {
-  return apiCall<AuthLoginBody, AuthLoginQuery, AuthLoginResponse>(
+export const authLogin = async (loginCredentials: LoginAuthBody) => {
+  return apiCall<LoginAuthBody, LoginAuthQuery, LoginAuthResponse>(
     {
       url: `/auth/login`,
       method: HTTP_METHOD.POST,
       data: loginCredentials,
+      params: { domain: 'user' },
     },
     undefined,
     false,
@@ -22,7 +23,7 @@ export const authLogin = async (loginCredentials: any) => {
 };
 
 export const authVerifyToken = async (token: string) => {
-  return apiCall<AuthVerifyTokenBody, AuthVerifyTokenQuery, AuthVerifyTokenResponse>(
+  return apiCall<VerifyTokenAuthBody, VerifyTokenAuthQuery, VerifyTokenAuthResponse>(
     {
       url: `/auth/verify_token`,
       method: HTTP_METHOD.POST,
