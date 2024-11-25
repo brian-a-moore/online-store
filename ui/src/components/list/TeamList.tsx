@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetTeamBody, GetTeamQuery, GetTeamResponse } from '../../../../api/src/types/api';
+import { GetStoreTeamDashboardBody, GetStoreTeamDashboardQuery, GetStoreTeamDashboardResponse } from '../../../../api/src/types/api';
 import { Loader } from '../../components/core';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -18,7 +18,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   const { setModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<GetTeamBody, GetTeamQuery, GetTeamResponse>({
+  const { error, isLoading, response } = useApi<GetStoreTeamDashboardBody, GetStoreTeamDashboardQuery, GetStoreTeamDashboardResponse>({
     url: `/dashboard/store/${storeId}/team`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
@@ -48,7 +48,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
           onClick={() => {
             setModal({
               title: 'Edit Team Member',
-              Body: <TeamMemberForm teamMember={member} />,
+              Body: <TeamMemberForm storeId={storeId} teamMember={member} />,
               ActionBar: [
                 <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
                   Cancel

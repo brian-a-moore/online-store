@@ -1,7 +1,7 @@
 import { mdiLogout } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { BreadCrumb } from '../../components/core/Breadcrumb';
 import { Button } from '../../components/interactive';
 import { H5 } from '../../components/typography';
@@ -9,12 +9,17 @@ import { AuthContext } from '../../context/AuthContext';
 import { deleteAuthToken } from '../../utils/localStorage';
 
 export const Dashboard: React.FC = () => {
-  const { setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const signOut = () => {
     deleteAuthToken();
     setUser(null);
   };
+
+  if(user?.domain !== 'user') {
+    navigate('/404');
+  }
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
