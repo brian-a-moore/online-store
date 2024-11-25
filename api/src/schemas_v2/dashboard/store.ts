@@ -11,7 +11,15 @@ export const listStoresDashboardSchema = {
     .strict(),
 };
 
-export const getStoreDashboardSchema = { body: empty, params: empty, query: empty };
+export const getStoreDashboardSchema = {
+  body: empty,
+  params: z
+    .object({
+      storeId: uuid,
+    })
+    .strict(),
+  query: empty,
+};
 
 export const updateStoreDashboardSchema = {
   body: empty,

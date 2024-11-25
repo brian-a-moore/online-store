@@ -1,11 +1,11 @@
 import z from 'zod';
-import { empty, uuid } from '../_presets';
+import { empty, role, uuid } from '../_presets';
 
 export const addStoreRelationDashboardSchema = {
   body: z
     .object({
       storeId: uuid,
-      roleId: uuid,
+      roleId: role,
     })
     .strict(),
   params: empty,
@@ -15,7 +15,7 @@ export const addStoreRelationDashboardSchema = {
 export const updateStoreRelationDashboardSchema = {
   body: z
     .object({
-      roleId: uuid,
+      roleId: role,
     })
     .strict(),
   params: z

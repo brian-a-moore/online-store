@@ -1,7 +1,16 @@
 import z from 'zod';
-import { empty, page, uuid } from '../_presets';
+import { empty, page, strLong, strShort, uuid } from '../_presets';
 
-export const createProductDashboardSchema = { body: empty, params: empty, query: empty };
+export const createProductDashboardSchema = {
+  body: z
+    .object({
+      name: strShort,
+      description: strLong.optional(),
+    })
+    .strict(),
+  params: empty,
+  query: z.object({ storeId: uuid }).strict(),
+};
 
 export const listProductsDashboardSchema = {
   body: empty,
