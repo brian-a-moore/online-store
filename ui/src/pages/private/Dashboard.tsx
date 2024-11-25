@@ -6,11 +6,13 @@ import { BreadCrumb } from '../../components/core/Breadcrumb';
 import { Button } from '../../components/interactive';
 import { H5 } from '../../components/typography';
 import { AuthContext } from '../../context/AuthContext';
+import { deleteAuthToken } from '../../utils/localStorage';
 
 export const Dashboard: React.FC = () => {
   const { setUser } = useContext(AuthContext);
 
   const signOut = () => {
+    deleteAuthToken();
     setUser(null);
   };
 
