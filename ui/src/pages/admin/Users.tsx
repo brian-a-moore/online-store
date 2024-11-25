@@ -1,8 +1,11 @@
+import { mdiPlus } from '@mdi/js';
+import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse } from '../../../../api/src/types/api';
 import { Card, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
+import { Button } from '../../components/interactive';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -39,8 +42,11 @@ export const UsersAdmin: React.FC = () => {
   return (
     <Page>
       <Container>
-        <Card>
+        <Card className='!flex-row items-center justify-between'>
           <H4>Users</H4>
+          <Button title='New User'>
+            <Icon path={mdiPlus} size={0.75} />
+          </Button>
         </Card>
         <Card>
           {users && users.length ? (<Table columns={getColumns(users[0])} data={users} />) : <EmptyText>No users found</EmptyText>}
