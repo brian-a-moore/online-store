@@ -41,6 +41,13 @@ export const listStoresDashboardController = async (
         updatedAt: true,
         isPublished: true,
       },
+      where: {
+        userStores: {
+          some: {
+            userId: req.user!.id,
+          },
+        },
+      },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
