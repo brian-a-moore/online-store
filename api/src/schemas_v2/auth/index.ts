@@ -9,7 +9,11 @@ export const loginAuthSchema = {
     })
     .strict(),
   params: empty,
-  query: empty,
+  query: z
+    .object({
+      domain: z.enum(['admin', 'user']),
+    })
+    .strict(),
 };
 
 export const verifyTokenAuthSchema = {
