@@ -80,7 +80,7 @@ export const listItemsAdminController = async (
       productId,
       name,
       productName: product.name,
-      isPublished: isPublished ? 'Published' : 'Unlisted',
+      isPublished: isPublished ? 'Public' : 'Unlisted',
       itemType: itemType.name,
       createdAt,
       updatedAt,

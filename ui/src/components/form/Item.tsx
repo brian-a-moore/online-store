@@ -1,6 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   GetItemAdminBody,
@@ -9,8 +11,10 @@ import {
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
+import { EDIT_ITEM_FORM_INITIAL_VALUES, EditItemFormSchema } from '../../forms/item';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
+import { SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -34,9 +38,29 @@ export const ItemForm: React.FC<Props> = ({ itemId }) => {
     { isAutoTriggered: !!itemId },
   );
 
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: EDIT_ITEM_FORM_INITIAL_VALUES,
+    resolver: zodResolver(EditItemFormSchema),
+  });
+
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
+
+  useEffect(() => {
+    if (response?.item) {
+      setValue('name', response.item.name);
+      if (response.item?.description) setValue('description', response.item.description);
+      setValue('isPublished', response.item.isPublished);
+    }
+  }, [response]);
+
+  const onSubmit = async (data: any) => {};
 
   const openDeleteItemDialog = (id: string) => {
     openModal(
@@ -58,7 +82,7 @@ export const ItemForm: React.FC<Props> = ({ itemId }) => {
   if (isLoading) return <Loader />;
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between">
         <H3>Edit Item</H3>
         {itemId ? (
@@ -69,12 +93,23 @@ export const ItemForm: React.FC<Props> = ({ itemId }) => {
           </div>
         ) : null}
       </div>
-      <p>{JSON.stringify(response?.item)}</p>
+      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput
+        name="description"
+        label="Description"
+        control={control}
+        invalidText={errors?.description?.message}
+        maxRows={5}
+        multiline
+      />
+      <SwitchInput name="isPublished" label="Public" control={control} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button type='submit'>Update Item</Button>
+        <Button type="submit" disabled={isSubmitting}>
+         {isSubmitting ? 'Updating' : 'Update'} Item
+        </Button>
       </div>
     </form>
   );

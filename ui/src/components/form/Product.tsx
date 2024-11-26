@@ -14,7 +14,7 @@ import { ModalContext } from '../../context/ModalContext';
 import { EDIT_PRODUCT_FORM_INITIAL_VALUES, EditProductFormSchema } from '../../forms/product';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
-import { TextInput } from '../input';
+import { SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -56,6 +56,7 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
     if (response?.product) {
       setValue('name', response.product.name);
       if (response.product?.description) setValue('description', response.product.description);
+      setValue('isPublished', response.product.isPublished);
     }
   }, [response]);
   
@@ -101,6 +102,7 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
         maxRows={5}
         multiline
       />
+      <SwitchInput name="isPublished" label="Public" control={control} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

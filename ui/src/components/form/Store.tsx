@@ -10,7 +10,7 @@ import { ModalContext } from '../../context/ModalContext';
 import { EDIT_STORE_FORM_INITIAL_VALUES, EditStoreFormSchema } from '../../forms/store';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
-import { TextInput } from '../input';
+import { SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -49,6 +49,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
       setValue('name', response.store.name);
       if (response.store?.description) setValue('description', response.store.description);
       if (response.store?.website) setValue('website', response.store.website);
+      setValue('isPublished', response.store.isPublished);
     }
   }, [response]);
 
@@ -95,6 +96,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
         multiline
       />
       <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
+      <SwitchInput name="isPublished" label="Public" control={control} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

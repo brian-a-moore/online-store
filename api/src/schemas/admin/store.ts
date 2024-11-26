@@ -40,6 +40,7 @@ export const updateStoreAdminSchema = {
       name: strShort.optional(),
       description: strLong.optional(),
       website: strShort.optional(),
+      isPublished: z.boolean().optional(),
     })
     .strict(),
   params: z

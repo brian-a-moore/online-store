@@ -83,7 +83,7 @@ export const listStoresAdminController = async (
       name,
       createdAt,
       updatedAt,
-      isPublished: isPublished ? 'Published' : 'Unlisted',
+      isPublished: isPublished ? 'Public' : 'Unlisted',
     }));
 
     res.status(STATUS_CODE.OKAY).json({ stores });

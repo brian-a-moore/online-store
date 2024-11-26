@@ -20,6 +20,7 @@ export const updateProductAdminSchema = {
     .object({
       name: strShort.optional(),
       description: strLong.optional(),
+      isPublished: z.boolean().optional(),
     })
     .strict(),
   params: z.object({

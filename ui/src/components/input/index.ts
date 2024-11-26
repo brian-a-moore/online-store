@@ -3,6 +3,7 @@ import ErrorText from './ErrorText';
 import Label from './Label';
 import SearchBox from './SearchBox';
 import SelectInput from './SelectInput';
+import SwitchInput from './SwitchInput';
 import TextInput from './TextInput';
 
-export { CheckboxInput, ErrorText, Label, SearchBox, SelectInput, TextInput };
+export { CheckboxInput, ErrorText, Label, SearchBox, SelectInput, SwitchInput, TextInput };

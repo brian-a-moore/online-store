@@ -71,7 +71,7 @@ export const listProductsAdminController = async (
       storeId: product.storeId,
       name: product.name,
       storeName: product.store.name,
-      isPublished: product.isPublished ? 'Published' : 'Unlisted',
+      isPublished: product.isPublished ? 'Public' : 'Unlisted',
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     }));
