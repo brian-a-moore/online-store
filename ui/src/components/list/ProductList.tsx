@@ -2,7 +2,11 @@ import { mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { ListProductsDashboardBody, ListProductsDashboardQuery, ListProductsDashboardResponse } from '../../../../api/src/types/api';
+import {
+  ListProductsDashboardBody,
+  ListProductsDashboardQuery,
+  ListProductsDashboardResponse,
+} from '../../../../api/src/types/api';
 import { Loader } from '../../components/core';
 import { IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
@@ -35,16 +39,16 @@ export const ProductList: React.FC<Props> = ({ storeId }) => {
 
   const products = response?.products;
 
-  if(!products || products.length === 0) {
-    return(
-      <div className='flex justify-center'>
+  if (!products || products.length === 0) {
+    return (
+      <div className="flex justify-center">
         <EmptyText>No products found</EmptyText>
       </div>
-    )
-  };
+    );
+  }
 
   return (
-    <Grid className='!p-0'>
+    <Grid className="!p-0">
       {products?.map((product) => (
         <RouterLink
           className="flex flex-col p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
@@ -53,7 +57,7 @@ export const ProductList: React.FC<Props> = ({ storeId }) => {
           title={`View Product: ${product.name}`}
         >
           <H5 className="w-full text-left whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</H5>
-          <div className='flex gap-4 w-full justify-between'>
+          <div className="flex gap-4 w-full justify-between">
             <div
               className="flex gap-2 items-center opacity-60"
               title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}

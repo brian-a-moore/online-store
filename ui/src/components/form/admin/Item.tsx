@@ -5,11 +5,7 @@ import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import {
-  GetItemAdminBody,
-  GetItemAdminQuery,
-  GetItemAdminResponse
-} from '../../../../../api/src/types/api';
+import { GetItemAdminBody, GetItemAdminQuery, GetItemAdminResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
@@ -50,11 +46,7 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    GetItemAdminBody,
-    GetItemAdminQuery,
-    GetItemAdminResponse
-  >(
+  const { error, isLoading, response } = useApi<GetItemAdminBody, GetItemAdminQuery, GetItemAdminResponse>(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/item/${itemId}`,
@@ -85,11 +77,11 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
   }, [response]);
 
   const onSubmit = async (item: EditItemForm) => {
-        try {
-        await api.admin.updateItem(itemId, item);
-        closeModal();
-        forceReload();
-        setToast({ type: 'success', message: 'Item updated successfully' });
+    try {
+      await api.admin.updateItem(itemId, item);
+      closeModal();
+      forceReload();
+      setToast({ type: 'success', message: 'Item updated successfully' });
     } catch (error: any | unknown) {
       navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
     }
@@ -151,7 +143,7 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-         {isSubmitting ? 'Updating' : 'Update'} Item
+          {isSubmitting ? 'Updating' : 'Update'} Item
         </Button>
       </div>
     </form>

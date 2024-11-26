@@ -42,18 +42,14 @@ export const StoreDashboard: React.FC = () => {
 
   const goToAddPage = () => {
     if (activeList === 'products') {
-      openModal(<p>New Product</p>,
-      );
+      openModal(<p>New Product</p>);
     } else {
-      openModal(
-        <p>New Team Member</p>,
-      );
+      openModal(<p>New Team Member</p>);
     }
   };
 
   const openEditStore = () => {
-    openModal(<p>Edit Store</p>,
-    );
+    openModal(<p>Edit Store</p>);
   };
 
   if (isLoading) return <Loader />;

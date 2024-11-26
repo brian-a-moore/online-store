@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { SearchUsersDashboardBody, SearchUsersDashboardQuery, SearchUsersDashboardResponse } from '../../../../../api/src/types/api';
+import {
+  SearchUsersDashboardBody,
+  SearchUsersDashboardQuery,
+  SearchUsersDashboardResponse,
+} from '../../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../../constants';
 import useApi from '../../../hooks/useApi';
 import useDebounce from '../../../hooks/useDebounce';
@@ -55,7 +59,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
   };
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className="flex flex-col gap-2">
       <Label htmlFor="search">Add existing user to this team</Label>
       <input
         type="search"
@@ -97,7 +101,12 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users, onUserCl
     window.addEventListener('resize', updatePosition);
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(event.target as Node) && popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node) &&
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
         setIsVisible(false);
       }
     };
@@ -133,7 +142,7 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users, onUserCl
     );
   };
 
-  if (!isVisible || (!position || search.length === 0)) return null;
+  if (!isVisible || !position || search.length === 0) return null;
 
   return ReactDOM.createPortal(
     <div
@@ -147,23 +156,26 @@ const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users, onUserCl
         maxHeight: '200px',
         overflowY: 'auto',
       }}
-
     >
       <Card className="!p-0 !gap-0">
         {users.length ? (
           <>
             {users.map((user) => (
-              <button key={user.id} onClick={() => {
-                onUserClick(user.id);
-                setIsVisible(false);
-              }} className="flex gap-4 p-4 items-center border-b-2 !text-left">
+              <button
+                key={user.id}
+                onClick={() => {
+                  onUserClick(user.id);
+                  setIsVisible(false);
+                }}
+                className="flex gap-4 p-4 items-center border-b-2 !text-left"
+              >
                 <p className="flex-1">{highlightText(user.name, search)}</p>
                 <p className="text-sm opacity-50">{user.email}</p>
               </button>
             ))}
           </>
         ) : (
-          <EmptyText className='p-4 text-sm'>No users found</EmptyText>
+          <EmptyText className="p-4 text-sm">No users found</EmptyText>
         )}
       </Card>
     </div>,

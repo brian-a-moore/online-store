@@ -39,9 +39,5 @@ export const ModalProvider: React.FC<Props> = ({ children }) => {
       else return prevState;
     });
 
-  return (
-    <ModalContext.Provider value={{ modal, openModal, closeModal, setModal }}>
-      {children}
-    </ModalContext.Provider>
-  );
+  return <ModalContext.Provider value={{ modal, openModal, closeModal, setModal }}>{children}</ModalContext.Provider>;
 };

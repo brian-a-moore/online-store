@@ -2,7 +2,7 @@ export type ColumnConfig = {
   key: string;
   label: string;
   render: (value: any) => React.JSX.Element;
-}
+};
 
 interface Props<T> {
   columns: ColumnConfig[];
@@ -25,7 +25,11 @@ export const Table = <T,>({ columns, data, onRowClick }: Props<T>) => {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={index} onClick={() => onRowClick((item as any).id)} className="flex flex-1 hover:bg-sky-200 !text-left hover:cursor-pointer">
+            <tr
+              key={index}
+              onClick={() => onRowClick((item as any).id)}
+              className="flex flex-1 hover:bg-sky-200 !text-left hover:cursor-pointer"
+            >
               {columns.map((column: ColumnConfig) => {
                 const value = item[column.key as keyof T];
                 return (
@@ -41,4 +45,3 @@ export const Table = <T,>({ columns, data, onRowClick }: Props<T>) => {
     </div>
   );
 };
-

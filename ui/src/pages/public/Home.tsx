@@ -30,14 +30,14 @@ export const Home: React.FC<Props> = () => {
 
   const stores = response?.stores;
 
-  if(!stores || stores.length === 0) {
-    return(
-      <div className='flex flex-col gap-4 w-screen h-screen items-center justify-center'>
+  if (!stores || stores.length === 0) {
+    return (
+      <div className="flex flex-col gap-4 w-screen h-screen items-center justify-center">
         <H2>Not much going on right now...</H2>
         <EmptyText>There are no public stores available right now, please check again later.</EmptyText>
       </div>
-    )
-  };
+    );
+  }
 
   return (
     <div>

@@ -48,11 +48,14 @@ export const SuperusersAdmin: React.FC = () => {
     ListSuperusersAdminBody,
     ListSuperusersAdminQuery,
     ListSuperusersAdminResponse
-  >({
-    url: `/admin/superuser/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  }, { reTrigger: reload });
+  >(
+    {
+      url: `/admin/superuser/list`,
+      method: HTTP_METHOD.GET,
+      params: { page: '1' },
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

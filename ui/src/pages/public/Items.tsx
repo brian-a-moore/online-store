@@ -54,15 +54,17 @@ export const Items: React.FC<Props> = () => {
 
   const items = response?.items;
 
-  if(!items || items.length === 0) {
-    return(
-      <div className='flex flex-col flex-1 gap-4 w-full items-center justify-center'>
+  if (!items || items.length === 0) {
+    return (
+      <div className="flex flex-col flex-1 gap-4 w-full items-center justify-center">
         <H2>Not much going on right now...</H2>
         <EmptyText>There are no items available right now, please check again later.</EmptyText>
-        <Button variant='transparent' onClick={() => navigate(-1)}>Go Back</Button>
+        <Button variant="transparent" onClick={() => navigate(-1)}>
+          Go Back
+        </Button>
       </div>
-    )
-  };
+    );
+  }
 
   return <Grid>{response?.items?.map((item) => <Item key={item.id} item={item} />)}</Grid>;
 };

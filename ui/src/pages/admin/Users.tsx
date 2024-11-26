@@ -12,34 +12,42 @@ import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
-const columns: ColumnConfig[] = [{
-  key: 'name',
-  label: 'User Name',
-  render: (value) => <p>{value}</p>,
-},{
-  key: 'email',
-  label: 'Email',
-  render: (value) => <p>{value}</p>,
-}, {
-  key: 'createdAt',
-  label: 'Created Date',
-  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
-}, {
-  key: 'updatedAt',
-  label: 'Last Updated',
-  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
-}];
+const columns: ColumnConfig[] = [
+  {
+    key: 'name',
+    label: 'User Name',
+    render: (value) => <p>{value}</p>,
+  },
+  {
+    key: 'email',
+    label: 'Email',
+    render: (value) => <p>{value}</p>,
+  },
+  {
+    key: 'createdAt',
+    label: 'Created Date',
+    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+  },
+  {
+    key: 'updatedAt',
+    label: 'Last Updated',
+    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+  },
+];
 
 export const UsersAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
 
-  const { error, isLoading, response } = useApi<ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse>({
-    url: `/admin/user/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  }, { reTrigger: reload });
+  const { error, isLoading, response } = useApi<ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse>(
+    {
+      url: `/admin/user/list`,
+      method: HTTP_METHOD.GET,
+      params: { page: '1' },
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -56,14 +64,18 @@ export const UsersAdmin: React.FC = () => {
   return (
     <Page>
       <Container>
-        <Card className='!flex-row items-center justify-between'>
+        <Card className="!flex-row items-center justify-between">
           <H4>Users</H4>
-          <Button title='New User' onClick={openNewUserForm}>
+          <Button title="New User" onClick={openNewUserForm}>
             <Icon path={mdiPlus} size={0.75} />
           </Button>
         </Card>
         <Card>
-          {users && users.length ? (<Table columns={columns} data={users} onRowClick={openEditUserForm} />) : <EmptyText>No users found</EmptyText>}
+          {users && users.length ? (
+            <Table columns={columns} data={users} onRowClick={openEditUserForm} />
+          ) : (
+            <EmptyText>No users found</EmptyText>
+          )}
         </Card>
       </Container>
     </Page>

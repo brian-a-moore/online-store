@@ -133,7 +133,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
         closeModal();
         forceReload();
         setToast({ type: 'success', message: 'Superuser updated successfully' });
-      };
+      }
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }

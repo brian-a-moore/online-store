@@ -6,7 +6,7 @@ import { ToastContext } from './ToastContext';
 export type TCartItem = {
   id: string;
   name: string;
-  product: { name: string};
+  product: { name: string };
   price: number;
   maxQuantityPerOrder: number;
   quantity: number;
@@ -65,7 +65,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
       return;
     }
     setItems((prevItems) => [...prevItems, item]);
-    setToast({ type: 'success', message: 'Item(s) added to your cart' })
+    setToast({ type: 'success', message: 'Item(s) added to your cart' });
   };
 
   // Update the quantity of an item in the cart
@@ -78,7 +78,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         return item;
       }),
     );
-    if(shouldNotify) setToast({ type: 'success', message: 'Item quantity updated in cart' });
+    if (shouldNotify) setToast({ type: 'success', message: 'Item quantity updated in cart' });
   };
 
   // Remove an item from the cart

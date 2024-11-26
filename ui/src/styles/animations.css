@@ -30,7 +30,6 @@
   animation: modalClose 0.1s ease-out forwards;
 }
 
-
 /* TOAST */
 @keyframes toastOpen {
   from {

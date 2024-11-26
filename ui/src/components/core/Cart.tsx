@@ -31,18 +31,27 @@ export const Cart: React.FC<Props> = () => {
   };
 
   const handleDeleteItem = (itemId: string) => {
-      openModal(<>
+    openModal(
+      <>
         <H3>Remove Item</H3>
         <p>Are you sure you want to remove this item from your cart?</p>
-        <div className='flex justify-between'>
-          <Button variant='secondary' onClick={closeModal}>Cancel</Button>
-          <Button variant='destructive' onClick={() => {
-            removeItem(itemId);
-            closeModal();
-            setToast({ message: 'Item removed from cart', type: 'success' });
-          }}>Remove Item</Button>
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              removeItem(itemId);
+              closeModal();
+              setToast({ message: 'Item removed from cart', type: 'success' });
+            }}
+          >
+            Remove Item
+          </Button>
         </div>
-      </>)
+      </>,
+    );
   };
 
   return (
@@ -50,8 +59,8 @@ export const Cart: React.FC<Props> = () => {
       className={`fixed flex flex-col flex-1 p-0 gap-0 right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-96' : 'w-auto'} bg-white border-[1px] border-slate-300 rounded shadow-md`}
     >
       <div className="flex px-4 py-2 gap-4 bg-slate-100 items-center justify-between">
-        <div className='flex gap-2 items-center'>
-          <Icon path={mdiCart} size={0.75} color='#64748B' />
+        <div className="flex gap-2 items-center">
+          <Icon path={mdiCart} size={0.75} color="#64748B" />
           <H4 className="justify-between">Cart ({totalItems(items)})</H4>
         </div>
         <button onClick={() => setIsMaximized((prevState) => !prevState)}>
@@ -65,29 +74,29 @@ export const Cart: React.FC<Props> = () => {
             {items.length > 0 ? (
               <>
                 {items.map((item) => (
-                  <div className='flex flex-col'>
-                  <div key={item.id} className="flex flex-col pb-4">
-                    <H5 title={item.name}> {item.name} </H5>
-                    <p
-                      className="text-sm w-full whitespace-nowrap overflow-ellipsis overflow-hidden mb-4"
-                      title={item.product.name}
-                    >
-                      {item.product.name}
-                    </p>
-                    <div className="flex gap-2 items-center">
-                      <Stepper item={item} handleQuantityChange={handleQuantityChange} />
-                      <p className="flex-1 px-2">{formatCurrency(item.quantity * item.price)}</p>
-                      <Button
-                        className="opacity-30 hover:opacity-100"
-                        variant="secondary"
-                        onClick={() => handleDeleteItem(item.id)}
-                        title="Remove Item"
+                  <div className="flex flex-col">
+                    <div key={item.id} className="flex flex-col pb-4">
+                      <H5 title={item.name}> {item.name} </H5>
+                      <p
+                        className="text-sm w-full whitespace-nowrap overflow-ellipsis overflow-hidden mb-4"
+                        title={item.product.name}
                       >
-                        <Icon path={mdiDelete} size={0.75} />
-                      </Button>
+                        {item.product.name}
+                      </p>
+                      <div className="flex gap-2 items-center">
+                        <Stepper item={item} handleQuantityChange={handleQuantityChange} />
+                        <p className="flex-1 px-2">{formatCurrency(item.quantity * item.price)}</p>
+                        <Button
+                          className="opacity-30 hover:opacity-100"
+                          variant="secondary"
+                          onClick={() => handleDeleteItem(item.id)}
+                          title="Remove Item"
+                        >
+                          <Icon path={mdiDelete} size={0.75} />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  <Separator />
+                    <Separator />
                   </div>
                 ))}
               </>
@@ -97,13 +106,13 @@ export const Cart: React.FC<Props> = () => {
           </div>
           {items.length ? (
             <>
-            <Separator />
-            <div className="flex gap-2 bg-slate-100 items-center justify-between px-4 py-2">
-              <H5>TOTAL: {formatCurrency(getTotalPrice(items))}</H5>
-              <form action="http://localhost:8080/order/checkout" method="POST">
-                <Button type="submit">Checkout</Button>
-              </form>
-            </div>
+              <Separator />
+              <div className="flex gap-2 bg-slate-100 items-center justify-between px-4 py-2">
+                <H5>TOTAL: {formatCurrency(getTotalPrice(items))}</H5>
+                <form action="http://localhost:8080/order/checkout" method="POST">
+                  <Button type="submit">Checkout</Button>
+                </form>
+              </div>
             </>
           ) : null}
         </>

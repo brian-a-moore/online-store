@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const getUserFromAuthToken = async () => {
       const token = getAuthToken();
-      if(!token) {
+      if (!token) {
         setIsLoading(false);
         return;
       }
@@ -51,17 +51,17 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         const { user, refreshToken } = await api.auth.authVerifyToken(token);
         saveAuthToken(refreshToken);
         setUser(user);
-      } catch(e: any | unknown) {
+      } catch (e: any | unknown) {
         setError(e.message);
       } finally {
         setIsLoading(false);
-      };
+      }
     };
     getUserFromAuthToken();
   }, []);
 
   useEffect(() => {
-    if (PRIVATE_PATHS.some(path => location.pathname.includes(path)) && !user && !isLoading) {
+    if (PRIVATE_PATHS.some((path) => location.pathname.includes(path)) && !user && !isLoading) {
       navigate('/login');
     }
     if (location.pathname.includes('/login') && user && !isLoading) {
@@ -72,10 +72,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     if (error) {
       navigate(`/500?error=${error}`);
-    };
+    }
   }, [error]);
 
-  if(isLoading) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
 };

@@ -17,22 +17,31 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const signOut = () => {
-    openModal(<>
-      <H3>Sign Out</H3>
-      <p>Are you sure you want to sign out?</p>
-      <div className="flex justify-between">
-        <Button variant='secondary' onClick={closeModal}>Cancel</Button>
-        <Button variant='destructive' onClick={() => {
-          closeModal();
-          setToast({ message: 'You have signed out successfully', type: 'success' });
-          deleteAuthToken();
-          setUser(null);
-        }}>Sign Out</Button>
-      </div>
-    </>);
+    openModal(
+      <>
+        <H3>Sign Out</H3>
+        <p>Are you sure you want to sign out?</p>
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              closeModal();
+              setToast({ message: 'You have signed out successfully', type: 'success' });
+              deleteAuthToken();
+              setUser(null);
+            }}
+          >
+            Sign Out
+          </Button>
+        </div>
+      </>,
+    );
   };
 
-  if(user?.domain !== 'user') {
+  if (user?.domain !== 'user') {
     navigate('/404');
   }
 

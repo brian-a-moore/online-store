@@ -23,7 +23,7 @@ export const IsPublished: React.FC<Props> = ({ pathType, isPublished, longForm =
         path={pathMap.get(pathType)![isPublished ? 0 : 1]}
         size={0.75}
         title={isPublished ? 'Public' : 'Unlisted'}
-        color={isPublished ? invert ? '#fff' : '#64748B' : '#F87171'}
+        color={isPublished ? (invert ? '#fff' : '#64748B') : '#F87171'}
       />
       {longForm && <p className={invert ? 'text-shadow text-white' : ''}>{isPublished ? 'Public' : 'Unlisted'}</p>}
     </div>

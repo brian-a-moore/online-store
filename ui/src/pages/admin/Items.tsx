@@ -42,11 +42,14 @@ export const ItemsAdmin: React.FC = () => {
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
 
-  const { error, isLoading, response } = useApi<ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse>({
-    url: `/admin/item/list`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  }, { reTrigger: reload });
+  const { error, isLoading, response } = useApi<ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse>(
+    {
+      url: `/admin/item/list`,
+      method: HTTP_METHOD.GET,
+      params: { page: '1' },
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

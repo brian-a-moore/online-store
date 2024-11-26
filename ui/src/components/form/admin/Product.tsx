@@ -5,11 +5,7 @@ import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import {
-  GetProductAdminBody,
-  GetProductAdminQuery,
-  GetProductAdminResponse,
-} from '../../../../../api/src/types/api';
+import { GetProductAdminBody, GetProductAdminQuery, GetProductAdminResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
@@ -50,11 +46,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    GetProductAdminBody,
-    GetProductAdminQuery,
-    GetProductAdminResponse
-  >(
+  const { error, isLoading, response } = useApi<GetProductAdminBody, GetProductAdminQuery, GetProductAdminResponse>(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/product/${productId}`,
@@ -83,13 +75,13 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
       setValue('isPublished', response.product.isPublished);
     }
   }, [response]);
-  
+
   const onSubmit = async (product: EditProductForm) => {
-      try {
-        await api.admin.updateProduct(productId, product);
-        closeModal();
-        forceReload();
-        setToast({ type: 'success', message: 'Product updated successfully' });
+    try {
+      await api.admin.updateProduct(productId, product);
+      closeModal();
+      forceReload();
+      setToast({ type: 'success', message: 'Product updated successfully' });
     } catch (error: any | unknown) {
       navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
     }
@@ -151,7 +143,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-         {isSubmitting ? 'Updating' : 'Update'} Product
+          {isSubmitting ? 'Updating' : 'Update'} Product
         </Button>
       </div>
     </form>

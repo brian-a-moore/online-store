@@ -4,21 +4,8 @@ import { Modal, Toast } from './components/core';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import { Admin, HomeAdmin, ItemsAdmin, ProductsAdmin, StoresAdmin, SuperusersAdmin, UsersAdmin } from './pages/admin';
-import {
-  Dashboard,
-  HomeDashboard,
-  ProductDashboard,
-  StoreDashboard,
-} from './pages/dashboard';
-import {
-  Home,
-  Items,
-  Login,
-  PageNotFound,
-  Products,
-  ServerError,
-  Store
-} from './pages/public';
+import { Dashboard, HomeDashboard, ProductDashboard, StoreDashboard } from './pages/dashboard';
+import { Home, Items, Login, PageNotFound, Products, ServerError, Store } from './pages/public';
 
 function App() {
   const { modal } = useContext(ModalContext);
@@ -36,13 +23,13 @@ function App() {
         </Route>
 
         {/* Admin Pages */}
-        <Route path='admin' element={<Admin />}>
-            <Route index element={<HomeAdmin />} />
-            <Route path='items' element={<ItemsAdmin />} />
-            <Route path='products' element={<ProductsAdmin />} />
-            <Route path='stores' element={<StoresAdmin />} />
-            <Route path='superusers' element={<SuperusersAdmin />} />
-            <Route path='users' element={<UsersAdmin />} />
+        <Route path="admin" element={<Admin />}>
+          <Route index element={<HomeAdmin />} />
+          <Route path="items" element={<ItemsAdmin />} />
+          <Route path="products" element={<ProductsAdmin />} />
+          <Route path="stores" element={<StoresAdmin />} />
+          <Route path="superusers" element={<SuperusersAdmin />} />
+          <Route path="users" element={<UsersAdmin />} />
         </Route>
 
         {/* Dashboard Pages */}
@@ -51,7 +38,7 @@ function App() {
           <Route path="store/:storeId" element={<StoreDashboard />} />
           <Route path="store/:storeId/product/:productId" element={<ProductDashboard />} />
         </Route>
-          
+
         {/* Error Pages */}
         <Route path="404" element={<PageNotFound />} />
         <Route path="500" element={<ServerError />} />

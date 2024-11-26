@@ -74,7 +74,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
     }
   }, [response]);
 
- const onSubmit = async (user: EditUserForm) => {
+  const onSubmit = async (user: EditUserForm) => {
     try {
       let response;
       if (userId) {
@@ -87,7 +87,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
         closeModal();
         forceReload();
         setToast({ type: 'success', message: 'User updated successfully' });
-      };
+      }
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }

@@ -16,22 +16,31 @@ export const Admin: React.FC = () => {
   const navigate = useNavigate();
 
   const signOut = () => {
-    openModal(<>
-      <H3>Sign Out</H3>
-      <p>Are you sure you want to sign out?</p>
-      <div className="flex justify-between">
-        <Button variant='secondary' onClick={closeModal}>Cancel</Button>
-        <Button variant='destructive' onClick={() => {
-          closeModal();
-          setToast({ message: 'You have signed out successfully', type: 'success' });
-          deleteAuthToken();
-          setUser(null);
-        }}>Sign Out</Button>
-      </div>
-    </>);
+    openModal(
+      <>
+        <H3>Sign Out</H3>
+        <p>Are you sure you want to sign out?</p>
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              closeModal();
+              setToast({ message: 'You have signed out successfully', type: 'success' });
+              deleteAuthToken();
+              setUser(null);
+            }}
+          >
+            Sign Out
+          </Button>
+        </div>
+      </>,
+    );
   };
 
-  if(user?.domain !== 'admin') {
+  if (user?.domain !== 'admin') {
     navigate('/404');
   }
 
@@ -45,12 +54,29 @@ export const Admin: React.FC = () => {
         </Button>
       </header>
       <nav className="bg-slate-800 flex gap-4 p-4 items-center text-slate-100">
-        <Link className='!text-slate-100' href='.'>Home</Link> | 
-        <Link className='!text-slate-100' href='superusers'>Superusers</Link> | 
-        <Link className='!text-slate-100' href='users'>Users</Link> | 
-        <Link className='!text-slate-100' href='stores'>Stores</Link> | 
-        <Link className='!text-slate-100' href='products'>Products</Link> | 
-        <Link className='!text-slate-100' href='items'>Items</Link>
+        <Link className="!text-slate-100" href=".">
+          Home
+        </Link>{' '}
+        |
+        <Link className="!text-slate-100" href="superusers">
+          Superusers
+        </Link>{' '}
+        |
+        <Link className="!text-slate-100" href="users">
+          Users
+        </Link>{' '}
+        |
+        <Link className="!text-slate-100" href="stores">
+          Stores
+        </Link>{' '}
+        |
+        <Link className="!text-slate-100" href="products">
+          Products
+        </Link>{' '}
+        |
+        <Link className="!text-slate-100" href="items">
+          Items
+        </Link>
       </nav>
       <Outlet />
     </div>
