@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Toast } from './components/core';
-import Modal from './components/core/Modal';
+import { Modal, Toast } from './components/core';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import { Admin, HomeAdmin, ItemsAdmin, ProductsAdmin, StoresAdmin, SuperusersAdmin, UsersAdmin } from './pages/admin';

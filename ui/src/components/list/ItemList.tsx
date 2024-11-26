@@ -11,7 +11,7 @@ import { Loader } from '../core';
 import { IsPublished } from '../display';
 import { ItemForm } from '../form';
 import { Button } from '../interactive';
-import { EmptyText, H5 } from '../typography';
+import { EmptyText, H3, H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
-  const { setModal } = useContext(ModalContext);
+  const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<ListItemsDashboardBody, ListItemsDashboardQuery, ListItemsDashboardResponse>({
@@ -50,18 +50,18 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
         <ListItem
           key={item.id}
           onClick={() => {
-            setModal({
-              title: 'Edit Item',
-              Body: <ItemForm storeId={storeId} productId={productId} itemId={item.id} />,
-              ActionBar: [
-                <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+            openModal(<>
+              <H3>Edit Item</H3>
+              <ItemForm storeId={storeId} productId={productId} itemId={item.id} />
+              <div className='flex justify-between'>
+                <Button variant="secondary" key="cancel" onClick={closeModal}>
                   Cancel
-                </Button>,
-                <Button key="submit" onClick={() => setModal(null)}>
+                </Button>
+                <Button key="submit" onClick={closeModal}>
                   Edit Item
-                </Button>,
-              ],
-            })
+                </Button>
+              </div>
+            </>);
           }}
           title={`Edit Item: ${item.name}`}
         >

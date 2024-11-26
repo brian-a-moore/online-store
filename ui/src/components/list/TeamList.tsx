@@ -14,14 +14,14 @@ import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
 import { TeamMemberForm } from '../form';
 import { Button } from '../interactive';
-import { EmptyText, H5 } from '../typography';
+import { EmptyText, H3, H5 } from '../typography';
 
 type Props = {
   storeId: string;
 };
 
 export const TeamList: React.FC<Props> = ({ storeId }) => {
-  const { setModal } = useContext(ModalContext);
+  const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<
@@ -56,18 +56,18 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
         <ListItem
           key={member.id}
           onClick={() => {
-            setModal({
-              title: 'Edit Team Member',
-              Body: <TeamMemberForm storeId={storeId} teamMember={member} />,
-              ActionBar: [
-                <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+            openModal(<>
+              <H3>Edit Team Member</H3>
+              <TeamMemberForm storeId={storeId} teamMember={member} />
+              <div className='flex justify-between'>
+                <Button variant="secondary" key="cancel" onClick={closeModal}>
                   Cancel
-                </Button>,
-                <Button key="submit" onClick={() => setModal(null)}>
+                </Button>
+                <Button key="submit" onClick={closeModal}>
                   Edit Team Member
-                </Button>,
-              ],
-            });
+                </Button>
+              </div>
+            </>);
           }}
           title={`Edit Member: ${member.name}`}
         >

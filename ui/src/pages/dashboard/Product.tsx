@@ -13,13 +13,13 @@ import { IconImage, IsPublished } from '../../components/display';
 import { ItemForm, ProductForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { ItemList } from '../../components/list/ItemList';
-import { EmptyText, H2 } from '../../components/typography';
+import { EmptyText, H2, H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const ProductDashboard: React.FC = () => {
-  const { setModal } = useContext(ModalContext);
+  const { openModal, closeModal } = useContext(ModalContext);
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
 
@@ -50,44 +50,42 @@ export const ProductDashboard: React.FC = () => {
               <Button
                 variant="secondary"
                 title="Delete Store"
-                onClick={() =>
-                  setModal({
-                    title: 'Delete Product',
-                    Body: (
-                      <p>
+                onClick={() => {
+                  openModal(<>
+                    <H3>Delete Product</H3>
+                    <p>
                         Deleting a product will remove all the products data, including its; items, sales and history.
                         This is immediate and unrecoverable. Are you sure you want to delete this product?
                       </p>
-                    ),
-                    ActionBar: [
-                      <Button variant="secondary" onClick={() => setModal(null)}>
+                    <div className='flex justify-between'>
+                      <Button variant="secondary" key="cancel" onClick={closeModal}>
                         Cancel
-                      </Button>,
-                      <Button variant="destructive" onClick={() => {}}>
+                      </Button>
+                      <Button key="submit" onClick={closeModal}>
                         Delete Product
-                      </Button>,
-                    ],
-                  })
-                }
+                      </Button>
+                    </div>
+                  </>);
+                }}
               >
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
               <Button
                 variant="secondary"
-                onClick={() =>
-                  setModal({
-                    title: 'Edit Product',
-                    Body: <ProductForm storeId={storeId} productId={productId} />,
-                    ActionBar: [
-                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                onClick={() => {
+                  openModal(<>
+                    <H3>Edit Product</H3>
+                    <ProductForm storeId={storeId} productId={productId} />
+                    <div className='flex justify-between'>
+                      <Button variant="secondary" key="cancel" onClick={closeModal}>
                         Cancel
-                      </Button>,
-                      <Button key="submit" onClick={() => setModal(null)}>
+                      </Button>
+                      <Button key="submit" onClick={closeModal}>
                         Edit Product
-                      </Button>,
-                    ],
-                  })
-                }
+                      </Button>
+                    </div>
+                  </>);
+                }}
               >
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
@@ -116,18 +114,18 @@ export const ProductDashboard: React.FC = () => {
               <Button
                 title="New Item"
                 onClick={() => {
-                  setModal({
-                    title: 'New Item',
-                    Body: <ItemForm />,
-                    ActionBar: [
-                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                  openModal(<>
+                    <H3>New Item</H3>
+                    <ItemForm />
+                    <div className='flex justify-between'>
+                      <Button variant="secondary" key="cancel" onClick={closeModal}>
                         Cancel
-                      </Button>,
-                      <Button key="submit" onClick={() => setModal(null)}>
+                      </Button>
+                      <Button key="submit" onClick={closeModal}>
                         Create Item
-                      </Button>,
-                    ],
-                  });
+                      </Button>
+                    </div>
+                  </>);
                 }}
               >
                 <Icon path={mdiNotePlus} size={0.75} />

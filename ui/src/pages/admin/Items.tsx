@@ -1,35 +1,44 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
-import { EmptyText, H4 } from '../../components/typography';
+import { Button } from '../../components/interactive';
+import { EmptyText, H3, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
-const columns: ColumnConfig[] = [{
-  key: 'name',
-  label: 'Item Name',
-  render: (value) => <p className='line-clamp-2'>{value}</p>,
-},{
-  key: 'productName',
-  label: 'Product Name',
-  render: (value) => <p className='line-clamp-2'>{value}</p>,
-},{
-  key: 'isPublished',
-  label: 'Status',
-  render: (value) => <p>{value}</p>,
-},{
-  key: 'createdAt',
-  label: 'Created Date',
-  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
-}, {
-  key: 'updatedAt',
-  label: 'Last Updated',
-  render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
-}];
+const columns: ColumnConfig[] = [
+  {
+    key: 'name',
+    label: 'Item Name',
+    render: (value) => <p className="line-clamp-2">{value}</p>,
+  },
+  {
+    key: 'productName',
+    label: 'Product Name',
+    render: (value) => <p className="line-clamp-2">{value}</p>,
+  },
+  {
+    key: 'isPublished',
+    label: 'Status',
+    render: (value) => <p>{value}</p>,
+  },
+  {
+    key: 'createdAt',
+    label: 'Created Date',
+    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+  },
+  {
+    key: 'updatedAt',
+    label: 'Last Updated',
+    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+  },
+];
 
 export const ItemsAdmin: React.FC = () => {
+  const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse>({
@@ -42,6 +51,21 @@ export const ItemsAdmin: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  const onClick = (id: string) => {
+    openModal(
+        <>
+          <H3>Edit Item</H3>
+          <p>Edit Item: {id}</p>
+          <div className="flex justify-between">
+            <Button variant="secondary" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button onClick={closeModal}>Save</Button>
+          </div>
+        </>
+      );
+  };
+
   if (isLoading) return <Loader />;
 
   const items = response?.items;
@@ -53,7 +77,11 @@ export const ItemsAdmin: React.FC = () => {
           <H4>Items</H4>
         </Card>
         <Card>
-          {items && items.length ? (<Table columns={columns} data={items} />) : <EmptyText>No items found</EmptyText>}
+          {items && items.length ? (
+            <Table columns={columns} data={items} onClick={onClick} />
+          ) : (
+            <EmptyText>No items found</EmptyText>
+          )}
         </Card>
       </Container>
     </Page>

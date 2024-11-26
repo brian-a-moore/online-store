@@ -9,13 +9,13 @@ import { BannerImage, IconImage, IsPublished } from '../../components/display';
 import { ProductForm, StoreForm, TeamMemberForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
-import { H1 } from '../../components/typography';
+import { H1, H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const StoreDashboard: React.FC = () => {
-  const { setModal } = useContext(ModalContext);
+  const { openModal, closeModal } = useContext(ModalContext);
   const { storeId } = useParams();
   const navigate = useNavigate();
   const [activeList, setActiveList] = useState<'products' | 'team'>('products');
@@ -35,31 +35,31 @@ export const StoreDashboard: React.FC = () => {
 
   const goToAddPage = () => {
     if (activeList === 'products') {
-      setModal({
-        title: 'New Product',
-        Body: <ProductForm />,
-        ActionBar: [
-          <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+      openModal(<>
+        <H3>New Product</H3>
+        <ProductForm />
+        <div className='flex justify-between'>
+          <Button variant="secondary" key="cancel" onClick={closeModal}>
             Cancel
-          </Button>,
-          <Button key="submit" onClick={() => setModal(null)}>
+          </Button>
+          <Button key="submit" onClick={closeModal}>
             Create Product
-          </Button>,
-        ],
-      });
+          </Button>
+        </div>
+      </>);
     } else {
-      setModal({
-        title: 'New Team Member',
-        Body: <TeamMemberForm storeId={storeId!} />,
-        ActionBar: [
-          <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+      openModal(<>
+        <H3>New Team Member</H3>
+        <TeamMemberForm storeId={storeId!} />
+        <div className='flex justify-between'>
+          <Button variant="secondary" key="cancel" onClick={closeModal}>
             Cancel
-          </Button>,
-          <Button key="submit" onClick={() => setModal(null)}>
+          </Button>
+          <Button key="submit" onClick={closeModal}>
             Create Team Member
-          </Button>,
-        ],
-      });
+          </Button>
+        </div>
+      </>);
     }
   };
 
@@ -76,20 +76,20 @@ export const StoreDashboard: React.FC = () => {
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
               <Button
-                onClick={() =>
-                  setModal({
-                    title: 'Edit Store',
-                    Body: <StoreForm storeId={storeId} />,
-                    ActionBar: [
-                      <Button variant="secondary" key="cancel" onClick={() => setModal(null)}>
+                onClick={() => {
+                  openModal(<>
+                    <H3>Edit Store</H3>
+                    <StoreForm storeId={storeId} />
+                    <div className='flex justify-between'>
+                      <Button variant="secondary" key="cancel" onClick={closeModal}>
                         Cancel
-                      </Button>,
-                      <Button key="submit" onClick={() => setModal(null)}>
+                      </Button>
+                      <Button key="submit" onClick={closeModal}>
                         Edit Store
-                      </Button>,
-                    ],
-                  })
-                }
+                      </Button>
+                    </div>
+                  </>);
+                }}
               >
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
