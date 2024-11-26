@@ -9,7 +9,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
-import { IconImage, IsPublished } from '../../components/display';
+import { IconImage, IsPublished, Separator } from '../../components/display';
 import { ItemForm, ProductForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { ItemList } from '../../components/list/ItemList';
@@ -99,7 +99,7 @@ export const ProductDashboard: React.FC = () => {
               <div className="flex-1">
                 {product?.description ? <p className='line-clamp-4'>{product.description}</p> : <EmptyText>No Description</EmptyText>}
               </div>
-              <hr />
+              <Separator />
               <div className="flex gap-4 items-center justify-between text-sm">
                 <div className='flex gap-4'>
                   <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> |

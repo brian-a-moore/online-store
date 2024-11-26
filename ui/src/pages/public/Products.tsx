@@ -7,6 +7,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
+import { Separator } from '../../components/display';
 import { Button, Link } from '../../components/interactive';
 import { EmptyText, H2, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -68,7 +69,7 @@ const Product: React.FC<{
       <H4 className="line-clamp-2" title={product.name}>
         {product.name}
       </H4>
-      <hr />
+      <Separator />
       <p className="text-sm line-clamp-5 flex-1" title={product.description || 'No Description'}>
         {product.description}
       </p>

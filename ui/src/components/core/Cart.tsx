@@ -5,6 +5,7 @@ import { CartContext } from '../../context/CartContext';
 import { ModalContext } from '../../context/ModalContext';
 import { ToastContext } from '../../context/ToastContext';
 import { formatCurrency, getTotalPrice, totalItems } from '../../utils';
+import { Separator } from '../display';
 import { Button, Stepper } from '../interactive';
 import { H3, H4, H5 } from '../typography';
 
@@ -46,9 +47,9 @@ export const Cart: React.FC<Props> = () => {
 
   return (
     <div
-      className={`fixed flex flex-col flex-1 p-0 gap-0 right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-96' : 'w-auto'} bg-white border-[1px] border-gray-300 rounded shadow-md`}
+      className={`fixed flex flex-col flex-1 p-0 gap-0 right-4 bottom-4 z-20 overflow-hidden max-h-[60vh] ${isMaximized ? 'w-96' : 'w-auto'} bg-white border-[1px] border-slate-300 rounded shadow-md`}
     >
-      <div className="flex px-4 py-2 gap-4 border-b-2 bg-gray-100 items-center justify-between">
+      <div className="flex px-4 py-2 gap-4 bg-slate-100 items-center justify-between">
         <div className='flex gap-2 items-center'>
           <Icon path={mdiCart} size={0.75} color='#64748B' />
           <H4 className="justify-between">Cart ({totalItems(items)})</H4>
@@ -57,13 +58,15 @@ export const Cart: React.FC<Props> = () => {
           <Icon path={isMaximized ? mdiChevronDown : mdiChevronUp} size={1} />
         </button>
       </div>
+      <Separator />
       {isMaximized ? (
         <>
           <div className="flex flex-col flex-1 p-4 gap-4 overflow-y-auto">
             {items.length > 0 ? (
               <>
                 {items.map((item) => (
-                  <div key={item.id} className="flex flex-col border-b-2 pb-4">
+                  <div className='flex flex-col'>
+                  <div key={item.id} className="flex flex-col pb-4">
                     <H5 title={item.name}> {item.name} </H5>
                     <p
                       className="text-sm w-full whitespace-nowrap overflow-ellipsis overflow-hidden mb-4"
@@ -84,6 +87,8 @@ export const Cart: React.FC<Props> = () => {
                       </Button>
                     </div>
                   </div>
+                  <Separator />
+                  </div>
                 ))}
               </>
             ) : (
@@ -91,12 +96,15 @@ export const Cart: React.FC<Props> = () => {
             )}
           </div>
           {items.length ? (
-            <div className="flex gap-2 border-t-2 bg-gray-100 items-center justify-between px-4 py-2">
+            <>
+            <Separator />
+            <div className="flex gap-2 bg-gray-100 items-center justify-between px-4 py-2">
               <H5>TOTAL: {formatCurrency(getTotalPrice(items))}</H5>
               <form action="http://localhost:8080/order/checkout" method="POST">
                 <Button type="submit">Checkout</Button>
               </form>
             </div>
+            </>
           ) : null}
         </>
       ) : null}

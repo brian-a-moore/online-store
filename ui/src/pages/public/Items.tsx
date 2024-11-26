@@ -4,6 +4,7 @@ import { ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse } fr
 import { FixedItemConfig, VariableItemConfig } from '../../../../api/src/types/itemConfigs';
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
+import { Separator } from '../../components/display';
 import { Button, Stepper } from '../../components/interactive';
 import { EmptyText, H2, H5 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -79,7 +80,7 @@ const Item: React.FC<{
       <H5 className="line-clamp-2" title={item.name}>
         {item.name}
       </H5>
-      <hr />
+      <Separator />
       <p className="text-sm line-clamp-5 flex-1" title={item.description || 'No Description'}>
         {item.description}
       </p>

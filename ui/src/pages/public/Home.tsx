@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ListStoresPublicBody, ListStoresPublicQuery, ListStoresPublicResponse } from '../../../../api/src/types/api';
 import { Card, Grid } from '../../components/container';
 import { Loader } from '../../components/core';
+import { Separator } from '../../components/display';
 import { EmptyText, H2, H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -59,7 +60,7 @@ const Store: React.FC<{
       <H3 className="line-clamp-2" title={store.name}>
         {store.name}
       </H3>
-      <hr />
+      <Separator />
       <p className="text-sm line-clamp-5 flex-1" title={store?.description || 'No Description'}>
         {store.description}
       </p>

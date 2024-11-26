@@ -5,6 +5,7 @@ import { loginAuthSchema } from '../../../../api/src/schemas/auth';
 import { LoginAuthBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card } from '../../components/container';
+import { Separator } from '../../components/display';
 import { ErrorText, TextInput } from '../../components/input';
 import { Button, TextButton } from '../../components/interactive';
 import { AUTH_TOKEN } from '../../constants';
@@ -59,7 +60,7 @@ export const Login: React.FC<Props> = () => {
               Admin Login
             </TextButton>
           </div>
-          <hr />
+          <Separator />
           <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
           <TextInput
             type="password"
