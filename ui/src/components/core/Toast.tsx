@@ -82,7 +82,7 @@ export const Toast: React.FC<Props> = ({ toast }) => {
   }, [setToast, status]);
 
   return (
-    <div className="fixed flex top-[88px] right-4 pointer-events-none z-40">
+    <div className="fixed flex bottom-0 left-0 w-full p-4 items-center justify-center pointer-events-none z-40">
       <button
         style={{
           transition: 'opacity, transform 0.3s ease',
