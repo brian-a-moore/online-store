@@ -1,6 +1,6 @@
 import { mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ListSuperusersAdminBody,
@@ -42,6 +42,7 @@ const columns: ColumnConfig[] = [
 export const SuperusersAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<
     ListSuperusersAdminBody,
@@ -51,14 +52,15 @@ export const SuperusersAdmin: React.FC = () => {
     url: `/admin/superuser/list`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openNewUserForm = () => openModal(<SuperuserForm />);
-  const openEditUserForm = (id: string) => openModal(<SuperuserForm superuserId={id} />);
+  const forceReload = () => setReload(new Date().toISOString());
+  const openNewUserForm = () => openModal(<SuperuserForm forceReload={forceReload} />);
+  const openEditUserForm = (id: string) => openModal(<SuperuserForm superuserId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 

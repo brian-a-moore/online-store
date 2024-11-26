@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Control, FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,6 +9,7 @@ import {
   GetSuperuserAdminQuery,
   GetSuperuserAdminResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 import { ModalContext } from '../../context/ModalContext';
@@ -21,19 +22,22 @@ import {
   EditSuperuserFormSchema,
 } from '../../forms/superuser';
 import useApi from '../../hooks/useApi';
+import { Alert } from '../container';
 import { Loader } from '../core';
-import { TextInput } from '../input';
+import { ErrorText, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
 type Props = {
   superuserId?: string;
+  forceReload: () => void;
 };
 
-export const SuperuserForm: React.FC<Props> = ({ superuserId }) => {
+export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => {
   const { user } = useContext(AuthContext);
   const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const isSelf = user?.id === superuserId;
 
@@ -64,13 +68,43 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId }) => {
   }, [error]);
 
   useEffect(() => {
-    if(response?.superuser) {
+    if (response?.superuser) {
       setValue('name', response.superuser.name);
       setValue('email', response.superuser.email);
     }
   }, [response]);
 
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async (superUser: EditSelfForm | EditSuperuserForm) => {
+    try {
+      let response;
+      if (superuserId) {
+        response = await api.admin.updateSuperuser(superuserId, superUser);
+      } else {
+        response = await api.admin.createSuperuser(superUser);
+      }
+      if(!superuserId) openShowDefaultPassword(response.defaultPassword);
+    } catch (error: any | unknown) {
+      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+    }
+  };
+
+  const openShowDefaultPassword = (password: string) => {
+    openModal(
+      <>
+        <H3>Default Password</H3>
+        <p>Share this temporary password with the new user:</p>
+        <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">{password}</p>
+        <Alert type='warn'>This password will not be visable once this dialog is closed.</Alert>
+        <Alert type='warn'>New users should immediately change their password upon first login.</Alert>
+        <div className="flex justify-center">
+          <Button onClick={() => {
+            forceReload();
+            closeModal();
+          }}>Close</Button>
+        </div>
+      </>,
+    );
+  };
 
   const openDeleteSuperuserDialog = (id: string) => {
     openModal(
@@ -151,11 +185,12 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId }) => {
           />
         </>
       ) : null}
+      {formError ? <ErrorText>{formError}</ErrorText> : null}
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button type='submit' disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? (superuserId ? 'Updating' : 'Creating') : superuserId ? 'Update' : 'Create'} Superuser
         </Button>
       </div>
