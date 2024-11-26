@@ -7,8 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import { EDIT_STORE_FORM_INITIAL_VALUES } from '../../forms/store';
-import { EditSelfFormSchema } from '../../forms/superuser';
+import { EDIT_STORE_FORM_INITIAL_VALUES, EditStoreFormSchema } from '../../forms/store';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
 import { TextInput } from '../input';
@@ -38,7 +37,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: EDIT_STORE_FORM_INITIAL_VALUES,
-    resolver: zodResolver(EditSelfFormSchema),
+    resolver: zodResolver(EditStoreFormSchema),
   });
 
   useEffect(() => {
@@ -92,11 +91,11 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
         name="description"
         label="Description"
         control={control}
-        invalidText={errors?.name?.message}
+        invalidText={errors?.description?.message}
         maxRows={5}
         multiline
       />
-      <TextInput name="website" label="Website" control={control} invalidText={errors?.name?.message} />
+      <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

@@ -15,7 +15,7 @@ export const EDIT_STORE_FORM_INITIAL_VALUES: EditStoreForm = {
 export const EditStoreFormSchema = z
   .object({
     name: z.string().min(1).max(256),
-    description: z.string().min(1).max(2048),
-    website: z.string().min(1).max(256),
+    description: z.string().min(0).max(2048),
+    website: z.string().min(0).max(256),
   })
   .strict();
