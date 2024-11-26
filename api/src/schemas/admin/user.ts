@@ -47,3 +47,11 @@ export const deleteUserAdminSchema = {
   }),
   query: empty,
 };
+
+export const resetUserPasswordAdminSchema = {
+  body: empty,
+  params: z.object({
+    userId: uuid,
+  }),
+  query: empty,
+};

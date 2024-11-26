@@ -21,6 +21,10 @@ import {
   ListUsersAdminParams,
   ListUsersAdminQuery,
   ListUsersAdminResponse,
+  ResetUserPasswordAdminBody,
+  ResetUserPasswordAdminParams,
+  ResetUserPasswordAdminQuery,
+  ResetUserPasswordAdminResponse,
   UpdateUserAdminBody,
   UpdateUserAdminParams,
   UpdateUserAdminQuery,
@@ -144,6 +148,23 @@ export const deleteUserAdminController = async (
     await db.user.delete({ where: { id: userId } });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
+  } catch (e: any | unknown) {
+    next(e);
+  }
+};
+
+export const resetUserPasswordAdminController = async (
+  req: Request<ResetUserPasswordAdminParams, unknown, ResetUserPasswordAdminBody, ResetUserPasswordAdminQuery>,
+  res: Response<ResetUserPasswordAdminResponse | ErrorResponse>,
+  next: NextFunction,
+) => {
+  try {
+    const { userId } = req.params;
+
+    const newPassword = generatePassword();
+    await db.user.update({ data: { password: await hashString(newPassword) }, where: { id: userId } });
+
+    res.status(STATUS_CODE.OKAY).send({ newPassword });
   } catch (e: any | unknown) {
     next(e);
   }
