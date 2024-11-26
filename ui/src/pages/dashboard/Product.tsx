@@ -61,7 +61,7 @@ export const ProductDashboard: React.FC = () => {
                       <Button variant="secondary" key="cancel" onClick={closeModal}>
                         Cancel
                       </Button>
-                      <Button key="submit" onClick={closeModal}>
+                      <Button variant='destructive' key="submit" onClick={closeModal}>
                         Delete Product
                       </Button>
                     </div>
