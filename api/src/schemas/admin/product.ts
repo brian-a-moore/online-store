@@ -1,6 +1,6 @@
 import z from 'zod';
-import { strShort } from '../../schemas/_presets';
-import { empty, page, strLong, uuid } from '../_presets';
+import { strLongOptional, strShortOptional } from '../../schemas/_presets';
+import { empty, page, uuid } from '../_presets';
 
 export const listProductsAdminSchema = {
   body: empty,
@@ -18,8 +18,8 @@ export const getProductAdminSchema = { body: empty, params: z.object({ productId
 export const updateProductAdminSchema = {
   body: z
     .object({
-      name: strShort.optional(),
-      description: strLong.optional(),
+      name: strShortOptional,
+      description: strLongOptional,
       isPublished: z.boolean().optional(),
     })
     .strict(),

@@ -1,13 +1,13 @@
 import z from 'zod';
-import { strShort } from '../../schemas/_presets';
-import { empty, page, strLong, uuid } from '../_presets';
+import { strLongOptional, strShort, strShortOptional } from '../../schemas/_presets';
+import { empty, page, uuid } from '../_presets';
 
 export const createStoreAdminSchema = {
   body: z
     .object({
       name: strShort,
-      description: strLong.optional(),
-      website: strShort.optional(),
+      description: strLongOptional,
+      website: strShortOptional,
       isPublished: z.boolean(),
     })
     .strict(),
@@ -38,9 +38,9 @@ export const getStoreAdminSchema = {
 export const updateStoreAdminSchema = {
   body: z
     .object({
-      name: strShort.optional(),
-      description: strLong.optional(),
-      website: strShort.optional(),
+      name: strShort.min(0).optional(),
+      description: strLongOptional,
+      website: strShortOptional,
       isPublished: z.boolean().optional(),
     })
     .strict(),
