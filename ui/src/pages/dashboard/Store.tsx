@@ -10,6 +10,7 @@ import {
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
+import { StoreDashboardForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
 import { H1 } from '../../components/typography';
@@ -18,10 +19,11 @@ import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const StoreDashboard: React.FC = () => {
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const { storeId } = useParams();
   const navigate = useNavigate();
   const [activeList, setActiveList] = useState<'products' | 'team'>('products');
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<
     GetStoreDashboardBody,
@@ -30,7 +32,7 @@ export const StoreDashboard: React.FC = () => {
   >({
     url: `/dashboard/store/${storeId}`,
     method: HTTP_METHOD.GET,
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -48,8 +50,9 @@ export const StoreDashboard: React.FC = () => {
     }
   };
 
+  const forceReload = () => setReload(new Date().toISOString());
   const openEditStore = () => {
-    openModal(<p>Edit Store</p>);
+    openModal(<StoreDashboardForm storeId={storeId} forceReload={forceReload} />);
   };
 
   if (isLoading) return <Loader />;
@@ -64,7 +67,7 @@ export const StoreDashboard: React.FC = () => {
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
-              <Button onClick={openEditStore} title="Edit Store">
+              <Button variant='secondary' onClick={openEditStore} title="Edit Store">
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>
