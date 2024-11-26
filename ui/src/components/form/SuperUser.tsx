@@ -78,13 +78,25 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
 
   const onSubmit = async (superUser: EditSelfForm | EditSuperuserForm) => {
     try {
-      let response;
+      let sanitizedSuperUser, response;
       if (superuserId) {
-        response = await api.admin.updateSuperuser(superuserId, superUser);
+        sanitizedSuperUser = Object.entries(superUser).reduce(
+          (acc, [key, value]) => {
+            if (key !== 'confirmPassword') (acc as any)[key] = value;
+            return acc;
+          },
+          {} as Partial<EditSelfForm | EditSuperuserForm>,
+        );
+        response = await api.admin.updateSuperuser(superuserId, sanitizedSuperUser);
       } else {
         response = await api.admin.createSuperuser(superUser);
       }
-      if(!superuserId) openShowDefaultPassword(response.defaultPassword, true);
+      if (!superuserId) openShowDefaultPassword(response.defaultPassword, true);
+      else {
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Superuser updated successfully' });
+      };
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
@@ -94,15 +106,19 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
     openModal(
       <>
         <H3>Default Password</H3>
-        <p>{!isNew ? 'The user\'s password has been reset. ': ''}Share this temporary password with the user:</p>
+        <p>{!isNew ? "The user's password has been reset. " : ''}Share this temporary password with the user:</p>
         <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">{password}</p>
-        <Alert type='warn'>This password will not be visable once this dialog is closed.</Alert>
-        <Alert type='warn'>Users should immediately change their password upon {isNew ? 'first' : 'next'} login.</Alert>
+        <Alert type="warn">This password will not be visable once this dialog is closed.</Alert>
+        <Alert type="warn">Users should immediately change their password upon {isNew ? 'first' : 'next'} login.</Alert>
         <div className="flex justify-center">
-          <Button onClick={() => {
-            forceReload();
-            closeModal();
-          }}>Close</Button>
+          <Button
+            onClick={() => {
+              forceReload();
+              closeModal();
+            }}
+          >
+            Close
+          </Button>
         </div>
       </>,
     );
@@ -140,7 +156,7 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
     const onClick = async () => {
       try {
         const response = await api.admin.resetSuperuserPassword(id);
-        if(response.newPassword) openShowDefaultPassword(response.newPassword, false);
+        if (response.newPassword) openShowDefaultPassword(response.newPassword, false);
       } catch (error: any | unknown) {
         setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
       }

@@ -34,6 +34,7 @@ export const updateSuperuserAdminSchema = {
     .object({
       email: strShort.email().optional(),
       name: strShort.optional(),
+      password: strShort.optional(),
     })
     .strict(),
   params: z
