@@ -2,7 +2,11 @@ import { mdiAccountPlus, mdiPencil, mdiTagPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse } from '../../../../api/src/types/api';
+import {
+  GetStoreDashboardBody,
+  GetStoreDashboardQuery,
+  GetStoreDashboardResponse,
+} from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
@@ -20,7 +24,11 @@ export const StoreDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeList, setActiveList] = useState<'products' | 'team'>('products');
 
-  const { error, isLoading, response } = useApi<GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse>({
+  const { error, isLoading, response } = useApi<
+    GetStoreDashboardBody,
+    GetStoreDashboardQuery,
+    GetStoreDashboardResponse
+  >({
     url: `/dashboard/store/${storeId}`,
     method: HTTP_METHOD.GET,
   });
@@ -35,32 +43,53 @@ export const StoreDashboard: React.FC = () => {
 
   const goToAddPage = () => {
     if (activeList === 'products') {
-      openModal(<>
-        <H3>New Product</H3>
-        <ProductForm />
-        <div className='flex justify-between'>
-          <Button variant="secondary" key="cancel" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button key="submit" onClick={closeModal}>
-            Create Product
-          </Button>
-        </div>
-      </>);
+      openModal(
+        <>
+          <H3>New Product</H3>
+          <ProductForm />
+          <div className="flex justify-between">
+            <Button variant="secondary" key="cancel" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button key="submit" onClick={closeModal}>
+              Create Product
+            </Button>
+          </div>
+        </>,
+      );
     } else {
-      openModal(<>
-        <H3>New Team Member</H3>
-        <TeamMemberForm storeId={storeId!} />
-        <div className='flex justify-between'>
+      openModal(
+        <>
+          <H3>New Team Member</H3>
+          <TeamMemberForm storeId={storeId!} />
+          <div className="flex justify-between">
+            <Button variant="secondary" key="cancel" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button key="submit" onClick={closeModal}>
+              Create Team Member
+            </Button>
+          </div>
+        </>,
+      );
+    }
+  };
+
+  const openEditStore = () => {
+    openModal(
+      <>
+        <H3>Edit Store</H3>
+        <StoreForm storeId={storeId} />
+        <div className="flex justify-between">
           <Button variant="secondary" key="cancel" onClick={closeModal}>
             Cancel
           </Button>
           <Button key="submit" onClick={closeModal}>
-            Create Team Member
+            Edit Store
           </Button>
         </div>
-      </>);
-    }
+      </>,
+    );
   };
 
   if (isLoading) return <Loader />;
@@ -75,22 +104,7 @@ export const StoreDashboard: React.FC = () => {
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
-              <Button
-                onClick={() => {
-                  openModal(<>
-                    <H3>Edit Store</H3>
-                    <StoreForm storeId={storeId} />
-                    <div className='flex justify-between'>
-                      <Button variant="secondary" key="cancel" onClick={closeModal}>
-                        Cancel
-                      </Button>
-                      <Button key="submit" onClick={closeModal}>
-                        Edit Store
-                      </Button>
-                    </div>
-                  </>);
-                }}
-              >
+              <Button onClick={openEditStore} title="Edit Store">
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>
@@ -109,7 +123,7 @@ export const StoreDashboard: React.FC = () => {
                 Edit Team
               </TextButton>
             </div>
-            <Button onClick={goToAddPage} title={`New ${activeList === 'products' ? 'Product': 'Team Member'}`}>
+            <Button onClick={goToAddPage} title={`New ${activeList === 'products' ? 'Product' : 'Team Member'}`}>
               <Icon path={activeList === 'products' ? mdiTagPlus : mdiAccountPlus} size={1} />
             </Button>
           </div>

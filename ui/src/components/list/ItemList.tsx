@@ -32,6 +32,21 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  const openEditItemForm = (id: string) => {
+    openModal(<>
+      <H3>Edit Item</H3>
+      <ItemForm storeId={storeId} productId={productId} itemId={id} />
+      <div className='flex justify-between'>
+        <Button variant="secondary" key="cancel" onClick={closeModal}>
+          Cancel
+        </Button>
+        <Button key="submit" onClick={closeModal}>
+          Edit Item
+        </Button>
+      </div>
+    </>);
+  }
+
   if (isLoading) return <Loader />;
 
   const items = response?.items;
@@ -49,20 +64,7 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
       {items?.map((item) => (
         <ListItem
           key={item.id}
-          onClick={() => {
-            openModal(<>
-              <H3>Edit Item</H3>
-              <ItemForm storeId={storeId} productId={productId} itemId={item.id} />
-              <div className='flex justify-between'>
-                <Button variant="secondary" key="cancel" onClick={closeModal}>
-                  Cancel
-                </Button>
-                <Button key="submit" onClick={closeModal}>
-                  Edit Item
-                </Button>
-              </div>
-            </>);
-          }}
+          onClick={() => openEditItemForm(item.id)}
           title={`Edit Item: ${item.name}`}
         >
           <H5 className="w-full whitespace-nowrap text-left text-ellipsis overflow-hidden" title={item.name}>{item.name}</H5>

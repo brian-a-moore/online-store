@@ -38,6 +38,23 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  const openEditMemberForm = (member?: { id: string; name: string; email: string }) => {
+    openModal(
+      <>
+        <H3>Edit Team Member</H3>
+        <TeamMemberForm storeId={storeId} teamMember={member} />
+        <div className="flex justify-between">
+          <Button variant="secondary" key="cancel" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button key="submit" onClick={closeModal}>
+            Edit Team Member
+          </Button>
+        </div>
+      </>
+    );
+  };
+
   if (isLoading) return <Loader />;
 
   const team = response?.team;
@@ -53,24 +70,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   return (
     <Grid className="!p-0">
       {team?.map((member) => (
-        <ListItem
-          key={member.id}
-          onClick={() => {
-            openModal(<>
-              <H3>Edit Team Member</H3>
-              <TeamMemberForm storeId={storeId} teamMember={member} />
-              <div className='flex justify-between'>
-                <Button variant="secondary" key="cancel" onClick={closeModal}>
-                  Cancel
-                </Button>
-                <Button key="submit" onClick={closeModal}>
-                  Edit Team Member
-                </Button>
-              </div>
-            </>);
-          }}
-          title={`Edit Member: ${member.name}`}
-        >
+        <ListItem key={member.id} onClick={() => openEditMemberForm(member)} title={`Edit Member: ${member.name}`}>
           <div className="flex gap-4 w-full items-center justify-between">
             <H5 className="whitespace-nowrap text-ellipsis overflow-hidden">{member.name}</H5>
             <div className="flex items-center gap-2">

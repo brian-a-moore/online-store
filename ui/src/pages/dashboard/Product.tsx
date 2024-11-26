@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   GetProductDashboardBody,
   GetProductDashboardQuery,
-  GetProductDashboardResponse
+  GetProductDashboardResponse,
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
@@ -36,6 +36,60 @@ export const ProductDashboard: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  const openDeleteProduct = () => {
+    openModal(
+      <>
+        <H3>Delete Product</H3>
+        <p>
+          Deleting a product will remove all the products data, including its; items, sales and history. This is
+          immediate and unrecoverable. Are you sure you want to delete this product?
+        </p>
+        <div className="flex justify-between">
+          <Button variant="secondary" key="cancel" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button variant="destructive" key="submit" onClick={closeModal}>
+            Delete Product
+          </Button>
+        </div>
+      </>,
+    );
+  };
+
+  const openEditProduct = () => {
+    openModal(
+      <>
+        <H3>Edit Product</H3>
+        <ProductForm storeId={storeId} productId={productId} />
+        <div className="flex justify-between">
+          <Button variant="secondary" key="cancel" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button key="submit" onClick={closeModal}>
+            Edit Product
+          </Button>
+        </div>
+      </>,
+    );
+  };
+
+  const openNewItem = () => {
+    openModal(
+      <>
+        <H3>New Item</H3>
+        <ItemForm />
+        <div className="flex justify-between">
+          <Button variant="secondary" key="cancel" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button key="submit" onClick={closeModal}>
+            Create Item
+          </Button>
+        </div>
+      </>,
+    );
+  };
+
   if (isLoading) return <Loader />;
 
   const product = response?.product;
@@ -47,46 +101,10 @@ export const ProductDashboard: React.FC = () => {
           <div className="flex justify-between">
             <H2>{product!.name}</H2>
             <div className="flex gap-4">
-              <Button
-                variant="secondary"
-                title="Delete Store"
-                onClick={() => {
-                  openModal(<>
-                    <H3>Delete Product</H3>
-                    <p>
-                        Deleting a product will remove all the products data, including its; items, sales and history.
-                        This is immediate and unrecoverable. Are you sure you want to delete this product?
-                      </p>
-                    <div className='flex justify-between'>
-                      <Button variant="secondary" key="cancel" onClick={closeModal}>
-                        Cancel
-                      </Button>
-                      <Button variant='destructive' key="submit" onClick={closeModal}>
-                        Delete Product
-                      </Button>
-                    </div>
-                  </>);
-                }}
-              >
+              <Button variant="secondary" title="Delete Product" onClick={openDeleteProduct}>
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  openModal(<>
-                    <H3>Edit Product</H3>
-                    <ProductForm storeId={storeId} productId={productId} />
-                    <div className='flex justify-between'>
-                      <Button variant="secondary" key="cancel" onClick={closeModal}>
-                        Cancel
-                      </Button>
-                      <Button key="submit" onClick={closeModal}>
-                        Edit Product
-                      </Button>
-                    </div>
-                  </>);
-                }}
-              >
+              <Button variant="secondary" onClick={openEditProduct}>
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>
@@ -97,11 +115,15 @@ export const ProductDashboard: React.FC = () => {
             </div>
             <div className="flex flex-col gap-4 flex-1">
               <div className="flex-1">
-                {product?.description ? <p className='line-clamp-4'>{product.description}</p> : <EmptyText>No Description</EmptyText>}
+                {product?.description ? (
+                  <p className="line-clamp-4">{product.description}</p>
+                ) : (
+                  <EmptyText>No Description</EmptyText>
+                )}
               </div>
               <Separator />
               <div className="flex gap-4 items-center justify-between text-sm">
-                <div className='flex gap-4'>
+                <div className="flex gap-4">
                   <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> |
                   <p className="text-sm">
                     <strong>Created:</strong> {new Date(product!.createdAt).toLocaleDateString()}
@@ -111,25 +133,9 @@ export const ProductDashboard: React.FC = () => {
                     <strong>Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
                   </p>
                 </div>
-              <Button
-                title="New Item"
-                onClick={() => {
-                  openModal(<>
-                    <H3>New Item</H3>
-                    <ItemForm />
-                    <div className='flex justify-between'>
-                      <Button variant="secondary" key="cancel" onClick={closeModal}>
-                        Cancel
-                      </Button>
-                      <Button key="submit" onClick={closeModal}>
-                        Create Item
-                      </Button>
-                    </div>
-                  </>);
-                }}
-              >
-                <Icon path={mdiNotePlus} size={0.75} />
-              </Button>
+                <Button title="New Item" onClick={openNewItem}>
+                  <Icon path={mdiNotePlus} size={0.75} />
+                </Button>
               </div>
             </div>
           </div>
