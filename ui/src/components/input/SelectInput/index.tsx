@@ -30,6 +30,10 @@ export default function SelectInput<F extends FieldValues>({
           <select
             id={name}
             {...field}
+            onChange={(e) => {
+              const value = options.has(Number(e.target.value)) ? Number(e.target.value) : e.target.value;
+              field.onChange(value);
+            }}
             className={`h-12 px-4 rounded ${invalidText ? 'bg-[var(--input-background-error-color)] text-[var(--text-error-color)] outline-[var(--outline-error-color)]' : ''}`}
           >
             {Array.from(options.entries()).map(([id, value]) => (
