@@ -2,14 +2,18 @@ import { mdiCart, mdiChevronDown, mdiChevronUp, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { CartContext } from '../../context/CartContext';
+import { ModalContext } from '../../context/ModalContext';
+import { ToastContext } from '../../context/ToastContext';
 import { formatCurrency, getTotalPrice, totalItems } from '../../utils';
 import { Button, Stepper } from '../interactive';
-import { H4, H5 } from '../typography';
+import { H3, H4, H5 } from '../typography';
 
 type Props = {};
 
 export const Cart: React.FC<Props> = () => {
   const { items, updateItem, removeItem } = useContext(CartContext);
+  const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const [isMaximized, setIsMaximized] = useState(false);
 
   const handleQuantityChange = (itemId: string, dir: '-' | '+') => {
@@ -26,7 +30,18 @@ export const Cart: React.FC<Props> = () => {
   };
 
   const handleDeleteItem = (itemId: string) => {
-    removeItem(itemId);
+      openModal(<>
+        <H3>Remove Item</H3>
+        <p>Are you sure you want to remove this item from your cart?</p>
+        <div className='flex justify-between'>
+          <Button variant='secondary' onClick={closeModal}>Cancel</Button>
+          <Button variant='destructive' onClick={() => {
+            removeItem(itemId);
+            closeModal();
+            setToast({ message: 'Item removed from cart', type: 'success' });
+          }}>Remove Item</Button>
+        </div>
+      </>)
   };
 
   return (
@@ -61,9 +76,9 @@ export const Cart: React.FC<Props> = () => {
                       <p className="flex-1 px-2">{formatCurrency(item.quantity * item.price)}</p>
                       <Button
                         className="opacity-30 hover:opacity-100"
-                        variant="destructive"
+                        variant="secondary"
                         onClick={() => handleDeleteItem(item.id)}
-                        title="Delete Item"
+                        title="Remove Item"
                       >
                         <Icon path={mdiDelete} size={0.75} />
                       </Button>
