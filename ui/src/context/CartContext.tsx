@@ -1,12 +1,12 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TProduct } from '../api';
 import { deleteCart, getCart, saveCart } from '../utils/localStorage';
+import { ToastContext } from './ToastContext';
 
 export type TCartItem = {
   id: string;
   name: string;
-  product: Pick<TProduct, 'name'>;
+  product: { name: string};
   price: number;
   maxQuantityPerOrder: number;
   quantity: number;
@@ -34,6 +34,7 @@ interface Props {
 
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const { storeId } = useParams<{ storeId: string }>();
+  const { setToast } = useContext(ToastContext);
 
   const [items, setItems] = useState<TCartItem[]>([]);
 
@@ -58,6 +59,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
       let updatedItem = { ...existingItem, quantity: existingItem.quantity + item.quantity };
       if (updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
         updateItem(item.id, updatedItem.quantity);
+      } else {
+        setToast({ type: 'info', message: 'Max quantity per order reached' });
       }
       return;
     }
@@ -74,6 +77,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         return item;
       }),
     );
+    setToast({ type: 'success', message: 'Cart updated!' });
   };
 
   // Remove an item from the cart
