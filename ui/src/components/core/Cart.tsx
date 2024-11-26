@@ -98,7 +98,7 @@ export const Cart: React.FC<Props> = () => {
           {items.length ? (
             <>
             <Separator />
-            <div className="flex gap-2 bg-gray-100 items-center justify-between px-4 py-2">
+            <div className="flex gap-2 bg-slate-100 items-center justify-between px-4 py-2">
               <H5>TOTAL: {formatCurrency(getTotalPrice(items))}</H5>
               <form action="http://localhost:8080/order/checkout" method="POST">
                 <Button type="submit">Checkout</Button>
