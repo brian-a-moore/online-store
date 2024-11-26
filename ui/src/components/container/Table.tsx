@@ -7,9 +7,10 @@ export type ColumnConfig = {
 interface Props<T> {
   columns: ColumnConfig[];
   data: T[];
+  onRowClick: (id: string) => void;
 }
 
-export const Table = <T,>({ columns, data }: Props<T>) => {
+export const Table = <T,>({ columns, data, onRowClick }: Props<T>) => {
   return (
     <div className="flex w-full overflow-x-auto">
       <table className="w-full border-collapse min-w-[640px]">
@@ -24,7 +25,7 @@ export const Table = <T,>({ columns, data }: Props<T>) => {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={index} className="flex flex-1 hover:bg-sky-200 !text-left hover:cursor-pointer">
+            <tr key={index} onClick={() => onRowClick((item as any).id)} className="flex flex-1 hover:bg-sky-200 !text-left hover:cursor-pointer">
               {columns.map((column: ColumnConfig) => {
                 const value = item[column.key as keyof T];
                 return (
