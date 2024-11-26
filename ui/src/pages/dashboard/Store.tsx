@@ -10,15 +10,18 @@ import {
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
-import { StoreDashboardForm } from '../../components/form';
+import { ProductDashboardForm, StoreDashboardForm, TeamMemberForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
 import { H1 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
+// import { AuthContext } from '../../context/AuthContext';
 
 export const StoreDashboard: React.FC = () => {
+  // TODO: Need to add role to user somehow so I can disable the new team member button if they are not the store manager
+  // const { user } = useContext(AuthContext);
   const { openModal } = useContext(ModalContext);
   const { storeId } = useParams();
   const navigate = useNavigate();
@@ -44,9 +47,9 @@ export const StoreDashboard: React.FC = () => {
 
   const goToAddPage = () => {
     if (activeList === 'products') {
-      openModal(<p>New Product</p>);
+      openModal(<ProductDashboardForm storeId={storeId} forceReload={forceReload} />);
     } else {
-      openModal(<p>New Team Member</p>);
+      openModal(<TeamMemberForm storeId={storeId!} forceReload={forceReload} />);
     }
   };
 

@@ -60,7 +60,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor="search">Add existing user to this team</Label>
+      <Label htmlFor="search">Search Users</Label>
       <input
         type="search"
         className={`w-full h-12 px-4 rounded`}

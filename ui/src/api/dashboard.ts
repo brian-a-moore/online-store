@@ -1,4 +1,5 @@
 import {
+  AddStoreRelationDashboardBody,
   CreateProductDashboardBody,
   UpdateProductDashboardBody,
   UpdateProductDashboardQuery,
@@ -32,5 +33,13 @@ export const updateProduct = async (productId: string, product: UpdateProductDas
     url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.PUT,
     data: product,
+  });
+};
+
+export const addStoreRelation = async (relation: AddStoreRelationDashboardBody) => {
+  return apiCall<AddStoreRelationDashboardBody, never, never>({
+    url: `/dashboard/relation`,
+    method: HTTP_METHOD.POST,
+    data: relation,
   });
 };

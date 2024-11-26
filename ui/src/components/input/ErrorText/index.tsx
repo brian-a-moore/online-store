@@ -1,8 +1,8 @@
 type ErrorTextProps = React.HTMLAttributes<HTMLParagraphElement>;
 
-const ErrorText: React.FC<ErrorTextProps> = ({ children, ...props }) => {
+const ErrorText: React.FC<ErrorTextProps> = ({ children, className, ...props }) => {
   return (
-    <p className="text-sm text-[var(--text-error-color)]" {...props}>
+    <p {...props} className={`text-sm text-[var(--text-error-color)] ${className}`}>
       {children}
     </p>
   );

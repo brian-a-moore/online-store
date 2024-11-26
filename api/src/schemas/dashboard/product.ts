@@ -6,6 +6,7 @@ export const createProductDashboardSchema = {
     .object({
       name: strShort,
       description: strLong.optional(),
+      isPublished: z.boolean(),
     })
     .strict(),
   params: empty,
@@ -34,7 +35,13 @@ export const getProductDashboardSchema = {
 };
 
 export const updateProductDashboardSchema = {
-  body: empty,
+  body: z
+    .object({
+      name: strShort,
+      description: strLong.optional(),
+      isPublished: z.boolean(),
+    })
+    .strict(),
   params: z
     .object({
       productId: uuid,

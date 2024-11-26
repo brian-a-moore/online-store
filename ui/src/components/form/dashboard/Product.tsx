@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse } from '../../../../../api/src/types/api';
+import { GetProductDashboardBody, GetProductDashboardQuery, GetProductDashboardResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
@@ -15,46 +15,44 @@ import { ErrorText, SwitchInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { H3 } from '../../typography';
 
-type EditStoreForm = {
+type EditProductForm = {
   name: string;
   description: string;
-  website: string;
   isPublished: boolean;
 };
 
 type Props = {
   storeId?: string;
+  productId?: string;
   forceReload: () => void;
 };
 
-const EDIT_STORE_FORM_INITIAL_VALUES: EditStoreForm = {
+const EDIT_PRODUCT_FORM_INITIAL_VALUES: EditProductForm = {
   name: '',
   description: '',
-  website: '',
   isPublished: false,
 };
 
-const EditStoreFormSchema = z
+const EditProductFormSchema = z
   .object({
     name: z.string().min(1).max(256),
     description: z.string().min(0).max(2048),
-    website: z.string().min(0).max(256),
     isPublished: z.boolean(),
   })
   .strict();
 
-export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) => {
+export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forceReload }) => {
   const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse>(
+  const { error, isLoading, response } = useApi<GetProductDashboardBody, GetProductDashboardQuery, GetProductDashboardResponse>(
     {
       method: HTTP_METHOD.GET,
-      url: `/dashboard/store/${storeId}`,
+      url: `/dashboard/product/${productId}`,
     },
-    { isAutoTriggered: !!storeId },
+    { isAutoTriggered: !!productId },
   );
 
   const {
@@ -63,8 +61,8 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: EDIT_STORE_FORM_INITIAL_VALUES,
-    resolver: zodResolver(EditStoreFormSchema),
+    defaultValues: EDIT_PRODUCT_FORM_INITIAL_VALUES,
+    resolver: zodResolver(EditProductFormSchema),
   });
 
   useEffect(() => {
@@ -72,20 +70,24 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
   }, [error]);
 
   useEffect(() => {
-    if (response?.store) {
-      setValue('name', response.store.name);
-      if (response.store?.description) setValue('description', response.store.description);
-      if (response.store?.website) setValue('website', response.store.website);
-      setValue('isPublished', response.store.isPublished);
+    if (response?.product) {
+      setValue('name', response.product.name);
+      if (response.product?.description) setValue('description', response.product.description);
+      setValue('isPublished', response.product.isPublished);
     }
   }, [response]);
 
-  const onSubmit = async (store: EditStoreForm) => {
+  const onSubmit = async (product: EditProductForm) => {
     try {
-      await api.dashboard.updateStore(storeId!, store);
+      if (productId) {
+        await api.dashboard.updateProduct(productId!, product);
+        setToast({ type: 'success', message: 'Product updated successfully' });
+      } else {
+        await api.dashboard.createProduct(storeId!, product);
+        setToast({ type: 'success', message: 'Product created successfully' });
+      }
       closeModal();
       forceReload();
-      setToast({ type: 'success', message: 'Store updated successfully' });
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
@@ -95,7 +97,7 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
 
   return (
     <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
-      <H3>{storeId ? 'Edit' : 'New'} Store</H3>
+      <H3>{productId ? 'Edit' : 'New'} Product</H3>
       <Separator  />
       <div className='flex flex-col flex-1 gap-4 overflow-y-auto'>
         <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
@@ -107,7 +109,6 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
           maxRows={5}
           multiline
         />
-        <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
         <SwitchInput name="isPublished" label="Public" control={control} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
@@ -117,7 +118,7 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (storeId ? 'Updating' : 'Creating') : storeId ? 'Update' : 'Create'} Store
+          {isSubmitting ? (productId ? 'Updating' : 'Creating') : productId ? 'Update' : 'Create'} Product
         </Button>
       </div>
     </form>

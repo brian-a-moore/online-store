@@ -1,4 +1,5 @@
 import { STATUS_CODE } from '@sunami/constants';
+import * as crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import {
@@ -22,7 +23,6 @@ export const addStoreRelationDashboardController = async (
   res: Response<AddStoreRelationDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
-  const userId = req.user!.id;
   try {
     const incomingRelation = req.body;
 
@@ -31,7 +31,6 @@ export const addStoreRelationDashboardController = async (
     await db.userStoreRelation.create({
       data: {
         ...incomingRelation,
-        userId,
         id,
       },
     });

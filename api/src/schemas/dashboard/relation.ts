@@ -5,6 +5,7 @@ export const addStoreRelationDashboardSchema = {
   body: z
     .object({
       storeId: uuid,
+      userId: uuid,
       roleId: role,
     })
     .strict(),
