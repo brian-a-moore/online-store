@@ -16,7 +16,7 @@ export const Table = <T,>({ columns, data }: Props<T>) => {
         <thead>
           <tr className="flex">
             {columns.map((column) => (
-              <th className="flex-1 border-b-2 px-4 py-2 bg-slate-200 text-left" key={column.key}>
+              <th className="flex-1 border-b-[1px] border-slate-300 px-4 py-2 bg-slate-200 text-left" key={column.key}>
                 {column.label}
               </th>
             ))}
@@ -28,7 +28,7 @@ export const Table = <T,>({ columns, data }: Props<T>) => {
               {columns.map((column: ColumnConfig) => {
                 const value = item[column.key as keyof T];
                 return (
-                  <td className="flex-1 border-b-2 px-4 py-2" key={column.key}>
+                  <td className="flex-1 border-b-[1px] border-slate-300 px-4 py-2" key={column.key}>
                     {column.render(value)}
                   </td>
                 );
