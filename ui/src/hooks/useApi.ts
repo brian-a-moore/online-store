@@ -31,17 +31,17 @@ function useApi<D = undefined, P = undefined, R = undefined>(
         setIsLoading(false);
       }
     },
-    [JSON.stringify(args)],
+    [JSON.stringify(args), opts?.reTrigger],
   );
 
   useEffect(() => {
     const controller = new AbortController();
 
-    if (isAutoTriggered || (isAutoTriggered && reTrigger)) _getData(controller);
+    if (isAutoTriggered || reTrigger) _getData(controller);
     else setIsLoading(false);
 
     return () => {
-      // TODO: Fix this
+      // TODO: This is causing all requests to get aborted, may be due to duplicate requests being made?
       // controller.abort();
     };
   }, [_getData, isAutoTriggered, reTrigger]);
