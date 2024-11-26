@@ -33,7 +33,7 @@ model Product {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     items       Item[]
-    store       Store    @relation(fields: [storeId], references: [id])
+    store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
 
     @@map("products")
 }
@@ -59,7 +59,7 @@ model Item {
     config              Json
     createdAt           DateTime @default(now())
     updatedAt           DateTime @updatedAt
-    product             Product  @relation(fields: [productId], references: [id])
+    product             Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
     itemType            ItemType @relation(fields: [itemTypeId], references: [id])
 
     @@map("items")

@@ -9,7 +9,7 @@ async function main() {
     const userIds = await generateUsers();
     const storeIds = await generateStores();
     const productIds = await generateProducts(storeIds);
-    await generateUserStoreRelations(userIds[0]!, storeIds);
+    await generateUserStoreRelations(userIds as string[], storeIds);
     await generateItems(productIds);
 
     console.log('Mocking database completed');
