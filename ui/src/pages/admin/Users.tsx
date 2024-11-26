@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
-import { UserForm } from '../../components/form/User';
+import { UserAdminForm } from '../../components/form/admin/User';
 import { Button } from '../../components/interactive';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -46,8 +46,8 @@ export const UsersAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewUserForm = () => openModal(<UserForm forceReload={forceReload} />);
-  const openEditUserForm = (id: string) => openModal(<UserForm userId={id} forceReload={forceReload} />);
+  const openNewUserForm = () => openModal(<UserAdminForm forceReload={forceReload} />);
+  const openEditUserForm = (id: string) => openModal(<UserAdminForm userId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ListProductsAdminBody, ListProductsAdminQuery, ListProductsAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
-import { ProductForm } from '../../components/form';
+import { ProductAdminForm } from '../../components/form';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -42,12 +42,12 @@ export const ProductsAdmin: React.FC = () => {
     params: { page: '1' },
   }, { reTrigger: reload });
 
-  const forceReload = () => setReload(new Date().toISOString());
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openEditProductForm = (id: string) => openModal(<ProductForm productId={id} forceReload={forceReload} />);
+  const forceReload = () => setReload(new Date().toISOString());
+  const openEditProductForm = (id: string) => openModal(<ProductAdminForm productId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 

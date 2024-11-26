@@ -9,9 +9,7 @@ import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
 import { Loader } from '../core';
 import { IsPublished } from '../display';
-import { ItemForm } from '../form';
-import { Button } from '../interactive';
-import { EmptyText, H3, H5 } from '../typography';
+import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -33,18 +31,7 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
   }, [error]);
 
   const openEditItemForm = (id: string) => {
-    openModal(<>
-      <H3>Edit Item</H3>
-      <ItemForm storeId={storeId} productId={productId} itemId={id} />
-      <div className='flex justify-between'>
-        <Button variant="secondary" key="cancel" onClick={closeModal}>
-          Cancel
-        </Button>
-        <Button key="submit" onClick={closeModal}>
-          Edit Item
-        </Button>
-      </div>
-    </>);
+    openModal(<p>Edit Item Form</p>);
   }
 
   if (isLoading) return <Loader />;

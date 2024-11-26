@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
-import { StoreForm } from '../../components/form';
+import { StoreAdminForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -46,8 +46,8 @@ export const StoresAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewStoreForm = () => openModal(<StoreForm forceReload={forceReload} />);
-  const openEditStoreForm = (id: string) => openModal(<StoreForm storeId={id} forceReload={forceReload} />);
+  const openNewStoreForm = () => openModal(<StoreAdminForm forceReload={forceReload} />);
+  const openEditStoreForm = (id: string) => openModal(<StoreAdminForm storeId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 

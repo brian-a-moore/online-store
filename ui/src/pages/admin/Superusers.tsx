@@ -9,7 +9,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
-import { SuperuserForm } from '../../components/form';
+import { SuperuserAdminForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -59,8 +59,8 @@ export const SuperusersAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewUserForm = () => openModal(<SuperuserForm forceReload={forceReload} />);
-  const openEditUserForm = (id: string) => openModal(<SuperuserForm superuserId={id} forceReload={forceReload} />);
+  const openNewUserForm = () => openModal(<SuperuserAdminForm forceReload={forceReload} />);
+  const openEditUserForm = (id: string) => openModal(<SuperuserAdminForm superuserId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 

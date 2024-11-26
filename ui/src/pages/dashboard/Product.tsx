@@ -10,7 +10,6 @@ import {
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IconImage, IsPublished, Separator } from '../../components/display';
-import { ItemForm, ProductForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { ItemList } from '../../components/list/ItemList';
 import { EmptyText, H2, H3 } from '../../components/typography';
@@ -57,37 +56,11 @@ export const ProductDashboard: React.FC = () => {
   };
 
   const openEditProduct = () => {
-    openModal(
-      <>
-        <H3>Edit Product</H3>
-        <ProductForm storeId={storeId} productId={productId} />
-        <div className="flex justify-between">
-          <Button variant="secondary" key="cancel" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button key="submit" onClick={closeModal}>
-            Edit Product
-          </Button>
-        </div>
-      </>,
-    );
+    openModal(<p>Edit Product</p>);
   };
 
   const openNewItem = () => {
-    openModal(
-      <>
-        <H3>New Item</H3>
-        <ItemForm />
-        <div className="flex justify-between">
-          <Button variant="secondary" key="cancel" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button key="submit" onClick={closeModal}>
-            Create Item
-          </Button>
-        </div>
-      </>,
-    );
+    openModal(<p>New Item</p>);
   };
 
   if (isLoading) return <Loader />;

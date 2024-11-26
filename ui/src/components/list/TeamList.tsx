@@ -12,9 +12,7 @@ import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
-import { TeamMemberForm } from '../form';
-import { Button } from '../interactive';
-import { EmptyText, H3, H5 } from '../typography';
+import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
@@ -39,20 +37,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
   }, [error]);
 
   const openEditMemberForm = (member?: { id: string; name: string; email: string }) => {
-    openModal(
-      <>
-        <H3>Edit Team Member</H3>
-        <TeamMemberForm storeId={storeId} teamMember={member} />
-        <div className="flex justify-between">
-          <Button variant="secondary" key="cancel" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button key="submit" onClick={closeModal}>
-            Edit Team Member
-          </Button>
-        </div>
-      </>
-    );
+    openModal(<p>Edit Team Member</p>);
   };
 
   if (isLoading) return <Loader />;

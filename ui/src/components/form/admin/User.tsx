@@ -5,17 +5,17 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../api/src/types/api';
-import { api } from '../../api';
-import { HTTP_METHOD } from '../../constants';
-import { ModalContext } from '../../context/ModalContext';
-import { ToastContext } from '../../context/ToastContext';
-import useApi from '../../hooks/useApi';
-import { Alert } from '../container';
-import { Loader } from '../core';
-import { ErrorText, TextInput } from '../input';
-import { Button } from '../interactive';
-import { H3 } from '../typography';
+import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../../api/src/types/api';
+import { api } from '../../../api';
+import { HTTP_METHOD } from '../../../constants';
+import { ModalContext } from '../../../context/ModalContext';
+import { ToastContext } from '../../../context/ToastContext';
+import useApi from '../../../hooks/useApi';
+import { Alert } from '../../container';
+import { Loader } from '../../core';
+import { ErrorText, TextInput } from '../../input';
+import { Button } from '../../interactive';
+import { H3 } from '../../typography';
 
 type EditUserForm = {
   name: string;
@@ -39,7 +39,7 @@ const EditUserFormSchema = z
   })
   .strict();
 
-export const UserForm: React.FC<Props> = ({ userId, forceReload }) => {
+export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();

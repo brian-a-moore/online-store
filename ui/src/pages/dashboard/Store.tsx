@@ -10,10 +10,9 @@ import {
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { BannerImage, IconImage, IsPublished } from '../../components/display';
-import { ProductForm, StoreForm, TeamMemberForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
-import { H1, H3 } from '../../components/typography';
+import { H1 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
@@ -43,52 +42,17 @@ export const StoreDashboard: React.FC = () => {
 
   const goToAddPage = () => {
     if (activeList === 'products') {
-      openModal(
-        <>
-          <H3>New Product</H3>
-          <ProductForm />
-          <div className="flex justify-between">
-            <Button variant="secondary" key="cancel" onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button key="submit" onClick={closeModal}>
-              Create Product
-            </Button>
-          </div>
-        </>,
+      openModal(<p>New Product</p>,
       );
     } else {
       openModal(
-        <>
-          <H3>New Team Member</H3>
-          <TeamMemberForm storeId={storeId!} />
-          <div className="flex justify-between">
-            <Button variant="secondary" key="cancel" onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button key="submit" onClick={closeModal}>
-              Create Team Member
-            </Button>
-          </div>
-        </>,
+        <p>New Team Member</p>,
       );
     }
   };
 
   const openEditStore = () => {
-    openModal(
-      <>
-        <H3>Edit Store</H3>
-        <StoreForm storeId={storeId} />
-        <div className="flex justify-between">
-          <Button variant="secondary" key="cancel" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button key="submit" onClick={closeModal}>
-            Edit Store
-          </Button>
-        </div>
-      </>,
+    openModal(<p>Edit Store</p>,
     );
   };
 

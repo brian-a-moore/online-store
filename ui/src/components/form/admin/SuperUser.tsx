@@ -9,18 +9,18 @@ import {
   GetSuperuserAdminBody,
   GetSuperuserAdminQuery,
   GetSuperuserAdminResponse,
-} from '../../../../api/src/types/api';
-import { api } from '../../api';
-import { HTTP_METHOD } from '../../constants';
-import { AuthContext } from '../../context/AuthContext';
-import { ModalContext } from '../../context/ModalContext';
-import { ToastContext } from '../../context/ToastContext';
-import useApi from '../../hooks/useApi';
-import { Alert } from '../container';
-import { Loader } from '../core';
-import { ErrorText, TextInput } from '../input';
-import { Button } from '../interactive';
-import { H3 } from '../typography';
+} from '../../../../../api/src/types/api';
+import { api } from '../../../api';
+import { HTTP_METHOD } from '../../../constants';
+import { AuthContext } from '../../../context/AuthContext';
+import { ModalContext } from '../../../context/ModalContext';
+import { ToastContext } from '../../../context/ToastContext';
+import useApi from '../../../hooks/useApi';
+import { Alert } from '../../container';
+import { Loader } from '../../core';
+import { ErrorText, TextInput } from '../../input';
+import { Button } from '../../interactive';
+import { H3 } from '../../typography';
 
 type EditSuperuserForm = {
   name: string;
@@ -71,7 +71,7 @@ const EditSelfFormSchema = z
     path: ['confirmPassword'],
   });
 
-export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => {
+export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }) => {
   const { user } = useContext(AuthContext);
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);

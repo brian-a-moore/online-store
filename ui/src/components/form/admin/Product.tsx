@@ -9,16 +9,16 @@ import {
   GetProductAdminBody,
   GetProductAdminQuery,
   GetProductAdminResponse,
-} from '../../../../api/src/types/api';
-import { api } from '../../api';
-import { HTTP_METHOD } from '../../constants';
-import { ModalContext } from '../../context/ModalContext';
-import { ToastContext } from '../../context/ToastContext';
-import useApi from '../../hooks/useApi';
-import { Loader } from '../core';
-import { SwitchInput, TextInput } from '../input';
-import { Button } from '../interactive';
-import { H3 } from '../typography';
+} from '../../../../../api/src/types/api';
+import { api } from '../../../api';
+import { HTTP_METHOD } from '../../../constants';
+import { ModalContext } from '../../../context/ModalContext';
+import { ToastContext } from '../../../context/ToastContext';
+import useApi from '../../../hooks/useApi';
+import { Loader } from '../../core';
+import { SwitchInput, TextInput } from '../../input';
+import { Button } from '../../interactive';
+import { H3 } from '../../typography';
 
 type EditProductForm = {
   name: string;
@@ -45,7 +45,7 @@ const EditProductFormSchema = z
   })
   .strict();
 
-export const ProductForm: React.FC<Props> = ({ productId, forceReload }) => {
+export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();

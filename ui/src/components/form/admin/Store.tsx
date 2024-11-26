@@ -5,16 +5,16 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../api/src/types/api';
-import { api } from '../../api';
-import { HTTP_METHOD } from '../../constants';
-import { ModalContext } from '../../context/ModalContext';
-import { ToastContext } from '../../context/ToastContext';
-import useApi from '../../hooks/useApi';
-import { Loader } from '../core';
-import { ErrorText, SwitchInput, TextInput } from '../input';
-import { Button } from '../interactive';
-import { H3 } from '../typography';
+import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../../api/src/types/api';
+import { api } from '../../../api';
+import { HTTP_METHOD } from '../../../constants';
+import { ModalContext } from '../../../context/ModalContext';
+import { ToastContext } from '../../../context/ToastContext';
+import useApi from '../../../hooks/useApi';
+import { Loader } from '../../core';
+import { ErrorText, SwitchInput, TextInput } from '../../input';
+import { Button } from '../../interactive';
+import { H3 } from '../../typography';
 
 type EditStoreForm = {
   name: string;
@@ -44,7 +44,7 @@ const EditStoreFormSchema = z
   })
   .strict();
 
-export const StoreForm: React.FC<Props> = ({ storeId, forceReload }) => {
+export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();

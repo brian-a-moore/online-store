@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
-import { ItemForm } from '../../components/form';
+import { ItemAdminForm } from '../../components/form';
 import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -38,20 +38,22 @@ const columns: ColumnConfig[] = [
 ];
 
 export const ItemsAdmin: React.FC = () => {
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse>({
     url: `/admin/item/list`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openEditItemForm = (id: string) => openModal(<ItemForm itemId={id} />);
+  const forceReload = () => setReload(new Date().toISOString());
+  const openEditItemForm = (id: string) => openModal(<ItemAdminForm itemId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 
