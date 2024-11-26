@@ -1,26 +1,32 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import { EDIT_USER_FORM_INITIAL_VALUES, EditUserFormSchema } from '../../forms/user';
+import { ToastContext } from '../../context/ToastContext';
+import { EDIT_USER_FORM_INITIAL_VALUES, EditUserForm, EditUserFormSchema } from '../../forms/user';
 import useApi from '../../hooks/useApi';
+import { Alert } from '../container';
 import { Loader } from '../core';
-import { TextInput } from '../input';
+import { ErrorText, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
 type Props = {
   userId?: string;
+  forceReload: () => void;
 };
 
-export const UserForm: React.FC<Props> = ({ userId }) => {
+export const UserForm: React.FC<Props> = ({ userId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const { error, isLoading, response } = useApi<GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse>(
     {
@@ -51,18 +57,68 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
     }
   }, [response]);
 
-  const onSubmit = async (data: any) => {};
+ const onSubmit = async (user: EditUserForm) => {
+    try {
+      let response;
+      if (userId) {
+        response = await api.admin.updateUser(userId, user);
+      } else {
+        response = await api.admin.createUser(user);
+      }
+      if (!userId) openShowDefaultPassword(response.defaultPassword, true);
+      else {
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'User updated successfully' });
+      };
+    } catch (error: any | unknown) {
+      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+    }
+  };
+
+  const openShowDefaultPassword = (password: string, isNew: boolean) => {
+    openModal(
+      <>
+        <H3>Default Password</H3>
+        <p>{!isNew ? "The user's password has been reset. " : ''}Share this temporary password with the user:</p>
+        <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">{password}</p>
+        <Alert type="warn">This password will not be visable once this dialog is closed.</Alert>
+        <Alert type="warn">Users should immediately change their password upon {isNew ? 'first' : 'next'} login.</Alert>
+        <div className="flex justify-center">
+          <Button
+            onClick={() => {
+              forceReload();
+              closeModal();
+            }}
+          >
+            Close
+          </Button>
+        </div>
+      </>,
+    );
+  };
 
   const openDeleteUserDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        await api.admin.deleteUser(id);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'User deleted successfully' });
+      } catch (error: any | unknown) {
+        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      }
+    };
     openModal(
       <>
         <H3>Delete User</H3>
         <p>Are you sure you want to delete this user?</p>
+        {formError ? <ErrorText>{formError}</ErrorText> : null}
         <div className="flex justify-between">
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={closeModal}>
+          <Button variant="destructive" onClick={onClick}>
             Delete User
           </Button>
         </div>
@@ -71,6 +127,14 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
   };
 
   const openResetPasswordDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        const response = await api.admin.resetUserPassword(id);
+        if (response.newPassword) openShowDefaultPassword(response.newPassword, false);
+      } catch (error: any | unknown) {
+        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      }
+    };
     openModal(
       <>
         <H3>Reset Password</H3>
@@ -79,7 +143,7 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button onClick={closeModal}>Reset Password</Button>
+          <Button onClick={onClick}>Reset Password</Button>
         </div>
       </>,
     );

@@ -4,7 +4,7 @@ import {
   deleteUserAdminController,
   getUserAdminController,
   listUsersAdminController,
-  resetSuperuserPasswordAdminController,
+  resetUserPasswordAdminController,
   updateUserAdminController,
 } from '../../controllers/admin';
 import checkPermissionMiddleware from '../../middlewares/checkPermission.middleware';
@@ -37,7 +37,7 @@ router.get(
   '/:userId/password_reset',
   schemaValidatorMiddleware(resetUserPasswordAdminSchema),
   checkPermissionMiddleware([canUseAdminRoutes]),
-  resetSuperuserPasswordAdminController,
+  resetUserPasswordAdminController,
 );
 router.delete(
   '/:userId',
