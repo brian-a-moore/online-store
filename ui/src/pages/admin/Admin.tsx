@@ -3,17 +3,32 @@ import Icon from '@mdi/react';
 import { useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Button, Link } from '../../components/interactive';
-import { H5 } from '../../components/typography';
+import { H3, H5 } from '../../components/typography';
 import { AuthContext } from '../../context/AuthContext';
+import { ModalContext } from '../../context/ModalContext';
+import { ToastContext } from '../../context/ToastContext';
 import { deleteAuthToken } from '../../utils/localStorage';
 
 export const Admin: React.FC = () => {
   const { user, setUser } = useContext(AuthContext);
+  const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
   const signOut = () => {
-    deleteAuthToken();
-    setUser(null);
+    openModal(<>
+      <H3>Sign Out</H3>
+      <p>Are you sure you want to sign out?</p>
+      <div className="flex justify-between">
+        <Button variant='secondary' onClick={closeModal}>Cancel</Button>
+        <Button variant='destructive' onClick={() => {
+          closeModal();
+          setToast({ message: 'You have signed out successfully', type: 'success' });
+          deleteAuthToken();
+          setUser(null);
+        }}>Sign Out</Button>
+      </div>
+    </>);
   };
 
   if(user?.domain !== 'admin') {
