@@ -20,6 +20,7 @@ export type GetStoreDashboardResponse = {
   store: {
     id: string;
     name: string;
+    description: string | null;
     website: string | null;
     image: string | null;
     bannerImage: string | null;

@@ -122,6 +122,7 @@ export const getStoreDashboardController = async (
       select: {
         id: true,
         name: true,
+        description: true,
         image: true,
         bannerImage: true,
         website: true,
