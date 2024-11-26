@@ -13,6 +13,7 @@ import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 import { ModalContext } from '../../context/ModalContext';
+import { ToastContext } from '../../context/ToastContext';
 import {
   EDIT_SELF_INITIAL_VALUES,
   EDIT_SUPERUSER_FORM_INITIAL_VALUES,
@@ -36,6 +37,7 @@ type Props = {
 export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => {
   const { user } = useContext(AuthContext);
   const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -107,15 +109,26 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
   };
 
   const openDeleteSuperuserDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        await api.admin.deleteSuperuser(id);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Superuser deleted successfully' });
+      } catch (error: any | unknown) {
+        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      }
+    };
     openModal(
       <>
         <H3>Delete Superuser</H3>
         <p>Are you sure you want to delete this superuser?</p>
+        {formError ? <ErrorText>{formError}</ErrorText> : null}
         <div className="flex justify-between">
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={closeModal}>
+          <Button variant="destructive" onClick={onClick}>
             Delete Superuser
           </Button>
         </div>

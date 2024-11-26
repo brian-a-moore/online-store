@@ -2,6 +2,9 @@ import {
   CreateSuperuserAdminBody,
   CreateSuperuserAdminQuery,
   CreateSuperuserAdminResponse,
+  DeleteSuperuserAdminBody,
+  DeleteSuperuserAdminQuery,
+  DeleteSuperuserAdminResponse,
   UpdateSuperuserAdminBody,
   UpdateSuperuserAdminQuery,
   UpdateSuperuserAdminResponse,
@@ -22,5 +25,12 @@ export const updateSuperuser = async (superuserId: string, superuserUpdate: Upda
     url: `/admin/superuser/${superuserId}`,
     method: HTTP_METHOD.PUT,
     data: superuserUpdate,
+  });
+};
+
+export const deleteSuperuser = async (superuserId: string) => {
+  return apiCall<DeleteSuperuserAdminBody, DeleteSuperuserAdminQuery, DeleteSuperuserAdminResponse>({
+    url: `/admin/superuser/${superuserId}`,
+    method: HTTP_METHOD.DELETE,
   });
 };
