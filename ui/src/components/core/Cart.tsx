@@ -17,10 +17,10 @@ export const Cart: React.FC<Props> = () => {
 
     if (thisItem) {
       if (dir === '-' && thisItem.quantity > 1) {
-        updateItem(itemId, thisItem.quantity - 1);
+        updateItem(itemId, thisItem.quantity - 1, false);
       }
       if (dir === '+' && thisItem.quantity < thisItem.maxQuantityPerOrder) {
-        updateItem(itemId, thisItem.quantity + 1);
+        updateItem(itemId, thisItem.quantity + 1, false);
       }
     }
   };

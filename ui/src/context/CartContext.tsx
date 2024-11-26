@@ -15,7 +15,7 @@ export type TCartItem = {
 interface CartContextProps {
   items: TCartItem[];
   addItem: (item: TCartItem) => void;
-  updateItem: (itemId: string, quantity: number) => void;
+  updateItem: (itemId: string, quantity: number, shouldNotify: boolean) => void;
   removeItem: (itemId: string) => void;
 }
 
@@ -58,17 +58,18 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     if (existingItem) {
       let updatedItem = { ...existingItem, quantity: existingItem.quantity + item.quantity };
       if (updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
-        updateItem(item.id, updatedItem.quantity);
+        updateItem(item.id, updatedItem.quantity, true);
       } else {
         setToast({ type: 'info', message: 'Max quantity per order reached' });
       }
       return;
     }
     setItems((prevItems) => [...prevItems, item]);
+    setToast({ type: 'success', message: 'Item(s) added to your cart' })
   };
 
   // Update the quantity of an item in the cart
-  const updateItem = (itemId: string, quantity: number) => {
+  const updateItem = (itemId: string, quantity: number, shouldNotify: boolean) => {
     setItems((prevItems) =>
       prevItems.map((item) => {
         if (item.id === itemId) {
@@ -77,7 +78,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         return item;
       }),
     );
-    setToast({ type: 'success', message: 'Cart updated!' });
+    if(shouldNotify) setToast({ type: 'success', message: 'Item quantity updated in cart' });
   };
 
   // Remove an item from the cart
