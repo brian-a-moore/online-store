@@ -58,7 +58,7 @@ export default function TextInput<F extends FieldValues>({
               placeholder={label}
               rows={maxRows}
               {...field}
-              className={`h-36 px-4 py-2 rounded ${invalidText ? 'bg-[var(--input-background-error-color)] text-[var(--text-error-color)] outline-[var(--outline-error-color)]' : ''}`}
+              className={`h-36 px-4 py-2 rounded resize-none ${invalidText ? 'bg-[var(--input-background-error-color)] text-[var(--text-error-color)] outline-[var(--outline-error-color)]' : ''}`}
             />
           )}
           {typeof invalidText === 'string' && <ErrorText>{invalidText}</ErrorText>}

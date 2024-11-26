@@ -35,7 +35,7 @@ export const Button: React.FC<Props> = ({
   }
 
   return (
-    <button {...props} className={`${className}${styles ? ' ' + styles : ''}`} disabled={disabled}>
+    <button type='button' {...props} className={`${className}${styles ? ' ' + styles : ''}`} disabled={disabled}>
       {children}
     </button>
   );

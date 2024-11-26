@@ -104,9 +104,10 @@ export const getStoreAdminController = async (
       select: {
         id: true,
         name: true,
+        description: true,
+        website: true,
         image: true,
         bannerImage: true,
-        website: true,
         isPublished: true,
         createdAt: true,
         updatedAt: true,

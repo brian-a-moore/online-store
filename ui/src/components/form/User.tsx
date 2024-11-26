@@ -1,6 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   GetUserAdminBody,
@@ -9,8 +11,10 @@ import {
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
+import { EDIT_USER_FORM_INITIAL_VALUES, EditUserFormSchema } from '../../forms/user';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
+import { TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -34,9 +38,28 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
     { isAutoTriggered: !!userId },
   );
 
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: EDIT_USER_FORM_INITIAL_VALUES,
+    resolver: zodResolver(EditUserFormSchema),
+  });
+
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
+
+  useEffect(() => {
+    if(response?.user) {
+      setValue('name', response.user.name);
+      setValue('email', response.user.email);
+    }
+  }, [response]);
+
+  const onSubmit = async (data: any) => {};
 
   const openDeleteUserDialog = (id: string) => {
     openModal(
@@ -73,7 +96,7 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
   if (isLoading) return <Loader />;
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between">
         <H3>{userId ? 'Edit' : 'New'} User</H3>
         {userId ? (
@@ -87,7 +110,18 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
           </div>
         ) : null}
       </div>
-      <p>{JSON.stringify(response?.user)}</p>
+      <TextInput
+        name="name"
+        label="Name"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
+      <TextInput
+        name="email"
+        label="Email"
+        control={control}
+        invalidText={errors?.email?.message}
+      />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

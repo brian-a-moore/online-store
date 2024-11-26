@@ -25,6 +25,7 @@ export type GetStoreAdminQuery = z.infer<typeof adminStoreSchemas.getStoreAdminS
 export type GetStoreAdminResponse = {
   store: {
     name: string;
+    description: string | null;
     website: string | null;
     id: string;
     image: string | null;

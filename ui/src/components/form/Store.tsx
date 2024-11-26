@@ -1,6 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   GetStoreAdminBody,
@@ -9,8 +11,11 @@ import {
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
+import { EDIT_STORE_FORM_INITIAL_VALUES } from '../../forms/store';
+import { EditSelfFormSchema } from '../../forms/superuser';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
+import { TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -34,9 +39,29 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
     { isAutoTriggered: !!storeId },
   );
 
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: EDIT_STORE_FORM_INITIAL_VALUES,
+    resolver: zodResolver(EditSelfFormSchema),
+  });
+
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
+
+  useEffect(() => {
+    if(response?.store) {
+      setValue('name', response.store.name);
+      if(response.store?.description) setValue('description', response.store.description);
+      if(response.store?.website) setValue('website', response.store.website);
+    }
+  }, [response]);
+
+  const onSubmit = async (data: any) => {};
 
   const openDeleteStoreDialog = (id: string) => {
     openModal(
@@ -58,7 +83,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
   if (isLoading) return <Loader />;
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between">
         <H3>{storeId ? 'Edit' : 'New'} Store</H3>
         {storeId ? (
@@ -69,7 +94,27 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
           </div>
         ) : null}
       </div>
-      <p>{JSON.stringify(response?.store)}</p>
+      <TextInput
+        name="name"
+        label="Name"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
+
+      <TextInput
+        name="description"
+        label="Description"
+        control={control}
+        invalidText={errors?.name?.message}
+        maxRows={5}
+        multiline
+      />
+      <TextInput
+        name="website"
+        label="Website"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel
