@@ -68,8 +68,8 @@ export const Login: React.FC<Props> = () => {
             control={control}
             invalidText={errors?.email?.message}
           />
-          <Button disabled={isSubmitting}>{isSubmitting ? 'Logging in...' : 'Log In'}</Button>
           {formError ? <ErrorText>{formError}</ErrorText> : null}
+          <Button disabled={isSubmitting}>{isSubmitting ? 'Logging in...' : 'Log In'}</Button>
         </form>
       </Card>
     </div>
