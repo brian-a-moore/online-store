@@ -94,8 +94,8 @@ export const StoreDashboard: React.FC = () => {
             </Button>
           </div>
         </Card>
-        {activeList === 'products' && <ProductList storeId={storeId!} />}
-        {activeList === 'team' && <TeamList storeId={storeId!} />}
+        {activeList === 'products' && <ProductList storeId={storeId!} reload={reload} />}
+        {activeList === 'team' && <TeamList storeId={storeId!} reload={reload} />}
       </Container>
     </Page>
   );

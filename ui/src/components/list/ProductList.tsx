@@ -16,9 +16,10 @@ import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
+  reload?: string;
 };
 
-export const ProductList: React.FC<Props> = ({ storeId }) => {
+export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<
@@ -29,7 +30,7 @@ export const ProductList: React.FC<Props> = ({ storeId }) => {
     url: `/dashboard/product/list`,
     method: HTTP_METHOD.GET,
     params: { storeId, page: '1' },
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

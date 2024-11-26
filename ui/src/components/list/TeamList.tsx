@@ -16,9 +16,10 @@ import { EmptyText, H5 } from '../typography';
 
 type Props = {
   storeId: string;
+  reload?: string;
 };
 
-export const TeamList: React.FC<Props> = ({ storeId }) => {
+export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
     url: `/dashboard/store/${storeId}/team`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
