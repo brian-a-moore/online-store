@@ -89,12 +89,12 @@ export const Toast: React.FC<Props> = ({ toast }) => {
         }}
         className={`
           ${ANIMATION[status]} ${COLORS[toast.type].background}
-          flex items-center min-w-[300px] max-w-[460px] pointer-events-auto
+          flex items-center justify-stretch min-w-[300px] max-w-[460px] pointer-events-auto
           rounded shadow-md active:scale-95
         `}
         onClick={() => setStatus('closing')}
       >
-        <div className="bg-[rgba(100,100,100,0.1)] flex h-full items-center justify-center px-4">
+        <div className="bg-[rgba(100,100,100,0.1)] flex items-center justify-center px-4">
           <Icon path={ICON[toast.type]} size={1.25} color={COLORS[toast.type].icon} />
         </div>
         <div className="flex flex-col flex-1 gap-2 p-4">
