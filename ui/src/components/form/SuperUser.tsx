@@ -84,20 +84,20 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
       } else {
         response = await api.admin.createSuperuser(superUser);
       }
-      if(!superuserId) openShowDefaultPassword(response.defaultPassword);
+      if(!superuserId) openShowDefaultPassword(response.defaultPassword, true);
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
   };
 
-  const openShowDefaultPassword = (password: string) => {
+  const openShowDefaultPassword = (password: string, isNew: boolean) => {
     openModal(
       <>
         <H3>Default Password</H3>
-        <p>Share this temporary password with the new user:</p>
+        <p>{!isNew ? 'The user\'s password has been reset. ': ''}Share this temporary password with the user:</p>
         <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">{password}</p>
         <Alert type='warn'>This password will not be visable once this dialog is closed.</Alert>
-        <Alert type='warn'>New users should immediately change their password upon first login.</Alert>
+        <Alert type='warn'>Users should immediately change their password upon {isNew ? 'first' : 'next'} login.</Alert>
         <div className="flex justify-center">
           <Button onClick={() => {
             forceReload();
@@ -137,6 +137,14 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
   };
 
   const openResetPasswordDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        const response = await api.admin.resetSuperuserPassword(id);
+        if(response.newPassword) openShowDefaultPassword(response.newPassword, false);
+      } catch (error: any | unknown) {
+        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      }
+    };
     openModal(
       <>
         <H3>Reset Password</H3>
@@ -145,7 +153,7 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => 
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button onClick={closeModal}>Reset Password</Button>
+          <Button onClick={onClick}>Reset Password</Button>
         </div>
       </>,
     );

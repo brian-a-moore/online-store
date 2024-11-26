@@ -5,6 +5,9 @@ import {
   DeleteSuperuserAdminBody,
   DeleteSuperuserAdminQuery,
   DeleteSuperuserAdminResponse,
+  ResetSuperuserPasswordAdminBody,
+  ResetSuperuserPasswordAdminQuery,
+  ResetSuperuserPasswordAdminResponse,
   UpdateSuperuserAdminBody,
   UpdateSuperuserAdminQuery,
   UpdateSuperuserAdminResponse,
@@ -32,5 +35,16 @@ export const deleteSuperuser = async (superuserId: string) => {
   return apiCall<DeleteSuperuserAdminBody, DeleteSuperuserAdminQuery, DeleteSuperuserAdminResponse>({
     url: `/admin/superuser/${superuserId}`,
     method: HTTP_METHOD.DELETE,
+  });
+};
+
+export const resetSuperuserPassword = async (superuserId: string) => {
+  return apiCall<
+    ResetSuperuserPasswordAdminBody,
+    ResetSuperuserPasswordAdminQuery,
+    ResetSuperuserPasswordAdminResponse
+  >({
+    url: `/admin/superuser/${superuserId}/password_reset`,
+    method: HTTP_METHOD.GET,
   });
 };
