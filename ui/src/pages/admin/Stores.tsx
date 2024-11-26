@@ -1,12 +1,13 @@
-import { mdiDelete, mdiPlus } from '@mdi/js';
+import { mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
+import { StoreForm } from '../../components/form';
 import { Button } from '../../components/interactive';
-import { EmptyText, H3, H4 } from '../../components/typography';
+import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
@@ -43,45 +44,8 @@ export const StoresAdmin: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openNewStoreForm = () => {
-    openModal(<>
-      <H3>New Store</H3>
-      <p>form</p>
-      <div className='flex justify-between'>
-        <Button variant='secondary' onClick={closeModal}>Cancel</Button>
-        <Button onClick={closeModal}>Create Store</Button>
-      </div>
-    </>);
-  };
-
-  const openEditStoreForm = (id: string) => {
-    openModal(<>
-      <div className='flex justify-between'>
-        <H3>Edit Store</H3>
-        <div className='flex gap-4'>
-          <Button variant='secondary' title='Delete Store' onClick={() => openDeleteStoreDialog(id)}>
-            <Icon path={mdiDelete} size={0.75} />
-          </Button>
-        </div>
-      </div>
-      <p>form</p>
-      <div className='flex justify-between'>
-        <Button variant='secondary' onClick={closeModal}>Cancel</Button>
-        <Button onClick={closeModal}>Update Store</Button>
-      </div>
-    </>);
-  };
-
-  const openDeleteStoreDialog = (id: string) => {
-    openModal(<>
-      <H3>Delete Store</H3>
-      <p>Are you sure you want to delete this store?</p>
-      <div className='flex justify-between'>
-        <Button variant='secondary' onClick={closeModal}>Cancel</Button>
-        <Button variant='destructive' onClick={closeModal}>Delete Store</Button>
-      </div>
-    </>);
-  };
+  const openNewStoreForm = () => openModal(<StoreForm />);
+  const openEditStoreForm = (id: string) => openModal(<StoreForm storeId={id} />);
 
   if (isLoading) return <Loader />;
 
