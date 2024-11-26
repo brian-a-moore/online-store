@@ -38,7 +38,7 @@ export const getStoreAdminSchema = {
 export const updateStoreAdminSchema = {
   body: z
     .object({
-      name: strShort.min(0).optional(),
+      name: strShort,
       description: strLongOptional,
       website: strShortOptional,
       isPublished: z.boolean().optional(),

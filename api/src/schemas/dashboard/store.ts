@@ -1,5 +1,5 @@
 import z from 'zod';
-import { empty, page, uuid } from '../_presets';
+import { empty, page, strLongOptional, strShort, strShortOptional, uuid } from '../_presets';
 
 export const listStoresDashboardSchema = {
   body: empty,
@@ -36,7 +36,14 @@ export const getStoreDashboardSchema = {
 };
 
 export const updateStoreDashboardSchema = {
-  body: empty,
+  body: z
+    .object({
+      name: strShort,
+      description: strLongOptional,
+      website: strShortOptional,
+      isPublished: z.boolean().optional(),
+    })
+    .strict(),
   params: z
     .object({
       storeId: uuid,
