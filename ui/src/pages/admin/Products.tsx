@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListProductsAdminBody, ListProductsAdminQuery, ListProductsAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
@@ -32,20 +32,22 @@ const columns: ColumnConfig[] = [{
 }];
 
 export const ProductsAdmin: React.FC = () => {
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<ListProductsAdminBody, ListProductsAdminQuery, ListProductsAdminResponse>({
     url: `/admin/product/list`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
-  });
+  }, { reTrigger: reload });
 
+  const forceReload = () => setReload(new Date().toISOString());
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openEditProductForm = (id: string) => openModal(<ProductForm productId={id} />);
+  const openEditProductForm = (id: string) => openModal(<ProductForm productId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 

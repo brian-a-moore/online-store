@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,9 +9,11 @@ import {
   GetProductAdminQuery,
   GetProductAdminResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import { EDIT_PRODUCT_FORM_INITIAL_VALUES, EditProductFormSchema } from '../../forms/product';
+import { ToastContext } from '../../context/ToastContext';
+import { EDIT_PRODUCT_FORM_INITIAL_VALUES, EditProductForm, EditProductFormSchema } from '../../forms/product';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
 import { SwitchInput, TextInput } from '../input';
@@ -20,11 +22,14 @@ import { H3 } from '../typography';
 
 type Props = {
   productId: string;
+  forceReload: () => void;
 };
 
-export const ProductForm: React.FC<Props> = ({ productId }) => {
+export const ProductForm: React.FC<Props> = ({ productId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const { error, isLoading, response } = useApi<
     GetProductAdminBody,
@@ -60,9 +65,28 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
     }
   }, [response]);
   
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async (product: EditProductForm) => {
+      try {
+        await api.admin.updateProduct(productId, product);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Product updated successfully' });
+    } catch (error: any | unknown) {
+      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+    }
+  };
 
   const openDeleteProductDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        await api.admin.deleteProduct(id);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Product deleted successfully' });
+      } catch (error: any | unknown) {
+        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      }
+    };
     openModal(
       <>
         <H3>Delete Product</H3>
@@ -71,7 +95,7 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={closeModal}>
+          <Button variant="destructive" onClick={onClick}>
             Delete Product
           </Button>
         </div>

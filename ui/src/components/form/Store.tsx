@@ -12,7 +12,7 @@ import { ToastContext } from '../../context/ToastContext';
 import { EDIT_STORE_FORM_INITIAL_VALUES, EditStoreForm, EditStoreFormSchema } from '../../forms/store';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
-import { SwitchInput, TextInput } from '../input';
+import { ErrorText, SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -60,11 +60,10 @@ export const StoreForm: React.FC<Props> = ({ storeId, forceReload }) => {
 
   const onSubmit = async (store: EditStoreForm) => {
     try {
-      let response;
       if (storeId) {
-        response = await api.admin.updateStore(storeId, store);
+        await api.admin.updateStore(storeId, store);
       } else {
-        response = await api.admin.createStore(store);
+        await api.admin.createStore(store);
       }
       closeModal();
       forceReload();
@@ -126,6 +125,7 @@ export const StoreForm: React.FC<Props> = ({ storeId, forceReload }) => {
       />
       <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
       <SwitchInput name="isPublished" label="Public" control={control} />
+      {formError && <ErrorText>{formError}</ErrorText>}
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

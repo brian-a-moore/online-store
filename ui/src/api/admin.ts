@@ -8,6 +8,12 @@ import {
   CreateUserAdminBody,
   CreateUserAdminQuery,
   CreateUserAdminResponse,
+  DeleteItemAdminBody,
+  DeleteItemAdminQuery,
+  DeleteItemAdminResponse,
+  DeleteProductAdminBody,
+  DeleteProductAdminQuery,
+  DeleteProductAdminResponse,
   DeleteStoreAdminBody,
   DeleteStoreAdminQuery,
   DeleteStoreAdminResponse,
@@ -23,6 +29,12 @@ import {
   ResetUserPasswordAdminBody,
   ResetUserPasswordAdminQuery,
   ResetUserPasswordAdminResponse,
+  UpdateItemAdminBody,
+  UpdateItemAdminQuery,
+  UpdateItemAdminResponse,
+  UpdateProductAdminBody,
+  UpdateProductAdminQuery,
+  UpdateProductAdminResponse,
   UpdateStoreAdminBody,
   UpdateStoreAdminQuery,
   UpdateStoreAdminResponse,
@@ -119,6 +131,36 @@ export const updateStore = async (storeId: string, storeUpdate: UpdateStoreAdmin
 export const deleteStore = async (storeId: string) => {
   return apiCall<DeleteStoreAdminBody, DeleteStoreAdminQuery, DeleteStoreAdminResponse>({
     url: `/admin/store/${storeId}`,
+    method: HTTP_METHOD.DELETE,
+  });
+};
+
+export const updateProduct = async (productId: string, productUpdate: UpdateProductAdminBody) => {
+  return apiCall<UpdateProductAdminBody, UpdateProductAdminQuery, UpdateProductAdminResponse>({
+    url: `/admin/product/${productId}`,
+    method: HTTP_METHOD.PUT,
+    data: productUpdate,
+  });
+};
+
+export const deleteProduct = async (productId: string) => {
+  return apiCall<DeleteProductAdminBody, DeleteProductAdminQuery, DeleteProductAdminResponse>({
+    url: `/admin/product/${productId}`,
+    method: HTTP_METHOD.DELETE,
+  });
+};
+
+export const updatetItem = async (itemId: string, itemUpdate: UpdateItemAdminBody) => {
+  return apiCall<UpdateItemAdminBody, UpdateItemAdminQuery, UpdateItemAdminResponse>({
+    url: `/admin/item/${itemId}`,
+    method: HTTP_METHOD.PUT,
+    data: itemUpdate,
+  });
+};
+
+export const deleteItem = async (itemId: string) => {
+  return apiCall<DeleteItemAdminBody, DeleteItemAdminQuery, DeleteItemAdminResponse>({
+    url: `/admin/item/${itemId}`,
     method: HTTP_METHOD.DELETE,
   });
 };
