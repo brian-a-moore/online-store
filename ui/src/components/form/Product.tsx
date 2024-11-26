@@ -1,6 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   GetProductAdminBody,
@@ -9,8 +11,10 @@ import {
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
+import { EDIT_PRODUCT_FORM_INITIAL_VALUES, EditProductFormSchema } from '../../forms/product';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
+import { TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
@@ -34,9 +38,28 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
     { isAutoTriggered: !!productId },
   );
 
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: EDIT_PRODUCT_FORM_INITIAL_VALUES,
+    resolver: zodResolver(EditProductFormSchema),
+  });
+
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
+
+  useEffect(() => {
+    if (response?.product) {
+      setValue('name', response.product.name);
+      if (response.product?.description) setValue('description', response.product.description);
+    }
+  }, [response]);
+  
+  const onSubmit = async (data: any) => {};
 
   const openDeleteProductDialog = (id: string) => {
     openModal(
@@ -58,7 +81,7 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
   if (isLoading) return <Loader />;
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between">
         <H3>Edit Product</H3>
         {productId ? (
@@ -69,12 +92,22 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
           </div>
         ) : null}
       </div>
-      <p>{JSON.stringify(response?.product)}</p>
+      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput
+        name="description"
+        label="Description"
+        control={control}
+        invalidText={errors?.description?.message}
+        maxRows={5}
+        multiline
+      />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button type='submit'>Update Product</Button>
+        <Button type="submit" disabled={isSubmitting}>
+         {isSubmitting ? 'Updating' : 'Update'} Product
+        </Button>
       </div>
     </form>
   );

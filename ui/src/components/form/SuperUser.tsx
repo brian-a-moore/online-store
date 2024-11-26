@@ -156,7 +156,7 @@ export const SuperuserForm: React.FC<Props> = ({ superuserId }) => {
           Cancel
         </Button>
         <Button type='submit' disabled={isSubmitting}>
-          {isSubmitting ? (superuserId ? 'Updating...' : 'Creating...') : superuserId ? 'Update' : 'Create'} Superuser
+          {isSubmitting ? (superuserId ? 'Updating' : 'Creating') : superuserId ? 'Update' : 'Create'} Superuser
         </Button>
       </div>
     </form>

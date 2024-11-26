@@ -109,7 +109,7 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (userId ? 'Updating...' : 'Creating...') : userId ? 'Update' : 'Create'} User
+          {isSubmitting ? (userId ? 'Updating' : 'Creating') : userId ? 'Update' : 'Create'} User
         </Button>
       </div>
     </form>

@@ -86,7 +86,6 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
         ) : null}
       </div>
       <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-
       <TextInput
         name="description"
         label="Description"
@@ -100,8 +99,8 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button type="submit">
-          {isSubmitting ? (storeId ? 'Updating...' : 'Creating...') : storeId ? 'Update' : 'Create'} Store
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (storeId ? 'Updating' : 'Creating') : storeId ? 'Update' : 'Create'} Store
         </Button>
       </div>
     </form>
