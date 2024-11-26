@@ -74,7 +74,7 @@ export const ProductForm: React.FC<Props> = ({ productId }) => {
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button onClick={closeModal}>Update Product</Button>
+        <Button type='submit'>Update Product</Button>
       </div>
     </form>
   );

@@ -4,11 +4,7 @@ import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetStoreAdminBody,
-  GetStoreAdminQuery,
-  GetStoreAdminResponse,
-} from '../../../../api/src/types/api';
+import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import { EDIT_STORE_FORM_INITIAL_VALUES } from '../../forms/store';
@@ -27,11 +23,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    GetStoreAdminBody,
-    GetStoreAdminQuery,
-    GetStoreAdminResponse
-  >(
+  const { error, isLoading, response } = useApi<GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse>(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/store/${storeId}`,
@@ -54,10 +46,10 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
   }, [error]);
 
   useEffect(() => {
-    if(response?.store) {
+    if (response?.store) {
       setValue('name', response.store.name);
-      if(response.store?.description) setValue('description', response.store.description);
-      if(response.store?.website) setValue('website', response.store.website);
+      if (response.store?.description) setValue('description', response.store.description);
+      if (response.store?.website) setValue('website', response.store.website);
     }
   }, [response]);
 
@@ -94,12 +86,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
           </div>
         ) : null}
       </div>
-      <TextInput
-        name="name"
-        label="Name"
-        control={control}
-        invalidText={errors?.name?.message}
-      />
+      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
 
       <TextInput
         name="description"
@@ -109,17 +96,14 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
         maxRows={5}
         multiline
       />
-      <TextInput
-        name="website"
-        label="Website"
-        control={control}
-        invalidText={errors?.name?.message}
-      />
+      <TextInput name="website" label="Website" control={control} invalidText={errors?.name?.message} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button onClick={closeModal}>{storeId ? 'Update' : 'Create'} Store</Button>
+        <Button type="submit">
+          {isSubmitting ? (storeId ? 'Updating...' : 'Creating...') : storeId ? 'Update' : 'Create'} Store
+        </Button>
       </div>
     </form>
   );

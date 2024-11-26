@@ -4,11 +4,7 @@ import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetUserAdminBody,
-  GetUserAdminQuery,
-  GetUserAdminResponse,
-} from '../../../../api/src/types/api';
+import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import { EDIT_USER_FORM_INITIAL_VALUES, EditUserFormSchema } from '../../forms/user';
@@ -26,11 +22,7 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    GetUserAdminBody,
-    GetUserAdminQuery,
-    GetUserAdminResponse
-  >(
+  const { error, isLoading, response } = useApi<GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse>(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/user/${userId}`,
@@ -53,7 +45,7 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
   }, [error]);
 
   useEffect(() => {
-    if(response?.user) {
+    if (response?.user) {
       setValue('name', response.user.name);
       setValue('email', response.user.email);
     }
@@ -110,23 +102,15 @@ export const UserForm: React.FC<Props> = ({ userId }) => {
           </div>
         ) : null}
       </div>
-      <TextInput
-        name="name"
-        label="Name"
-        control={control}
-        invalidText={errors?.name?.message}
-      />
-      <TextInput
-        name="email"
-        label="Email"
-        control={control}
-        invalidText={errors?.email?.message}
-      />
+      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button onClick={closeModal}>{userId ? 'Update' : 'Create'} User</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (userId ? 'Updating...' : 'Creating...') : userId ? 'Update' : 'Create'} User
+        </Button>
       </div>
     </form>
   );
