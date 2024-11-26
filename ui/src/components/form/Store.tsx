@@ -4,22 +4,45 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import { ToastContext } from '../../context/ToastContext';
-import { EDIT_STORE_FORM_INITIAL_VALUES, EditStoreForm, EditStoreFormSchema } from '../../forms/store';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
 import { ErrorText, SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
+type EditStoreForm = {
+  name: string;
+  description: string;
+  website: string;
+  isPublished: boolean;
+};
+
 type Props = {
   storeId?: string;
   forceReload: () => void;
 };
+
+const EDIT_STORE_FORM_INITIAL_VALUES: EditStoreForm = {
+  name: '',
+  description: '',
+  website: '',
+  isPublished: false,
+};
+
+const EditStoreFormSchema = z
+  .object({
+    name: z.string().min(1).max(256),
+    description: z.string().min(0).max(2048),
+    website: z.string().min(0).max(256),
+    isPublished: z.boolean(),
+  })
+  .strict();
 
 export const StoreForm: React.FC<Props> = ({ storeId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);

@@ -4,6 +4,7 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { Control, FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import {
   GetSuperuserAdminBody,
   GetSuperuserAdminQuery,
@@ -14,14 +15,6 @@ import { HTTP_METHOD } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 import { ModalContext } from '../../context/ModalContext';
 import { ToastContext } from '../../context/ToastContext';
-import {
-  EDIT_SELF_INITIAL_VALUES,
-  EDIT_SUPERUSER_FORM_INITIAL_VALUES,
-  EditSelfForm,
-  EditSelfFormSchema,
-  EditSuperuserForm,
-  EditSuperuserFormSchema,
-} from '../../forms/superuser';
 import useApi from '../../hooks/useApi';
 import { Alert } from '../container';
 import { Loader } from '../core';
@@ -29,10 +22,54 @@ import { ErrorText, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
+type EditSuperuserForm = {
+  name: string;
+  email: string;
+};
+
+type EditSelfForm = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 type Props = {
   superuserId?: string;
   forceReload: () => void;
 };
+
+const EDIT_SUPERUSER_FORM_INITIAL_VALUES: EditSuperuserForm = {
+  name: '',
+  email: '',
+};
+
+const EDIT_SELF_INITIAL_VALUES: EditSelfForm = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
+
+const EditSuperuserFormSchema = z
+  .object({
+    email: z.string().min(1).max(256).email(),
+    name: z.string().min(1).max(256),
+  })
+  .strict();
+
+const EditSelfFormSchema = z
+  .object({
+    email: z.string().min(1).max(256).email(),
+    name: z.string().min(1).max(256),
+    password: z.string().min(8).max(256),
+    confirmPassword: z.string().min(8).max(256),
+  })
+  .strict()
+  .refine((data: any) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
 export const SuperuserForm: React.FC<Props> = ({ superuserId, forceReload }) => {
   const { user } = useContext(AuthContext);

@@ -4,12 +4,12 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import { ToastContext } from '../../context/ToastContext';
-import { EDIT_USER_FORM_INITIAL_VALUES, EditUserForm, EditUserFormSchema } from '../../forms/user';
 import useApi from '../../hooks/useApi';
 import { Alert } from '../container';
 import { Loader } from '../core';
@@ -17,10 +17,27 @@ import { ErrorText, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
+type EditUserForm = {
+  name: string;
+  email: string;
+};
+
 type Props = {
   userId?: string;
   forceReload: () => void;
 };
+
+const EDIT_USER_FORM_INITIAL_VALUES: EditUserForm = {
+  name: '',
+  email: '',
+};
+
+const EditUserFormSchema = z
+  .object({
+    email: z.string().min(1).max(256).email(),
+    name: z.string().min(1).max(256),
+  })
+  .strict();
 
 export const UserForm: React.FC<Props> = ({ userId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);

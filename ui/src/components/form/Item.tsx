@@ -4,26 +4,50 @@ import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import {
   GetItemAdminBody,
   GetItemAdminQuery,
-  GetItemAdminResponse,
+  GetItemAdminResponse
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import { EDIT_ITEM_FORM_INITIAL_VALUES, EditItemFormSchema } from '../../forms/item';
+import { ToastContext } from '../../context/ToastContext';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
 import { SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
-type Props = {
-  itemId: string;
+type EditItemForm = {
+  name: string;
+  description: string;
+  isPublished: boolean;
 };
 
-export const ItemForm: React.FC<Props> = ({ itemId }) => {
+type Props = {
+  itemId: string;
+  forceReload: () => void;
+};
+
+const EDIT_ITEM_FORM_INITIAL_VALUES: EditItemForm = {
+  name: '',
+  description: '',
+  isPublished: false,
+};
+
+const EditItemFormSchema = z
+  .object({
+    name: z.string().min(1).max(256),
+    description: z.string().min(0).max(2048),
+    isPublished: z.boolean(),
+  })
+  .strict();
+
+export const ItemForm: React.FC<Props> = ({ itemId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<
@@ -60,9 +84,28 @@ export const ItemForm: React.FC<Props> = ({ itemId }) => {
     }
   }, [response]);
 
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async (item: EditItemForm) => {
+        try {
+        await api.admin.updateItem(itemId, item);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Item updated successfully' });
+    } catch (error: any | unknown) {
+      navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+    }
+  };
 
   const openDeleteItemDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        await api.admin.deleteItem(id);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Item deleted successfully' });
+      } catch (error: any | unknown) {
+        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+      }
+    };
     openModal(
       <>
         <H3>Delete Item</H3>
@@ -71,7 +114,7 @@ export const ItemForm: React.FC<Props> = ({ itemId }) => {
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={closeModal}>
+          <Button variant="destructive" onClick={onClick}>
             Delete Item
           </Button>
         </div>

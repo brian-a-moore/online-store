@@ -150,7 +150,7 @@ export const deleteProduct = async (productId: string) => {
   });
 };
 
-export const updatetItem = async (itemId: string, itemUpdate: UpdateItemAdminBody) => {
+export const updateItem = async (itemId: string, itemUpdate: UpdateItemAdminBody) => {
   return apiCall<UpdateItemAdminBody, UpdateItemAdminQuery, UpdateItemAdminResponse>({
     url: `/admin/item/${itemId}`,
     method: HTTP_METHOD.PUT,

@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import {
   GetProductAdminBody,
   GetProductAdminQuery,
@@ -13,23 +14,41 @@ import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import { ToastContext } from '../../context/ToastContext';
-import { EDIT_PRODUCT_FORM_INITIAL_VALUES, EditProductForm, EditProductFormSchema } from '../../forms/product';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
 import { SwitchInput, TextInput } from '../input';
 import { Button } from '../interactive';
 import { H3 } from '../typography';
 
+type EditProductForm = {
+  name: string;
+  description: string;
+  isPublished: boolean;
+};
+
 type Props = {
   productId: string;
   forceReload: () => void;
 };
 
+const EDIT_PRODUCT_FORM_INITIAL_VALUES: EditProductForm = {
+  name: '',
+  description: '',
+  isPublished: false,
+};
+
+const EditProductFormSchema = z
+  .object({
+    name: z.string().min(1).max(256),
+    description: z.string().min(0).max(2048),
+    isPublished: z.boolean(),
+  })
+  .strict();
+
 export const ProductForm: React.FC<Props> = ({ productId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
-  const [formError, setFormError] = useState<string | null>(null);
 
   const { error, isLoading, response } = useApi<
     GetProductAdminBody,
@@ -72,7 +91,7 @@ export const ProductForm: React.FC<Props> = ({ productId, forceReload }) => {
         forceReload();
         setToast({ type: 'success', message: 'Product updated successfully' });
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
     }
   };
 
@@ -84,7 +103,7 @@ export const ProductForm: React.FC<Props> = ({ productId, forceReload }) => {
         forceReload();
         setToast({ type: 'success', message: 'Product deleted successfully' });
       } catch (error: any | unknown) {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
       }
     };
     openModal(
