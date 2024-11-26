@@ -4,13 +4,14 @@ import { Params } from '../types';
 
 function useApi<D = undefined, P = undefined, R = undefined>(
   args: Params<D, P>,
-  opts?: { isAutoTriggered?: boolean; isPrivateEndpoint?: boolean },
+  opts?: { isAutoTriggered?: boolean; isPrivateEndpoint?: boolean; reTrigger?: string },
 ) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState<R | null>(null);
 
   const isAutoTriggered = opts?.isAutoTriggered !== undefined ? opts?.isAutoTriggered : true;
+  const reTrigger = opts?.reTrigger;
 
   const argsRef = useRef(args);
   if (JSON.stringify(argsRef.current) !== JSON.stringify(args)) {
@@ -36,14 +37,14 @@ function useApi<D = undefined, P = undefined, R = undefined>(
   useEffect(() => {
     const controller = new AbortController();
 
-    if (isAutoTriggered) _getData(controller);
+    if (isAutoTriggered || (isAutoTriggered && reTrigger)) _getData(controller);
     else setIsLoading(false);
 
     return () => {
       // TODO: Fix this
       // controller.abort();
     };
-  }, [_getData, isAutoTriggered]);
+  }, [_getData, isAutoTriggered, reTrigger]);
 
   return { error, isLoading, response };
 }
