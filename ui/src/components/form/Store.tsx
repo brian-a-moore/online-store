@@ -1,13 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import { EDIT_STORE_FORM_INITIAL_VALUES, EditStoreFormSchema } from '../../forms/store';
+import { ToastContext } from '../../context/ToastContext';
+import { EDIT_STORE_FORM_INITIAL_VALUES, EditStoreForm, EditStoreFormSchema } from '../../forms/store';
 import useApi from '../../hooks/useApi';
 import { Loader } from '../core';
 import { SwitchInput, TextInput } from '../input';
@@ -16,11 +18,14 @@ import { H3 } from '../typography';
 
 type Props = {
   storeId?: string;
+  forceReload: () => void;
 };
 
-export const StoreForm: React.FC<Props> = ({ storeId }) => {
+export const StoreForm: React.FC<Props> = ({ storeId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const { error, isLoading, response } = useApi<GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse>(
     {
@@ -53,9 +58,33 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
     }
   }, [response]);
 
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async (store: EditStoreForm) => {
+    try {
+      let response;
+      if (storeId) {
+        response = await api.admin.updateStore(storeId, store);
+      } else {
+        response = await api.admin.createStore(store);
+      }
+      closeModal();
+      forceReload();
+      setToast({ type: 'success', message: 'Store updated successfully' });
+    } catch (error: any | unknown) {
+      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+    }
+  };
 
   const openDeleteStoreDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        await api.admin.deleteStore(id);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Store deleted successfully' });
+      } catch (error: any | unknown) {
+        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      }
+    };
     openModal(
       <>
         <H3>Delete Store</H3>
@@ -64,7 +93,7 @@ export const StoreForm: React.FC<Props> = ({ storeId }) => {
           <Button variant="secondary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={closeModal}>
+          <Button variant="destructive" onClick={onClick}>
             Delete Store
           </Button>
         </div>

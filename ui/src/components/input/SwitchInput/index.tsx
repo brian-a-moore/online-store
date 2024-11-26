@@ -11,14 +11,14 @@ type Props<F extends FieldValues> = {
 
 export default function SwitchInput<F extends FieldValues>({ name, label, control }: Props<F>) {
   return (
-    <div>
+    <div className='flex'>
       <label className="flex gap-x-4 items-center">
         <Label>{label}</Label>
         <Controller
           name={name}
           control={control}
           render={({ field: { onChange, value } }) => (
-            <button onClick={() => onChange(!value)}>
+            <button type='button' onClick={() => onChange(!value)}>
               <Icon path={value ? mdiToggleSwitchOutline : mdiToggleSwitchOffOutline} size={2} color={value ? '#0284C7' : '#475569'} />
             </button>
           )}

@@ -8,6 +8,7 @@ export const createStoreAdminSchema = {
       name: strShort,
       description: strLong.optional(),
       website: strShort.optional(),
+      isPublished: z.boolean(),
     })
     .strict(),
   params: empty,

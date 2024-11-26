@@ -1,10 +1,16 @@
 import {
+  CreateStoreAdminBody,
+  CreateStoreAdminQuery,
+  CreateStoreAdminResponse,
   CreateSuperuserAdminBody,
   CreateSuperuserAdminQuery,
   CreateSuperuserAdminResponse,
   CreateUserAdminBody,
   CreateUserAdminQuery,
   CreateUserAdminResponse,
+  DeleteStoreAdminBody,
+  DeleteStoreAdminQuery,
+  DeleteStoreAdminResponse,
   DeleteSuperuserAdminBody,
   DeleteSuperuserAdminQuery,
   DeleteSuperuserAdminResponse,
@@ -17,6 +23,9 @@ import {
   ResetUserPasswordAdminBody,
   ResetUserPasswordAdminQuery,
   ResetUserPasswordAdminResponse,
+  UpdateStoreAdminBody,
+  UpdateStoreAdminQuery,
+  UpdateStoreAdminResponse,
   UpdateSuperuserAdminBody,
   UpdateSuperuserAdminQuery,
   UpdateSuperuserAdminResponse,
@@ -88,5 +97,28 @@ export const resetUserPassword = async (userId: string) => {
   return apiCall<ResetUserPasswordAdminBody, ResetUserPasswordAdminQuery, ResetUserPasswordAdminResponse>({
     url: `/admin/user/${userId}/password_reset`,
     method: HTTP_METHOD.GET,
+  });
+};
+
+export const createStore = async (store: CreateStoreAdminBody) => {
+  return apiCall<CreateStoreAdminBody, CreateStoreAdminQuery, CreateStoreAdminResponse>({
+    url: '/admin/store',
+    method: HTTP_METHOD.POST,
+    data: store,
+  });
+};
+
+export const updateStore = async (storeId: string, storeUpdate: UpdateStoreAdminBody) => {
+  return apiCall<UpdateStoreAdminBody, UpdateStoreAdminQuery, UpdateStoreAdminResponse>({
+    url: `/admin/store/${storeId}`,
+    method: HTTP_METHOD.PUT,
+    data: storeUpdate,
+  });
+};
+
+export const deleteStore = async (storeId: string) => {
+  return apiCall<DeleteStoreAdminBody, DeleteStoreAdminQuery, DeleteStoreAdminResponse>({
+    url: `/admin/store/${storeId}`,
+    method: HTTP_METHOD.DELETE,
   });
 };

@@ -1,4 +1,5 @@
 import { STATUS_CODE } from '@sunami/constants';
+import * as crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import { PAGE_SIZE } from '../../constants';

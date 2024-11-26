@@ -1,6 +1,6 @@
 import { mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse } from '../../../../api/src/types/api';
 import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
@@ -31,21 +31,23 @@ const columns: ColumnConfig[] = [{
 }];
 
 export const StoresAdmin: React.FC = () => {
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse>({
     url: `/admin/store/list`,
     method: HTTP_METHOD.GET,
     params: { page: '1' },
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openNewStoreForm = () => openModal(<StoreForm />);
-  const openEditStoreForm = (id: string) => openModal(<StoreForm storeId={id} />);
+  const forceReload = () => setReload(new Date().toISOString());
+  const openNewStoreForm = () => openModal(<StoreForm forceReload={forceReload} />);
+  const openEditStoreForm = (id: string) => openModal(<StoreForm storeId={id} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 
