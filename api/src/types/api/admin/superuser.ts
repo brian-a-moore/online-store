@@ -41,3 +41,8 @@ export type DeleteSuperuserAdminBody = z.infer<typeof adminSuperuser.deleteSuper
 export type DeleteSuperuserAdminParams = z.infer<typeof adminSuperuser.deleteSuperuserAdminSchema.params>;
 export type DeleteSuperuserAdminQuery = z.infer<typeof adminSuperuser.deleteSuperuserAdminSchema.query>;
 export type DeleteSuperuserAdminResponse = never;
+
+export type ResetSuperuserPasswordAdminBody = z.infer<typeof adminSuperuser.resetSuperuserPasswordAdminSchema.body>;
+export type ResetSuperuserPasswordAdminParams = z.infer<typeof adminSuperuser.resetSuperuserPasswordAdminSchema.params>;
+export type ResetSuperuserPasswordAdminQuery = z.infer<typeof adminSuperuser.resetSuperuserPasswordAdminSchema.query>;
+export type ResetSuperuserPasswordAdminResponse = { newPassword: string };

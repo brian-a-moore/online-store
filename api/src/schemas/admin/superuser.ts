@@ -51,3 +51,11 @@ export const deleteSuperuserAdminSchema = {
   }),
   query: empty,
 };
+
+export const resetSuperuserPasswordAdminSchema = {
+  body: empty,
+  params: z.object({
+    superuserId: uuid,
+  }),
+  query: empty,
+};

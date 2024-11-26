@@ -22,6 +22,10 @@ import {
   ListSuperusersAdminParams,
   ListSuperusersAdminQuery,
   ListSuperusersAdminResponse,
+  ResetSuperuserPasswordAdminBody,
+  ResetSuperuserPasswordAdminParams,
+  ResetSuperuserPasswordAdminQuery,
+  ResetSuperuserPasswordAdminResponse,
   UpdateSuperuserAdminBody,
   UpdateSuperuserAdminParams,
   UpdateSuperuserAdminQuery,
@@ -145,6 +149,28 @@ export const deleteSuperuserAdminController = async (
     await db.superuser.delete({ where: { id: superuserId } });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
+  } catch (e: any | unknown) {
+    next(e);
+  }
+};
+
+export const resetSuperuserPasswordAdminController = async (
+  req: Request<
+    ResetSuperuserPasswordAdminParams,
+    unknown,
+    ResetSuperuserPasswordAdminBody,
+    ResetSuperuserPasswordAdminQuery
+  >,
+  res: Response<ResetSuperuserPasswordAdminResponse | ErrorResponse>,
+  next: NextFunction,
+) => {
+  try {
+    const { superuserId } = req.params;
+
+    const newPassword = generatePassword();
+    await db.superuser.update({ data: { password: await hashString(newPassword) }, where: { id: superuserId } });
+
+    res.status(STATUS_CODE.OKAY).send({ newPassword });
   } catch (e: any | unknown) {
     next(e);
   }

@@ -4,6 +4,7 @@ import {
   deleteSuperuserAdminController,
   getSuperuserAdminController,
   listSuperusersAdminController,
+  resetSuperuserPasswordAdminController,
   updateSuperuserAdminController,
 } from '../../controllers/admin';
 import checkPermissionMiddleware from '../../middlewares/checkPermission.middleware';
@@ -14,6 +15,7 @@ import {
   deleteSuperuserAdminSchema,
   getSuperuserAdminSchema,
   listSuperusersAdminSchema,
+  resetSuperuserPasswordAdminSchema,
   updateSuperuserAdminSchema,
 } from '../../schemas/admin';
 
@@ -30,6 +32,12 @@ router.get(
   schemaValidatorMiddleware(getSuperuserAdminSchema),
   checkPermissionMiddleware([canUseAdminRoutes]),
   getSuperuserAdminController,
+);
+router.get(
+  '/:superuserId/password_reset',
+  schemaValidatorMiddleware(resetSuperuserPasswordAdminSchema),
+  checkPermissionMiddleware([canUseAdminRoutes]),
+  resetSuperuserPasswordAdminController,
 );
 router.delete(
   '/:superuserId',
