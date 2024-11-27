@@ -31,10 +31,12 @@ const EDIT_TEAM_MEMBER_FORM_INITIAL_VALUES: TeamMemberForm = {
   roleId: 2,
 };
 
-const EditTeamMemberFormSchema = z.object({
-  userId: z.string().uuid(),
-  roleId: z.number().min(1).max(2),
-}).strict();
+const EditTeamMemberFormSchema = z
+  .object({
+    userId: z.string().uuid(),
+    roleId: z.number().min(1).max(2),
+  })
+  .strict();
 
 export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
   const { closeModal } = useContext(ModalContext);
@@ -47,11 +49,14 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
     handleSubmit,
     setValue,
     clearErrors,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: EDIT_TEAM_MEMBER_FORM_INITIAL_VALUES,
     resolver: zodResolver(EditTeamMemberFormSchema),
   });
+
+  const roleId = watch('roleId');
 
   const selectTeamMember = (teamMember: TeamMember) => {
     setValue('userId', teamMember.id);
@@ -65,7 +70,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
   };
 
   const onSubmit = async (relation: Omit<AddStoreRelationDashboardBody, 'storeId'>) => {
-      try {
+    try {
       await api.dashboard.addStoreRelation({ ...relation, storeId });
       closeModal();
       forceReload();
@@ -76,27 +81,54 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
   };
 
   return (
-    <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <H3>Add Team Member</H3>
       <Separator />
-      {teamMember ? (<div>
-        <div className='flex items-center gap-4'>
-          <div className='flex flex-col flex-1'>
-            <p className='text-lg font-semibold'>{teamMember.name}</p>
-            <p className='text-sm text-gray-500'>{teamMember.email}</p>
+      {teamMember ? (
+        <div>
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col flex-1">
+              <p className="text-lg font-semibold">{teamMember.name}</p>
+              <p className="text-sm text-gray-500">{teamMember.email}</p>
+            </div>
+            <Button variant="destructive" onClick={clearTeamMember}>
+              <Icon path={mdiClose} size={0.5} />
+            </Button>
           </div>
-          <Button variant='destructive' onClick={clearTeamMember}>
-            <Icon path={mdiClose} size={0.5} />
-          </Button>
         </div>
-      </div>) : (<SearchBox storeId={storeId} selectTeamMember={selectTeamMember} />)}
-      {errors.userId && <ErrorText className='mt-[-8px]'>Please search for a user</ErrorText>}
-      <SelectInput name='roleId' control={control} label='Role' options={new Map([
-        [1, 'Manager'],
-        [2, 'Editor']
-      ])} invalidText={errors.roleId?.message} />
+      ) : (
+        <>
+          <SearchBox storeId={storeId} selectTeamMember={selectTeamMember} />
+          <Alert type="info">
+            If you cannot find the user you are looking for, contact your administrator to have them added to the
+            application.
+          </Alert>
+        </>
+      )}
+      {errors.userId && <ErrorText className="mt-[-8px]">Please search for a user</ErrorText>}
+      <SelectInput
+        name="roleId"
+        control={control}
+        label="Role"
+        options={
+          new Map([
+            [1, 'Manager'],
+            [2, 'Editor'],
+          ])
+        }
+        invalidText={errors.roleId?.message}
+      />
       {formError && <ErrorText>{formError}</ErrorText>}
-      <Alert type='warn'>If you cannot find the user you are looking for, contact your administrator to have them added to the application.</Alert>
+      {roleId === 1 ? (
+        <p className='text-sm'>
+          <strong>Managers</strong> can add, change the role of and remove team members, update the store's information and create, update and delete
+          products and items.
+        </p>
+      ) : (
+        <p className='text-sm'>
+          <strong>Editors</strong> can create, update and delete products and items.
+        </p>
+      )}
       <Separator />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
