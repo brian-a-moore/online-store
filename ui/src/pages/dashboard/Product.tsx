@@ -1,26 +1,31 @@
 import { mdiDelete, mdiNotePlus, mdiPencil } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   GetProductDashboardBody,
   GetProductDashboardQuery,
   GetProductDashboardResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IconImage, IsPublished, Separator } from '../../components/display';
+import { ProductDashboardForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { ItemList } from '../../components/list/ItemList';
 import { EmptyText, H2, H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
+import { ToastContext } from '../../context/ToastContext';
 import useApi from '../../hooks/useApi';
 
 export const ProductDashboard: React.FC = () => {
   const { openModal, closeModal } = useContext(ModalContext);
+  const { setToast } = useContext(ToastContext);
   const { storeId, productId } = useParams();
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<
     GetProductDashboardBody,
@@ -29,13 +34,25 @@ export const ProductDashboard: React.FC = () => {
   >({
     url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.GET,
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  const forceReload = () => setReload(new Date().toISOString());
   const openDeleteProduct = () => {
+    const onClick = async () => {
+      try {
+        await api.dashboard.deleteProduct(productId!);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'Product deleted successfully' });
+        navigate(`/dashboard/store/${storeId}`);
+      } catch (error: any | unknown) {
+        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+      }
+    };
     openModal(
       <>
         <H3>Delete Product</H3>
@@ -47,7 +64,7 @@ export const ProductDashboard: React.FC = () => {
           <Button variant="secondary" key="cancel" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" key="submit" onClick={closeModal}>
+          <Button variant="destructive" key="submit" onClick={onClick}>
             Delete Product
           </Button>
         </div>
@@ -56,7 +73,7 @@ export const ProductDashboard: React.FC = () => {
   };
 
   const openEditProduct = () => {
-    openModal(<p>Edit Product</p>);
+    openModal(<ProductDashboardForm productId={productId!} storeId={storeId!} forceReload={forceReload} />);
   };
 
   const openNewItem = () => {

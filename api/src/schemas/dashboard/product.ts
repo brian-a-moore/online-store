@@ -1,11 +1,11 @@
 import z from 'zod';
-import { empty, page, strLong, strShort, uuid } from '../_presets';
+import { empty, page, strLongOptional, strShort, uuid } from '../_presets';
 
 export const createProductDashboardSchema = {
   body: z
     .object({
       name: strShort,
-      description: strLong.optional(),
+      description: strLongOptional,
       isPublished: z.boolean(),
     })
     .strict(),
@@ -38,7 +38,7 @@ export const updateProductDashboardSchema = {
   body: z
     .object({
       name: strShort,
-      description: strLong.optional(),
+      description: strLongOptional,
       isPublished: z.boolean(),
     })
     .strict(),

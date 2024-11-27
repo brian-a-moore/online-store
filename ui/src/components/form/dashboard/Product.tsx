@@ -100,16 +100,16 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
       <H3>{productId ? 'Edit' : 'New'} Product</H3>
       <Separator  />
       <div className='flex flex-col flex-1 gap-4 overflow-y-auto'>
-        <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-        <TextInput
-          name="description"
-          label="Description"
-          control={control}
-          invalidText={errors?.description?.message}
-          maxRows={5}
-          multiline
-        />
-        <SwitchInput name="isPublished" label="Public" control={control} />
+      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput
+        name="description"
+        label="Description"
+        control={control}
+        invalidText={errors?.description?.message}
+        maxRows={5}
+        multiline
+      />
+      <SwitchInput name="isPublished" label="Public" control={control} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator  />

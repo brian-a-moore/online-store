@@ -1,6 +1,9 @@
 import {
   AddStoreRelationDashboardBody,
   CreateProductDashboardBody,
+  DeleteProductDashboardBody,
+  DeleteProductDashboardQuery,
+  DeleteProductDashboardResponse,
   UpdateProductDashboardBody,
   UpdateProductDashboardQuery,
   UpdateProductDashboardResponse,
@@ -33,6 +36,13 @@ export const updateProduct = async (productId: string, product: UpdateProductDas
     url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.PUT,
     data: product,
+  });
+};
+
+export const deleteProduct = async (productId: string) => {
+  return apiCall<DeleteProductDashboardBody, DeleteProductDashboardQuery, DeleteProductDashboardResponse>({
+    url: `/dashboard/product/${productId}`,
+    method: HTTP_METHOD.DELETE,
   });
 };
 
