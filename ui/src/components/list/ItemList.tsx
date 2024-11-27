@@ -1,6 +1,6 @@
 import { mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ListItemsDashboardBody,
@@ -13,6 +13,7 @@ import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
 import { Loader } from '../core';
 import { IsPublished } from '../display';
+import { ItemDashboardForm } from '../form/dashboard';
 import { EmptyText, H5 } from '../typography';
 
 type Props = {
@@ -20,9 +21,10 @@ type Props = {
   productId: string;
 };
 
-export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
-  const { openModal, closeModal } = useContext(ModalContext);
+export const ItemList: React.FC<Props> = ({ productId }) => {
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<
     ListItemsDashboardBody,
@@ -32,14 +34,15 @@ export const ItemList: React.FC<Props> = ({ storeId, productId }) => {
     url: `/dashboard/item/list`,
     method: HTTP_METHOD.GET,
     params: { productId, page: '1' },
-  });
+  }, { reTrigger: reload });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  const forceReload = () => setReload(new Date().toISOString());
   const openEditItemForm = (id: string) => {
-    openModal(<p>Edit Item Form</p>);
+    openModal(<ItemDashboardForm productId={productId} itemId={id} forceReload={forceReload} />);
   };
 
   if (isLoading) return <Loader />;

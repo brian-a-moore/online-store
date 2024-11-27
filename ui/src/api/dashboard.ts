@@ -1,9 +1,20 @@
 import {
   AddStoreRelationDashboardBody,
+  CreateItemDashboardBody,
+  CreateItemDashboardQuery,
+  CreateItemDashboardResponse,
   CreateProductDashboardBody,
+  CreateProductDashboardQuery,
+  CreateProductDashboardResponse,
+  DeleteItemDashboardBody,
+  DeleteItemDashboardQuery,
+  DeleteItemDashboardResponse,
   DeleteProductDashboardBody,
   DeleteProductDashboardQuery,
   DeleteProductDashboardResponse,
+  UpdateItemDashboardBody,
+  UpdateItemDashboardQuery,
+  UpdateItemDashboardResponse,
   UpdateProductDashboardBody,
   UpdateProductDashboardQuery,
   UpdateProductDashboardResponse,
@@ -22,8 +33,8 @@ export const updateStore = async (storeId: string, store: UpdateStoreDashboardBo
   });
 };
 
-export const createProduct = async (storeId: string, product: CreateProductDashboardBody): Promise<void> => {
-  return apiCall<UpdateStoreDashboardBody, UpdateStoreDashboardQuery, UpdateStoreDashboardResponse>({
+export const createProduct = async (storeId: string, product: CreateProductDashboardBody) => {
+  return apiCall<CreateProductDashboardBody, CreateProductDashboardQuery, CreateProductDashboardResponse>({
     url: `/dashboard/product`,
     method: HTTP_METHOD.POST,
     data: product,
@@ -51,5 +62,29 @@ export const addStoreRelation = async (relation: AddStoreRelationDashboardBody) 
     url: `/dashboard/relation`,
     method: HTTP_METHOD.POST,
     data: relation,
+  });
+};
+
+export const createItem = async (productId: string, item: CreateItemDashboardBody) => {
+  return apiCall<CreateItemDashboardBody, CreateItemDashboardQuery, CreateItemDashboardResponse>({
+    url: `/dashboard/item`,
+    method: HTTP_METHOD.POST,
+    data: item,
+    params: { productId },
+  });
+};
+
+export const updateItem = async (itemId: string, itemUpdate: UpdateItemDashboardBody) => {
+  return apiCall<UpdateItemDashboardBody, UpdateItemDashboardQuery, UpdateItemDashboardResponse>({
+    url: `/dashboard/item/${itemId}`,
+    method: HTTP_METHOD.PUT,
+    data: itemUpdate,
+  });
+};
+
+export const deleteItem = async (itemId: string) => {
+  return apiCall<DeleteItemDashboardBody, DeleteItemDashboardQuery, DeleteItemDashboardResponse>({
+    url: `/dashboard/item/${itemId}`,
+    method: HTTP_METHOD.DELETE,
   });
 };

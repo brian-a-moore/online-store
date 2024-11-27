@@ -4,6 +4,7 @@ import ErrorText from '../ErrorText';
 import Label from '../Label';
 
 type Props<F extends FieldValues> = {
+  className?: string;
   disabled?: boolean;
   required?: boolean;
   invalidText: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
@@ -16,6 +17,7 @@ type Props<F extends FieldValues> = {
 };
 
 export default function TextInput<F extends FieldValues>({
+  className,
   disabled = false,
   required = false,
   invalidText,
@@ -33,7 +35,7 @@ export default function TextInput<F extends FieldValues>({
       control={control}
       rules={{ required }}
       render={({ field }) => (
-        <div className="flex flex-col gap-y-2">
+        <div className={`flex flex-col gap-y-2 ${className}`}>
           <Label htmlFor={name}>{label}</Label>
           {!multiline ? (
             <input

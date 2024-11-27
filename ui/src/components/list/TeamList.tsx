@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
 
   const { error, isLoading, response } = useApi<

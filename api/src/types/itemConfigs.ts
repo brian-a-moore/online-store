@@ -2,7 +2,6 @@ import { Item } from '@prisma/client';
 
 export type FixedItemConfig = {
   isRedeemable: boolean;
-  redeemedAt?: boolean;
   redeemByDate?: string;
   price: number;
 };
@@ -11,7 +10,6 @@ export type VariableItemConfig = {
   defaultAmount: number;
   minAmount: number;
   maxAmount: number;
-  stepAmount: number;
   presetAmounts: number[];
 };
 

@@ -1,10 +1,9 @@
 import z from 'zod';
-import { empty, itemTypeId, page, price, qty, strLong, strShort, uuid } from '../_presets';
+import { empty, itemTypeId, page, price, qty, strLong, strLongOptional, strShort, uuid } from '../_presets';
 
 const fixedItemConfig = z
   .object({
     isRedeemable: z.boolean(),
-    redeemedAt: z.string().optional(),
     redeemByDate: z.string().optional(),
     price: price,
   })
@@ -15,7 +14,6 @@ const variableItemConfig = z
     defaultAmount: price.or(z.literal(0)),
     minAmount: z.number().int().positive(),
     maxAmount: price,
-    stepAmount: z.number().int().positive(),
     presetAmounts: z.array(price).min(0).max(5),
   })
   .strict();
@@ -25,9 +23,10 @@ export const createItemDashboardSchema = {
     .object({
       itemTypeId: itemTypeId,
       name: strShort,
-      description: strLong.optional(),
+      description: strLongOptional,
       config: z.union([fixedItemConfig, variableItemConfig]),
       maxQuantityPerOrder: qty,
+      isPublished: z.boolean(),
     })
     .strict(),
   params: empty,
@@ -59,6 +58,7 @@ export const updateItemDashboardSchema = {
       description: strLong.optional(),
       config: z.union([fixedItemConfig, variableItemConfig]).optional(),
       maxQuantityPerOrder: qty.optional(),
+      isPublished: z.boolean().optional(),
     })
     .strict(),
   params: z

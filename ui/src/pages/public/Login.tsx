@@ -50,7 +50,7 @@ export const Login: React.FC<Props> = () => {
   return (
     <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-8">
       <Card className="w-full max-w-[640px]">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center gap-4">
             <TextButton onClick={() => setDomain('user')} isActive={domain === 'user'}>
               Dashboard Login

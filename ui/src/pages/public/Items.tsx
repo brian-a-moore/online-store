@@ -144,7 +144,7 @@ const VariablePriceItem: React.FC<{ item: Item; addItemToCart: (item: TCartItem)
 }) => {
   const [customAmount, setCustomAmount] = useState<number>(0);
 
-  const { defaultAmount, minAmount, maxAmount, stepAmount, presetAmounts }: VariableItemConfig = JSON.parse(
+  const { defaultAmount, minAmount, maxAmount, presetAmounts }: VariableItemConfig = JSON.parse(
     item.config,
   );
 

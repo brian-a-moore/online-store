@@ -11,7 +11,7 @@ import { api } from '../../api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
 import { IconImage, IsPublished, Separator } from '../../components/display';
-import { ProductDashboardForm } from '../../components/form';
+import { ItemDashboardForm, ProductDashboardForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { ItemList } from '../../components/list/ItemList';
 import { EmptyText, H2, H3 } from '../../components/typography';
@@ -77,7 +77,7 @@ export const ProductDashboard: React.FC = () => {
   };
 
   const openNewItem = () => {
-    openModal(<p>New Item</p>);
+    openModal(<ItemDashboardForm productId={productId!} forceReload={forceReload} />);
   };
 
   if (isLoading) return <Loader />;
