@@ -8,7 +8,7 @@ type Props = {
 };
 export const BannerImage: React.FC<Props> = ({ className, image, name }) => {
   return (
-    <div className={` banner-shadow bg-slate-200 flex items-center justify-center w-full h-40 ${className}`}>
+    <div className={` banner-shadow bg-slate-200 flex items-center justify-center w-full h-40 md:h-52 ${className}`}>
       {image ? (
         <img className="w-full h-full object-cover object-center" src={image} alt={name} />
       ) : (

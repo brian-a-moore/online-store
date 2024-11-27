@@ -33,7 +33,7 @@ export const Store: React.FC<Props> = () => {
   return (
     <CartProvider>
       <Page className="!p-0 !gap-0">
-        <div className="relative flex h-40 items-end justify-center">
+        <div className="relative flex h-40 md:h-52 items-end justify-center">
           <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
           <p className="store-name text-shadow z-10">{store?.name}</p>
         </div>

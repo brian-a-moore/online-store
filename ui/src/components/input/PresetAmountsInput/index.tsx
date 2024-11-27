@@ -69,7 +69,7 @@ export default function PresetAmountsInput({ onChange, config }: Props) {
           value={value}
           min={config.minAmount || 1}
           max={config.maxAmount}
-          maxLength={config.maxAmount.toString().length}
+          maxLength={(config.maxAmount || 999999).toString().length}
           onChange={updateCurrentValue}
         />
         <Button variant="secondary" disabled={amounts.length >= 5} onClick={addAmountToArray}>

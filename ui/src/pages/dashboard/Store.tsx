@@ -66,7 +66,7 @@ export const StoreDashboard: React.FC = () => {
     <Page>
       <Container>
         <Card className="!p-0">
-          <div className="relative h-40">
+          <div className="relative h-40 md:h-52">
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
