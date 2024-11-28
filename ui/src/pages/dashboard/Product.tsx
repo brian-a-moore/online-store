@@ -31,10 +31,13 @@ export const ProductDashboard: React.FC = () => {
     GetProductDashboardBody,
     GetProductDashboardQuery,
     GetProductDashboardResponse
-  >({
-    url: `/dashboard/product/${productId}`,
-    method: HTTP_METHOD.GET,
-  }, { reTrigger: reload });
+  >(
+    {
+      url: `/dashboard/product/${productId}`,
+      method: HTTP_METHOD.GET,
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

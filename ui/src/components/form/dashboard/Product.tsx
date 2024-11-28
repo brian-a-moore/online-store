@@ -3,7 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { GetProductDashboardBody, GetProductDashboardQuery, GetProductDashboardResponse } from '../../../../../api/src/types/api';
+import {
+  GetProductDashboardBody,
+  GetProductDashboardQuery,
+  GetProductDashboardResponse,
+} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
@@ -47,7 +51,11 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<GetProductDashboardBody, GetProductDashboardQuery, GetProductDashboardResponse>(
+  const { error, isLoading, response } = useApi<
+    GetProductDashboardBody,
+    GetProductDashboardQuery,
+    GetProductDashboardResponse
+  >(
     {
       method: HTTP_METHOD.GET,
       url: `/dashboard/product/${productId}`,
@@ -98,21 +106,21 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
   return (
     <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
       <H3>{productId ? 'Edit' : 'New'} Product</H3>
-      <Separator  />
-      <div className='flex flex-col flex-1 gap-4 overflow-y-auto'>
-      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-      <TextInput
-        name="description"
-        label="Description"
-        control={control}
-        invalidText={errors?.description?.message}
-        maxRows={5}
-        multiline
-      />
-      <SwitchInput name="isPublished" label="Public" control={control} />
+      <Separator />
+      <div className="flex flex-col flex-1 gap-4 overflow-y-auto">
+        <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+        <TextInput
+          name="description"
+          label="Description"
+          control={control}
+          invalidText={errors?.description?.message}
+          maxRows={5}
+          multiline
+        />
+        <SwitchInput name="isPublished" label="Public" control={control} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
-      <Separator  />
+      <Separator />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

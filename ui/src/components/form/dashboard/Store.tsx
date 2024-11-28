@@ -3,7 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse } from '../../../../../api/src/types/api';
+import {
+  GetStoreDashboardBody,
+  GetStoreDashboardQuery,
+  GetStoreDashboardResponse,
+} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
@@ -49,7 +53,11 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<GetStoreDashboardBody, GetStoreDashboardQuery, GetStoreDashboardResponse>(
+  const { error, isLoading, response } = useApi<
+    GetStoreDashboardBody,
+    GetStoreDashboardQuery,
+    GetStoreDashboardResponse
+  >(
     {
       method: HTTP_METHOD.GET,
       url: `/dashboard/store/${storeId}`,
@@ -96,8 +104,8 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
   return (
     <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
       <H3>{storeId ? 'Edit' : 'New'} Store</H3>
-      <Separator  />
-      <div className='flex flex-col flex-1 gap-4 overflow-y-auto'>
+      <Separator />
+      <div className="flex flex-col flex-1 gap-4 overflow-y-auto">
         <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
         <TextInput
           name="description"
@@ -111,7 +119,7 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
         <SwitchInput name="isPublished" label="Public" control={control} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
-      <Separator  />
+      <Separator />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

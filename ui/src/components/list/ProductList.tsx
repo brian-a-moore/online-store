@@ -26,11 +26,14 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
     ListProductsDashboardBody,
     ListProductsDashboardQuery,
     ListProductsDashboardResponse
-  >({
-    url: `/dashboard/product/list`,
-    method: HTTP_METHOD.GET,
-    params: { storeId, page: '1' },
-  }, { reTrigger: reload });
+  >(
+    {
+      url: `/dashboard/product/list`,
+      method: HTTP_METHOD.GET,
+      params: { storeId, page: '1' },
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

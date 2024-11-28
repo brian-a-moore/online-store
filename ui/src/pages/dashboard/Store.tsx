@@ -32,10 +32,13 @@ export const StoreDashboard: React.FC = () => {
     GetStoreDashboardBody,
     GetStoreDashboardQuery,
     GetStoreDashboardResponse
-  >({
-    url: `/dashboard/store/${storeId}`,
-    method: HTTP_METHOD.GET,
-  }, { reTrigger: reload });
+  >(
+    {
+      url: `/dashboard/store/${storeId}`,
+      method: HTTP_METHOD.GET,
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -70,7 +73,7 @@ export const StoreDashboard: React.FC = () => {
             <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
             <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
             <div className="absolute top-4 right-4 flex gap-4 z-10">
-              <Button variant='secondary' onClick={openEditStore} title="Edit Store">
+              <Button variant="secondary" onClick={openEditStore} title="Edit Store">
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>

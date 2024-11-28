@@ -27,11 +27,14 @@ export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
     GetStoreTeamDashboardBody,
     GetStoreTeamDashboardQuery,
     GetStoreTeamDashboardResponse
-  >({
-    url: `/dashboard/store/${storeId}/team`,
-    method: HTTP_METHOD.GET,
-    params: { page: '1' },
-  }, { reTrigger: reload });
+  >(
+    {
+      url: `/dashboard/store/${storeId}/team`,
+      method: HTTP_METHOD.GET,
+      params: { page: '1' },
+    },
+    { reTrigger: reload },
+  );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);

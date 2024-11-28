@@ -26,31 +26,26 @@ const ImageUploader: React.FC<Props> = ({ defaultValue }) => {
   };
 
   useEffect(() => {
-    if(defaultValue) setImage(defaultValue);
+    if (defaultValue) setImage(defaultValue);
   }, [defaultValue]);
 
   return (
     <div className="flex flex-col gap-y-4 items-center w-full">
       <div className="flex flex-wrap items-center justify-center px-4 gap-4 w-full max-w-[53rem] max-h-[316px] overflow-y-auto">
         {image ? (
-          <div
-            className="bg-[rgba(0,0,0,0.3)] relative size-[150px] overflow-hidden flex items-center justify-center"
-          >
+          <div className="bg-[rgba(0,0,0,0.3)] relative size-[150px] overflow-hidden flex items-center justify-center">
             <div className="absolute top-2 right-2 z-[+1]">
-              <Button
-                title="Delete Image"
-                className="shadow-sm"
-                variant="destructive"
-                onClick={removeImage}
-              >
+              <Button title="Delete Image" className="shadow-sm" variant="destructive" onClick={removeImage}>
                 <Icon path={mdiDelete} size={0.75} color="#fff" />
               </Button>
             </div>
             <img src={URL.createObjectURL(image)} alt={image.name} />
           </div>
-        ) : (<div className="p-4">
+        ) : (
+          <div className="p-4">
             <EmptyText>No Images Added</EmptyText>
-          </div>)}
+          </div>
+        )}
       </div>
       <div>
         <Button disabled={!!image} className="relative flex gap-x-4">

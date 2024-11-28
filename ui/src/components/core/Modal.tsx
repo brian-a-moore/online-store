@@ -31,7 +31,7 @@ export const Modal: React.FC<Props> = ({ modal }) => {
                 ${state === 'closing' ? 'animate-modalClose' : 'animate-modalOpen'}
             `}
       >
-        <Card className='flex-1 overflow-hidden'>{modal.content}</Card>
+        <Card className="flex-1 overflow-hidden">{modal.content}</Card>
       </div>
     </div>
   );

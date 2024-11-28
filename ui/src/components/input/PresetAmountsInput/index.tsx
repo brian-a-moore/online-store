@@ -31,7 +31,7 @@ export default function PresetAmountsInput({ onChange, config }: Props) {
     } else if (value > config.maxAmount) {
       valueToAdd = config.maxAmount;
     } else {
-        valueToAdd = value;
+      valueToAdd = value;
     }
     setAmounts((prevState) => {
       if (prevState.length < 5) {
@@ -53,13 +53,19 @@ export default function PresetAmountsInput({ onChange, config }: Props) {
               <p key={index} className="flex-1 text-sky-700 text-sm font-semibold">
                 {formatCurrency(amount)}
               </p>
-              <Button variant="transparent" className='!p-0' onClick={() => setAmounts(amounts.filter((_, i) => i !== index))}>
+              <Button
+                variant="transparent"
+                className="!p-0"
+                onClick={() => setAmounts(amounts.filter((_, i) => i !== index))}
+              >
                 <Icon path={mdiClose} size={0.75} color="#EF4444" />
               </Button>
             </div>
           ))}
         </div>
-      ) : <EmptyText>No preset amounts</EmptyText>}
+      ) : (
+        <EmptyText>No preset amounts</EmptyText>
+      )}
       <div className="flex gap-4">
         <input
           className={`flex-1 w-full h-12 px-4 rounded disabled:cursor-not-allowed disabled:text-slate-300`}

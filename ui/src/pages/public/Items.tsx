@@ -144,9 +144,7 @@ const VariablePriceItem: React.FC<{ item: Item; addItemToCart: (item: TCartItem)
 }) => {
   const [customAmount, setCustomAmount] = useState<number>(0);
 
-  const { defaultAmount, minAmount, maxAmount, presetAmounts }: VariableItemConfig = JSON.parse(
-    item.config,
-  );
+  const { defaultAmount, minAmount, maxAmount, presetAmounts }: VariableItemConfig = JSON.parse(item.config);
 
   useEffect(() => {
     if (defaultAmount && !isNaN(defaultAmount)) setCustomAmount(defaultAmount);

@@ -120,12 +120,12 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
       />
       {formError && <ErrorText>{formError}</ErrorText>}
       {roleId === 1 ? (
-        <p className='text-sm'>
-          <strong>Managers</strong> can add, change the role of and remove team members, update the store's information and create, update and delete
-          products and items.
+        <p className="text-sm">
+          <strong>Managers</strong> can add, change the role of and remove team members, update the store's information
+          and create, update and delete products and items.
         </p>
       ) : (
-        <p className='text-sm'>
+        <p className="text-sm">
           <strong>Editors</strong> can create, update and delete products and items.
         </p>
       )}
