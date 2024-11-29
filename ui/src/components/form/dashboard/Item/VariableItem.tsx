@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-    GetItemDashboardResponse
+  GetItemDashboardResponse
 } from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
 import { DEFAULT_FORM_VALUES_VARIABLE, variableItemDashboardFormSchema, VariableItemDashboardFormType } from '../../../../config/forms/item-dashboard-form';
@@ -37,9 +37,10 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload
 
   useEffect(() => {
     if (item) {
+      const parsedConfig = JSON.parse(item.config);
       setValue('name', item.name);
       setValue('description', item.description || '');
-      setValue('config', item.config);
+      setValue('config', parsedConfig);
       setValue('isPublished', item.isPublished);
       setValue('maxQuantityPerOrder', item.maxQuantityPerOrder);
     }
@@ -62,6 +63,8 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload
   };
 
   const config = watch('config');
+
+  const defaultValues = !item ? [] : JSON.parse(item.config).presetAmounts;
 
   return (
     <form className="flex flex-col gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
@@ -97,6 +100,7 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload
         <PresetAmounts
           onChange={(presetAmounts: number[]) => setValue('config.presetAmounts', presetAmounts)}
           config={config as any}
+          defaultValues={defaultValues}  
         />
       </div>
       {formError ? <ErrorText>{formError}</ErrorText> : null}
