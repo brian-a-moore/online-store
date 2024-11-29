@@ -1,4 +1,5 @@
 import { STATUS_CODE } from '@sunami/constants';
+import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
 import { PAGE_SIZE } from '../../constants';
@@ -38,14 +39,14 @@ export const createItemDashboardController = async (
 
     const id = crypto.randomUUID();
 
+    const item = {
+      ...incomingItem,
+      productId,
+      id,
+      config: JSON.stringify(config),
+    };
     await db.item.create({
-      data: {
-        ...incomingItem,
-        id,
-        productId,
-        config: JSON.stringify(config),
-        isPublished: false,
-      },
+      data: item,
     });
 
     res.status(STATUS_CODE.OKAY).json({ id });
@@ -115,9 +116,14 @@ export const updateItemDashboardController = async (
 ) => {
   try {
     const { itemId } = req.params;
-    const updatedItemFields = req.body;
+    const { config, ...rest } = req.body;
 
-    await db.item.update({ data: updatedItemFields, where: { id: itemId } });
+    const updatedItem = {
+      ...rest,
+      ...(config && { config: JSON.stringify(config) }),
+    };
+
+    await db.item.update({ data: updatedItem, where: { id: itemId } });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
