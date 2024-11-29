@@ -11,6 +11,12 @@ export const listStoresDashboardSchema = {
     .strict(),
 };
 
+export const getStoreLoggedInUserRelationDashboardSchema = {
+  body: empty,
+  params: z.object({ storeId: uuid }).strict(),
+  query: empty,
+};
+
 export const getStoreTeamDashboardSchema = {
   body: empty,
   params: z

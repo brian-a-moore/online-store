@@ -8,6 +8,10 @@ import {
   GetStoreDashboardParams,
   GetStoreDashboardQuery,
   GetStoreDashboardResponse,
+  GetStoreLoggedInUserRelationDashboardBody,
+  GetStoreLoggedInUserRelationDashboardParams,
+  GetStoreLoggedInUserRelationDashboardQuery,
+  GetStoreLoggeDInUserRelationDashboardResponse,
   GetStoreTeamDashboardBody,
   GetStoreTeamDashboardParams,
   GetStoreTeamDashboardQuery,
@@ -57,6 +61,36 @@ export const listStoresDashboardController = async (
     });
 
     res.status(STATUS_CODE.OKAY).json({ stores });
+  } catch (e: any | unknown) {
+    next(e);
+  }
+};
+
+export const getStoreLoggedInUserRelationDashboardController = async (
+  req: Request<
+    GetStoreLoggedInUserRelationDashboardParams,
+    unknown,
+    GetStoreLoggedInUserRelationDashboardBody,
+    GetStoreLoggedInUserRelationDashboardQuery
+  >,
+  res: Response<GetStoreLoggeDInUserRelationDashboardResponse | ErrorResponse>,
+  next: NextFunction,
+) => {
+  const { id } = req.user!;
+
+  try {
+    const relation = await db.userStoreRelation.findFirstOrThrow({
+      select: {
+        id: true,
+        roleId: true,
+      },
+      where: {
+        userId: id,
+        storeId: req.params.storeId,
+      },
+    });
+
+    res.status(STATUS_CODE.OKAY).json({ relation: { relationId: relation.id, roleId: relation.roleId } });
   } catch (e: any | unknown) {
     next(e);
   }

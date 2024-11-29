@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   getStoreDashboardController,
+  getStoreLoggedInUserRelationDashboardController,
   getStoreTeamDashboardController,
   listStoresDashboardController,
   updateStoreDashboardController,
@@ -10,6 +11,7 @@ import schemaValidatorMiddleware from '../../middlewares/schemaValidator.middlew
 import { canUseDashboardRoutes } from '../../permissions/canUserDashboardRoutes';
 import {
   getStoreDashboardSchema,
+  getStoreLoggedInUserRelationDashboardSchema,
   getStoreTeamDashboardSchema,
   listStoresDashboardSchema,
   updateStoreDashboardSchema,
@@ -22,6 +24,12 @@ router.get(
   schemaValidatorMiddleware(listStoresDashboardSchema),
   checkPermissionMiddleware([canUseDashboardRoutes]),
   listStoresDashboardController,
+);
+router.get(
+  '/:storeId/relation',
+  schemaValidatorMiddleware(getStoreLoggedInUserRelationDashboardSchema),
+  checkPermissionMiddleware([canUseDashboardRoutes]),
+  getStoreLoggedInUserRelationDashboardController,
 );
 router.get(
   '/:storeId/team',

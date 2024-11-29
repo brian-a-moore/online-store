@@ -30,6 +30,22 @@ export type GetStoreDashboardResponse = {
   };
 };
 
+export type GetStoreLoggedInUserRelationDashboardBody = z.infer<
+  typeof storeSchema.getStoreLoggedInUserRelationDashboardSchema.body
+>;
+export type GetStoreLoggedInUserRelationDashboardParams = z.infer<
+  typeof storeSchema.getStoreLoggedInUserRelationDashboardSchema.params
+>;
+export type GetStoreLoggedInUserRelationDashboardQuery = z.infer<
+  typeof storeSchema.getStoreLoggedInUserRelationDashboardSchema.query
+>;
+export type GetStoreLoggeDInUserRelationDashboardResponse = {
+  relation: {
+    relationId: string;
+    roleId: number;
+  };
+};
+
 export type GetStoreTeamDashboardBody = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.body>;
 export type GetStoreTeamDashboardParams = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.params>;
 export type GetStoreTeamDashboardQuery = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.query>;
