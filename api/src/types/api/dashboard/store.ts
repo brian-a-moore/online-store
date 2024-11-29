@@ -55,6 +55,7 @@ export type GetStoreTeamDashboardResponse = {
     name: string;
     email: string;
     store: {
+      id: string;
       storeId: string;
       roleId: number;
     };

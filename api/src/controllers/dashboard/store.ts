@@ -112,6 +112,7 @@ export const getStoreTeamDashboardController = async (
     }
     const rawTeam = await db.userStoreRelation.findMany({
       select: {
+        id: true,
         userId: true,
         storeId: true,
         roleId: true,
@@ -134,6 +135,7 @@ export const getStoreTeamDashboardController = async (
       name: member.user.name,
       email: member.user.email,
       store: {
+        id: member.id,
         storeId: member.storeId,
         roleId: member.roleId,
       },
