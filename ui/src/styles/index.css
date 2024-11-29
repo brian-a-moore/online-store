@@ -21,3 +21,90 @@
   overflow: hidden;
   font-weight: bold;
 }
+
+/* Container for better alignment */
+.slider-container {
+  width: 300px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* General Slider Styles */
+.slider {
+  -webkit-appearance: none; /* Removes default styles in Safari */
+  appearance: none;
+  width: 100%;
+  height: 8px; /* Thickness of the track */
+  background: #ddd; /* Track color */
+  border-radius: 5px; /* Rounded corners for the track */
+  outline: none; /* Removes focus outline */
+  transition: background 0.3s ease-in-out;
+}
+
+.slider:hover {
+  background: #ccc; /* Slightly darker background on hover */
+}
+
+/* Thumb (the draggable circle) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Removes default styles in Safari */
+  appearance: none;
+  width: 20px; /* Size of the thumb */
+  height: 20px;
+  border-radius: 50%; /* Make it a circle */
+  background: #0284C7; /* Green color */
+  border: 2px solid #fff; /* Optional border */
+  cursor: pointer; /* Hand icon on hover */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  transition: background 0.3s ease-in-out;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #0369A1; /* Slightly darker green on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #0284C7;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb:hover {
+  background: #0369A1;
+}
+
+.slider::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #0284C7;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Track for Internet Explorer/Edge */
+.slider::-ms-track {
+  width: 100%;
+  height: 8px;
+  background: transparent; /* Hide the original track */
+  border-color: transparent;
+  color: transparent;
+}
+
+/* For Progress Indicator on the Track */
+.slider::-moz-range-progress {
+  background: #0284C7; /* Progress bar color for Firefox */
+  height: 8px;
+  border-radius: 5px;
+}
+
+.slider::-moz-range-track {
+  background: #ddd; /* Remaining track color for Firefox */
+  height: 8px;
+  border-radius: 5px;
+}
