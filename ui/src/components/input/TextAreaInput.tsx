@@ -27,9 +27,9 @@ export const TextAreaInput = <F extends FieldValues>({
             disabled={disabled}
             placeholder={label}
             {...field}
-            className={`h-36 px-4 py-2 rounded resize-none focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' :'bg-slate-100 text-slate-600'}`}
+            className={`w-full h-36 px-4 py-2 rounded resize-none focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' :'bg-slate-100 text-slate-600'}`}
           />
-          {typeof invalidText === 'string' && <div className='text-sm text-red-600'>{invalidText}</div>}
+          {typeof invalidText === 'string' && <p className='text-sm text-red-600'>{invalidText}</p>}
         </div>
       )}
     />

@@ -35,7 +35,7 @@ export const SwitchInput = <F extends FieldValues>({
                 />
               </button>
             </div>
-            {typeof invalidText === 'string' && <div className='text-sm text-red-600'>{invalidText}</div>}
+            {typeof invalidText === 'string' && <p className='text-sm text-red-600'>{invalidText}</p>}
           </div>
         )}
       />

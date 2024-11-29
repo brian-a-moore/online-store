@@ -32,7 +32,7 @@ export const SelectInput = <F extends FieldValues>({
                 const value = options.has(Number(e.target.value)) ? Number(e.target.value) : e.target.value;
                 field.onChange(value);
               }}
-              className={`h-12 px-4 rounded focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' : 'bg-slate-100 text-slate-600'}`}
+              className={`w-full h-12 px-4 rounded focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' : 'bg-slate-100 text-slate-600'}`}
             >
               {Array.from(options.entries()).map(([id, value]) => (
                 <option key={id} value={id}>
@@ -40,7 +40,7 @@ export const SelectInput = <F extends FieldValues>({
                 </option>
               ))}
             </select>
-            {typeof invalidText === 'string' && <div className='text-sm text-red-600'>{invalidText}</div>}
+            {typeof invalidText === 'string' && <p className='text-sm text-red-600'>{invalidText}</p>}
           </div>
         )}
     />

@@ -77,26 +77,36 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload
           control={control}
           invalidText={errors?.description?.message}
         />
-        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
         <TextInput
-          name="config.defaultAmount"
-          label="Default Amount"
+          type='number'
+          name="maxQuantityPerOrder"
+          label="Max Quantity Per Order"
           control={control}
-          invalidText={errors?.config?.defaultAmount?.message}
+          invalidText={errors?.maxQuantityPerOrder?.message}
         />
+        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
         <div className="flex gap-4">
-          <TextInput
-            name="config.minAmount"
-            label="Minimum Amount"
-            control={control}
-            invalidText={errors?.config?.minAmount?.message}
-          />
-          <TextInput
-            name="config.maxAmount"
-            label="Maximum Amount"
-            control={control}
-            invalidText={errors?.config?.maxAmount?.message}
-          />
+            <TextInput
+              type='number'
+              name="config.defaultAmount"
+              label="Default Amount"
+              control={control}
+              invalidText={errors?.config?.defaultAmount?.message}
+            />
+            <TextInput
+              type='number'
+              name="config.minAmount"
+              label="Minimum Amount"
+              control={control}
+              invalidText={errors?.config?.minAmount?.message}
+            />
+            <TextInput
+              type='number'
+              name="config.maxAmount"
+              label="Maximum Amount"
+              control={control}
+              invalidText={errors?.config?.maxAmount?.message}
+            />
         </div>
         <PresetAmounts
           onChange={(presetAmounts: number[]) => setValue('config.presetAmounts', presetAmounts)}

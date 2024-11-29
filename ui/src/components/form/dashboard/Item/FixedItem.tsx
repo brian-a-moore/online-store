@@ -81,6 +81,13 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId, forceReload })
           control={control}
           invalidText={errors?.config?.price?.message}
         />
+        <TextInput
+          type='number'
+          name="maxQuantityPerOrder"
+          label="Max Quantity Per Order"
+          control={control}
+          invalidText={errors?.maxQuantityPerOrder?.message}
+        />
         <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
         <div className="flex gap-4 items-center justify-between">
           <SwitchInput name="config.isRedeemable" label="Redeemable" control={control} invalidText={errors.config?.isRedeemable?.message} />
