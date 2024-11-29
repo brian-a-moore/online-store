@@ -9,10 +9,11 @@ import { EmptyText } from '../typography';
 type Props = {
   onChange: (values: number[]) => void;
   config: VariableItemConfig;
+  defaultValues?: number[];
 };
 
-export const PresetAmounts: React.FC<Props> = ({ onChange, config }) => {
-  const [amounts, setAmounts] = useState<number[]>([]);
+export const PresetAmounts: React.FC<Props> = ({ onChange, config, defaultValues }) => {
+  const [amounts, setAmounts] = useState<number[]>(defaultValues || []);
   const [value, setValue] = useState<string>(config.defaultAmount.toString() || '');
 
   useEffect(() => {
