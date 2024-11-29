@@ -16,6 +16,7 @@ type SearchBoxProps = {
   selectTeamMember: (teamMember: { id: string; name: string; email: string }) => void;
 };
 
+//TODO: This component is broken -- the popup is showing up in the wrong spot
 export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
   const [search, setSearch] = useState<string>('');
   const [field] = useState<'name' | 'email'>('name');

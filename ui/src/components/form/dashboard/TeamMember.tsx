@@ -3,9 +3,10 @@ import { mdiClose } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { AddStoreRelationDashboardBody, SearchUsersDashboardResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
+import { DEFAULT_FORM_VALUES, teamMemberDashboardFormSchema } from '../../../config/forms/team-member-dashboard-form';
+import { roleOptions } from '../../../config/options';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import { Alert } from '../../container';
@@ -14,29 +15,12 @@ import { SearchBox, SelectInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
 
-type TeamMemberForm = {
-  userId: string;
-  roleId: number;
-};
-
 type Props = {
   storeId: string;
   forceReload: () => void;
 };
 
 type TeamMember = SearchUsersDashboardResponse['users'][0];
-
-const EDIT_TEAM_MEMBER_FORM_INITIAL_VALUES: TeamMemberForm = {
-  userId: '',
-  roleId: 2,
-};
-
-const EditTeamMemberFormSchema = z
-  .object({
-    userId: z.string().uuid(),
-    roleId: z.number().min(1).max(2),
-  })
-  .strict();
 
 export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
   const { closeModal } = useContext(ModalContext);
@@ -52,8 +36,8 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: EDIT_TEAM_MEMBER_FORM_INITIAL_VALUES,
-    resolver: zodResolver(EditTeamMemberFormSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
+    resolver: zodResolver(teamMemberDashboardFormSchema),
   });
 
   const roleId = watch('roleId');
@@ -110,12 +94,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
         name="roleId"
         control={control}
         label="Role"
-        options={
-          new Map([
-            [1, 'Manager'],
-            [2, 'Editor'],
-          ])
-        }
+        options={roleOptions}
         invalidText={errors.roleId?.message}
       />
       {formError && <ErrorText>{formError}</ErrorText>}

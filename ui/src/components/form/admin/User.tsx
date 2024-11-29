@@ -4,9 +4,9 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
+import { DEFAULT_FORM_VALUES, userAdminFormSchema, UserAdminFormType } from '../../../config/forms/user-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -17,27 +17,10 @@ import { TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
 
-type EditUserForm = {
-  name: string;
-  email: string;
-};
-
 type Props = {
   userId?: string;
   forceReload: () => void;
 };
-
-const EDIT_USER_FORM_INITIAL_VALUES: EditUserForm = {
-  name: '',
-  email: '',
-};
-
-const EditUserFormSchema = z
-  .object({
-    email: z.string().min(1).max(256).email(),
-    name: z.string().min(1).max(256),
-  })
-  .strict();
 
 export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
@@ -59,8 +42,8 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: EDIT_USER_FORM_INITIAL_VALUES,
-    resolver: zodResolver(EditUserFormSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
+    resolver: zodResolver(userAdminFormSchema),
   });
 
   useEffect(() => {
@@ -74,7 +57,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
     }
   }, [response]);
 
-  const onSubmit = async (user: EditUserForm) => {
+  const onSubmit = async (user: UserAdminFormType) => {
     try {
       let response;
       if (userId) {

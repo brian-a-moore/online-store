@@ -4,42 +4,22 @@ import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 import { GetItemAdminBody, GetItemAdminQuery, GetItemAdminResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
+import { DEFAULT_FORM_VALUES, itemAdminFormSchema, ItemAdminFormType } from '../../../config/forms/item-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
 import { Loader } from '../../core';
-import { SwitchInput, TextInput } from '../../input';
+import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { H3 } from '../../typography';
-
-type EditItemForm = {
-  name: string;
-  description: string;
-  isPublished: boolean;
-};
 
 type Props = {
   itemId: string;
   forceReload: () => void;
 };
-
-const EDIT_ITEM_FORM_INITIAL_VALUES: EditItemForm = {
-  name: '',
-  description: '',
-  isPublished: false,
-};
-
-const EditItemFormSchema = z
-  .object({
-    name: z.string().min(1).max(256),
-    description: z.string().min(0).max(2048),
-    isPublished: z.boolean(),
-  })
-  .strict();
 
 export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
   const { openModal, closeModal } = useContext(ModalContext);
@@ -60,8 +40,8 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: EDIT_ITEM_FORM_INITIAL_VALUES,
-    resolver: zodResolver(EditItemFormSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
+    resolver: zodResolver(itemAdminFormSchema),
   });
 
   useEffect(() => {
@@ -76,7 +56,7 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
     }
   }, [response]);
 
-  const onSubmit = async (item: EditItemForm) => {
+  const onSubmit = async (item: ItemAdminFormType) => {
     try {
       await api.admin.updateItem(itemId, item);
       closeModal();
@@ -129,15 +109,13 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
         ) : null}
       </div>
       <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-      <TextInput
+      <TextAreaInput
         name="description"
         label="Description"
         control={control}
         invalidText={errors?.description?.message}
-        maxRows={5}
-        multiline
       />
-      <SwitchInput name="isPublished" label="Public" control={control} />
+      <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>
           Cancel

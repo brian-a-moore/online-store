@@ -57,9 +57,7 @@ type Props = {
 
 export const Toast: React.FC<Props> = ({ toast }) => {
   const { setToast } = useContext(ToastContext);
-
   const [status, setStatus] = useState<'open' | 'closing'>('open');
-
   const waitTimer = useRef<NodeJS.Timeout | undefined>();
   const closeTimer = useRef<NodeJS.Timeout | undefined>();
 

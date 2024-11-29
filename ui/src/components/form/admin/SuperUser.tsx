@@ -4,13 +4,13 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { Control, FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 import {
   GetSuperuserAdminBody,
   GetSuperuserAdminQuery,
   GetSuperuserAdminResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
+import { DEFAULT_FORM_VALUES, DEFAULT_FORM_VALUES_SELF, superuserAdminFormSchema, SuperuserAdminFormType, superuserSelfAdminFormSchema, SuperuserSelfAdminFormType } from '../../../config/forms/superuser-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { AuthContext } from '../../../context/AuthContext';
 import { ModalContext } from '../../../context/ModalContext';
@@ -22,54 +22,10 @@ import { TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
 
-type EditSuperuserForm = {
-  name: string;
-  email: string;
-};
-
-type EditSelfForm = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
-
 type Props = {
   superuserId?: string;
   forceReload: () => void;
 };
-
-const EDIT_SUPERUSER_FORM_INITIAL_VALUES: EditSuperuserForm = {
-  name: '',
-  email: '',
-};
-
-const EDIT_SELF_INITIAL_VALUES: EditSelfForm = {
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-};
-
-const EditSuperuserFormSchema = z
-  .object({
-    email: z.string().min(1).max(256).email(),
-    name: z.string().min(1).max(256),
-  })
-  .strict();
-
-const EditSelfFormSchema = z
-  .object({
-    email: z.string().min(1).max(256).email(),
-    name: z.string().min(1).max(256),
-    password: z.string().min(8).max(256),
-    confirmPassword: z.string().min(8).max(256),
-  })
-  .strict()
-  .refine((data: any) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
 
 export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }) => {
   const { user } = useContext(AuthContext);
@@ -98,8 +54,8 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: isSelf ? EDIT_SELF_INITIAL_VALUES : EDIT_SUPERUSER_FORM_INITIAL_VALUES,
-    resolver: zodResolver(isSelf ? EditSelfFormSchema : EditSuperuserFormSchema),
+    defaultValues: isSelf ? DEFAULT_FORM_VALUES_SELF : DEFAULT_FORM_VALUES,
+    resolver: zodResolver(isSelf ? superuserSelfAdminFormSchema : superuserAdminFormSchema),
   });
 
   useEffect(() => {
@@ -113,7 +69,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     }
   }, [response]);
 
-  const onSubmit = async (superUser: EditSelfForm | EditSuperuserForm) => {
+  const onSubmit = async (superUser: SuperuserAdminFormType | SuperuserSelfAdminFormType) => {
     try {
       let sanitizedSuperUser, response;
       if (superuserId) {
@@ -122,7 +78,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
             if (key !== 'confirmPassword') (acc as any)[key] = value;
             return acc;
           },
-          {} as Partial<EditSelfForm | EditSuperuserForm>,
+          {} as Partial<SuperuserAdminFormType | SuperuserSelfAdminFormType>,
         );
         response = await api.admin.updateSuperuser(superuserId, sanitizedSuperUser);
       } else {
@@ -229,13 +185,13 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
           </div>
         ) : null}
       </div>
-      <TextInput<EditSelfForm | EditSuperuserForm>
+      <TextInput
         name="name"
         label="Name"
         control={control}
         invalidText={errors?.name?.message}
       />
-      <TextInput<EditSelfForm | EditSuperuserForm>
+      <TextInput
         name="email"
         label="Email"
         control={control}
@@ -243,18 +199,18 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
       />
       {isSelf ? (
         <>
-          <TextInput<EditSelfForm>
+          <TextInput<SuperuserSelfAdminFormType>
             type="password"
             name="password"
             label="Password"
-            control={control as unknown as Control<EditSelfForm>}
+            control={control as unknown as Control<SuperuserSelfAdminFormType>}
             invalidText={(errors as FieldErrors)?.password?.message}
           />
-          <TextInput<EditSelfForm>
+          <TextInput<SuperuserSelfAdminFormType>
             type="password"
             name="confirmPassword"
             label="Confirm Password"
-            control={control as unknown as Control<EditSelfForm>}
+            control={control as unknown as Control<SuperuserSelfAdminFormType>}
             invalidText={(errors as FieldErrors)?.confirmPassword?.message}
           />
         </>

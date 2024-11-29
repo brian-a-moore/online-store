@@ -1,8 +1,4 @@
-export type ColumnConfig = {
-  key: string;
-  label: string;
-  render: (value: any) => React.JSX.Element;
-};
+import { ColumnConfig } from "../../types";
 
 interface Props<T> {
   columns: ColumnConfig[];

@@ -13,9 +13,7 @@ import { EmptyText, H2, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 
-type Props = {};
-
-export const Products: React.FC<Props> = () => {
+export const Products: React.FC = () => {
   const navigate = useNavigate();
   const { storeId } = useParams<{ storeId: string }>();
 

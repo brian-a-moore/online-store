@@ -9,9 +9,7 @@ import { Separator } from '../display';
 import { Button, Stepper } from '../interactive';
 import { H3, H4, H5 } from '../typography';
 
-type Props = {};
-
-export const Cart: React.FC<Props> = () => {
+export const Cart: React.FC = () => {
   const { items, updateItem, removeItem } = useContext(CartContext);
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);

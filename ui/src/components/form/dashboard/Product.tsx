@@ -2,13 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 import {
   GetProductDashboardBody,
   GetProductDashboardQuery,
   GetProductDashboardResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
+import { DEFAULT_FORM_VALUES, productDashboardFormSchema, ProductDashboardFormType } from '../../../config/forms/product-dashboard-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -19,31 +19,11 @@ import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
 
-type EditProductForm = {
-  name: string;
-  description: string;
-  isPublished: boolean;
-};
-
 type Props = {
   storeId?: string;
   productId?: string;
   forceReload: () => void;
 };
-
-const EDIT_PRODUCT_FORM_INITIAL_VALUES: EditProductForm = {
-  name: '',
-  description: '',
-  isPublished: false,
-};
-
-const EditProductFormSchema = z
-  .object({
-    name: z.string().min(1).max(256),
-    description: z.string().min(0).max(2048),
-    isPublished: z.boolean(),
-  })
-  .strict();
 
 export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forceReload }) => {
   const { closeModal } = useContext(ModalContext);
@@ -69,8 +49,8 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: EDIT_PRODUCT_FORM_INITIAL_VALUES,
-    resolver: zodResolver(EditProductFormSchema),
+    defaultValues: DEFAULT_FORM_VALUES,
+    resolver: zodResolver(productDashboardFormSchema),
   });
 
   useEffect(() => {
@@ -85,7 +65,7 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
     }
   }, [response]);
 
-  const onSubmit = async (product: EditProductForm) => {
+  const onSubmit = async (product: ProductDashboardFormType) => {
     try {
       if (productId) {
         await api.dashboard.updateProduct(productId!, product);

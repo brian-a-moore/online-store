@@ -40,6 +40,7 @@ export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  // TODO: This form isn't complete yet
   const openEditMemberForm = (member?: { id: string; name: string; email: string }) => {
     openModal(<p>Edit Team Member</p>);
   };

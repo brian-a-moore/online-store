@@ -8,9 +8,7 @@ import { HTTP_METHOD } from '../../constants';
 import { CartProvider } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
 
-type Props = {};
-
-export const Store: React.FC<Props> = () => {
+export const Store: React.FC = () => {
   const { storeId } = useParams<{ storeId: string }>();
   const navigate = useNavigate();
 

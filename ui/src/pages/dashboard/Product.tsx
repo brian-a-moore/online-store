@@ -75,13 +75,8 @@ export const ProductDashboard: React.FC = () => {
     );
   };
 
-  const openEditProduct = () => {
-    openModal(<ProductDashboardForm productId={productId!} storeId={storeId!} forceReload={forceReload} />);
-  };
-
-  const openNewItem = () => {
-    openModal(<ItemDashboardForm productId={productId!} forceReload={forceReload} />);
-  };
+  const openEditProduct = () => openModal(<ProductDashboardForm productId={productId!} storeId={storeId!} forceReload={forceReload} />);
+  const openNewItem = () => openModal(<ItemDashboardForm productId={productId!} forceReload={forceReload} />);
 
   if (isLoading) return <Loader />;
 
