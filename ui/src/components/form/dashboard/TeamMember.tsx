@@ -1,9 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { mdiClose } from '@mdi/js';
+import { mdiClose, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AddStoreRelationDashboardBody, GetStoreTeamDashboardResponse, SearchUsersDashboardResponse } from '../../../../../api/src/types/api';
+import { useNavigate } from 'react-router-dom';
+import {
+  AddStoreRelationDashboardBody,
+  GetStoreTeamDashboardResponse,
+  SearchUsersDashboardResponse,
+} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { DEFAULT_FORM_VALUES, teamMemberDashboardFormSchema } from '../../../config/forms/team-member-dashboard-form';
 import { roleOptions } from '../../../config/options';
@@ -17,15 +22,16 @@ import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   storeId: string;
-  existingMember?: GetStoreTeamDashboardResponse['team'][0]
+  existingMember?: GetStoreTeamDashboardResponse['team'][0];
   forceReload: () => void;
 };
 
 type TeamMember = SearchUsersDashboardResponse['users'][0];
 
 export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, forceReload }) => {
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
+  const navigate = useNavigate();
   const [teamMember, setTeamMember] = useState<TeamMember | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -42,7 +48,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
   });
 
   useEffect(() => {
-    if(existingMember) {
+    if (existingMember) {
       setValue('userId', existingMember.id);
       setValue('roleId', existingMember.store.roleId);
       setTeamMember({ id: existingMember.id, name: existingMember.name, email: existingMember.email });
@@ -64,7 +70,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
 
   const onSubmit = async (relation: Omit<AddStoreRelationDashboardBody, 'storeId'>) => {
     try {
-      if(existingMember) {
+      if (existingMember) {
         await api.dashboard.updateStoreRelation(existingMember.store.id, relation.roleId);
         setToast({ type: 'success', message: 'Team member updated successfully' });
       } else {
@@ -78,9 +84,50 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
     }
   };
 
+  const openDeleteRelationshipDialog = (id: string) => {
+    const onClick = async () => {
+      try {
+        await api.dashboard.deleteStoreRelation(id);
+        closeModal();
+        forceReload();
+        setToast({ type: 'success', message: 'User removed from team successfully' });
+      } catch (error: any | unknown) {
+        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+      }
+    };
+    openModal(
+      <>
+        <H3>Remove Team Member</H3>
+        <p>Are you sure you want to remove this user from the team?</p>
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button variant="destructive" onClick={onClick}>
+            Remove Team Member
+          </Button>
+        </div>
+      </>,
+    );
+  };
+
+
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <H3>{existingMember ? 'Edit' : 'Add'} Team Member</H3>
+      <div className="flex justify-between">
+        <H3>{existingMember ? 'Edit' : 'Add'} Team Member</H3>
+        {existingMember ? (
+          <div className="flex gap-4">
+            <Button
+              variant="secondary"
+              title="Remove Team Member"
+              onClick={() => openDeleteRelationshipDialog(existingMember.store.id)}
+            >
+              <Icon path={mdiDelete} size={0.75} />
+            </Button>
+          </div>
+        ) : null}
+      </div>
       <Separator />
       {teamMember ? (
         <div>
@@ -130,7 +177,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (existingMember ? 'Updating' : 'Adding') : storeId ? 'Update' : 'Add'} Team Member
+          {isSubmitting ? (existingMember ? 'Updating' : 'Adding') : existingMember ? 'Update' : 'Add'} Team Member
         </Button>
       </div>
     </form>

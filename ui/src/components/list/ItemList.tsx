@@ -22,7 +22,7 @@ type Props = {
   reload?: string;
 };
 
-export const ItemList: React.FC<Props> = ({ productId, reload: externalReload }) => {
+export const ItemList: React.FC<Props> = ({ productId, reload: passedInReload }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
@@ -37,13 +37,16 @@ export const ItemList: React.FC<Props> = ({ productId, reload: externalReload })
       method: HTTP_METHOD.GET,
       params: { productId, page: '1' },
     },
-    // TODO: Item list appears not to be updating when an item is updated, only when created
-    { reTrigger: externalReload || reload },
+    { reTrigger: reload },
   );
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
+
+  useEffect(() => {
+    if(passedInReload) setReload(passedInReload);
+  }, [passedInReload]);
 
   const forceReload = () => setReload(new Date().toISOString());
   const openEditItemForm = (id: string) => {

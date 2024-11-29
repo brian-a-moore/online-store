@@ -14,6 +14,9 @@ import {
   DeleteProductDashboardBody,
   DeleteProductDashboardQuery,
   DeleteProductDashboardResponse,
+  DeleteStoreRelationDashboardBody,
+  DeleteStoreRelationDashboardQuery,
+  DeleteStoreRelationDashboardResponse,
   UpdateItemDashboardBody,
   UpdateItemDashboardQuery,
   UpdateItemDashboardResponse,
@@ -79,6 +82,17 @@ export const updateStoreRelation = async (relationId: string, roleId: number) =>
     url: `/dashboard/relation/${relationId}`,
     method: HTTP_METHOD.PUT,
     data: { roleId },
+  });
+};
+
+export const deleteStoreRelation = async (relationId: string) => {
+  return apiCall<
+    DeleteStoreRelationDashboardBody,
+    DeleteStoreRelationDashboardQuery,
+    DeleteStoreRelationDashboardResponse
+  >({
+    url: `/dashboard/relation/${relationId}`,
+    method: HTTP_METHOD.DELETE,
   });
 };
 

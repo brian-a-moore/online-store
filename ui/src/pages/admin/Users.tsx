@@ -3,7 +3,7 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse } from '../../../../api/src/types/api';
-import { Card, ColumnConfig, Container, Page, Table } from '../../components/container';
+import { Card, Container, Page, Table } from '../../components/container';
 import { Loader } from '../../components/core';
 import { UserAdminForm } from '../../components/form/admin/User';
 import { Button } from '../../components/interactive';
@@ -11,6 +11,7 @@ import { EmptyText, H4 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
+import { ColumnConfig } from '../../types';
 
 const columns: ColumnConfig[] = [
   {

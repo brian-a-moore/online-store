@@ -1,6 +1,6 @@
 import { mdiShieldAccount, mdiStoreEdit } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   GetStoreTeamDashboardBody,
@@ -20,9 +20,10 @@ type Props = {
   reload?: string;
 };
 
-export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
+export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [reload, setReload] = useState<string>();
 
   const { error, isLoading, response } = useApi<
     GetStoreTeamDashboardBody,
@@ -41,8 +42,13 @@ export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
+  useEffect(() => {
+    if(passedInReload) setReload(passedInReload);
+  }, [passedInReload]);
+
+  const forceReload = () => setReload(new Date().toISOString());
   const openEditMemberForm = (teamMember: GetStoreTeamDashboardResponse['team'][0]) => {
-    openModal(<TeamMemberForm storeId={storeId} existingMember={teamMember} forceReload={() => {}} />)
+    openModal(<TeamMemberForm storeId={storeId} existingMember={teamMember} forceReload={forceReload} />)
   }
 
   if (isLoading) return <Loader />;
