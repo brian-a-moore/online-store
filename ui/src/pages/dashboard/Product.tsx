@@ -128,7 +128,7 @@ export const ProductDashboard: React.FC = () => {
             </div>
           </div>
         </Card>
-        <ItemList storeId={storeId!} productId={productId!} />
+        <ItemList storeId={storeId!} productId={productId!} reload={reload} />
       </Container>
     </Page>
   );

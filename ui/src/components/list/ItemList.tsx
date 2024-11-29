@@ -19,9 +19,10 @@ import { EmptyText, H5 } from '../typography';
 type Props = {
   storeId: string;
   productId: string;
+  reload?: string;
 };
 
-export const ItemList: React.FC<Props> = ({ productId }) => {
+export const ItemList: React.FC<Props> = ({ productId, reload: externalReload }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
@@ -36,7 +37,8 @@ export const ItemList: React.FC<Props> = ({ productId }) => {
       method: HTTP_METHOD.GET,
       params: { productId, page: '1' },
     },
-    { reTrigger: reload },
+    // TODO: Item list appears not to be updating when an item is updated, only when created
+    { reTrigger: externalReload || reload },
   );
 
   useEffect(() => {
