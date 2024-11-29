@@ -38,9 +38,10 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId, forceReload })
 
   useEffect(() => {
     if (item) {
+      const parsedConfig = JSON.parse(item.config);
       setValue('name', item.name);
       setValue('description', item.description || '');
-      setValue('config', JSON.parse(item.config));
+      setValue('config', parsedConfig);
       setValue('isPublished', item.isPublished);
       setValue('maxQuantityPerOrder', item.maxQuantityPerOrder);
     }
