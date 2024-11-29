@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-    GetItemDashboardResponse
+  GetItemDashboardResponse
 } from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
 import { DEFAULT_FORM_VALUES_FIXED, fixedItemDashboardFormSchema, FixedItemDashboardFormType } from '../../../../config/forms/item-dashboard-form';
@@ -74,6 +74,7 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId, forceReload })
           invalidText={errors?.description?.message}
         />
         <TextInput
+          type="number"
           name="config.price"
           label="Price"
           control={control}
@@ -100,7 +101,7 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId, forceReload })
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (productId ? 'Updating' : 'Creating') : productId ? 'Update' : 'Create'} Item
+          {isSubmitting ? (item?.id ? 'Updating' : 'Creating') : item?.id ? 'Update' : 'Create'} Item
         </Button>
       </div>
     </form>
