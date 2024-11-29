@@ -3,7 +3,7 @@ images
 uploads
 dist
 docker
-oriter_code.zip
+online_store_code.zip
 .terraform
 .terraform.lock.hcl
 .DS_Store
