@@ -3,9 +3,9 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    GetItemDashboardBody,
-    GetItemDashboardQuery,
-    GetItemDashboardResponse
+  GetItemDashboardBody,
+  GetItemDashboardQuery,
+  GetItemDashboardResponse
 } from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
 import { HTTP_METHOD } from '../../../../constants';
@@ -42,6 +42,12 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceRel
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
+
+  useEffect(() => {
+    if(response?.item) {
+      setItemTypeId(response.item.itemTypeId);
+    };
+  }, [response?.item])
 
   const openDeleteItemDialog = (id: string) => {
     const onClick = async () => {
