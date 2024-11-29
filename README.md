@@ -32,11 +32,8 @@ Deploy runs with a GitHub Workflow located in `.github/workflows`
 
 ### API
 
-- Run `npm run dc:up` to start the DynamoDB Local instance in Docker
-- Run `npm run dynamo:admin` to see the contents of the local database at `http://localhost:8001`
-
-To run the API locally on your machine, see the [Oriter API](./packages/api/README.md) documentation
+To run the API locally on your machine, see the [Online Store API](./api/README.md) documentation
 
 ### UI
 
-See [Online Store UI](./packages/ui/README.md) documentation
+To run the UI locally on your machine, see the [Online Store UI](./ui/README.md) documentation
