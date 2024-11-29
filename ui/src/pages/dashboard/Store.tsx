@@ -6,6 +6,9 @@ import {
   GetStoreDashboardBody,
   GetStoreDashboardQuery,
   GetStoreDashboardResponse,
+  GetStoreLoggedInUserRelationDashboardBody,
+  GetStoreLoggedInUserRelationDashboardQuery,
+  GetStoreLoggeDInUserRelationDashboardResponse,
 } from '../../../../api/src/types/api';
 import { Card, Container, Page } from '../../components/container';
 import { Loader } from '../../components/core';
@@ -17,18 +20,20 @@ import { H1 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-// import { AuthContext } from '../../context/AuthContext';
 
 export const StoreDashboard: React.FC = () => {
-  // TODO: Need to add role to user somehow so I can disable the new team member button if they are not the store manager
-  // const { user } = useContext(AuthContext);
   const { openModal } = useContext(ModalContext);
   const { storeId } = useParams();
   const navigate = useNavigate();
   const [activeList, setActiveList] = useState<'products' | 'team'>('products');
   const [reload, setReload] = useState<string | undefined>();
 
-  const { error, isLoading, response } = useApi<
+  const getLoggedInUserRelationResponse = useApi<GetStoreLoggedInUserRelationDashboardBody, GetStoreLoggedInUserRelationDashboardQuery, GetStoreLoggeDInUserRelationDashboardResponse>({
+    url: `/dashboard/store/${storeId}/relation`,
+    method: HTTP_METHOD.GET,
+  });
+
+  const getStoreResponse = useApi<
     GetStoreDashboardBody,
     GetStoreDashboardQuery,
     GetStoreDashboardResponse
@@ -41,8 +46,8 @@ export const StoreDashboard: React.FC = () => {
   );
 
   useEffect(() => {
-    if (error) navigate(`/500?error=${error}`);
-  }, [error]);
+    if (getLoggedInUserRelationResponse.error || getStoreResponse.error) navigate(`/500?error=${getLoggedInUserRelationResponse.error || getStoreResponse.error}`);
+  }, [getLoggedInUserRelationResponse.error || getStoreResponse.error]);
 
   const toggleList = (list: 'products' | 'team') => {
     setActiveList(list);
@@ -61,9 +66,10 @@ export const StoreDashboard: React.FC = () => {
     openModal(<StoreDashboardForm storeId={storeId} forceReload={forceReload} />);
   };
 
-  if (isLoading) return <Loader />;
+  if (getLoggedInUserRelationResponse.isLoading || getStoreResponse.isLoading) return <Loader />;
 
-  const store = response?.store;
+  const store = getStoreResponse.response?.store;
+  const isManager = getLoggedInUserRelationResponse.response?.relation.roleId === 1;
 
   return (
     <Page>
@@ -83,7 +89,8 @@ export const StoreDashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex gap-4 p-4 pt-0 pl-44 items-center justify-between">
-            <div className="flex items-center gap-4">
+            {isManager ? (
+              <div className="flex items-center gap-4">
               <TextButton onClick={() => toggleList('products')} isActive={activeList === 'products'}>
                 Edit Products
               </TextButton>
@@ -92,13 +99,14 @@ export const StoreDashboard: React.FC = () => {
                 Edit Team
               </TextButton>
             </div>
+            ) : <div />}
             <Button onClick={goToAddPage} title={`New ${activeList === 'products' ? 'Product' : 'Team Member'}`}>
               <Icon path={activeList === 'products' ? mdiTagPlus : mdiAccountPlus} size={1} />
             </Button>
           </div>
         </Card>
         {activeList === 'products' && <ProductList storeId={storeId!} reload={reload} />}
-        {activeList === 'team' && <TeamList storeId={storeId!} reload={reload} />}
+        {(activeList === 'team' && isManager) && <TeamList storeId={storeId!} reload={reload} />}
       </Container>
     </Page>
   );
