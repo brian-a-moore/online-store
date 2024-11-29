@@ -1,5 +1,7 @@
 import {
   AddStoreRelationDashboardBody,
+  AddStoreRelationDashboardQuery,
+  AddStoreRelationDashboardResponse,
   CreateItemDashboardBody,
   CreateItemDashboardQuery,
   CreateItemDashboardResponse,
@@ -21,6 +23,9 @@ import {
   UpdateStoreDashboardBody,
   UpdateStoreDashboardQuery,
   UpdateStoreDashboardResponse,
+  UpdateStoreRelationDashboardBody,
+  UpdateStoreRelationDashboardQuery,
+  UpdateStoreRelationDashboardResponse,
 } from '../../../api/src/types/api';
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
@@ -58,10 +63,22 @@ export const deleteProduct = async (productId: string) => {
 };
 
 export const addStoreRelation = async (relation: AddStoreRelationDashboardBody) => {
-  return apiCall<AddStoreRelationDashboardBody, never, never>({
+  return apiCall<AddStoreRelationDashboardBody, AddStoreRelationDashboardQuery, AddStoreRelationDashboardResponse>({
     url: `/dashboard/relation`,
     method: HTTP_METHOD.POST,
     data: relation,
+  });
+};
+
+export const updateStoreRelation = async (relationId: string, roleId: number) => {
+  return apiCall<
+    UpdateStoreRelationDashboardBody,
+    UpdateStoreRelationDashboardQuery,
+    UpdateStoreRelationDashboardResponse
+  >({
+    url: `/dashboard/relation/${relationId}`,
+    method: HTTP_METHOD.PUT,
+    data: { roleId },
   });
 };
 

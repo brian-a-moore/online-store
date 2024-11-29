@@ -12,6 +12,7 @@ import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
+import { TeamMemberForm } from '../form';
 import { EmptyText, H5 } from '../typography';
 
 type Props = {
@@ -40,10 +41,9 @@ export const TeamList: React.FC<Props> = ({ storeId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  // TODO: This form isn't complete yet
-  const openEditMemberForm = (member?: { id: string; name: string; email: string }) => {
-    openModal(<p>Edit Team Member</p>);
-  };
+  const openEditMemberForm = (teamMember: GetStoreTeamDashboardResponse['team'][0]) => {
+    openModal(<TeamMemberForm storeId={storeId} existingMember={teamMember} forceReload={() => {}} />)
+  }
 
   if (isLoading) return <Loader />;
 
