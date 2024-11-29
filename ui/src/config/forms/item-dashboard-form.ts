@@ -50,6 +50,7 @@ export const fixedItemDashboardFormSchema = z
   .object({
     name: z.string().min(1).max(256),
     description: z.string().min(0).max(2048),
+    itemTypeId: z.literal(1),
     config: z
       .object({
         isRedeemable: z.boolean(),
@@ -66,6 +67,7 @@ export const variableItemDashboardFormSchema = z
   .object({
     name: z.string().min(1).max(256),
     description: z.string().min(0).max(2048),
+    itemTypeId: z.literal(2),
     config: z
       .object({
         defaultAmount: z.number().positive().min(1).max(999999).or(z.literal(0)),
