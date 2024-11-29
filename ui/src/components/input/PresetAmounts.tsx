@@ -78,7 +78,7 @@ export const PresetAmounts: React.FC<Props> = ({ onChange, config }) => {
       <div className="flex gap-4">
         <input
           type="text"
-          className={`flex-1 w-full h-12 px-4 rounded disabled:cursor-not-allowed disabled:text-slate-300`}
+          className={`flex-1 w-full h-12 px-4 rounded disabled:cursor-not-allowed disabled:text-slate-300 focus:outline-sky-300 bg-slate-100 text-slate-600`}
           disabled={amounts.length >= 5}
           placeholder="Preset Amount"
           value={value}
