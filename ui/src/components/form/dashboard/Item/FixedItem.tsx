@@ -8,6 +8,7 @@ import { api } from '../../../../api';
 import { DEFAULT_FORM_VALUES_FIXED, fixedItemDashboardFormSchema, FixedItemDashboardFormType } from '../../../../config/forms/item-dashboard-form';
 import { ModalContext } from '../../../../context/ModalContext';
 import { ToastContext } from '../../../../context/ToastContext';
+import { FormOverflow } from '../../../container';
 import { Separator } from '../../../display';
 import { SwitchInput, TextAreaInput, TextInput } from '../../../input';
 import { Button } from '../../../interactive';
@@ -65,7 +66,7 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId, forceReload })
 
   return (
     <form className="flex flex-col gap-4 overflow-auto" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-4 overflow-y-auto">
+      <FormOverflow>
         <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
         <TextAreaInput
           name="description"
@@ -93,7 +94,7 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId, forceReload })
             />
           ) : null}
         </div>
-      </div>
+      </FormOverflow>
       {formError ? <ErrorText>{formError}</ErrorText> : null}
       <Separator />
       <div className="flex justify-between">
