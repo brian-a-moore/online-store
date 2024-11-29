@@ -17,7 +17,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 350,
       }),
     },
@@ -32,7 +32,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 420,
       }),
     },
@@ -49,7 +49,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 479,
       }),
     },
@@ -65,7 +65,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 349,
       }),
     },
@@ -83,7 +83,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 79,
       }),
     },
@@ -99,7 +99,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 224,
       }),
     },
@@ -117,7 +117,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 5,
       }),
     },
@@ -133,7 +133,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       maxQuantityPerOrder: 10,
       isPublished: true,
       config: JSON.stringify({
-        isReedemable: false,
+        isRedeemable: false,
         price: 5,
       }),
     },
