@@ -44,7 +44,6 @@ export const createProductDashboardController = async (
         ...incomingProduct,
         id,
         storeId,
-        isPublished: false,
       },
     });
 

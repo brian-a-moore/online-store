@@ -42,7 +42,6 @@ export const createStoreAdminController = async (
       data: {
         ...incomingStore,
         id,
-        isPublished: false,
       },
     });
 
