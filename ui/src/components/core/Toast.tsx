@@ -87,7 +87,7 @@ export const Toast: React.FC<Props> = ({ toast }) => {
         }}
         className={`
           ${ANIMATION[status]} ${COLORS[toast.type].background}
-          flex items-center justify-stretch min-w-[300px] max-w-[460px] pointer-events-auto
+          flex items-stretch justify-center min-w-[300px] max-w-[460px] pointer-events-auto
           rounded shadow-md active:scale-95
         `}
         onClick={() => setStatus('closing')}
