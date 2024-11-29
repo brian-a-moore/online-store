@@ -1,37 +1,46 @@
 import { mdiClose, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect, useState } from 'react';
-import { VariableItemConfig } from '../../../../../api/src/types/itemConfigs';
-import { formatCurrency } from '../../../utils';
-import { Button } from '../../interactive';
-import { EmptyText } from '../../typography';
-import Label from '../Label';
+import { VariableItemConfig } from '../../../../api/src/types/itemConfigs';
+import { formatCurrency } from '../../utils';
+import { Button } from '../interactive';
+import { EmptyText } from '../typography';
 
 type Props = {
   onChange: (values: number[]) => void;
   config: VariableItemConfig;
 };
 
-export default function PresetAmountsInput({ onChange, config }: Props) {
+export const PresetAmounts: React.FC<Props> = ({ onChange, config }) => {
   const [amounts, setAmounts] = useState<number[]>([]);
-  const [value, setValue] = useState<number>(config.defaultAmount || 1);
+  const [value, setValue] = useState<string>(config.defaultAmount.toString() || '');
 
   useEffect(() => {
     onChange(amounts);
   }, [amounts]);
 
-  const updateCurrentValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(parseInt(e.target.value));
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (/^\d*$/.test(newValue)) {
+      setValue(newValue);
+    }
+  };
+
+  const handleOnBlur = () => {
+    if (value === "") {
+      setValue("0");
+    }
   };
 
   const addAmountToArray = () => {
+    const convertedValue = parseInt(value);
     let valueToAdd;
-    if (value < config.minAmount) {
+    if (convertedValue < config.minAmount) {
       valueToAdd = config.minAmount;
-    } else if (value > config.maxAmount) {
+    } else if (convertedValue > config.maxAmount) {
       valueToAdd = config.maxAmount;
     } else {
-      valueToAdd = value;
+      valueToAdd = convertedValue;
     }
     setAmounts((prevState) => {
       if (prevState.length < 5) {
@@ -40,12 +49,12 @@ export default function PresetAmountsInput({ onChange, config }: Props) {
         return prevState;
       }
     });
-    setValue(config.defaultAmount || 1);
+    setValue(config.defaultAmount.toString() || '');
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <Label>Preset Amounts</Label>
+      <label className="text-sm font-semibold">Preset Amounts</label>
       {amounts.length ? (
         <div className="flex gap-2 flex-wrap">
           {amounts.map((amount, index) => (
@@ -68,15 +77,16 @@ export default function PresetAmountsInput({ onChange, config }: Props) {
       )}
       <div className="flex gap-4">
         <input
+          type="text"
           className={`flex-1 w-full h-12 px-4 rounded disabled:cursor-not-allowed disabled:text-slate-300`}
           disabled={amounts.length >= 5}
-          type="number"
           placeholder="Preset Amount"
           value={value}
           min={config.minAmount || 1}
           max={config.maxAmount}
           maxLength={(config.maxAmount || 999999).toString().length}
-          onChange={updateCurrentValue}
+          onChange={handleOnChange}
+          onBlur={handleOnBlur}
         />
         <Button variant="secondary" disabled={amounts.length >= 5} onClick={addAmountToArray}>
           <Icon path={mdiPlus} size={0.75} />
@@ -84,4 +94,4 @@ export default function PresetAmountsInput({ onChange, config }: Props) {
       </div>
     </div>
   );
-}
+};

@@ -10,31 +10,12 @@ body {
   background-color: #eee;
 }
 
-:root {
-  --input-background-color: #f1f5f9f1;
-  --input-background-error-color: #fee2e2;
-  --border-color: #e2e8f0;
-  --text-error-color: #ef4444;
-  --link-color: #0284c7;
-  --outline-color: #7dd3fc;
-  --outline-error-color: #ef4444;
-  --selection-color: #7dd3fc;
-}
-
-input,
-select,
-textarea {
-  background-color: var(--input-background-color);
-  color: var(--text-color);
-  outline-color: var(--outline-color);
-}
-
 ::selection {
-  background-color: var(--selection-color);
+  background-color: #7dd3fc;
 }
 
 a {
-  color: var(--link-color);
+  color: #0284c7;
   font-weight: 500;
 }
 
@@ -42,59 +23,4 @@ a {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-hr {
-  border-color: var(--border-color);
-}
-
-.loader {
-  width: 8px;
-  height: 8px;
-  position: relative;
-  border-radius: 50%;
-  animation: wave 1s ease-in infinite;
-}
-
-@keyframes wave {
-  0% {
-    box-shadow:
-      0 0 0 0px rgba(2, 132, 199, 1),
-      0 0 0 20px rgba(2, 132, 199, 0.2),
-      0 0 0 40px rgba(2, 132, 199, 0.6),
-      0 0 0 60px rgba(2, 132, 199, 0.4),
-      0 0 0 80px rgba(2, 132, 199, 0.2);
-  }
-  100% {
-    box-shadow:
-      0 0 0 80px rgba(2, 132, 199, 0),
-      0 0 0 60px rgba(2, 132, 199, 0.2),
-      0 0 0 40px rgba(2, 132, 199, 0.4),
-      0 0 0 20px rgba(2, 132, 199, 0.6),
-      0 0 0 0px rgba(2, 132, 199, 1);
-  }
-}
-
-.banner-shadow::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(transparent 10%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.6) 100%);
-  z-index: 5;
-}
-
-.text-shadow {
-  text-shadow: 0 2px 2px black;
-}
-
-.store-name {
-  font-size: clamp(3rem, 5vw, 10rem);
-  color: white;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  font-weight: bold;
 }

@@ -15,9 +15,9 @@ import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
 import { Loader } from '../../core';
 import { Separator } from '../../display';
-import { ErrorText, SwitchInput, TextInput } from '../../input';
+import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
-import { H3 } from '../../typography';
+import { ErrorText, H3 } from '../../typography';
 
 type EditStoreForm = {
   name: string;
@@ -107,16 +107,14 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
       <Separator />
       <div className="flex flex-col flex-1 gap-4 overflow-y-auto">
         <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-        <TextInput
+        <TextAreaInput
           name="description"
           label="Description"
           control={control}
           invalidText={errors?.description?.message}
-          maxRows={5}
-          multiline
         />
         <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
-        <SwitchInput name="isPublished" label="Public" control={control} />
+        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />

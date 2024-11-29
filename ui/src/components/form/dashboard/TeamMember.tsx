@@ -10,9 +10,9 @@ import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import { Alert } from '../../container';
 import { Separator } from '../../display';
-import { ErrorText, SearchBox, SelectInput } from '../../input';
+import { SearchBox, SelectInput } from '../../input';
 import { Button } from '../../interactive';
-import { H3 } from '../../typography';
+import { ErrorText, H3 } from '../../typography';
 
 type TeamMemberForm = {
   userId: string;
@@ -98,14 +98,14 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, forceReload }) => {
         </div>
       ) : (
         <>
-          <SearchBox storeId={storeId} selectTeamMember={selectTeamMember} />
+          <SearchBox selectTeamMember={selectTeamMember} />
           <Alert type="info">
             If you cannot find the user you are looking for, contact your administrator to have them added to the
             application.
           </Alert>
         </>
       )}
-      {errors.userId && <ErrorText className="mt-[-8px]">Please search for a user</ErrorText>}
+      {errors.userId && <ErrorText>Please search for a user</ErrorText>}
       <SelectInput
         name="roleId"
         control={control}

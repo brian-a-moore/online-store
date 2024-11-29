@@ -12,9 +12,9 @@ import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
 import { Loader } from '../../core';
-import { ErrorText, SwitchInput, TextInput } from '../../input';
+import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
-import { H3 } from '../../typography';
+import { ErrorText, H3 } from '../../typography';
 
 type EditStoreForm = {
   name: string;
@@ -138,16 +138,14 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         ) : null}
       </div>
       <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-      <TextInput
+      <TextAreaInput
         name="description"
         label="Description"
         control={control}
         invalidText={errors?.description?.message}
-        maxRows={5}
-        multiline
       />
       <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
-      <SwitchInput name="isPublished" label="Public" control={control} />
+      <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors?.isPublished?.message} />
       {formError && <ErrorText>{formError}</ErrorText>}
       <div className="flex justify-between">
         <Button variant="secondary" onClick={closeModal}>

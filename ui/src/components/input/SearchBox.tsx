@@ -5,22 +5,20 @@ import {
   SearchUsersDashboardBody,
   SearchUsersDashboardQuery,
   SearchUsersDashboardResponse,
-} from '../../../../../api/src/types/api';
-import { HTTP_METHOD } from '../../../constants';
-import useApi from '../../../hooks/useApi';
-import useDebounce from '../../../hooks/useDebounce';
-import { Card } from '../../container';
-import { EmptyText } from '../../typography';
-import Label from '../Label';
+} from '../../../../api/src/types/api';
+import { HTTP_METHOD } from '../../constants';
+import useApi from '../../hooks/useApi';
+import useDebounce from '../../hooks/useDebounce';
+import { Card } from '../container';
+import { EmptyText } from '../typography';
 
 type SearchBoxProps = {
-  storeId: string;
   selectTeamMember: (teamMember: { id: string; name: string; email: string }) => void;
 };
 
-const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
+export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
   const [search, setSearch] = useState<string>('');
-  const [field, setField] = useState<'name' | 'email'>('name');
+  const [field] = useState<'name' | 'email'>('name');
   const [users, setUsersDashboard] = useState<SearchUsersDashboardResponse['users']>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -60,10 +58,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({ storeId, selectTeamMember }) => {
 
   return (
     <div className="relative flex flex-col gap-2">
-      <Label htmlFor="search">Search Users</Label>
+    <label className='text-sm font-semibold'>Search Users</label>
       <input
         type="search"
-        className={`w-full h-12 px-4 rounded`}
+        className={`w-full h-12 px-4 rounded bg-slate-100 focus:outline-sky-300`}
         value={search}
         onChange={onChange}
         placeholder="Search Users"

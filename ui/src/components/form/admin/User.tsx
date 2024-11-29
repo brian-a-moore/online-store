@@ -13,9 +13,9 @@ import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
 import { Alert } from '../../container';
 import { Loader } from '../../core';
-import { ErrorText, TextInput } from '../../input';
+import { TextInput } from '../../input';
 import { Button } from '../../interactive';
-import { H3 } from '../../typography';
+import { ErrorText, H3 } from '../../typography';
 
 type EditUserForm = {
   name: string;

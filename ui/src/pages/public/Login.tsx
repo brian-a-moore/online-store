@@ -6,8 +6,9 @@ import { LoginAuthBody } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card } from '../../components/container';
 import { Separator } from '../../components/display';
-import { ErrorText, TextInput } from '../../components/input';
+import { TextInput } from '../../components/input';
 import { Button, TextButton } from '../../components/interactive';
+import { ErrorText } from '../../components/typography';
 import { AUTH_TOKEN } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 
