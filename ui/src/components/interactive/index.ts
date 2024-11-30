@@ -3,3 +3,4 @@ export * from './ButtonLink';
 export * from './Link';
 export * from './Stepper';
 export * from './TextButton';
+export * from './UpdateImageButton';

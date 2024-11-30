@@ -75,6 +75,7 @@ export const listItemsDashboardController = async (
       select: {
         id: true,
         name: true,
+        image: true,
         updatedAt: true,
         isPublished: true,
       },

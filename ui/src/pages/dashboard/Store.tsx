@@ -76,9 +76,9 @@ export const StoreDashboard: React.FC = () => {
       <Container>
         <Card className="!p-0">
           <div className="relative h-40 md:h-52">
-            <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} />
-            <IconImage className="absolute -bottom-12 left-8 z-10" image={store?.image} name={store!.name} />
-            <div className="absolute top-4 right-4 flex gap-4 z-10">
+            <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} upload={{ storeId: storeId! }} />
+            <IconImage className="absolute -bottom-12 left-8 z-20" image={store?.image} name={store!.name} upload={{ storeId: storeId! }} />
+            <div className="absolute top-4 right-4 flex gap-4 z-30">
               <Button variant="secondary" onClick={openEditStore} title="Edit Store">
                 <Icon path={mdiPencil} size={0.75} />
               </Button>

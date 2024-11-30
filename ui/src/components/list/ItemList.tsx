@@ -12,7 +12,7 @@ import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 import { Grid, ListItem } from '../container';
 import { Loader } from '../core';
-import { IsPublished } from '../display';
+import { IconImage, IsPublished } from '../display';
 import { ItemDashboardForm } from '../form/dashboard';
 import { EmptyText, H5 } from '../typography';
 
@@ -22,7 +22,7 @@ type Props = {
   reload?: string;
 };
 
-export const ItemList: React.FC<Props> = ({ productId, reload: passedInReload }) => {
+export const ItemList: React.FC<Props> = ({ storeId, productId, reload: passedInReload }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
@@ -69,6 +69,9 @@ export const ItemList: React.FC<Props> = ({ productId, reload: passedInReload })
     <Grid className="!p-0">
       {items?.map((item) => (
         <ListItem key={item.id} onClick={() => openEditItemForm(item.id)} title={`Edit Item: ${item.name}`}>
+          <div className='mb-4 flex justify-center w-full'>
+            <IconImage image={item.image} name={item.name} upload={{ storeId, productId, itemId: item.id }} rounded={false} />
+          </div>
           <H5 className="w-full whitespace-nowrap text-left text-ellipsis overflow-hidden" title={item.name}>
             {item.name}
           </H5>

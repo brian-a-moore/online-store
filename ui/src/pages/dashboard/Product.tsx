@@ -99,7 +99,7 @@ export const ProductDashboard: React.FC = () => {
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col gap-4 items-center">
-              <IconImage image={product?.image} name={product!.name} />
+              <IconImage image={product?.image} name={product!.name} upload={{ storeId: storeId!, productId }} />
             </div>
             <div className="flex flex-col gap-4 flex-1">
               <div className="flex-1">
