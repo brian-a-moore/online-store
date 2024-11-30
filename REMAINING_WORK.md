@@ -36,3 +36,4 @@ N/A
 - Store page for checking/redeeming purchases (QR code scanner)
 - Update to React Router v7
   -  [ ] This is optional for now
+- Store, Product and Items should show placeholder image if no image is defined
