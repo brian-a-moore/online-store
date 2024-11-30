@@ -9,7 +9,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Grid } from '../../components/container';
 import { Loader } from '../../components/core';
-import { IsPublished } from '../../components/display';
+import { IconImage, IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { EmptyText, H5 } from '../typography';
@@ -52,6 +52,9 @@ export const StoreList: React.FC = () => {
           to={`store/${store.id}`}
           title={`View store: ${store.name}`}
         >
+          <div className='mb-4 flex justify-center w-full'>
+            <IconImage image={store?.image} name={store.name} />
+          </div>
           <H5 className="w-full text-left whitespace-nowrap text-ellipsis overflow-hidden">{store.name}</H5>
           <div className="flex gap-4 w-full justify-between">
             <div

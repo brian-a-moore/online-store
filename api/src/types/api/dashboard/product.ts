@@ -11,8 +11,9 @@ export type ListProductsDashboardParams = z.infer<typeof productSchema.listProdu
 export type ListProductsDashboardQuery = z.infer<typeof productSchema.listProductsDashboardSchema.query>;
 export type ListProductsDashboardResponse = {
   products: {
-    name: string;
     id: string;
+    name: string;
+    image?: string | null;
     isPublished: boolean;
     updatedAt: Date;
   }[];

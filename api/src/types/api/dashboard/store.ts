@@ -8,6 +8,7 @@ export type ListStoresDashboardResponse = {
   stores: {
     id: string;
     name: string;
+    image?: string | null;
     isPublished: boolean;
     updatedAt: Date;
   }[];

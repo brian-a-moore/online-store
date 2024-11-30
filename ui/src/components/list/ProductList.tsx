@@ -8,7 +8,7 @@ import {
   ListProductsDashboardResponse,
 } from '../../../../api/src/types/api';
 import { Loader } from '../../components/core';
-import { IsPublished } from '../../components/display';
+import { IconImage, IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { Grid } from '../container';
@@ -60,6 +60,9 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
           to={`product/${product.id}`}
           title={`View Product: ${product.name}`}
         >
+          <div className='mb-4 flex justify-center w-full'>
+            <IconImage image={product?.image} name={product.name} rounded={false} />
+          </div>
           <H5 className="w-full text-left whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</H5>
           <div className="flex gap-4 w-full justify-between">
             <div

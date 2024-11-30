@@ -70,7 +70,7 @@ export const ItemList: React.FC<Props> = ({ storeId, productId, reload: passedIn
       {items?.map((item) => (
         <ListItem key={item.id} onClick={() => openEditItemForm(item.id)} title={`Edit Item: ${item.name}`}>
           <div className='mb-4 flex justify-center w-full'>
-            <IconImage image={item.image} name={item.name} upload={{ storeId, productId, itemId: item.id }} rounded={false} />
+            <IconImage image={item.image} name={item.name} rounded={false} />
           </div>
           <H5 className="w-full whitespace-nowrap text-left text-ellipsis overflow-hidden" title={item.name}>
             {item.name}

@@ -72,6 +72,7 @@ export const listProductsDashboardController = async (
       select: {
         id: true,
         name: true,
+        image: true,
         updatedAt: true,
         isPublished: true,
       },
