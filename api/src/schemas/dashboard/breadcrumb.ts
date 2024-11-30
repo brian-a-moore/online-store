@@ -8,6 +8,7 @@ export const getBreadcrumbDashboardSchema = {
     .object({
       storeId: uuid.optional(),
       productId: uuid.optional(),
+      itemId: uuid.optional(),
     })
     .strict(),
 };

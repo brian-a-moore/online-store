@@ -1,19 +1,17 @@
 import { mdiUpdate } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   ListItemsDashboardBody,
   ListItemsDashboardQuery,
   ListItemsDashboardResponse,
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
-import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { Grid, ListItem } from '../container';
+import { Grid } from '../container';
 import { Loader } from '../core';
 import { IconImage, IsPublished } from '../display';
-import { ItemDashboardForm } from '../form/dashboard';
 import { EmptyText, H5 } from '../typography';
 
 type Props = {
@@ -22,10 +20,8 @@ type Props = {
   reload?: string;
 };
 
-export const ItemList: React.FC<Props> = ({ storeId, productId, reload: passedInReload }) => {
-  const { openModal } = useContext(ModalContext);
+export const ItemList: React.FC<Props> = ({ productId, reload }) => {
   const navigate = useNavigate();
-  const [reload, setReload] = useState<string | undefined>();
 
   const { error, isLoading, response } = useApi<
     ListItemsDashboardBody,
@@ -44,15 +40,6 @@ export const ItemList: React.FC<Props> = ({ storeId, productId, reload: passedIn
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  useEffect(() => {
-    if(passedInReload) setReload(passedInReload);
-  }, [passedInReload]);
-
-  const forceReload = () => setReload(new Date().toISOString());
-  const openEditItemForm = (id: string) => {
-    openModal(<ItemDashboardForm productId={productId} itemId={id} forceReload={forceReload} />);
-  };
-
   if (isLoading) return <Loader />;
 
   const items = response?.items;
@@ -68,7 +55,12 @@ export const ItemList: React.FC<Props> = ({ storeId, productId, reload: passedIn
   return (
     <Grid className="!p-0">
       {items?.map((item) => (
-        <ListItem key={item.id} onClick={() => openEditItemForm(item.id)} title={`Edit Item: ${item.name}`}>
+        <RouterLink
+          className="flex flex-col p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
+          key={item.id}
+          to={`item/${item.id}`}
+          title={`View Item: ${item.name}`}
+        >
           <div className='mb-4 flex justify-center w-full'>
             <IconImage image={item.image} name={item.name} rounded={false} />
           </div>
@@ -85,7 +77,7 @@ export const ItemList: React.FC<Props> = ({ storeId, productId, reload: passedIn
             </div>
             <IsPublished isPublished={item.isPublished} pathType="item" />
           </div>
-        </ListItem>
+        </RouterLink>
       ))}
     </Grid>
   );

@@ -1,4 +1,4 @@
-import { mdiBarcode, mdiChevronRight, mdiHome, mdiStore, mdiTag } from '@mdi/js';
+import { mdiChevronRight, mdiHome, mdiNote, mdiStore, mdiTag } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ import useApi from '../../hooks/useApi';
 import { Link } from '../interactive';
 
 const LABELS = ['Go Home', 'Go to store: ', 'Go to product: ', 'Go to item: '];
-const ICONS = [mdiHome, mdiStore, mdiTag, mdiBarcode];
+const ICONS = [mdiHome, mdiStore, mdiTag, mdiNote];
 
 export const BreadCrumb: React.FC = () => {
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ export const BreadCrumb: React.FC = () => {
     if (index === 0) return '/dashboard';
     if (index === 1) return `/dashboard/store/${crumbs[1].id}`;
     if (index === 2) return `/dashboard/store/${crumbs[1].id}/product/${crumbs[2].id}`;
+    if (index === 3) return `/dashboard/store/${crumbs[1].id}/product/${crumbs[2].id}/item/${crumbs[3].id}`;
     else return '/dashboard';
   };
 
@@ -52,7 +53,7 @@ export const BreadCrumb: React.FC = () => {
               <Link className="text-slate-100" href={getCrumbLink(index)} title={`${LABELS[index]}${crumb.name}`}>
                 <div className="flex gap-2 items-center">
                   <Icon path={ICONS[index]} size={0.75} color="#CBD5E1" />
-                  <p className="text-sm">{crumb.name}</p>
+                  <p className="text-sm line-clamp-1">{crumb.name}</p>
                 </div>
               </Link>
               {index !== crumbs.length - 1 && <Icon className="opacity-60" path={mdiChevronRight} size={0.75} />}

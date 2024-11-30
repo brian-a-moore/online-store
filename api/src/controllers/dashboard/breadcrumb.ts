@@ -32,6 +32,14 @@ export const getBreadcrumbDashboardController = async (
       crumbs.push({ name: product.name, id: product.id });
     }
 
+    if (ids.itemId) {
+      const item = await db.item.findUniqueOrThrow({
+        select: { id: true, name: true },
+        where: { id: ids.itemId },
+      });
+      crumbs.push({ name: item.name, id: item.id });
+    }
+
     res.status(STATUS_CODE.OKAY).json({ crumbs });
   } catch (e: any | unknown) {
     next(e);

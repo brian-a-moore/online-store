@@ -4,7 +4,7 @@ import { Modal, Toast } from './components/core';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import { Admin, HomeAdmin, ItemsAdmin, ProductsAdmin, StoresAdmin, SuperusersAdmin, UsersAdmin } from './pages/admin';
-import { Dashboard, HomeDashboard, ProductDashboard, StoreDashboard } from './pages/dashboard';
+import { Dashboard, HomeDashboard, ItemDashboard, ProductDashboard, StoreDashboard } from './pages/dashboard';
 import { Home, Items, Login, PageNotFound, Products, ServerError, Store } from './pages/public';
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
           <Route index element={<HomeDashboard />} />
           <Route path="store/:storeId" element={<StoreDashboard />} />
           <Route path="store/:storeId/product/:productId" element={<ProductDashboard />} />
+          <Route path="store/:storeId/product/:productId/item/:itemId" element={<ItemDashboard />} />
         </Route>
 
         {/* Error Pages */}
