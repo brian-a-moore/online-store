@@ -10,6 +10,7 @@ import { Home, Items, Login, PageNotFound, Products, ServerError, Store } from '
 function App() {
   const { modal } = useContext(ModalContext);
   const { toast } = useContext(ToastContext);
+
   return (
     <div>
       <Routes>

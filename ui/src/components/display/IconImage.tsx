@@ -2,6 +2,7 @@ import { mdiImage } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { ModalContext } from '../../context/ModalContext';
+import { UploadImageDashboardForm } from '../form';
 import { UpdateImageButton } from '../interactive';
 
 type Props = {
@@ -19,7 +20,7 @@ export const IconImage: React.FC<Props> = ({ className, image, name, rounded = t
   const { openModal } = useContext(ModalContext);
   const [isHovered, setIsHovered] = useState(false);
 
-  const openUploadForm = () => openModal(<p>Upload Form</p>);
+  const openUploadForm = () => openModal(<UploadImageDashboardForm existingImage={image || ''} upload={upload} forceReload={() => {}} />);
 
   return (
     <div

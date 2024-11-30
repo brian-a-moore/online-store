@@ -2,6 +2,7 @@ import { mdiImage } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useState } from 'react';
 import { ModalContext } from '../../context/ModalContext';
+import { UploadImageDashboardForm } from '../form';
 import { UpdateImageButton } from '../interactive';
 
 type Props = {
@@ -18,7 +19,8 @@ export const BannerImage: React.FC<Props> = ({ className, image, name, upload })
   const { openModal } = useContext(ModalContext);
   const [isHovered, setIsHovered] = useState(false);
 
-  const openUploadForm = () => openModal(<p>Upload Form</p>);
+  // TODO: We need to pass a forceUpload function here
+  const openUploadForm = () => openModal(<UploadImageDashboardForm existingImage={image || ''} imageType='bannerImage' upload={upload} forceReload={() => {}} />);
 
   return (
     <div className={` banner-shadow bg-slate-200 flex items-center justify-center w-full h-40 md:h-52 ${className}`}

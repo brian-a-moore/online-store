@@ -1,4 +1,4 @@
-import { mdiDelete, mdiImageSearch, mdiResize, mdiRotateRight, mdiUpload } from '@mdi/js';
+import { mdiDelete, mdiImageSearch, mdiResize, mdiRotateRight } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
@@ -121,9 +121,6 @@ export const ImageUploader: React.FC<Props> = ({ existingImage, config = 'image'
       </Button>
       <Button disabled={!image} variant='destructive' className='text-sm' onClick={onClear}>
         <Icon path={mdiDelete} size={0.75} />
-      </Button>
-      <Button className='text-sm' onClick={onSave}>
-        <Icon path={mdiUpload} size={0.75} />
       </Button>
       </div>
     </div>

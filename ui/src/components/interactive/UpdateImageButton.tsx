@@ -8,6 +8,7 @@ type Props = {
 export const UpdateImageButton: React.FC<Props> = ({ onClick }) => {
   return (
     <button
+      type='button'
       onClick={onClick}
       className="absolute bg-slate-800 bg-opacity-50 top-0 left-0 z-20 flex w-full h-full items-center justify-center"
     >
