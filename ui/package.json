@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
+    "@sunami/constants": "^0.1.0",
     "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-avatar-editor": "^13.0.2",
