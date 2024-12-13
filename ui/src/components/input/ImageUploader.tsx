@@ -11,23 +11,9 @@ type Props = {
   existingImage?: string;
   rounded?: boolean;
   onUpload: (file: File) => void;
-  config?: 'image' | 'bannerImage';
 };
 
-const sizeConfigs = {
-  image: {
-    componentSize: 'w-[270px]',
-    width: 250,
-    height: 250,
-  },
-  bannerImage: {
-    componentSize: 'w-[670px]',
-    width: 650,
-    height: 100,
-  },
-};
-
-export const ImageUploader: React.FC<Props> = ({ existingImage, config = 'image', rounded = false, onUpload }) => {
+export const ImageUploader: React.FC<Props> = ({ existingImage, rounded = false, onUpload }) => {
   const [image, setImage] = useState<string | File | null>(null);
   const [scale, setScale] = useState(1);
   const [roatation, setRotation] = useState(0);
@@ -89,15 +75,15 @@ export const ImageUploader: React.FC<Props> = ({ existingImage, config = 'image'
   };
 
   return (
-    <div className={`flex flex-col gap-4 items-center ${sizeConfigs[config].componentSize}`} {...getRootProps()}>
+    <div className={`flex flex-col gap-4 items-center w-[270px]`} {...getRootProps()}>
       <div className="bg-slate-300">
         <AvatarEditor
           backgroundColor="#CBD5E1"
-          width={sizeConfigs[config].width}
-          height={sizeConfigs[config].height}
+          width={250}
+          height={250}
           border={10}
           color={[100, 116, 139, 0.6]}
-          borderRadius={rounded && config === 'image' ? 125 : 0}
+          borderRadius={rounded ? 125 : 0}
           image={image as File}
           scale={scale}
           rotate={roatation}
@@ -123,7 +109,7 @@ export const ImageUploader: React.FC<Props> = ({ existingImage, config = 'image'
         />
       </div>
       <div className="flex w-full justify-center gap-4">
-        <Button variant="secondary" className="flex relative gap-4 text-sm">
+        <Button variant="tertiary" className="flex relative gap-4 text-sm">
           <Icon path={mdiImageSearch} size={0.75} color="#475569" />
           <input
             type="file"

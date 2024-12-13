@@ -1,40 +1,46 @@
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse } from '../../../../api/src/types/api';
-import { Card, Container, Page, Table } from '../../components/container';
-import { Loader } from '../../components/core';
+import { AgGrid } from '../../components/container';
 import { ItemAdminForm } from '../../components/form';
-import { EmptyText, H4 } from '../../components/typography';
+import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { ColumnConfig } from '../../types';
 
-const columns: ColumnConfig[] = [
+type Row = ListItemsAdminResponse['items'][0];
+
+const columns: ColDef[] = [
   {
-    key: 'name',
-    label: 'Item Name',
-    render: (value) => <p className="line-clamp-2">{value}</p>,
+    field: 'name',
+    headerName: 'Item Name',
+    flex: 2,
+    filter: true,
   },
   {
-    key: 'productName',
-    label: 'Product Name',
-    render: (value) => <p className="line-clamp-2">{value}</p>,
+    field: 'productName',
+    headerName: 'Product Name',
+    flex: 2,
+    filter: true,
   },
   {
-    key: 'isPublished',
-    label: 'Status',
-    render: (value) => <p>{value}</p>,
+    field: 'isPublished',
+    headerName: 'Status',
+    flex: 1,
+    filter: true,
   },
   {
-    key: 'createdAt',
-    label: 'Created Date',
-    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+    field: 'createdAt',
+    headerName: 'Created Date',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
   },
   {
-    key: 'updatedAt',
-    label: 'Last Updated',
-    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+    field: 'updatedAt',
+    headerName: 'Last Updated',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
@@ -42,12 +48,13 @@ export const ItemsAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
+  const [page, setPage] = useState<number>(1);
 
   const { error, isLoading, response } = useApi<ListItemsAdminBody, ListItemsAdminQuery, ListItemsAdminResponse>(
     {
       url: `/admin/item/list`,
       method: HTTP_METHOD.GET,
-      params: { page: '1' },
+      params: { page: page.toString() },
     },
     { reTrigger: reload },
   );
@@ -58,25 +65,19 @@ export const ItemsAdmin: React.FC = () => {
 
   const forceReload = () => setReload(new Date().toISOString());
   const openEditItemForm = (id: string) => openModal(<ItemAdminForm itemId={id} forceReload={forceReload} />);
+  const onRowClicked = (e: RowClickedEvent<Row>) => openEditItemForm(e.data!.id);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   const items = response?.items;
 
   return (
-    <Page>
-      <Container>
-        <Card>
-          <H4>Items</H4>
-        </Card>
-        <Card>
-          {items && items.length ? (
-            <Table columns={columns} data={items} onRowClick={openEditItemForm} />
-          ) : (
-            <EmptyText>No items found</EmptyText>
-          )}
-        </Card>
-      </Container>
-    </Page>
+    <>
+      {items && items.length ? (
+        <AgGrid<Row> cols={columns} rows={items} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No items found</EmptyText>
+      )}
+    </>
   );
 };

@@ -1,38 +1,40 @@
-import { mdiPlus } from '@mdi/js';
-import Icon from '@mdi/react';
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse } from '../../../../api/src/types/api';
-import { Card, Container, Page, Table } from '../../components/container';
-import { Loader } from '../../components/core';
+import { AgGrid } from '../../components/container';
 import { StoreAdminForm } from '../../components/form';
-import { Button } from '../../components/interactive';
-import { EmptyText, H4 } from '../../components/typography';
+import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { ColumnConfig } from '../../types';
 
-const columns: ColumnConfig[] = [
+type Row = ListStoresAdminResponse['stores'][0];
+
+const columns: ColDef[] = [
   {
-    key: 'name',
-    label: 'Store Name',
-    render: (value) => <p className="line-clamp-2">{value}</p>,
+    field: 'name',
+    headerName: 'Store Name',
+    flex: 2,
+    filter: true,
   },
   {
-    key: 'isPublished',
-    label: 'Status',
-    render: (value) => <p>{value}</p>,
+    field: 'isPublished',
+    headerName: 'Status',
+    flex: 1,
+    filter: true,
   },
   {
-    key: 'createdAt',
-    label: 'Created Date',
-    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+    field: 'createdAt',
+    headerName: 'Created Date',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
   },
   {
-    key: 'updatedAt',
-    label: 'Last Updated',
-    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+    field: 'updatedAt',
+    headerName: 'Last Updated',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
@@ -40,12 +42,13 @@ export const StoresAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
+  const [page, setPage] = useState<number>(1);
 
   const { error, isLoading, response } = useApi<ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse>(
     {
       url: `/admin/store/list`,
       method: HTTP_METHOD.GET,
-      params: { page: '1' },
+      params: { page: page.toString() },
     },
     { reTrigger: reload },
   );
@@ -57,28 +60,19 @@ export const StoresAdmin: React.FC = () => {
   const forceReload = () => setReload(new Date().toISOString());
   const openNewStoreForm = () => openModal(<StoreAdminForm forceReload={forceReload} />);
   const openEditStoreForm = (id: string) => openModal(<StoreAdminForm storeId={id} forceReload={forceReload} />);
+  const onRowClicked = (e: RowClickedEvent<Row>) => openEditStoreForm(e.data!.id);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   const stores = response?.stores;
 
   return (
-    <Page>
-      <Container>
-        <Card className="!flex-row items-center justify-between">
-          <H4>Stores</H4>
-          <Button title="New Store" onClick={openNewStoreForm}>
-            <Icon path={mdiPlus} size={0.75} />
-          </Button>
-        </Card>
-        <Card>
-          {stores && stores.length ? (
-            <Table columns={columns} data={stores} onRowClick={openEditStoreForm} />
-          ) : (
-            <EmptyText>No stores found</EmptyText>
-          )}
-        </Card>
-      </Container>
-    </Page>
+    <>
+      {stores && stores.length ? (
+        <AgGrid<Row> cols={columns} rows={stores} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No stores found</EmptyText>
+      )}
+    </>
   );
 };

@@ -25,7 +25,7 @@ export type GetStorePublicResponse = {
     name: string;
     website: string | null;
     description: string | null;
-    bannerImage: string | null;
+    image: string | null;
   };
 };
 

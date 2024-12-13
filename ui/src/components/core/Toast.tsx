@@ -19,19 +19,19 @@ const ICON = {
 
 const COLORS = {
   error: {
-    background: 'bg-red-500 hover:bg-red-600',
-    text: 'text-red-50',
-    icon: '#FEF2F2',
+    background: 'bg-red-100',
+    text: 'text-red-700',
+    icon: '#B91C1C',
   },
   info: {
-    background: 'bg-white hover:bg-[#efefef]',
-    text: 'text-[var(--text-color)]',
-    icon: 'var(--text-color)',
+    background: 'bg-white',
+    text: 'text-slate-700',
+    icon: '#334155',
   },
   success: {
-    background: 'bg-green-600 hover:bg-green-600',
-    text: 'text-green-50',
-    icon: '#F0FDFA',
+    background: 'bg-green-100',
+    text: 'text-green-700',
+    icon: '#15803D',
   },
 };
 
@@ -88,11 +88,11 @@ export const Toast: React.FC<Props> = ({ toast }) => {
         className={`
           ${ANIMATION[status]} ${COLORS[toast.type].background}
           flex items-stretch justify-center min-w-[300px] max-w-[460px] pointer-events-auto
-          rounded shadow-md active:scale-95
+          rounded  active:scale-95
         `}
         onClick={() => setStatus('closing')}
       >
-        <div className="bg-[rgba(100,100,100,0.1)] flex items-center justify-center px-4">
+        <div className="bg-[rgba(0,0,0,0.05)] flex items-center justify-center px-4">
           <Icon path={ICON[toast.type]} size={1.25} color={COLORS[toast.type].icon} />
         </div>
         <div className="flex flex-col flex-1 gap-2 p-4">

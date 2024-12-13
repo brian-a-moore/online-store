@@ -17,10 +17,9 @@ import { ErrorText } from '../../../typography';
 type Props = {
   item?: GetItemDashboardResponse['item'];
   productId: string;
-  forceReload: () => void;
 };
 
-export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload }) => {
+export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
   const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const [formError, setFormError] = useState<string | null>(null);
@@ -57,7 +56,6 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload
         setToast({ type: 'success', message: 'Item created successfully' });
       }
       closeModal();
-      forceReload();
     } catch (error: any | unknown) {
       setFormError(error.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
@@ -117,7 +115,7 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId, forceReload
       {formError ? <ErrorText>{formError}</ErrorText> : null}
       <Separator />
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>

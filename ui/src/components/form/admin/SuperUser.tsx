@@ -17,7 +17,6 @@ import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
 import { Alert } from '../../container';
-import { Loader } from '../../core';
 import { TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
@@ -134,7 +133,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
         <p>Are you sure you want to delete this superuser?</p>
         {formError ? <ErrorText>{formError}</ErrorText> : null}
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button variant="destructive" onClick={onClick}>
@@ -159,7 +158,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
         <H3>Reset Password</H3>
         <p>Are you sure you want to reset this superuser's password?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button onClick={onClick}>Reset Password</Button>
@@ -168,7 +167,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     );
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -176,10 +175,10 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
         <H3>{superuserId ? 'Edit' : 'New'} Superuser</H3>
         {superuserId && !isSelf ? (
           <div className="flex gap-4">
-            <Button variant="secondary" title="Delete Superuser" onClick={() => openDeleteSuperuserDialog(superuserId)}>
+            <Button variant="tertiary" title="Delete Superuser" onClick={() => openDeleteSuperuserDialog(superuserId)}>
               <Icon path={mdiDelete} size={0.75} />
             </Button>
-            <Button variant="secondary" title="Reset Password" onClick={() => openResetPasswordDialog(superuserId)}>
+            <Button variant="tertiary" title="Reset Password" onClick={() => openResetPasswordDialog(superuserId)}>
               <Icon path={mdiFormTextboxPassword} size={0.75} />
             </Button>
           </div>
@@ -217,7 +216,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
       ) : null}
       {formError ? <ErrorText>{formError}</ErrorText> : null}
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>

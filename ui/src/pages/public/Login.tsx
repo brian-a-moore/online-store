@@ -50,7 +50,7 @@ export const Login: React.FC<Props> = () => {
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-8">
-      <Card className="w-full max-w-[640px]">
+      <Card className="w-full max-w-[480px]">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center gap-4">
             <TextButton onClick={() => setDomain('user')} isActive={domain === 'user'}>
@@ -71,9 +71,11 @@ export const Login: React.FC<Props> = () => {
             invalidText={errors?.email?.message}
           />
           {formError ? <ErrorText>{formError}</ErrorText> : null}
-          <Button type="submit" disabled={isSubmitting}>
+         <div className='flex justify-end'>
+           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Logging in...' : 'Log In'}
           </Button>
+         </div>
         </form>
       </Card>
     </div>

@@ -1,113 +1,92 @@
-import { mdiAccountPlus, mdiPencil, mdiTagPlus } from '@mdi/js';
+import { mdiAccountPlus, mdiStoreEdit, mdiTagPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   GetStoreDashboardBody,
   GetStoreDashboardQuery,
   GetStoreDashboardResponse,
-  GetStoreLoggedInUserRelationDashboardBody,
-  GetStoreLoggedInUserRelationDashboardQuery,
-  GetStoreLoggeDInUserRelationDashboardResponse,
 } from '../../../../api/src/types/api';
-import { Card, Container, Page } from '../../components/container';
-import { Loader } from '../../components/core';
-import { BannerImage, IconImage, IsPublished } from '../../components/display';
-import { ProductDashboardForm, StoreDashboardForm, TeamMemberForm } from '../../components/form';
+import { Card, Container } from '../../components/container';
+import { IconImage, IsPublished, Separator } from '../../components/display';
+import { StoreDashboardForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
-import { H1 } from '../../components/typography';
+import { EmptyText, H2 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 
 export const StoreDashboard: React.FC = () => {
   const { openModal } = useContext(ModalContext);
-  const { storeId } = useParams();
   const navigate = useNavigate();
-  const [activeList, setActiveList] = useState<'products' | 'team'>('products');
-  const [reload, setReload] = useState<string | undefined>();
+  const { storeId } = useParams();
+  const [tab, setTab] = useState<'product' | 'team'>('product');
 
-  const getLoggedInUserRelationResponse = useApi<GetStoreLoggedInUserRelationDashboardBody, GetStoreLoggedInUserRelationDashboardQuery, GetStoreLoggeDInUserRelationDashboardResponse>({
-    url: `/dashboard/store/${storeId}/relation`,
-    method: HTTP_METHOD.GET,
-  });
-
-  const getStoreResponse = useApi<
+  const { error, isLoading, response } = useApi<
     GetStoreDashboardBody,
     GetStoreDashboardQuery,
     GetStoreDashboardResponse
-  >(
-    {
-      url: `/dashboard/store/${storeId}`,
-      method: HTTP_METHOD.GET,
-    },
-    { reTrigger: reload },
-  );
+  >({
+    url: `/dashboard/store/${storeId}`,
+    method: HTTP_METHOD.GET,
+  });
 
   useEffect(() => {
-    if (getLoggedInUserRelationResponse.error || getStoreResponse.error) navigate(`/500?error=${getLoggedInUserRelationResponse.error || getStoreResponse.error}`);
-  }, [getLoggedInUserRelationResponse.error || getStoreResponse.error]);
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
 
-  const toggleList = (list: 'products' | 'team') => {
-    setActiveList(list);
-  };
+  const openStoreEditForm = () => openModal(<StoreDashboardForm storeId={storeId!} />);
 
-  const goToAddPage = () => {
-    if (activeList === 'products') {
-      openModal(<ProductDashboardForm storeId={storeId} forceReload={forceReload} />);
-    } else {
-      openModal(<TeamMemberForm storeId={storeId!} forceReload={forceReload} />);
-    }
-  };
+  if (isLoading) return <p>Loading...</p>;
 
-  const forceReload = () => setReload(new Date().toISOString());
-  const openEditStore = () => {
-    openModal(<StoreDashboardForm storeId={storeId} forceReload={forceReload} />);
-  };
-
-  if (getLoggedInUserRelationResponse.isLoading || getStoreResponse.isLoading) return <Loader />;
-
-  const store = getStoreResponse.response?.store;
-  const isManager = getLoggedInUserRelationResponse.response?.relation.roleId === 1;
+  const store = response?.store;
 
   return (
-    <Page>
-      <Container>
-        <Card className="!p-0">
-          <div className="relative h-40 md:h-52">
-            <BannerImage className="absolute top-0 left-0" image={store?.bannerImage} name={store!.name} upload={{ storeId: storeId! }} />
-            <IconImage className="absolute -bottom-20 md:-bottom-32 left-8 z-20" image={store?.image} name={store!.name} upload={{ storeId: storeId! }} />
-            <div className="absolute top-4 right-4 flex gap-4 z-30">
-              <Button variant="secondary" onClick={openEditStore} title="Edit Store">
-                <Icon path={mdiPencil} size={0.75} />
+    <Container>
+      <Card className="!flex-row">
+        <IconImage image={store?.image} name="Store Icon" upload={{ storeId: storeId! }} />
+        <div className="flex flex-col flex-1 gap-4">
+          <div className="flex items-center justify-between">
+            <H2 className='line-clamp-1'>{store?.name}</H2>
+            <div className="flex gap-4">
+              <Button variant='tertiary' onClick={openStoreEditForm} title="Edit Store">
+                <Icon path={mdiStoreEdit} size={0.75} />
               </Button>
             </div>
-            <div className="absolute bottom-4 right-0 px-4 pl-44 flex gap-4 items-end justify-between w-full z-10 !text-white">
-              <H1 className="whitespace-nowrap text-ellipsis overflow-hidden text-shadow">{store!.name}</H1>
-              <IsPublished isPublished={store!.isPublished} pathType="store" longForm invert />
-            </div>
           </div>
-          <div className="flex gap-4 p-4 pt-0 pl-44 items-center justify-between">
-            {isManager ? (
-              <div className="flex items-center gap-4">
-              <TextButton onClick={() => toggleList('products')} isActive={activeList === 'products'}>
-                Edit Products
-              </TextButton>
-              |
-              <TextButton onClick={() => toggleList('team')} isActive={activeList === 'team'}>
-                Edit Team
-              </TextButton>
-            </div>
-            ) : <div />}
-            <Button onClick={goToAddPage} title={`New ${activeList === 'products' ? 'Product' : 'Team Member'}`}>
-              <Icon path={activeList === 'products' ? mdiTagPlus : mdiAccountPlus} size={1} />
-            </Button>
+          {store?.description ? (
+            <p className="line-clamp-3">{store.description}</p>
+          ) : (
+            <EmptyText>This store does not have a description.</EmptyText>
+          )}
+          <Separator />
+          <div className="flex items-center justify-between">
+            <p className="text-sm">
+              <strong>Last Updated:</strong> {new Date(store!.updatedAt).toLocaleDateString()}
+            </p>
+            <IsPublished pathType="store" isPublished={!!store?.isPublished} longForm />
           </div>
-        </Card>
-        {activeList === 'products' && <ProductList storeId={storeId!} reload={reload} />}
-        {(activeList === 'team' && isManager) && <TeamList storeId={storeId!} reload={reload} />}
-      </Container>
-    </Page>
+        </div>
+      </Card>
+      <Card>
+        <div className='flex justify-between'>
+          <div className="flex items-center gap-4">
+            <TextButton onClick={() => setTab('product')} isActive={tab === 'product'}>
+              Products
+            </TextButton>
+            |
+            <TextButton onClick={() => setTab('team')} isActive={tab === 'team'}>
+              Team Members
+            </TextButton>
+          </div>
+          <Button onClick={() => {}}>
+            <Icon path={tab === 'product' ? mdiTagPlus : mdiAccountPlus} size={0.75} title={tab === 'product' ? 'New Product' : 'New Team Member'} />
+          </Button>
+        </div>
+        {tab === 'product' && <ProductList storeId={storeId!} />}
+        {tab === 'team' && <TeamList storeId={storeId!} />}
+      </Card>
+    </Container>
   );
 };

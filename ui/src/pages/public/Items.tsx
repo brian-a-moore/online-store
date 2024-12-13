@@ -1,20 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse } from '../../../../api/src/types/api';
-import { Card, Grid } from '../../components/container';
-import { Loader } from '../../components/core';
-import { Separator } from '../../components/display';
-import { Button } from '../../components/interactive';
+import { Card } from '../../components/container';
+import { IconImage } from '../../components/display';
 import { FixedPriceItem, VariablePriceItem } from '../../components/store';
-import { EmptyText, H2, H5 } from '../../components/typography';
+import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { CartContext, TCartItem } from '../../context/CartContext';
 import useApi from '../../hooks/useApi';
-import { StorePublicItem } from '../../types';
 
 export const Items: React.FC = () => {
-  const { productId } = useParams();
   const navigate = useNavigate();
+  const { productId } = useParams<{ productId: string }>();
 
   const { error, isLoading, response } = useApi<ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse>(
     {
@@ -29,41 +26,49 @@ export const Items: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   const items = response?.items;
 
   if (!items || items.length === 0) {
     return (
-      <div className="flex flex-col flex-1 gap-4 w-full items-center justify-center">
-        <H2>Not much going on right now...</H2>
+      <div className="flex flex-1 items-center justify-center h-full">
         <EmptyText>There are no items available right now, please check again later.</EmptyText>
-        <Button variant="transparent" onClick={() => navigate(-1)}>
-          Go Back
-        </Button>
       </div>
     );
   }
 
-  return <Grid>{response?.items?.map((item) => <Item key={item.id} item={item} />)}</Grid>;
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4 p-4">
+      {items.map((item) => (
+        <Item key={item.id} item={item} />
+      ))}
+    </div>
+  );
 };
 
 const Item: React.FC<{
-  item: StorePublicItem;
+  item: {
+    id: string;
+    name: string;
+    description: string | null;
+    image: string | null;
+    product: {
+      name: string;
+    };
+    itemTypeId: number;
+    maxQuantityPerOrder: number;
+    config: any;
+  };
 }> = ({ item }) => {
   const { addItem } = useContext(CartContext);
   const addItemToCart = (item: TCartItem) => addItem(item);
 
   return (
     <Card key={item.id}>
-      {item.image ? <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded" /> : null}
-      <H5 className="line-clamp-2" title={item.name}>
-        {item.name}
-      </H5>
-      <Separator />
-      <p className="text-sm line-clamp-5 flex-1" title={item.description || 'No Description'}>
-        {item.description}
-      </p>
+      <div className="flex mx-auto">
+        <IconImage image={item.image} name={item.product.name} rounded={false} size="xl" />
+      </div>
       {item.itemTypeId === 1 ? (
         <FixedPriceItem item={item} addItemToCart={addItemToCart} />
       ) : (
@@ -72,4 +77,3 @@ const Item: React.FC<{
     </Card>
   );
 };
-

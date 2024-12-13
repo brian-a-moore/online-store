@@ -47,7 +47,7 @@ export const BreadCrumb: React.FC = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <nav className="bg-slate-800 flex gap-4 px-4 py-2 items-center text-slate-100">
+        <nav className="bg-slate-700 flex gap-4 px-4 py-2 items-center text-slate-100">
           {crumbs.map((crumb, index) => (
             <div key={index} className="flex gap-4">
               <Link className="text-slate-100" href={getCrumbLink(index)} title={`${LABELS[index]}${crumb.name}`}>

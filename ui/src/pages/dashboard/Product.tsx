@@ -1,6 +1,6 @@
-import { mdiDelete, mdiNotePlus, mdiPencil } from '@mdi/js';
+import { mdiDelete, mdiPlus, mdiTagEdit } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   GetProductDashboardBody,
@@ -8,12 +8,11 @@ import {
   GetProductDashboardResponse,
 } from '../../../../api/src/types/api';
 import { api } from '../../api';
-import { Card, Container, Page } from '../../components/container';
-import { Loader } from '../../components/core';
+import { Card, Container } from '../../components/container';
 import { IconImage, IsPublished, Separator } from '../../components/display';
 import { ItemDashboardForm, ProductDashboardForm } from '../../components/form';
-import { Button } from '../../components/interactive';
-import { ItemList } from '../../components/list/ItemList';
+import { Button, TextButton } from '../../components/interactive';
+import { ItemList } from '../../components/list';
 import { EmptyText, H2, H3 } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
@@ -23,35 +22,28 @@ import useApi from '../../hooks/useApi';
 export const ProductDashboard: React.FC = () => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
-  const { storeId, productId } = useParams();
   const navigate = useNavigate();
-  const [reload, setReload] = useState<string | undefined>();
+  const { storeId, productId } = useParams();
 
   const { error, isLoading, response } = useApi<
     GetProductDashboardBody,
     GetProductDashboardQuery,
     GetProductDashboardResponse
-  >(
-    {
-      url: `/dashboard/product/${productId}`,
-      method: HTTP_METHOD.GET,
-    },
-    { reTrigger: reload },
-  );
+  >({
+    url: `/dashboard/product/${productId}`,
+    method: HTTP_METHOD.GET,
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const forceReload = () => setReload(new Date().toISOString());
-  const openDeleteProduct = () => {
+  const openDeleteProductDialog = () => {
     const onClick = async () => {
       try {
         await api.dashboard.deleteProduct(productId!);
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'Product deleted successfully' });
-        navigate(`/dashboard/store/${storeId}`);
       } catch (error: any | unknown) {
         navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
       }
@@ -59,77 +51,75 @@ export const ProductDashboard: React.FC = () => {
     openModal(
       <>
         <H3>Delete Product</H3>
-        <p>
-          Deleting a product will remove all the products data, including its; items, sales and history. This is
-          immediate and unrecoverable. Are you sure you want to delete this product?
-        </p>
+        <p>Are you sure you want to delete this product?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" key="cancel" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
-          <Button variant="destructive" key="submit" onClick={onClick}>
+          <Button variant="destructive" onClick={onClick}>
             Delete Product
           </Button>
         </div>
       </>,
     );
   };
+  const openEditProductForm = () => openModal(<ProductDashboardForm storeId={storeId} productId={productId!} />);
+  const openNewItemForm = () => openModal(<ItemDashboardForm productId={productId!} />);
 
-  const openEditProduct = () => openModal(<ProductDashboardForm productId={productId!} storeId={storeId!} forceReload={forceReload} />);
-  const openNewItem = () => openModal(<ItemDashboardForm productId={productId!} forceReload={forceReload} />);
-
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   const product = response?.product;
 
   return (
-    <Page>
-      <Container>
-        <Card>
-          <div className="flex justify-between">
-            <H2>{product!.name}</H2>
+    <Container>
+      <Card className="!flex-row">
+        <IconImage image={product?.image} name="Product Icon" upload={{ storeId: storeId!, productId }} />
+        <div className="flex flex-col flex-1 gap-4">
+          <div className="flex items-center justify-between">
+            <H2 className="line-clamp-1">{product?.name}</H2>
             <div className="flex gap-4">
-              <Button variant="secondary" title="Delete Product" onClick={openDeleteProduct}>
+              <Button variant="tertiary" onClick={openDeleteProductDialog} title="Delete Product">
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
-              <Button variant="secondary" onClick={openEditProduct}>
-                <Icon path={mdiPencil} size={0.75} />
+              <Button variant="tertiary" onClick={openEditProductForm} title="Edit Product">
+                <Icon path={mdiTagEdit} size={0.75} />
               </Button>
             </div>
           </div>
-          <div className="flex gap-4">
-            <div className="flex flex-col gap-4 items-center">
-              <IconImage image={product?.image} name={product!.name} upload={{ storeId: storeId!, productId }} rounded={false} />
-            </div>
-            <div className="flex flex-col gap-4 flex-1">
-              <div className="flex-1">
-                {product?.description ? (
-                  <p className="line-clamp-4">{product.description}</p>
-                ) : (
-                  <EmptyText>No Description</EmptyText>
-                )}
-              </div>
-              <Separator />
-              <div className="flex gap-4 items-center justify-between text-sm">
-                <div className="flex gap-4">
-                  <IsPublished isPublished={product!.isPublished} pathType="product" longForm /> |
-                  <p className="text-sm">
-                    <strong>Created:</strong> {new Date(product!.createdAt).toLocaleDateString()}
-                  </p>
-                  |
-                  <p className="text-sm">
-                    <strong>Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
-                  </p>
-                </div>
-                <Button title="New Item" onClick={openNewItem}>
-                  <Icon path={mdiNotePlus} size={0.75} />
-                </Button>
-              </div>
-            </div>
+          {product?.description ? (
+            <p className="line-clamp-3">{product.description}</p>
+          ) : (
+            <EmptyText>This product does not have a description.</EmptyText>
+          )}
+          <Separator />
+          <div className="flex items-center justify-between">
+            <p className="text-sm">
+              <strong>Last Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
+            </p>
+            <IsPublished pathType="product" isPublished={!!product?.isPublished} longForm />
           </div>
-        </Card>
-        <ItemList storeId={storeId!} productId={productId!} reload={reload} />
-      </Container>
-    </Page>
+        </div>
+      </Card>
+      <Card>
+        <div className='flex justify-between'>
+          <TextButton onClick={() => {}} isActive>Items</TextButton>
+          <Button onClick={openNewItemForm} title="New Item">
+            <Icon path={mdiPlus} size={0.75} />
+          </Button>
+        </div>
+        <ItemList productId={productId!} />
+      </Card>
+    </Container>
+  );
+};
+
+export const ProductDashboardEdit: React.FC = () => {
+  const { storeId, productId } = useParams();
+  return (
+    <Container>
+      <Card>
+        <ProductDashboardForm storeId={storeId} productId={productId!} />
+      </Card>
+    </Container>
   );
 };

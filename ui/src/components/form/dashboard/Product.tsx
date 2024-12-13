@@ -13,7 +13,6 @@ import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
-import { Loader } from '../../core';
 import { Separator } from '../../display';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
@@ -22,11 +21,10 @@ import { ErrorText, H3 } from '../../typography';
 type Props = {
   storeId?: string;
   productId?: string;
-  forceReload: () => void;
 };
 
-export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forceReload }) => {
-  const { closeModal } = useContext(ModalContext);
+export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId }) => {
+  const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
@@ -47,7 +45,7 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
     control,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     resolver: zodResolver(productDashboardFormSchema),
@@ -75,13 +73,12 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
         setToast({ type: 'success', message: 'Product created successfully' });
       }
       closeModal();
-      forceReload();
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
@@ -100,10 +97,10 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId, forc
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
-        </Button>
-        <Button type="submit" disabled={isSubmitting}>
+          </Button>
+        <Button type="submit" disabled={isSubmitting || !isDirty}>
           {isSubmitting ? (productId ? 'Updating' : 'Creating') : productId ? 'Update' : 'Create'} Product
         </Button>
       </div>

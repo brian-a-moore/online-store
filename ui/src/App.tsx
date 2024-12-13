@@ -4,7 +4,7 @@ import { Modal, Toast } from './components/core';
 import { ModalContext } from './context/ModalContext';
 import { ToastContext } from './context/ToastContext';
 import { Admin, HomeAdmin, ItemsAdmin, ProductsAdmin, StoresAdmin, SuperusersAdmin, UsersAdmin } from './pages/admin';
-import { Dashboard, HomeDashboard, ItemDashboard, ProductDashboard, StoreDashboard } from './pages/dashboard';
+import { Dashboard, HomeDashboard, ProductDashboard, StoreDashboard } from './pages/dashboard';
 import { Home, Items, Login, PageNotFound, Products, ServerError, Store } from './pages/public';
 
 function App() {
@@ -17,12 +17,6 @@ function App() {
         <Route index path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
 
-        {/* Public Store Pages */}
-        <Route path="store/:storeId" element={<Store />}>
-          <Route index element={<Products />} />
-          <Route path="product/:productId" element={<Items />} />
-        </Route>
-
         {/* Admin Pages */}
         <Route path="admin" element={<Admin />}>
           <Route index element={<HomeAdmin />} />
@@ -34,11 +28,16 @@ function App() {
         </Route>
 
         {/* Dashboard Pages */}
-        <Route path="dashboard" element={<Dashboard />}>
+        <Route path='dashboard' element={<Dashboard />}>
           <Route index element={<HomeDashboard />} />
-          <Route path="store/:storeId" element={<StoreDashboard />} />
-          <Route path="store/:storeId/product/:productId" element={<ProductDashboard />} />
-          <Route path="store/:storeId/product/:productId/item/:itemId" element={<ItemDashboard />} />
+          <Route path='store/:storeId' element={<StoreDashboard />} />
+          <Route path='store/:storeId/product/:productId' element={<ProductDashboard />} />
+        </Route>
+
+        {/* Public Store Pages */}
+        <Route path="store/:storeId" element={<Store />}>
+          <Route index element={<Products />} />
+          <Route path="product/:productId/items" element={<Items />} />
         </Route>
 
         {/* Error Pages */}

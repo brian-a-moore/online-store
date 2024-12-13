@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api';
-import { Loader } from '../components/core';
 import { getAuthToken, saveAuthToken } from '../utils/localStorage';
 
 type User = {
@@ -75,7 +74,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
   }, [error]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
 };

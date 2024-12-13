@@ -11,7 +11,6 @@ import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
-import { Loader } from '../../core';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
@@ -89,7 +88,7 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         <H3>Delete Store</H3>
         <p>Are you sure you want to delete this store?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button variant="destructive" onClick={onClick}>
@@ -100,7 +99,7 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
     );
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -108,7 +107,7 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         <H3>{storeId ? 'Edit' : 'New'} Store</H3>
         {storeId ? (
           <div className="flex gap-4">
-            <Button variant="secondary" title="Delete Store" onClick={() => openDeleteStoreDialog(storeId)}>
+            <Button variant="tertiary" title="Delete Store" onClick={() => openDeleteStoreDialog(storeId)}>
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
@@ -125,7 +124,7 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
       <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors?.isPublished?.message} />
       {formError && <ErrorText>{formError}</ErrorText>}
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>

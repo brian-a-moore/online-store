@@ -9,7 +9,6 @@ import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   existingImage?: string;
-  imageType?: 'image' | 'bannerImage';
   upload?: {
     storeId: string;
     productId?: string;
@@ -18,7 +17,7 @@ type Props = {
   forceReload: () => void;
 };
 
-export const UploadImageDashboardForm: React.FC<Props> = ({ existingImage, imageType = 'image', forceReload }) => {
+export const UploadImageDashboardForm: React.FC<Props> = ({ existingImage, forceReload }) => {
   const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,18 +46,12 @@ export const UploadImageDashboardForm: React.FC<Props> = ({ existingImage, image
       <H3>{existingImage ? 'Update' : 'Upload'} Image</H3>
       <Separator />
       <div className="flex items-center justify-center">
-        {/* TODO: The image uploader is too big for the form in banner style */}
-        <ImageUploader
-          existingImage={existingImage}
-          config={imageType}
-          rounded={imageType === 'image'}
-          onUpload={onUpload}
-        />
+        <ImageUploader existingImage={existingImage} onUpload={onUpload} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>

@@ -23,7 +23,7 @@ export const CheckboxInput = <F extends FieldValues>({
       render={({ field: { onChange, onBlur, value, name, ref } }) => (
         <div className='flex flex-col gap-y-2'>
           <input type='checkbox' onChange={onChange} onBlur={onBlur} checked={value} name={name} ref={ref} hidden />
-          <Icon path={value ? mdiCheckboxMarkedCircle : mdiCheckboxBlankCircle} size={1} color={value ? '#0284C7' : '#475569'} />
+          <Icon path={value ? mdiCheckboxMarkedCircle : mdiCheckboxBlankCircle} size={1} color={value ? '#0EA5E9' : '#475569'} />
         </div>
       )}
     />

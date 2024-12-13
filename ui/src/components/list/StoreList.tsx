@@ -1,21 +1,64 @@
-import { mdiUpdate } from '@mdi/js';
-import Icon from '@mdi/react';
-import { useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ListStoresDashboardBody,
   ListStoresDashboardQuery,
   ListStoresDashboardResponse,
 } from '../../../../api/src/types/api';
-import { Grid } from '../../components/container';
-import { Loader } from '../../components/core';
 import { IconImage, IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
-import { EmptyText, H5 } from '../typography';
+import { AgGrid } from '../container';
+import { EmptyText } from '../typography';
+
+type Row = ListStoresDashboardResponse['stores'][0];
+
+const columns: ColDef[] = [
+  {
+    field: 'id',
+    hide: true,
+  },
+  {
+    field: 'image',
+    headerName: '',
+    width: 50,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <IconImage image={params?.value} name="Store Icon" size="xs" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    field: 'name',
+    headerName: 'Store Name',
+    flex: 2,
+  },
+  {
+    field: 'isPublished',
+    headerName: 'Status',
+    width: 100,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <IsPublished pathType="product" isPublished={params.value} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    field: 'updatedAt',
+    headerName: 'Last Updated',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+  },
+];
 
 export const StoreList: React.FC = () => {
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
 
   const { error, isLoading, response } = useApi<
     ListStoresDashboardBody,
@@ -24,14 +67,16 @@ export const StoreList: React.FC = () => {
   >({
     url: `/dashboard/store/list`,
     method: HTTP_METHOD.GET,
-    params: { page: '1' },
+    params: { page: page.toString() },
   });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <Loader />;
+  const onRowClicked = (e: RowClickedEvent<Row>) => navigate(`store/${e.data!.id}`);
+
+  if (isLoading) return <p>Loading...</p>;
 
   const stores = response?.stores;
 
@@ -44,30 +89,12 @@ export const StoreList: React.FC = () => {
   }
 
   return (
-    <Grid className="!p-0">
-      {stores?.map((store) => (
-        <RouterLink
-          className="flex flex-col p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
-          key={store.id}
-          to={`store/${store.id}`}
-          title={`View store: ${store.name}`}
-        >
-          <div className='mb-4 flex justify-center w-full'>
-            <IconImage image={store?.image} name={store.name} />
-          </div>
-          <H5 className="w-full text-left whitespace-nowrap text-ellipsis overflow-hidden">{store.name}</H5>
-          <div className="flex gap-4 w-full justify-between">
-            <div
-              className="flex gap-2 items-center opacity-60"
-              title={`Last Updated: ${new Date(store.updatedAt).toLocaleDateString()}`}
-            >
-              <Icon path={mdiUpdate} size={0.75} />
-              <p className="text-sm">{new Date(store.updatedAt).toLocaleDateString()}</p>
-            </div>
-            <IsPublished isPublished={store.isPublished} pathType="store" />
-          </div>
-        </RouterLink>
-      ))}
-    </Grid>
+    <>
+      {stores && stores.length ? (
+        <AgGrid<Row> cols={columns} rows={stores} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No stores found</EmptyText>
+      )}
+    </>
   );
 };

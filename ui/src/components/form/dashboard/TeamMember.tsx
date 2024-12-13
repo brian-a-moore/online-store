@@ -5,9 +5,9 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  AddStoreRelationDashboardBody,
-  GetStoreTeamDashboardResponse,
-  SearchUsersDashboardResponse,
+    AddStoreRelationDashboardBody,
+    GetStoreTeamDashboardResponse,
+    SearchUsersDashboardResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { DEFAULT_FORM_VALUES, teamMemberDashboardFormSchema } from '../../../config/forms/team-member-dashboard-form';
@@ -100,7 +100,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
         <H3>Remove Team Member</H3>
         <p>Are you sure you want to remove this user from the team?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button variant="destructive" onClick={onClick}>
@@ -119,7 +119,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
         {existingMember ? (
           <div className="flex gap-4">
             <Button
-              variant="secondary"
+              variant="tertiary"
               title="Remove Team Member"
               onClick={() => openDeleteRelationshipDialog(existingMember.store.id)}
             >
@@ -173,7 +173,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
       )}
       <Separator />
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>

@@ -1,26 +1,69 @@
-import { mdiUpdate } from '@mdi/js';
-import Icon from '@mdi/react';
-import { useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ListProductsDashboardBody,
   ListProductsDashboardQuery,
   ListProductsDashboardResponse,
 } from '../../../../api/src/types/api';
-import { Loader } from '../../components/core';
-import { IconImage, IsPublished } from '../../components/display';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
-import { Grid } from '../container';
-import { EmptyText, H5 } from '../typography';
+import { AgGrid } from '../container';
+import { IconImage, IsPublished } from '../display';
+import { EmptyText } from '../typography';
 
 type Props = {
   storeId: string;
   reload?: string;
 };
 
+type Row = ListProductsDashboardResponse['products'][0];
+
+const columns: ColDef[] = [
+  {
+    field: 'id',
+    hide: true,
+  },
+  {
+    field: 'image',
+    headerName: '',
+    width: 50,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <IconImage image={params?.value} name="Store Icon" size="xs" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    field: 'name',
+    headerName: 'Product Name',
+    flex: 2,
+  },
+  {
+    field: 'isPublished',
+    headerName: 'Status',
+    width: 100,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <IsPublished pathType="product" isPublished={params.value} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    field: 'updatedAt',
+    headerName: 'Last Updated',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+  },
+];
+
 export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
 
   const { error, isLoading, response } = useApi<
     ListProductsDashboardBody,
@@ -30,7 +73,7 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
     {
       url: `/dashboard/product/list`,
       method: HTTP_METHOD.GET,
-      params: { storeId, page: '1' },
+      params: { storeId, page: page.toString() },
     },
     { reTrigger: reload },
   );
@@ -39,7 +82,9 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <Loader />;
+  const onRowClicked = (e: RowClickedEvent<Row>) => navigate(`product/${e.data!.id}`);
+
+  if (isLoading) return <p>Loading...</p>;
 
   const products = response?.products;
 
@@ -52,30 +97,12 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
   }
 
   return (
-    <Grid className="!p-0">
-      {products?.map((product) => (
-        <RouterLink
-          className="flex flex-col p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
-          key={product.id}
-          to={`product/${product.id}`}
-          title={`View Product: ${product.name}`}
-        >
-          <div className='mb-4 flex justify-center w-full'>
-            <IconImage image={product?.image} name={product.name} rounded={false} />
-          </div>
-          <H5 className="w-full text-left whitespace-nowrap text-ellipsis overflow-hidden">{product.name}</H5>
-          <div className="flex gap-4 w-full justify-between">
-            <div
-              className="flex gap-2 items-center opacity-60"
-              title={`Last Updated: ${new Date(product.updatedAt).toLocaleDateString()}`}
-            >
-              <Icon path={mdiUpdate} size={0.75} />
-              <p className="text-sm">{new Date(product.updatedAt).toLocaleDateString()}</p>
-            </div>
-            <IsPublished isPublished={product.isPublished} pathType="product" />
-          </div>
-        </RouterLink>
-      ))}
-    </Grid>
+    <>
+      {products && products.length ? (
+        <AgGrid<Row> cols={columns} rows={products} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No products found</EmptyText>
+      )}
+    </>
   );
 };

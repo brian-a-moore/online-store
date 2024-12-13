@@ -1,27 +1,72 @@
-import { mdiUpdate } from '@mdi/js';
-import Icon from '@mdi/react';
-import { useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ListItemsDashboardBody,
   ListItemsDashboardQuery,
   ListItemsDashboardResponse,
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
+import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { Grid } from '../container';
-import { Loader } from '../core';
+import { AgGrid } from '../container';
 import { IconImage, IsPublished } from '../display';
-import { EmptyText, H5 } from '../typography';
+import { ItemDashboardForm } from '../form';
+import { EmptyText } from '../typography';
 
 type Props = {
-  storeId: string;
   productId: string;
   reload?: string;
 };
 
+type Row = ListItemsDashboardResponse['items'][0];
+
+const columns: ColDef[] = [
+  {
+    field: 'id',
+    hide: true,
+  },
+  {
+    field: 'image',
+    headerName: '',
+    width: 50,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <IconImage image={params?.value} name="Store Icon" size="xs" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    field: 'name',
+    headerName: 'Item Name',
+    flex: 2,
+  },
+  {
+    field: 'isPublished',
+    headerName: 'Status',
+    width: 100,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <IsPublished pathType="item" isPublished={params.value} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    field: 'updatedAt',
+    headerName: 'Last Updated',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+  },
+];
+
 export const ItemList: React.FC<Props> = ({ productId, reload }) => {
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
 
   const { error, isLoading, response } = useApi<
     ListItemsDashboardBody,
@@ -31,7 +76,7 @@ export const ItemList: React.FC<Props> = ({ productId, reload }) => {
     {
       url: `/dashboard/item/list`,
       method: HTTP_METHOD.GET,
-      params: { productId, page: '1' },
+      params: { productId, page: page.toString() },
     },
     { reTrigger: reload },
   );
@@ -40,7 +85,10 @@ export const ItemList: React.FC<Props> = ({ productId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <Loader />;
+  const openEditItemForm = (id: string) => openModal(<ItemDashboardForm productId={productId} itemId={id} />);
+  const onRowClicked = (e: RowClickedEvent<Row>) => openEditItemForm(e.data!.id);
+
+  if (isLoading) return <p>Loading...</p>;
 
   const items = response?.items;
 
@@ -53,32 +101,12 @@ export const ItemList: React.FC<Props> = ({ productId, reload }) => {
   }
 
   return (
-    <Grid className="!p-0">
-      {items?.map((item) => (
-        <RouterLink
-          className="flex flex-col p-4 items-center bg-white hover:bg-slate-100 text-slate-800 border-[1px] rounded shadow-md"
-          key={item.id}
-          to={`item/${item.id}`}
-          title={`View Item: ${item.name}`}
-        >
-          <div className='mb-4 flex justify-center w-full'>
-            <IconImage image={item.image} name={item.name} rounded={false} />
-          </div>
-          <H5 className="w-full whitespace-nowrap text-left text-ellipsis overflow-hidden" title={item.name}>
-            {item.name}
-          </H5>
-          <div className="flex gap-4 w-full justify-between">
-            <div
-              className="flex gap-2 items-center opacity-60"
-              title={`Last Updated: ${new Date(item.updatedAt).toLocaleDateString()}`}
-            >
-              <Icon path={mdiUpdate} size={0.75} />
-              <p className="text-sm">{new Date(item.updatedAt).toLocaleDateString()}</p>
-            </div>
-            <IsPublished isPublished={item.isPublished} pathType="item" />
-          </div>
-        </RouterLink>
-      ))}
-    </Grid>
+    <>
+      {items && items.length ? (
+        <AgGrid<Row> cols={columns} rows={items} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No items found</EmptyText>
+      )}
+    </>
   );
 };

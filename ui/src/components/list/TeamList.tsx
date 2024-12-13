@@ -1,5 +1,6 @@
 import { mdiShieldAccount, mdiStoreEdit } from '@mdi/js';
 import Icon from '@mdi/react';
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -7,22 +8,57 @@ import {
   GetStoreTeamDashboardQuery,
   GetStoreTeamDashboardResponse,
 } from '../../../../api/src/types/api';
-import { Loader } from '../../components/core';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { Grid, ListItem } from '../container';
+import { AgGrid } from '../container';
 import { TeamMemberForm } from '../form';
-import { EmptyText, H5 } from '../typography';
+import { EmptyText } from '../typography';
 
 type Props = {
   storeId: string;
   reload?: string;
 };
 
+type Row = GetStoreTeamDashboardResponse['team'][0];
+
+const columns: ColDef[] = [
+  {
+    field: 'id',
+    hide: true,
+  },
+  {
+    field: 'name',
+    headerName: 'Team Member',
+    flex: 2,
+  },
+  {
+    field: 'email',
+    headerName: 'Member Email',
+    flex: 2,
+  },
+  {
+    field: 'store.roleId',
+    headerName: 'Role',
+    width: 100,
+    cellRenderer: (params: any) => (
+      <div className="flex h-full items-center justify-center">
+        <div>
+          <Icon
+            path={params.value === 1 ? mdiShieldAccount : mdiStoreEdit}
+            size={0.75}
+            title={params.value === 1 ? 'Manager' : 'Editor'}
+          />
+        </div>
+      </div>
+    ),
+  },
+];
+
 export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
   const [reload, setReload] = useState<string>();
 
   const { error, isLoading, response } = useApi<
@@ -33,7 +69,7 @@ export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) =
     {
       url: `/dashboard/store/${storeId}/team`,
       method: HTTP_METHOD.GET,
-      params: { page: '1' },
+      params: { page: page.toString() },
     },
     { reTrigger: reload },
   );
@@ -43,15 +79,16 @@ export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) =
   }, [error]);
 
   useEffect(() => {
-    if(passedInReload) setReload(passedInReload);
+    if (passedInReload) setReload(passedInReload);
   }, [passedInReload]);
 
   const forceReload = () => setReload(new Date().toISOString());
   const openEditMemberForm = (teamMember: GetStoreTeamDashboardResponse['team'][0]) => {
-    openModal(<TeamMemberForm storeId={storeId} existingMember={teamMember} forceReload={forceReload} />)
-  }
+    openModal(<TeamMemberForm storeId={storeId} existingMember={teamMember} forceReload={forceReload} />);
+  };
+  const onRowClicked = (e: RowClickedEvent<Row>) => openEditMemberForm(e.data!);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   const team = response?.team;
 
@@ -64,23 +101,12 @@ export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) =
   }
 
   return (
-    <Grid className="!p-0">
-      {team?.map((member) => (
-        <ListItem key={member.id} onClick={() => openEditMemberForm(member)} title={`Edit Member: ${member.name}`}>
-          <div className="flex gap-4 w-full items-center justify-between">
-            <H5 className="whitespace-nowrap text-ellipsis overflow-hidden">{member.name}</H5>
-            <div className="flex items-center gap-2">
-              <Icon
-                path={member.store.roleId === 1 ? mdiShieldAccount : mdiStoreEdit}
-                size={0.75}
-                title={member.store.roleId === 1 ? 'Manager' : 'Editor'}
-                color={'#64748B'}
-              />
-            </div>
-          </div>
-          <p className="text-sm opacity-60 whitespace-nowrap text-ellipsis overflow-hidden">{member.email}</p>
-        </ListItem>
-      ))}
-    </Grid>
+    <>
+      {team && team.length ? (
+        <AgGrid<Row> cols={columns} rows={team} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No team members found</EmptyText>
+      )}
+    </>
   );
 };

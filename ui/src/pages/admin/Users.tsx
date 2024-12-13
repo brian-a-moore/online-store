@@ -1,38 +1,41 @@
-import { mdiPlus } from '@mdi/js';
-import Icon from '@mdi/react';
+import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse } from '../../../../api/src/types/api';
-import { Card, Container, Page, Table } from '../../components/container';
-import { Loader } from '../../components/core';
+import { AgGrid } from '../../components/container';
 import { UserAdminForm } from '../../components/form/admin/User';
-import { Button } from '../../components/interactive';
-import { EmptyText, H4 } from '../../components/typography';
+import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
-import { ColumnConfig } from '../../types';
 
-const columns: ColumnConfig[] = [
+type Row = ListUsersAdminResponse['users'][0];
+
+const columns: ColDef[] = [
+  { field: 'id', hide: true },
   {
-    key: 'name',
-    label: 'User Name',
-    render: (value) => <p>{value}</p>,
+    field: 'name',
+    headerName: 'User Name',
+    filter: true,
+    flex: 2,
   },
   {
-    key: 'email',
-    label: 'Email',
-    render: (value) => <p>{value}</p>,
+    field: 'email',
+    headerName: 'Email',
+    filter: true,
+    flex: 2,
   },
   {
-    key: 'createdAt',
-    label: 'Created Date',
-    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+    field: 'createdAt',
+    headerName: 'Created Date',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
   },
   {
-    key: 'updatedAt',
-    label: 'Last Updated',
-    render: (value) => <p>{new Date(value).toLocaleDateString()}</p>,
+    field: 'updatedAt',
+    headerName: 'Last Updated',
+    flex: 1,
+    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
@@ -40,12 +43,13 @@ export const UsersAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
+  const [page, setPage] = useState<number>(1);
 
   const { error, isLoading, response } = useApi<ListUsersAdminBody, ListUsersAdminQuery, ListUsersAdminResponse>(
     {
       url: `/admin/user/list`,
       method: HTTP_METHOD.GET,
-      params: { page: '1' },
+      params: { page: page.toString() },
     },
     { reTrigger: reload },
   );
@@ -57,28 +61,19 @@ export const UsersAdmin: React.FC = () => {
   const forceReload = () => setReload(new Date().toISOString());
   const openNewUserForm = () => openModal(<UserAdminForm forceReload={forceReload} />);
   const openEditUserForm = (id: string) => openModal(<UserAdminForm userId={id} forceReload={forceReload} />);
+  const onRowClicked = (e: RowClickedEvent<Row>) => openEditUserForm(e.data!.id);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   const users = response?.users;
 
   return (
-    <Page>
-      <Container>
-        <Card className="!flex-row items-center justify-between">
-          <H4>Users</H4>
-          <Button title="New User" onClick={openNewUserForm}>
-            <Icon path={mdiPlus} size={0.75} />
-          </Button>
-        </Card>
-        <Card>
-          {users && users.length ? (
-            <Table columns={columns} data={users} onRowClick={openEditUserForm} />
-          ) : (
-            <EmptyText>No users found</EmptyText>
-          )}
-        </Card>
-      </Container>
-    </Page>
+    <>
+      {users && users.length ? (
+        <AgGrid<Row> cols={columns} rows={users} onRowClicked={onRowClicked} />
+      ) : (
+        <EmptyText>No users found</EmptyText>
+      )}
+    </>
   );
 };

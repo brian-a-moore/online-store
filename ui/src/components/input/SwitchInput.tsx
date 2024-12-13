@@ -31,7 +31,7 @@ export const SwitchInput = <F extends FieldValues>({
                 <Icon
                   path={value ? mdiToggleSwitchOutline : mdiToggleSwitchOffOutline}
                   size={2}
-                  color={value ? '#0284C7' : '#475569'}
+                  color={value ? '#0EA5E9' : '#475569'}
                 />
               </button>
             </div>

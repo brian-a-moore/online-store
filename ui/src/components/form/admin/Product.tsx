@@ -11,7 +11,6 @@ import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
-import { Loader } from '../../core';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { H3 } from '../../typography';
@@ -83,7 +82,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
         <H3>Delete Product</H3>
         <p>Are you sure you want to delete this product?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button variant="destructive" onClick={onClick}>
@@ -94,7 +93,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
     );
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -102,7 +101,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
         <H3>Edit Product</H3>
         {productId ? (
           <div className="flex gap-4">
-            <Button variant="secondary" title="Delete Product" onClick={() => openDeleteProductDialog(productId)}>
+            <Button variant="tertiary" title="Delete Product" onClick={() => openDeleteProductDialog(productId)}>
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
@@ -117,7 +116,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId, forceReload }) =>
       />
       <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
+        <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>

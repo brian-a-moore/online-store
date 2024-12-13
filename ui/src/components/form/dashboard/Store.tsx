@@ -13,7 +13,6 @@ import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import useApi from '../../../hooks/useApi';
-import { Loader } from '../../core';
 import { Separator } from '../../display';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
@@ -21,10 +20,9 @@ import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   storeId?: string;
-  forceReload: () => void;
 };
 
-export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) => {
+export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
   const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
@@ -46,7 +44,7 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
     control,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty, },
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     resolver: zodResolver(storeDashboardFormSchema),
@@ -69,14 +67,13 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
     try {
       await api.dashboard.updateStore(storeId!, store);
       closeModal();
-      forceReload();
       setToast({ type: 'success', message: 'Store updated successfully' });
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
@@ -96,10 +93,8 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId, forceReload }) =>
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />
       <div className="flex justify-between">
-        <Button variant="secondary" onClick={closeModal}>
-          Cancel
-        </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button variant='tertiary' onClick={closeModal}>Cancel</Button>
+        <Button type="submit" disabled={isSubmitting || !isDirty}>
           {isSubmitting ? (storeId ? 'Updating' : 'Creating') : storeId ? 'Update' : 'Create'} Store
         </Button>
       </div>

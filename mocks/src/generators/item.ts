@@ -39,11 +39,81 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
   ];
   const amazonProductTwoItems: Prisma.ItemUncheckedCreateInput[] = [
     {
+      id: 'c86fa30c-45b8-4ff4-bc82-d810f80360a3',
+      productId: productIds.amazonProductIds[1],
+      name: 'Xbox',
+      description: '',
+      image:
+        'https://i5.walmartimages.com/seo/Restored-Microsoft-Original-Xbox-Video-Game-Console-Refurbished_39f8739d-11f0-4523-bfb9-c490e7e47439.5f9a17a0153be7c7fb32354372aca27d.jpeg',
+      itemTypeId: 1,
+      maxQuantityPerOrder: 10,
+      isPublished: true,
+      config: JSON.stringify({
+        isRedeemable: false,
+        price: 199,
+      }),
+    },
+    {
+      id: 'efbea2ef-636b-424f-8ae7-ff023cbb70a8',
+      productId: productIds.amazonProductIds[1],
+      name: 'Xbox 360',
+      description: '',
+      image: 'https://m.media-amazon.com/images/I/615eNZc8jkL._AC_UF1000,1000_QL80_.jpg',
+      itemTypeId: 1,
+      maxQuantityPerOrder: 10,
+      isPublished: true,
+      config: JSON.stringify({
+        isRedeemable: false,
+        price: 225,
+      }),
+    },
+    {
+      id: '64181f54-86e5-481b-b0ce-e476cc9fa7d7',
+      productId: productIds.amazonProductIds[1],
+      name: 'Xbox One',
+      description: '',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Microsoft-Xbox-One-Console-Set-wKinect.jpg',
+      itemTypeId: 1,
+      maxQuantityPerOrder: 10,
+      isPublished: true,
+      config: JSON.stringify({
+        isRedeemable: false,
+        price: 315,
+      }),
+    },
+    {
+      id: '673949d6-14a4-4234-9f40-13f3e5107918',
+      productId: productIds.amazonProductIds[1],
+      name: 'Xbox One S',
+      description: '',
+      image: 'https://media.gamestop.com/i/gamestop/10138875/Microsoft-Xbox-One-S-Console',
+      itemTypeId: 1,
+      maxQuantityPerOrder: 10,
+      isPublished: true,
+      config: JSON.stringify({
+        isRedeemable: false,
+        price: 349,
+      }),
+    },
+    {
+      id: 'effba62f-b1c7-4b3a-badb-cee607398933',
+      productId: productIds.amazonProductIds[1],
+      name: 'Xbox One X',
+      description: '',
+      image: 'https://m.media-amazon.com/images/I/61LVSqb4BHL._AC_UF894,1000_QL80_.jpg',
+      itemTypeId: 1,
+      maxQuantityPerOrder: 10,
+      isPublished: true,
+      config: JSON.stringify({
+        isRedeemable: false,
+        price: 399,
+      }),
+    },
+    {
       id: 'c90beb5d-054f-4a37-b461-a939aed01b15',
       productId: productIds.amazonProductIds[1],
       name: 'Xbox Series X',
-      description:
-        'Xbox is a gaming brand created by Microsoft that has become one of the most recognized names in the video game industry. Launched in 2001 with the original Xbox console, the brand has since expanded to include a series of powerful gaming consoles, such as the Xbox 360, Xbox One, and Xbox Series X|S. Known for its high-performance hardware, robust online multiplayer service via Xbox Live, and extensive game library, the Xbox platform caters to casual gamers and hardcore enthusiasts alike. The ecosystem integrates seamlessly with PC gaming through services like Xbox Game Pass, offering access to hundreds of games across platforms. With a focus on innovation, community, and cross-platform play, Xbox continues to redefine interactive entertainment while fostering a global network of players.',
+      description: '',
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYFRrbQ9WDJ6hiIreMaoOfVVLfR6gzKlr5bw&s',
       itemTypeId: 1,
       maxQuantityPerOrder: 10,
@@ -57,8 +127,7 @@ export const generateItems = async (productIds: { amazonProductIds: string[]; wa
       id: 'd6468ce2-3406-42d9-8e9e-7d1ce35ccf46',
       productId: productIds.amazonProductIds[1],
       name: 'Xbox Series S',
-      description:
-        'Xbox is a gaming brand created by Microsoft that has become one of the most recognized names in the video game industry. Launched in 2001 with the original Xbox console, the brand has since expanded to include a series of powerful gaming consoles, such as the Xbox 360, Xbox One, and Xbox Series X|S. Known for its high-performance hardware, robust online multiplayer service via Xbox Live, and extensive game library, the Xbox platform caters to casual gamers and hardcore enthusiasts alike. The ecosystem integrates seamlessly with PC gaming through services like Xbox Game Pass, offering access to hundreds of games across platforms. With a focus on innovation, community, and cross-platform play, Xbox continues to redefine interactive entertainment while fostering a global network of players.',
+      description: '',
       image:
         'https://assets.xboxservices.com/assets/97/d3/97d3bf27-1a7d-4db6-85bc-929f2badf14e.png?n=389964_Buy-Box-0_857x676_01.png',
       itemTypeId: 1,

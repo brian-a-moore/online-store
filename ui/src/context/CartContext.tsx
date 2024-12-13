@@ -7,6 +7,7 @@ export type TCartItem = {
   id: string;
   name: string;
   product: { name: string };
+  image?: string | null;
   price: number;
   maxQuantityPerOrder: number;
   quantity: number;

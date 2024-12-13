@@ -18,14 +18,13 @@ const pathMap = new Map<PathType, [string, string]>([
 
 export const IsPublished: React.FC<Props> = ({ pathType, isPublished, longForm = false, invert = false }) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className={`flex items-center gap-2 ${isPublished ? '' : 'text-red-400'}`}>
       <Icon
         path={pathMap.get(pathType)![isPublished ? 0 : 1]}
         size={0.75}
         title={isPublished ? 'Public' : 'Unlisted'}
-        color={isPublished ? (invert ? '#fff' : '#64748B') : '#F87171'}
       />
-      {longForm && <p className={invert ? 'text-shadow text-white' : ''}>{isPublished ? 'Public' : 'Unlisted'}</p>}
+      {longForm && <p className={invert ? ' text-white' : ''}>{isPublished ? 'Public' : 'Unlisted'}</p>}
     </div>
   );
 };

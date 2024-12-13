@@ -64,7 +64,7 @@ export const PresetAmounts: React.FC<Props> = ({ onChange, config, defaultValues
                 {formatCurrency(amount)}
               </p>
               <Button
-                variant="transparent"
+                variant="tertiary"
                 className="!p-0"
                 onClick={() => setAmounts(amounts.filter((_, i) => i !== index))}
               >
@@ -89,7 +89,7 @@ export const PresetAmounts: React.FC<Props> = ({ onChange, config, defaultValues
           onChange={handleOnChange}
           onBlur={handleOnBlur}
         />
-        <Button variant="secondary" disabled={amounts.length >= 5} onClick={addAmountToArray}>
+        <Button disabled={amounts.length >= 5} onClick={addAmountToArray}>
           <Icon path={mdiPlus} size={0.75} />
         </Button>
       </div>

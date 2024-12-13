@@ -1,6 +1,6 @@
 import { mdiLogout } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { BreadCrumb } from '../../components/core/Breadcrumb';
 import { Button } from '../../components/interactive';
@@ -12,17 +12,26 @@ import { deleteAuthToken } from '../../utils/localStorage';
 
 export const Dashboard: React.FC = () => {
   const { user, setUser } = useContext(AuthContext);
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
-  const signOut = () => {
+  useEffect(() => {
+    if (user && user.domain !== 'user') {
+      navigate('/404');
+    }
+    if(!user) {
+      navigate('/login')
+    };
+  }, [user]);
+
+const signOut = () => {
     openModal(
       <>
         <H3>Sign Out</H3>
         <p>Are you sure you want to sign out?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button
@@ -41,21 +50,18 @@ export const Dashboard: React.FC = () => {
     );
   };
 
-  if (user?.domain !== 'user') {
-    navigate('/404');
-  }
-
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <header className="bg-slate-600 flex items-center justify-between p-4">
-        <H5 className="text-white">Store Dashboard</H5>
-        <Button onClick={signOut} className="flex gap-2 items-center">
-          <p className="text-sm">Sign Out</p>
-          <Icon path={mdiLogout} size={0.75} className="opacity-50" />
+    <div className="fixed top-0 left-0 w-screen h-screen flex flex-col">
+      <header className="bg-slate-600 !text-white flex items-center p-4 justify-between">
+        <H5>Dashboard</H5>
+        <Button onClick={signOut} title="Sign Out">
+          <Icon path={mdiLogout} size={1} />
         </Button>
       </header>
       <BreadCrumb />
-      <Outlet />
+      <main className="flex flex-col p-4 gap-4 overflow-y-auto">
+        <Outlet />
+      </main>
     </div>
   );
 };

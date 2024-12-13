@@ -12,7 +12,6 @@ import { HTTP_METHOD } from '../../../../constants';
 import { ModalContext } from '../../../../context/ModalContext';
 import { ToastContext } from '../../../../context/ToastContext';
 import useApi from '../../../../hooks/useApi';
-import { Loader } from '../../../core';
 import { Separator } from '../../../display';
 import { Button, TextButton } from '../../../interactive';
 import { H3 } from '../../../typography';
@@ -22,10 +21,9 @@ import { VariableItemForm } from './VariableItem';
 type Props = {
   productId: string;
   itemId?: string;
-  forceReload: () => void;
 };
 
-export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceReload }) => {
+export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
@@ -53,8 +51,7 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceRel
     const onClick = async () => {
       try {
         await api.dashboard.deleteItem(id);
-        closeModal();
-        forceReload();
+        navigate(-1);
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {
         navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
@@ -65,7 +62,7 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceRel
         <H3>Delete Item</H3>
         <p>Are you sure you want to delete this item?</p>
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={closeModal}>
+          <Button variant="tertiary" onClick={closeModal}>
             Cancel
           </Button>
           <Button variant="destructive" onClick={onClick}>
@@ -76,7 +73,7 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceRel
     );
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="flex flex-col gap-4 h-full overflow-y-auto">
@@ -84,7 +81,7 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceRel
         <H3>{itemId ? 'Edit' : 'New'} Item</H3>
         {itemId ? (
           <div className="flex gap-4">
-            <Button variant="secondary" title="Delete Item" onClick={() => openDeleteItemDialog(itemId)}>
+            <Button variant="tertiary" title="Delete Item" onClick={() => openDeleteItemDialog(itemId)}>
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
@@ -101,9 +98,9 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId, forceRel
         </TextButton>
       </div>
       {itemTypeId === 1 ? (
-        <FixedItemForm item={response?.item} productId={productId} forceReload={forceReload} />
+        <FixedItemForm item={response?.item} productId={productId} />
       ) : (
-        <VariableItemForm item={response?.item} productId={productId} forceReload={forceReload} />
+        <VariableItemForm item={response?.item} productId={productId} />
       )}
     </div>
   );
