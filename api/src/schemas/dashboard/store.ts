@@ -1,5 +1,5 @@
 import z from 'zod';
-import { empty, page, strLongOptional, strShort, uuid } from '../_presets';
+import { empty, page, strLongOptional, strShort, strShortOptional, uuid } from '../_presets';
 
 export const listStoresDashboardSchema = {
   body: empty,
@@ -7,6 +7,8 @@ export const listStoresDashboardSchema = {
   query: z
     .object({
       page: page,
+      search: strShortOptional,
+      statusFilter: z.enum(['public', 'unlisted', 'all']),
     })
     .strict(),
 };
@@ -27,6 +29,9 @@ export const getStoreTeamDashboardSchema = {
   query: z
     .object({
       page: page,
+      search: strShortOptional,
+      searchKey: z.enum(['name', 'email']),
+      roleFilter: z.enum(['all', 'manager', 'editor']),
     })
     .strict(),
 };

@@ -57,7 +57,7 @@ export const SuperusersAdmin: React.FC = () => {
     {
       url: `/admin/superuser/list`,
       method: HTTP_METHOD.GET,
-      params: { page: page.toString() },
+      params: { page: page.toString(), search: '', searchKey: 'name' },
     },
     { reTrigger: reload },
   );

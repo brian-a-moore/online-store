@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { STATUS_CODE } from '@sunami/constants';
 import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
@@ -63,12 +64,27 @@ export const listItemsDashboardController = async (
   try {
     let page;
     const { productId } = req.query;
+    const { search, statusFilter } = req.query;
 
     try {
       page = getPageNumber(req.query.page);
     } catch (e: any | unknown) {
       res.status(STATUS_CODE.BAD_INPUT).json({ message: e.message });
       return;
+    }
+
+    const where: Prisma.ItemWhereInput = {
+      productId,
+    };
+
+    if (search && search.length > 0) {
+      where.name = { contains: search, mode: 'insensitive' };
+    }
+
+    if (statusFilter === 'public') {
+      where.isPublished = true;
+    } else if (statusFilter === 'unlisted') {
+      where.isPublished = false;
     }
 
     const items = await db.item.findMany({
@@ -79,9 +95,7 @@ export const listItemsDashboardController = async (
         updatedAt: true,
         isPublished: true,
       },
-      where: {
-        productId,
-      },
+      where,
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });

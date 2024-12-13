@@ -1,5 +1,5 @@
 import z from 'zod';
-import { strShort } from '../../schemas/_presets';
+import { strShort, strShortOptional } from '../../schemas/_presets';
 import { empty, page, uuid } from '../_presets';
 
 export const createSuperuserAdminSchema = {
@@ -19,6 +19,8 @@ export const listSuperusersAdminSchema = {
   query: z
     .object({
       page: page,
+      search: strShortOptional,
+      searchKey: z.enum(['email', 'name']),
     })
     .strict(),
 };

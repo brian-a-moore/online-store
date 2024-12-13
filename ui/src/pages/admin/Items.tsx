@@ -54,7 +54,7 @@ export const ItemsAdmin: React.FC = () => {
     {
       url: `/admin/item/list`,
       method: HTTP_METHOD.GET,
-      params: { page: page.toString() },
+      params: { page: page.toString(), search: '', searchKey: 'name', statusFilter: 'all' },
     },
     { reTrigger: reload },
   );

@@ -6,8 +6,10 @@ export const listItemsAdminSchema = {
   params: empty,
   query: z
     .object({
-      productId: uuid.optional(),
       page: page,
+      search: strShortOptional,
+      searchKey: z.enum(['name', 'product.name']),
+      statusFilter: z.enum(['public', 'unlisted', 'all']),
     })
     .strict(),
 };

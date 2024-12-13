@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import { db } from '../../config/db';
@@ -34,12 +35,31 @@ export const listStoresDashboardController = async (
 ) => {
   try {
     let page;
+    const { search, statusFilter } = req.query;
 
     try {
       page = getPageNumber(req.query.page);
     } catch (e: any | unknown) {
       res.status(STATUS_CODE.BAD_INPUT).json({ message: e.message });
       return;
+    }
+
+    const where: Prisma.StoreWhereInput = {
+      userStores: {
+        some: {
+          userId: req.user!.id,
+        },
+      },
+    };
+
+    if (search && search.length > 0) {
+      where.name = { contains: search, mode: 'insensitive' };
+    }
+
+    if (statusFilter === 'public') {
+      where.isPublished = true;
+    } else if (statusFilter === 'unlisted') {
+      where.isPublished = false;
     }
 
     const stores = await db.store.findMany({
@@ -50,13 +70,7 @@ export const listStoresDashboardController = async (
         updatedAt: true,
         isPublished: true,
       },
-      where: {
-        userStores: {
-          some: {
-            userId: req.user!.id,
-          },
-        },
-      },
+      where,
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
@@ -104,6 +118,8 @@ export const getStoreTeamDashboardController = async (
 ) => {
   try {
     let page, storeId;
+    const { search, searchKey, roleFilter } = req.query;
+
     try {
       page = getPageNumber(req.query.page);
       storeId = req.params.storeId;
@@ -111,6 +127,24 @@ export const getStoreTeamDashboardController = async (
       res.status(STATUS_CODE.BAD_INPUT).json({ message: e.message });
       return;
     }
+
+    const where: Prisma.UserStoreRelationWhereInput = {
+      storeId,
+    };
+
+    if (search && search.length > 0) {
+      const user = { [searchKey]: { contains: search, mode: 'insensitive' } };
+      where.user = user;
+    }
+
+    if (roleFilter === 'manager') {
+      where.roleId = 1;
+    }
+
+    if (roleFilter === 'editor') {
+      where.roleId = 2;
+    }
+
     const rawTeam = await db.userStoreRelation.findMany({
       select: {
         id: true,
@@ -125,9 +159,7 @@ export const getStoreTeamDashboardController = async (
           },
         },
       },
-      where: {
-        storeId,
-      },
+      where,
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });

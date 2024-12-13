@@ -1,12 +1,13 @@
 export const statusOptions = new Map([
-  [null, 'Show All'],
-  [true, 'Public'],
-  [false, 'Unlisted'],
+  ['all', 'Show All'],
+  ['public', 'Public'],
+  ['unlisted', 'Unlisted'],
 ]);
 
 export const userRoleOptions = new Map([
-  [1, 'Manager'],
-  [2, 'Editor'],
+  ['all', 'All'],
+  ['manager', 'Manager'],
+  ['editor', 'Editor'],
 ]);
 
 export const userSearchOptions = new Map([

@@ -30,7 +30,6 @@ export const listItemsAdminController = async (
 ) => {
   try {
     let page;
-    const { productId } = req.query;
 
     try {
       page = getPageNumber(req.query.page);
@@ -57,9 +56,6 @@ export const listItemsAdminController = async (
         },
         createdAt: true,
         updatedAt: true,
-      },
-      where: {
-        productId,
       },
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,

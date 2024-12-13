@@ -7,8 +7,10 @@ export const listProductsAdminSchema = {
   params: empty,
   query: z
     .object({
-      storeId: uuid.optional(),
       page: page,
+      search: strShortOptional,
+      searchKey: z.enum(['name', 'store.name']),
+      statusFilter: z.enum(['public', 'unlisted', 'all']),
     })
     .strict(),
 };

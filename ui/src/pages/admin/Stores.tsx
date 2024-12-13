@@ -48,7 +48,7 @@ export const StoresAdmin: React.FC = () => {
     {
       url: `/admin/store/list`,
       method: HTTP_METHOD.GET,
-      params: { page: page.toString() },
+      params: { page: page.toString(), search: '', statusFilter: 'all' },
     },
     { reTrigger: reload },
   );
@@ -58,7 +58,6 @@ export const StoresAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewStoreForm = () => openModal(<StoreAdminForm forceReload={forceReload} />);
   const openEditStoreForm = (id: string) => openModal(<StoreAdminForm storeId={id} forceReload={forceReload} />);
   const onRowClicked = (e: RowClickedEvent<Row>) => openEditStoreForm(e.data!.id);
 

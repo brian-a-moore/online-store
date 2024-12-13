@@ -109,6 +109,8 @@ export const ProductDashboard: React.FC = () => {
             <Icon path={mdiPlus} size={0.75} />
           </Button>
         </div>
+      </Card>
+      <Card>
         <ItemList productId={productId!} />
       </Card>
     </Container>

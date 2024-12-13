@@ -1,5 +1,16 @@
 import z from 'zod';
-import { empty, itemTypeId, page, price, qty, strLong, strLongOptional, strShort, uuid } from '../_presets';
+import {
+  empty,
+  itemTypeId,
+  page,
+  price,
+  qty,
+  strLong,
+  strLongOptional,
+  strShort,
+  strShortOptional,
+  uuid,
+} from '../_presets';
 
 const fixedItemConfig = z
   .object({
@@ -44,6 +55,8 @@ export const listItemsDashboardSchema = {
     .object({
       productId: uuid,
       page: page,
+      search: strShortOptional,
+      statusFilter: z.enum(['public', 'unlisted', 'all']),
     })
     .strict(),
 };

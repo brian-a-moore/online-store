@@ -49,7 +49,7 @@ export const UsersAdmin: React.FC = () => {
     {
       url: `/admin/user/list`,
       method: HTTP_METHOD.GET,
-      params: { page: page.toString() },
+      params: { page: page.toString(), search: '', searchKey: 'name' },
     },
     { reTrigger: reload },
   );

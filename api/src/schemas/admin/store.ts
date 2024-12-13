@@ -1,5 +1,5 @@
 import z from 'zod';
-import { strLongOptional, strShort } from '../../schemas/_presets';
+import { strLongOptional, strShort, strShortOptional } from '../../schemas/_presets';
 import { empty, page, uuid } from '../_presets';
 
 export const createStoreAdminSchema = {
@@ -20,6 +20,8 @@ export const listStoresAdminSchema = {
   query: z
     .object({
       page: page,
+      search: strShortOptional,
+      statusFilter: z.enum(['public', 'unlisted', 'all']),
     })
     .strict(),
 };

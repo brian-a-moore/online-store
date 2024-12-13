@@ -90,6 +90,8 @@ export const StoreDashboard: React.FC = () => {
             />
           </Button>
         </div>
+      </Card>
+      <Card>
         {tab === 'product' && <ProductList storeId={storeId!} />}
         {tab === 'team' && <TeamList storeId={storeId!} />}
       </Card>

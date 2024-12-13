@@ -1,15 +1,24 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   ListProductsDashboardBody,
   ListProductsDashboardQuery,
   ListProductsDashboardResponse,
 } from '../../../../api/src/types/api';
+import {
+  DEFAULT_FORM_VALUES,
+  productDashboardParamsFormSchema,
+} from '../../config/forms/product-dashboard-params-form';
+import { statusOptions } from '../../config/options';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
+import useDebounce from '../../hooks/useDebounce';
 import { AgGrid } from '../container';
 import { IconImage, IsPublished } from '../display';
+import { SelectInput, TextInput } from '../input';
 import { EmptyText } from '../typography';
 
 type Props = {
@@ -63,7 +72,7 @@ const columns: ColDef[] = [
 
 export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
   const navigate = useNavigate();
-  const [page, setPage] = useState<number>(1);
+  const [params, setParams] = useState<ListProductsDashboardQuery>({ storeId, ...DEFAULT_FORM_VALUES });
 
   const { error, isLoading, response } = useApi<
     ListProductsDashboardBody,
@@ -73,10 +82,26 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
     {
       url: `/dashboard/product/list`,
       method: HTTP_METHOD.GET,
-      params: { storeId, page: page.toString() },
+      params,
     },
     { reTrigger: reload },
   );
+
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: DEFAULT_FORM_VALUES,
+    resolver: zodResolver(productDashboardParamsFormSchema),
+  });
+
+  const form = watch();
+  const debouncedSearch = useDebounce(form.search as string, 300);
+
+  useEffect(() => {
+    setParams({ ...form, storeId });
+  }, [form.page, form.statusFilter, debouncedSearch]);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -88,20 +113,28 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
 
   const products = response?.products;
 
-  if (!products || products.length === 0) {
-    return (
-      <div className="flex justify-center">
-        <EmptyText>No products found</EmptyText>
-      </div>
-    );
-  }
-
   return (
     <>
+      <div className="flex gap-4">
+        <TextInput
+          type="search"
+          name="search"
+          label="Search Products"
+          control={control}
+          invalidText={errors?.search?.message}
+        />
+        <SelectInput
+          name="statusFilter"
+          label="Status"
+          options={statusOptions}
+          control={control}
+          invalidText={errors?.statusFilter?.message}
+        />
+      </div>
       {products && products.length ? (
         <AgGrid<Row> cols={columns} rows={products} onRowClicked={onRowClicked} />
       ) : (
-        <EmptyText>No products found</EmptyText>
+        <EmptyText className='text-center'>No products found</EmptyText>
       )}
     </>
   );

@@ -62,7 +62,7 @@ export const ProductsAdmin: React.FC = () => {
     {
       url: `/admin/product/list`,
       method: HTTP_METHOD.GET,
-      params: { page: page.toString() },
+      params: { page: page.toString(), search: '', searchKey: 'name', statusFilter: 'all' },
     },
     { reTrigger: reload },
   );
