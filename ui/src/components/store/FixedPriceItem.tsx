@@ -38,18 +38,12 @@ export const FixedPriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
       <>
         <H3>{item.name}</H3>
         <H5>Description:</H5>
-        {item.description ? (
-          <p>{item.description}</p>
-        ) : (
-          <EmptyText>No description available for this item.</EmptyText>
-        )}
+        {item.description ? <p>{item.description}</p> : <EmptyText>No description available for this item.</EmptyText>}
         <div className="flex justify-between">
           <Button variant="tertiary" onClick={closeModal}>
             Close
           </Button>
-          <Button onClick={addToCart}>
-            Add to Cart
-          </Button>
+          <Button onClick={addToCart}>Add to Cart</Button>
         </div>
       </>,
     );

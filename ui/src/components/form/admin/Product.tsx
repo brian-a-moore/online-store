@@ -6,7 +6,11 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { GetProductAdminBody, GetProductAdminQuery, GetProductAdminResponse } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, productAdminFormSchema, ProductAdminFormType } from '../../../config/forms/product-admin-form';
+import {
+  DEFAULT_FORM_VALUES,
+  productAdminFormSchema,
+  ProductAdminFormType,
+} from '../../../config/forms/product-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';

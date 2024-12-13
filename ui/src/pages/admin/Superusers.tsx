@@ -2,9 +2,9 @@ import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ListSuperusersAdminBody,
-    ListSuperusersAdminQuery,
-    ListSuperusersAdminResponse,
+  ListSuperusersAdminBody,
+  ListSuperusersAdminQuery,
+  ListSuperusersAdminResponse,
 } from '../../../../api/src/types/api';
 import { AgGrid } from '../../components/container';
 import { SuperuserAdminForm } from '../../components/form';

@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  GetItemDashboardResponse
-} from '../../../../../../api/src/types/api';
+import { GetItemDashboardResponse } from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
-import { DEFAULT_FORM_VALUES_FIXED, fixedItemDashboardFormSchema, FixedItemDashboardFormType } from '../../../../config/forms/item-dashboard-form';
+import {
+  DEFAULT_FORM_VALUES_FIXED,
+  fixedItemDashboardFormSchema,
+  FixedItemDashboardFormType,
+} from '../../../../config/forms/item-dashboard-form';
 import { ModalContext } from '../../../../context/ModalContext';
 import { ToastContext } from '../../../../context/ToastContext';
 import { FormOverflow } from '../../../container';
@@ -81,7 +83,7 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId }) => {
           invalidText={errors?.config?.price?.message}
         />
         <TextInput
-          type='number'
+          type="number"
           name="maxQuantityPerOrder"
           label="Max Quantity Per Order"
           control={control}
@@ -89,7 +91,12 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId }) => {
         />
         <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
         <div className="flex gap-4 items-center justify-between">
-          <SwitchInput name="config.isRedeemable" label="Redeemable" control={control} invalidText={errors.config?.isRedeemable?.message} />
+          <SwitchInput
+            name="config.isRedeemable"
+            label="Redeemable"
+            control={control}
+            invalidText={errors.config?.isRedeemable?.message}
+          />
           {isRedeemable ? (
             <TextInput
               type="date"

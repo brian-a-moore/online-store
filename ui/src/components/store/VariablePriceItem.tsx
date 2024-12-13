@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
-import { VariableItemConfig } from "../../../../api/src/types/itemConfigs";
-import { TCartItem } from "../../context/CartContext";
-import { Item } from "../../pages/public";
-import { formatCurrency } from "../../utils";
-import { Button } from "../interactive";
+import { useEffect, useState } from 'react';
+import { VariableItemConfig } from '../../../../api/src/types/itemConfigs';
+import { TCartItem } from '../../context/CartContext';
+import { Item } from '../../pages/public';
+import { formatCurrency } from '../../utils';
+import { Button } from '../interactive';
 
 type Props = {
-    item: Item;
-    addItemToCart: (item: TCartItem) => void;
+  item: Item;
+  addItemToCart: (item: TCartItem) => void;
 };
 
-export const VariablePriceItem: React.FC<Props> = ({
-  item,
-  addItemToCart,
-}) => {
+export const VariablePriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
   const [customAmount, setCustomAmount] = useState<number>(0);
 
   const { defaultAmount, minAmount, maxAmount, presetAmounts }: VariableItemConfig = JSON.parse(item.config);

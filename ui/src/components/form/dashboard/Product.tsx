@@ -8,7 +8,11 @@ import {
   GetProductDashboardResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, productDashboardFormSchema, ProductDashboardFormType } from '../../../config/forms/product-dashboard-form';
+import {
+  DEFAULT_FORM_VALUES,
+  productDashboardFormSchema,
+  ProductDashboardFormType,
+} from '../../../config/forms/product-dashboard-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -99,7 +103,7 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId }) =>
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={closeModal}>
           Cancel
-          </Button>
+        </Button>
         <Button type="submit" disabled={isSubmitting || !isDirty}>
           {isSubmitting ? (productId ? 'Updating' : 'Creating') : productId ? 'Update' : 'Create'} Product
         </Button>

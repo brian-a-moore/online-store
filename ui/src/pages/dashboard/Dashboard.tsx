@@ -20,12 +20,12 @@ export const Dashboard: React.FC = () => {
     if (user && user.domain !== 'user') {
       navigate('/404');
     }
-    if(!user) {
-      navigate('/login')
-    };
+    if (!user) {
+      navigate('/login');
+    }
   }, [user]);
 
-const signOut = () => {
+  const signOut = () => {
     openModal(
       <>
         <H3>Sign Out</H3>

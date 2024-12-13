@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({ store, isCartVisible, toggleCart }) => 
           <H4>{store?.name}</H4>
         </ButtonLink>
       </div>
-        <Button onClick={toggleCart} title={isCartVisible ? 'Close Cart' : 'Open Cart'} className="relative">
+      <Button onClick={toggleCart} title={isCartVisible ? 'Close Cart' : 'Open Cart'} className="relative">
         <Icon path={isCartVisible ? mdiClose : mdiCart} size={0.75} color="white" />
         <span
           className={`absolute -top-2 -right-2 text-xs font-semibold ${items.length === 0 ? 'bg-slate-800' : 'bg-sky-600'} px-[10px] py-2 rounded-md scale-75 pointer-events-none`}

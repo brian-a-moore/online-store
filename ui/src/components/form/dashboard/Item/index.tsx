@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   GetItemDashboardBody,
   GetItemDashboardQuery,
-  GetItemDashboardResponse
+  GetItemDashboardResponse,
 } from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
 import { HTTP_METHOD } from '../../../../constants';
@@ -42,10 +42,10 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
   }, [error]);
 
   useEffect(() => {
-    if(response?.item) {
+    if (response?.item) {
       setItemTypeId(response.item.itemTypeId);
-    };
-  }, [response?.item])
+    }
+  }, [response?.item]);
 
   const openDeleteItemDialog = (id: string) => {
     const onClick = async () => {

@@ -56,15 +56,15 @@ const Store: React.FC<{
 }> = ({ store }) => {
   return (
     <Card key={store.id} className="!flex-row items-center">
-     <div>
-       <IconImage image={store.image} name={store.name} rounded={false} size='xl' />
-     </div>
+      <div>
+        <IconImage image={store.image} name={store.name} rounded={false} size="xl" />
+      </div>
       <div className="flex flex-col gap-4">
         <H3 className="line-clamp-2" title={store.name}>
           {store.name}
         </H3>
         {store.description ? (
-          <p className='text-sm line-clamp-3 flex-1'>{store.description}</p>
+          <p className="text-sm line-clamp-3 flex-1">{store.description}</p>
         ) : (
           <EmptyText>No description available for this store.</EmptyText>
         )}

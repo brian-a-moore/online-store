@@ -59,7 +59,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
 
   return (
     <div className="relative flex flex-col gap-2">
-    <label className='text-sm font-semibold'>Search Users</label>
+      <label className="text-sm font-semibold">Search Users</label>
       <input
         type="search"
         className={`w-full h-12 px-4 rounded bg-slate-100 focus:outline-sky-300`}

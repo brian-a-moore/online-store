@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  GetItemDashboardResponse
-} from '../../../../../../api/src/types/api';
+import { GetItemDashboardResponse } from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
-import { DEFAULT_FORM_VALUES_VARIABLE, variableItemDashboardFormSchema, VariableItemDashboardFormType } from '../../../../config/forms/item-dashboard-form';
+import {
+  DEFAULT_FORM_VALUES_VARIABLE,
+  variableItemDashboardFormSchema,
+  VariableItemDashboardFormType,
+} from '../../../../config/forms/item-dashboard-form';
 import { ModalContext } from '../../../../context/ModalContext';
 import { ToastContext } from '../../../../context/ToastContext';
 import { FormOverflow } from '../../../container';
@@ -76,7 +78,7 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
           invalidText={errors?.description?.message}
         />
         <TextInput
-          type='number'
+          type="number"
           name="maxQuantityPerOrder"
           label="Max Quantity Per Order"
           control={control}
@@ -84,32 +86,32 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
         />
         <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
         <div className="flex gap-4">
-            <TextInput
-              type='number'
-              name="config.defaultAmount"
-              label="Default Amount"
-              control={control}
-              invalidText={errors?.config?.defaultAmount?.message}
-            />
-            <TextInput
-              type='number'
-              name="config.minAmount"
-              label="Minimum Amount"
-              control={control}
-              invalidText={errors?.config?.minAmount?.message}
-            />
-            <TextInput
-              type='number'
-              name="config.maxAmount"
-              label="Maximum Amount"
-              control={control}
-              invalidText={errors?.config?.maxAmount?.message}
-            />
+          <TextInput
+            type="number"
+            name="config.defaultAmount"
+            label="Default Amount"
+            control={control}
+            invalidText={errors?.config?.defaultAmount?.message}
+          />
+          <TextInput
+            type="number"
+            name="config.minAmount"
+            label="Minimum Amount"
+            control={control}
+            invalidText={errors?.config?.minAmount?.message}
+          />
+          <TextInput
+            type="number"
+            name="config.maxAmount"
+            label="Maximum Amount"
+            control={control}
+            invalidText={errors?.config?.maxAmount?.message}
+          />
         </div>
         <PresetAmounts
           onChange={(presetAmounts: number[]) => setValue('config.presetAmounts', presetAmounts)}
           config={config as any}
-          defaultValues={defaultValues}  
+          defaultValues={defaultValues}
         />
       </FormOverflow>
       {formError ? <ErrorText>{formError}</ErrorText> : null}

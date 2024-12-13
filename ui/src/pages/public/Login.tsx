@@ -71,11 +71,11 @@ export const Login: React.FC<Props> = () => {
             invalidText={errors?.email?.message}
           />
           {formError ? <ErrorText>{formError}</ErrorText> : null}
-         <div className='flex justify-end'>
-           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Logging in...' : 'Log In'}
-          </Button>
-         </div>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Logging in...' : 'Log In'}
+            </Button>
+          </div>
         </form>
       </Card>
     </div>

@@ -10,7 +10,14 @@ import {
   GetSuperuserAdminResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, DEFAULT_FORM_VALUES_SELF, superuserAdminFormSchema, SuperuserAdminFormType, superuserSelfAdminFormSchema, SuperuserSelfAdminFormType } from '../../../config/forms/superuser-admin-form';
+import {
+  DEFAULT_FORM_VALUES,
+  DEFAULT_FORM_VALUES_SELF,
+  superuserAdminFormSchema,
+  SuperuserAdminFormType,
+  superuserSelfAdminFormSchema,
+  SuperuserSelfAdminFormType,
+} from '../../../config/forms/superuser-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { AuthContext } from '../../../context/AuthContext';
 import { ModalContext } from '../../../context/ModalContext';
@@ -184,18 +191,8 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
           </div>
         ) : null}
       </div>
-      <TextInput
-        name="name"
-        label="Name"
-        control={control}
-        invalidText={errors?.name?.message}
-      />
-      <TextInput
-        name="email"
-        label="Email"
-        control={control}
-        invalidText={errors?.email?.message}
-      />
+      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
       {isSelf ? (
         <>
           <TextInput<SuperuserSelfAdminFormType>

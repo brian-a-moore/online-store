@@ -9,4 +9,3 @@ This is the backend API code for the Online Store
 ## Running the Application
 
 - Run the app with: `npm run local`
-

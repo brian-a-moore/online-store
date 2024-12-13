@@ -72,7 +72,7 @@ const Product: React.FC<{
           {product.name}
         </H3>
         {product.description ? (
-          <p className='text-sm line-clamp-3 flex-1'>{product.description}</p>
+          <p className="text-sm line-clamp-3 flex-1">{product.description}</p>
         ) : (
           <EmptyText>No description available for this product.</EmptyText>
         )}

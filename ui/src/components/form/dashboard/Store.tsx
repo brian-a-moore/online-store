@@ -8,7 +8,11 @@ import {
   GetStoreDashboardResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, storeDashboardFormSchema, StoreDashboardFormType } from '../../../config/forms/store-dashboard-form';
+import {
+  DEFAULT_FORM_VALUES,
+  storeDashboardFormSchema,
+  StoreDashboardFormType,
+} from '../../../config/forms/store-dashboard-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -44,7 +48,7 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
     control,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting, isDirty, },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     resolver: zodResolver(storeDashboardFormSchema),
@@ -93,7 +97,9 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />
       <div className="flex justify-between">
-        <Button variant='tertiary' onClick={closeModal}>Cancel</Button>
+        <Button variant="tertiary" onClick={closeModal}>
+          Cancel
+        </Button>
         <Button type="submit" disabled={isSubmitting || !isDirty}>
           {isSubmitting ? (storeId ? 'Updating' : 'Creating') : storeId ? 'Update' : 'Create'} Store
         </Button>

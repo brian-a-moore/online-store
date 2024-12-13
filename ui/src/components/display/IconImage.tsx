@@ -15,14 +15,14 @@ type Props = {
     storeId: string;
     productId?: string;
     itemId?: string;
-  }
+  };
 };
 
 const sizeMap = new Map([
   ['xs', ['size-[24px]', 'text-xs', 0.5, 'gap-0']],
   ['sm', ['size-[48px]', 'text-xxs', 0.5, 'gap-0']],
   ['md', ['size-[64px]', 'text-xxs', 0.5, 'gap-2']],
-  ['lg', ['size-[96px]', 'text-sm', 1,'gap-2']],
+  ['lg', ['size-[96px]', 'text-sm', 1, 'gap-2']],
   ['xl', ['size-[132px]', 'text-sm', 2, 'gap-2']],
 ]);
 
@@ -32,7 +32,8 @@ export const IconImage: React.FC<Props> = ({ className, image, name, size = 'xl'
 
   const [imageSize, textSize, iconSize, gapSize] = sizeMap.get(size)!;
 
-  const openUploadForm = () => openModal(<UploadImageDashboardForm existingImage={image || ''} upload={upload} forceReload={() => {}} />);
+  const openUploadForm = () =>
+    openModal(<UploadImageDashboardForm existingImage={image || ''} upload={upload} forceReload={() => {}} />);
 
   return (
     <div
@@ -44,7 +45,7 @@ export const IconImage: React.FC<Props> = ({ className, image, name, size = 'xl'
         <img className="w-full h-full text-xs object-contain" src={image} alt={name} />
       ) : (
         <div className={`flex flex-col ${gapSize} items-center justify-center bg-slate-200 w-full h-full`}>
-          <Icon path={mdiImage} size={iconSize} color='#94A3B8' />
+          <Icon path={mdiImage} size={iconSize} color="#94A3B8" />
           {size !== 'xs' && <p className={`${textSize} text-slate-400 font-semibold`}>No Image</p>}
         </div>
       )}

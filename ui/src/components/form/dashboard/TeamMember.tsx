@@ -5,9 +5,9 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-    AddStoreRelationDashboardBody,
-    GetStoreTeamDashboardResponse,
-    SearchUsersDashboardResponse,
+  AddStoreRelationDashboardBody,
+  GetStoreTeamDashboardResponse,
+  SearchUsersDashboardResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { DEFAULT_FORM_VALUES, teamMemberDashboardFormSchema } from '../../../config/forms/team-member-dashboard-form';
@@ -110,7 +110,6 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
       </>,
     );
   };
-
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>

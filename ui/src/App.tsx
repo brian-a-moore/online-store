@@ -28,10 +28,10 @@ function App() {
         </Route>
 
         {/* Dashboard Pages */}
-        <Route path='dashboard' element={<Dashboard />}>
+        <Route path="dashboard" element={<Dashboard />}>
           <Route index element={<HomeDashboard />} />
-          <Route path='store/:storeId' element={<StoreDashboard />} />
-          <Route path='store/:storeId/product/:productId' element={<ProductDashboard />} />
+          <Route path="store/:storeId" element={<StoreDashboard />} />
+          <Route path="store/:storeId/product/:productId" element={<ProductDashboard />} />
         </Route>
 
         {/* Public Store Pages */}

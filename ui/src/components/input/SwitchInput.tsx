@@ -24,9 +24,11 @@ export const SwitchInput = <F extends FieldValues>({
         name={name}
         control={control}
         render={({ field: { onChange, value } }) => (
-          <div className='flex flex-col gap-y-2'>
-            <div className='flex gap-4 items-center'>
-              <label className='text-sm font-semibold' htmlFor={name}>{label}</label>
+          <div className="flex flex-col gap-y-2">
+            <div className="flex gap-4 items-center">
+              <label className="text-sm font-semibold" htmlFor={name}>
+                {label}
+              </label>
               <button disabled={disabled} type="button" onClick={() => onChange(!value)}>
                 <Icon
                   path={value ? mdiToggleSwitchOutline : mdiToggleSwitchOffOutline}
@@ -35,7 +37,7 @@ export const SwitchInput = <F extends FieldValues>({
                 />
               </button>
             </div>
-            {typeof invalidText === 'string' && <p className='text-sm text-red-600'>{invalidText}</p>}
+            {typeof invalidText === 'string' && <p className="text-sm text-red-600">{invalidText}</p>}
           </div>
         )}
       />

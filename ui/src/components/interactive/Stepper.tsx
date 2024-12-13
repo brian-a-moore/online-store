@@ -15,7 +15,9 @@ export const Stepper: React.FC<Props> = ({ item, handleQuantityChange }) => {
       <Button variant="tertiary" onClick={() => handleQuantityChange(item.id, '-')} title="Remove One">
         <Icon path={mdiMinus} size={0.5} />
       </Button>
-      <p className='text-sm' title={`Current quantity: ${item.quantity}`}>{item.quantity}</p>
+      <p className="text-sm" title={`Current quantity: ${item.quantity}`}>
+        {item.quantity}
+      </p>
       <Button variant="tertiary" onClick={() => handleQuantityChange(item.id, '+')} title="Add One">
         <Icon path={mdiPlus} size={0.5} />
       </Button>

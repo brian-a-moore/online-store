@@ -11,9 +11,11 @@ import './styles/index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Router future={{
-    v7_relativeSplatPath: true,
-  }}>
+    <Router
+      future={{
+        v7_relativeSplatPath: true,
+      }}
+    >
       <AuthProvider>
         <ModalProvider>
           <ToastProvider>

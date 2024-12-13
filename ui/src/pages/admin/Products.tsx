@@ -2,9 +2,9 @@ import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ListProductsAdminBody,
-    ListProductsAdminQuery,
-    ListProductsAdminResponse,
+  ListProductsAdminBody,
+  ListProductsAdminQuery,
+  ListProductsAdminResponse,
 } from '../../../../api/src/types/api';
 import { AgGrid } from '../../components/container';
 import { ProductAdminForm } from '../../components/form';

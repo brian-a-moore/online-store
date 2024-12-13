@@ -36,7 +36,12 @@ export const Button: React.FC<Props> = ({
   }
 
   return (
-    <button type="button" {...props} className={`flex items-center gap-2 ${className}${styles ? ' ' + styles : ''}`} disabled={disabled}>
+    <button
+      type="button"
+      {...props}
+      className={`flex items-center gap-2 ${className}${styles ? ' ' + styles : ''}`}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

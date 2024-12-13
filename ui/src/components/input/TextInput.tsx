@@ -17,13 +17,16 @@ export const TextInput = <F extends FieldValues>({
   invalidText,
   disabled = false,
 }: Props<F>) => {
-  return <Controller
+  return (
+    <Controller
       disabled={disabled}
       name={name}
       control={control}
       render={({ field: { onChange, ...field } }) => (
-        <div className='flex flex-col flex-1 gap-y-2'>
-          <label className='text-sm font-semibold' htmlFor={name}>{label}</label>
+        <div className="flex flex-col flex-1 gap-y-2">
+          <label className="text-sm font-semibold" htmlFor={name}>
+            {label}
+          </label>
           <input
             type={type === 'number' ? 'text' : type}
             disabled={disabled}
@@ -41,10 +44,11 @@ export const TextInput = <F extends FieldValues>({
                 return onChange(value);
               }
             }}
-            className={`w-full h-12 px-4 rounded focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' :'bg-slate-100 text-slate-600'}`}
+            className={`w-full h-12 px-4 rounded focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' : 'bg-slate-100 text-slate-600'}`}
           />
-          {typeof invalidText === 'string' && <p className='text-sm text-red-600'>{invalidText}</p>}
+          {typeof invalidText === 'string' && <p className="text-sm text-red-600">{invalidText}</p>}
         </div>
       )}
-    />;
+    />
+  );
 };

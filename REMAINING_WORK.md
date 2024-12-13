@@ -1,11 +1,14 @@
 # Remaining Work
+
 A list of remaining work items to complete before version 0.1 release.
 
 ## Full Stack
+
 - Stripe Integration
 - Sale/Order/Redemption flow
 
 ## API
+
 - Add permissions for each route that needs them
 - Copy AWS setup from Rail
 - Copy GitLab setup from Rail
@@ -13,9 +16,11 @@ A list of remaining work items to complete before version 0.1 release.
 - Route to verify/redeem the codes
 
 ## MOCKS
+
 N/A
 
 ## UI
+
 - Prevent the logged in user from deleting themselves from the team
   - [ ] The button should not appear in the form at the top right corner
 - Prevent the logged in user from changing their own role
@@ -35,5 +40,5 @@ N/A
   - [ ] Currently no way to move back and forth between screen other than using the browser navigation controls
 - Store page for checking/redeeming purchases (QR code scanner)
 - Update to React Router v7
-  -  [ ] This is optional for now
+  - [ ] This is optional for now
 - Store, Product and Items should show placeholder image if no image is defined

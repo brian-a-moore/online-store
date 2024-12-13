@@ -101,8 +101,10 @@ export const ProductDashboard: React.FC = () => {
         </div>
       </Card>
       <Card>
-        <div className='flex justify-between'>
-          <TextButton onClick={() => {}} isActive>Items</TextButton>
+        <div className="flex justify-between">
+          <TextButton onClick={() => {}} isActive>
+            Items
+          </TextButton>
           <Button onClick={openNewItemForm} title="New Item">
             <Icon path={mdiPlus} size={0.75} />
           </Button>

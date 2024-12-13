@@ -28,8 +28,8 @@ export const PresetAmounts: React.FC<Props> = ({ onChange, config, defaultValues
   };
 
   const handleOnBlur = () => {
-    if (value === "") {
-      setValue("0");
+    if (value === '') {
+      setValue('0');
     }
   };
 

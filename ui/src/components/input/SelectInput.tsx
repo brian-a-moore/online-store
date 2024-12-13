@@ -17,14 +17,17 @@ export const SelectInput = <F extends FieldValues>({
   invalidText,
   disabled = false,
 }: Props<F>) => {
-  return <div>
-    <Controller
-      disabled={disabled}
-      name={name}
-      control={control}
+  return (
+    <div>
+      <Controller
+        disabled={disabled}
+        name={name}
+        control={control}
         render={({ field }) => (
-          <div className='flex flex-col gap-y-2'>
-            <label className='text-sm font-semibold' htmlFor={name}>{label}</label>
+          <div className="flex flex-col gap-y-2">
+            <label className="text-sm font-semibold" htmlFor={name}>
+              {label}
+            </label>
             <select
               id={name}
               {...field}
@@ -40,9 +43,10 @@ export const SelectInput = <F extends FieldValues>({
                 </option>
               ))}
             </select>
-            {typeof invalidText === 'string' && <p className='text-sm text-red-600'>{invalidText}</p>}
+            {typeof invalidText === 'string' && <p className="text-sm text-red-600">{invalidText}</p>}
           </div>
         )}
-    />
-  </div>;
+      />
+    </div>
+  );
 };

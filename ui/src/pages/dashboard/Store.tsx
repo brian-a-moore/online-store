@@ -48,9 +48,9 @@ export const StoreDashboard: React.FC = () => {
         <IconImage image={store?.image} name="Store Icon" upload={{ storeId: storeId! }} />
         <div className="flex flex-col flex-1 gap-4">
           <div className="flex items-center justify-between">
-            <H2 className='line-clamp-1'>{store?.name}</H2>
+            <H2 className="line-clamp-1">{store?.name}</H2>
             <div className="flex gap-4">
-              <Button variant='tertiary' onClick={openStoreEditForm} title="Edit Store">
+              <Button variant="tertiary" onClick={openStoreEditForm} title="Edit Store">
                 <Icon path={mdiStoreEdit} size={0.75} />
               </Button>
             </div>
@@ -70,7 +70,7 @@ export const StoreDashboard: React.FC = () => {
         </div>
       </Card>
       <Card>
-        <div className='flex justify-between'>
+        <div className="flex justify-between">
           <div className="flex items-center gap-4">
             <TextButton onClick={() => setTab('product')} isActive={tab === 'product'}>
               Products
@@ -81,7 +81,11 @@ export const StoreDashboard: React.FC = () => {
             </TextButton>
           </div>
           <Button onClick={() => {}}>
-            <Icon path={tab === 'product' ? mdiTagPlus : mdiAccountPlus} size={0.75} title={tab === 'product' ? 'New Product' : 'New Team Member'} />
+            <Icon
+              path={tab === 'product' ? mdiTagPlus : mdiAccountPlus}
+              size={0.75}
+              title={tab === 'product' ? 'New Product' : 'New Team Member'}
+            />
           </Button>
         </div>
         {tab === 'product' && <ProductList storeId={storeId!} />}
