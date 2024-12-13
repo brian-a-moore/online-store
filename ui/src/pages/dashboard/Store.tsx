@@ -1,4 +1,4 @@
-import { mdiAccountPlus, mdiStoreEdit, mdiTagPlus } from '@mdi/js';
+import { mdiPencil, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +9,7 @@ import {
 } from '../../../../api/src/types/api';
 import { Card, Container } from '../../components/container';
 import { IconImage, IsPublished, Separator } from '../../components/display';
-import { StoreDashboardForm } from '../../components/form';
+import { ProductDashboardForm, StoreDashboardForm, TeamMemberForm } from '../../components/form';
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
 import { EmptyText, H2 } from '../../components/typography';
@@ -37,6 +37,8 @@ export const StoreDashboard: React.FC = () => {
   }, [error]);
 
   const openStoreEditForm = () => openModal(<StoreDashboardForm storeId={storeId!} />);
+  const openNewProductForm = () => openModal(<ProductDashboardForm storeId={storeId!} />);
+  const openNewTeamMemberForm = () => openModal(<TeamMemberForm storeId={storeId!} />);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -51,7 +53,7 @@ export const StoreDashboard: React.FC = () => {
             <H2 className="line-clamp-1">{store?.name}</H2>
             <div className="flex gap-4">
               <Button variant="tertiary" onClick={openStoreEditForm} title="Edit Store">
-                <Icon path={mdiStoreEdit} size={0.75} />
+                <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>
           </div>
@@ -80,9 +82,9 @@ export const StoreDashboard: React.FC = () => {
               Team Members
             </TextButton>
           </div>
-          <Button onClick={() => {}}>
+          <Button onClick={tab === 'product' ? openNewProductForm : openNewTeamMemberForm}>
             <Icon
-              path={tab === 'product' ? mdiTagPlus : mdiAccountPlus}
+              path={mdiPlus}
               size={0.75}
               title={tab === 'product' ? 'New Product' : 'New Team Member'}
             />

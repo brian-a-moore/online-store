@@ -11,7 +11,7 @@ import {
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import { DEFAULT_FORM_VALUES, teamMemberDashboardFormSchema } from '../../../config/forms/team-member-dashboard-form';
-import { roleOptions } from '../../../config/options';
+import { userRoleOptions } from '../../../config/options';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
 import { Alert } from '../../container';
@@ -23,12 +23,11 @@ import { ErrorText, H3 } from '../../typography';
 type Props = {
   storeId: string;
   existingMember?: GetStoreTeamDashboardResponse['team'][0];
-  forceReload: () => void;
 };
 
 type TeamMember = SearchUsersDashboardResponse['users'][0];
 
-export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, forceReload }) => {
+export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => {
   const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
@@ -78,7 +77,6 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
         setToast({ type: 'success', message: 'Team member added successfully' });
       }
       closeModal();
-      forceReload();
     } catch (error: any | unknown) {
       setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
     }
@@ -89,7 +87,6 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
       try {
         await api.dashboard.deleteStoreRelation(id);
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'User removed from team successfully' });
       } catch (error: any | unknown) {
         navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
@@ -156,7 +153,7 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember, force
         name="roleId"
         control={control}
         label="Role"
-        options={roleOptions}
+        options={userRoleOptions}
         invalidText={errors.roleId?.message}
       />
       {formError && <ErrorText>{formError}</ErrorText>}

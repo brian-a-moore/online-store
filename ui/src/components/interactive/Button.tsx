@@ -24,7 +24,7 @@ export const Button: React.FC<Props> = ({
       className = 'bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-4 rounded';
       break;
     case 'tertiary':
-      className = 'bg-white hover:bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded';
+      className = 'bg-white hover:bg-slate-200 text-slate-600 font-semibold py-2 px-4 rounded';
       break;
     case 'destructive':
       className = 'bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded';

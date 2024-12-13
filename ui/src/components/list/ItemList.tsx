@@ -1,5 +1,5 @@
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ListItemsDashboardBody,
@@ -7,11 +7,9 @@ import {
   ListItemsDashboardResponse,
 } from '../../../../api/src/types/api';
 import { HTTP_METHOD } from '../../constants';
-import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
 import { AgGrid } from '../container';
 import { IconImage, IsPublished } from '../display';
-import { ItemDashboardForm } from '../form';
 import { EmptyText } from '../typography';
 
 type Props = {
@@ -64,7 +62,6 @@ const columns: ColDef[] = [
 ];
 
 export const ItemList: React.FC<Props> = ({ productId, reload }) => {
-  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
 
@@ -85,8 +82,7 @@ export const ItemList: React.FC<Props> = ({ productId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const openEditItemForm = (id: string) => openModal(<ItemDashboardForm productId={productId} itemId={id} />);
-  const onRowClicked = (e: RowClickedEvent<Row>) => openEditItemForm(e.data!.id);
+  const onRowClicked = (e: RowClickedEvent<Row>) => navigate(`item/${e.data!.id}`);
 
   if (isLoading) return <p>Loading...</p>;
 

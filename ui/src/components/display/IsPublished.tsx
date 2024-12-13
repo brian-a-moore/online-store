@@ -1,4 +1,4 @@
-import { mdiNote, mdiNoteOff, mdiStore, mdiStoreOff, mdiTag, mdiTagOff } from '@mdi/js';
+import { mdiBarcode, mdiBarcodeOff, mdiStore, mdiStoreOff, mdiTag, mdiTagOff } from '@mdi/js';
 import Icon from '@mdi/react';
 
 type PathType = 'store' | 'product' | 'item';
@@ -13,7 +13,7 @@ type Props = {
 const pathMap = new Map<PathType, [string, string]>([
   ['store', [mdiStore, mdiStoreOff]],
   ['product', [mdiTag, mdiTagOff]],
-  ['item', [mdiNote, mdiNoteOff]],
+  ['item', [mdiBarcode, mdiBarcodeOff]],
 ]);
 
 export const IsPublished: React.FC<Props> = ({ pathType, isPublished, longForm = false, invert = false }) => {

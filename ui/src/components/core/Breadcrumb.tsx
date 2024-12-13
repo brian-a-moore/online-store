@@ -1,4 +1,4 @@
-import { mdiChevronRight, mdiHome, mdiNote, mdiStore, mdiTag } from '@mdi/js';
+import { mdiBarcode, mdiChevronRight, mdiHome, mdiStore, mdiTag } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ import useApi from '../../hooks/useApi';
 import { Link } from '../interactive';
 
 const LABELS = ['Go Home', 'Go to store: ', 'Go to product: ', 'Go to item: '];
-const ICONS = [mdiHome, mdiStore, mdiTag, mdiNote];
+const ICONS = [mdiHome, mdiStore, mdiTag, mdiBarcode];
 
 export const BreadCrumb: React.FC = () => {
   const navigate = useNavigate();
