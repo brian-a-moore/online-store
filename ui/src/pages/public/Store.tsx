@@ -57,7 +57,6 @@ type HeaderProps = {
     | {
         id: string;
         name: string;
-        website: string | null;
         description: string | null;
         image: string | null;
       }

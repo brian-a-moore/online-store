@@ -10,10 +10,8 @@ datasource db {
 model Store {
     id          String              @id @default(uuid())
     name        String
-    website     String?
     description String?
     image       String?
-    bannerImage String?
     isPublished Boolean             @default(false)
     createdAt   DateTime            @default(now())
     updatedAt   DateTime            @updatedAt

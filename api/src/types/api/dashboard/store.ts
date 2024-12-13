@@ -22,9 +22,7 @@ export type GetStoreDashboardResponse = {
     id: string;
     name: string;
     description: string | null;
-    website: string | null;
     image: string | null;
-    bannerImage: string | null;
     isPublished: boolean;
     createdAt: Date;
     updatedAt: Date;

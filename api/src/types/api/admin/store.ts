@@ -26,10 +26,8 @@ export type GetStoreAdminResponse = {
   store: {
     name: string;
     description: string | null;
-    website: string | null;
     id: string;
     image: string | null;
-    bannerImage: string | null;
     isPublished: boolean;
     createdAt: Date;
     updatedAt: Date;

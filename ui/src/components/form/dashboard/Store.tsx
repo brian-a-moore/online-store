@@ -62,7 +62,6 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
     if (response?.store) {
       setValue('name', response.store.name);
       if (response.store?.description) setValue('description', response.store.description);
-      if (response.store?.website) setValue('website', response.store.website);
       setValue('isPublished', response.store.isPublished);
     }
   }, [response]);
@@ -91,7 +90,6 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
           control={control}
           invalidText={errors?.description?.message}
         />
-        <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
         <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}

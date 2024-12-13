@@ -23,7 +23,6 @@ export type GetStorePublicResponse = {
   store: {
     id: string;
     name: string;
-    website: string | null;
     description: string | null;
     image: string | null;
   };

@@ -161,8 +161,6 @@ export const getStoreDashboardController = async (
         name: true,
         description: true,
         image: true,
-        bannerImage: true,
-        website: true,
         isPublished: true,
         createdAt: true,
         updatedAt: true,

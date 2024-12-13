@@ -2,10 +2,8 @@
 CREATE TABLE "stores" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "website" TEXT,
     "description" TEXT,
     "image" TEXT,
-    "bannerImage" TEXT,
     "isPublished" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

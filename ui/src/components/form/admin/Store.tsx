@@ -52,7 +52,6 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
     if (response?.store) {
       setValue('name', response.store.name);
       if (response.store?.description) setValue('description', response.store.description);
-      if (response.store?.website) setValue('website', response.store.website);
       setValue('isPublished', response.store.isPublished);
     }
   }, [response]);
@@ -120,7 +119,6 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         control={control}
         invalidText={errors?.description?.message}
       />
-      <TextInput name="website" label="Website" control={control} invalidText={errors?.website?.message} />
       <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors?.isPublished?.message} />
       {formError && <ErrorText>{formError}</ErrorText>}
       <div className="flex justify-between">

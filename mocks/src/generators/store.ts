@@ -10,9 +10,7 @@ export const generateStores = async () => {
       name: 'Amazon',
       description:
         'Amazon is a global leader in e-commerce, cloud computing, and digital streaming, recognized for revolutionizing online shopping. Founded as a book retailer, it has grown into a comprehensive marketplace offering everything from electronics and clothing to groceries and entertainment. Amazon is renowned for its customer-centric approach, featuring personalized recommendations, Prime membership benefits, and rapid delivery services. Beyond retail, it dominates in cloud computing through AWS, offers innovative hardware like Alexa devices, and produces original content for Prime Video. With its focus on technology and innovation, Amazon has transformed consumer habits and reshaped industries worldwide.',
-      website: 'https://www.amazon.com',
       image: 'https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Amazon-512.png',
-      bannerImage: 'https://thinkmarketingmagazine.com/wp-content/uploads/2022/08/Cover-26.png',
       isPublished: true,
     },
     {
@@ -20,9 +18,7 @@ export const generateStores = async () => {
       name: 'Walmart',
       description:
         'Walmart is a multinational retail corporation that operates a vast network of hypermarkets, discount department stores, and grocery stores, primarily in the United States but also globally. Known for its emphasis on “Everyday Low Prices,” Walmart provides a wide range of products, from groceries and household essentials to electronics, apparel, and more. With a strong focus on physical retail, the company also integrates e-commerce to enhance its omnichannel shopping experience. Walmart serves millions of customers daily, offering affordability and convenience through its massive inventory, efficient supply chain, and customer-centric services like curbside pickup and delivery.',
-      website: 'https://www.walmart.com',
       image: 'https://s3.amazonaws.com/www-inside-design/uploads/2018/04/walmart-square.jpg',
-      bannerImage: 'https://www.hatchwise.com/wp-content/uploads/2022/08/download-1-1024x538.jpeg',
       isPublished: true,
     },
   ];

@@ -1,5 +1,5 @@
 import z from 'zod';
-import { strLongOptional, strShort, strShortOptional } from '../../schemas/_presets';
+import { strLongOptional, strShort } from '../../schemas/_presets';
 import { empty, page, uuid } from '../_presets';
 
 export const createStoreAdminSchema = {
@@ -7,7 +7,6 @@ export const createStoreAdminSchema = {
     .object({
       name: strShort,
       description: strLongOptional,
-      website: strShortOptional,
       isPublished: z.boolean(),
     })
     .strict(),
@@ -40,7 +39,6 @@ export const updateStoreAdminSchema = {
     .object({
       name: strShort,
       description: strLongOptional,
-      website: strShortOptional,
       isPublished: z.boolean().optional(),
     })
     .strict(),

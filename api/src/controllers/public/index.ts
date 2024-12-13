@@ -80,7 +80,6 @@ export const getStorePublicController = async (
         name: true,
         description: true,
         image: true,
-        website: true,
       },
       where: { id: storeId, isPublished: true },
     });
