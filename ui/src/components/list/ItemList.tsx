@@ -69,7 +69,7 @@ const columns: ColDef[] = [
 
 export const ItemList: React.FC<Props> = ({ productId, reload }) => {
   const navigate = useNavigate();
-    const [params, setParams] = useState<ListItemsDashboardQuery>({ ...DEFAULT_FORM_VALUES, productId });
+  const [params, setParams] = useState<ListItemsDashboardQuery>({ ...DEFAULT_FORM_VALUES, productId });
 
   const { error, isLoading, response } = useApi<
     ListItemsDashboardBody,
@@ -112,26 +112,26 @@ export const ItemList: React.FC<Props> = ({ productId, reload }) => {
 
   return (
     <>
-          <div className="flex gap-4">
-            <TextInput
-              type="search"
-              name="search"
-              label="Search Items"
-              control={control}
-              invalidText={errors?.search?.message}
-            />
-            <SelectInput
-              name="statusFilter"
-              label="Status"
-              options={statusOptions}
-              control={control}
-              invalidText={errors?.statusFilter?.message}
-            />
-          </div>
+      <div className="flex gap-4">
+        <TextInput
+          type="search"
+          name="search"
+          label="Search Items"
+          control={control}
+          invalidText={errors?.search?.message}
+        />
+        <SelectInput
+          name="statusFilter"
+          label="Status"
+          options={statusOptions}
+          control={control}
+          invalidText={errors?.statusFilter?.message}
+        />
+      </div>
       {items && items.length ? (
         <AgGrid<Row> cols={columns} rows={items} onRowClicked={onRowClicked} />
       ) : (
-        <EmptyText className='text-center'>No items found</EmptyText>
+        <EmptyText className="text-center">No items found</EmptyText>
       )}
     </>
   );

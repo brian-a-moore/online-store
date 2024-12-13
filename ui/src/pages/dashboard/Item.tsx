@@ -2,11 +2,7 @@ import { mdiDelete, mdiPencil } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  GetItemDashboardBody,
-  GetItemDashboardQuery,
-  GetItemDashboardResponse
-} from '../../../../api/src/types/api';
+import { GetItemDashboardBody, GetItemDashboardQuery, GetItemDashboardResponse } from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card, Container } from '../../components/container';
 import { IconImage, IsPublished, Separator } from '../../components/display';
@@ -24,11 +20,7 @@ export const ItemDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { storeId, productId, itemId } = useParams();
 
-  const { error, isLoading, response } = useApi<
-    GetItemDashboardBody,
-    GetItemDashboardQuery,
-    GetItemDashboardResponse
-  >({
+  const { error, isLoading, response } = useApi<GetItemDashboardBody, GetItemDashboardQuery, GetItemDashboardResponse>({
     url: `/dashboard/item/${itemId}`,
     method: HTTP_METHOD.GET,
   });

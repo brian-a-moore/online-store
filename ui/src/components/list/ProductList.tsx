@@ -134,7 +134,7 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
       {products && products.length ? (
         <AgGrid<Row> cols={columns} rows={products} onRowClicked={onRowClicked} />
       ) : (
-        <EmptyText className='text-center'>No products found</EmptyText>
+        <EmptyText className="text-center">No products found</EmptyText>
       )}
     </>
   );

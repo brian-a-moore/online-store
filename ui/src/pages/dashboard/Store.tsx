@@ -83,11 +83,7 @@ export const StoreDashboard: React.FC = () => {
             </TextButton>
           </div>
           <Button onClick={tab === 'product' ? openNewProductForm : openNewTeamMemberForm}>
-            <Icon
-              path={mdiPlus}
-              size={0.75}
-              title={tab === 'product' ? 'New Product' : 'New Team Member'}
-            />
+            <Icon path={mdiPlus} size={0.75} title={tab === 'product' ? 'New Product' : 'New Team Member'} />
           </Button>
         </div>
       </Card>
