@@ -93,8 +93,6 @@ export const SuperusersAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewUserForm = () =>
-    openModal(<SuperuserAdminForm forceReload={forceReload} />);
   const openEditUserForm = (id: string) =>
     openModal(
       <SuperuserAdminForm superuserId={id} forceReload={forceReload} />,

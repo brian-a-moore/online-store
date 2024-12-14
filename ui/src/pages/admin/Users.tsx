@@ -93,8 +93,6 @@ export const UsersAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewUserForm = () =>
-    openModal(<UserAdminForm forceReload={forceReload} />);
   const openEditUserForm = (id: string) =>
     openModal(<UserAdminForm userId={id} forceReload={forceReload} />);
   const onRowClicked = (e: RowClickedEvent<Row>) =>
