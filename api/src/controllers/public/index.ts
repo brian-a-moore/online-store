@@ -28,7 +28,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listStoresPublicController = async (
-  req: Request<ListStoresPublicParams, unknown, ListStoresPublicBody, ListStoresPublicQuery>,
+  req: Request<
+    ListStoresPublicParams,
+    unknown,
+    ListStoresPublicBody,
+    ListStoresPublicQuery
+  >,
   res: Response<ListStoresPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -67,7 +72,12 @@ export const listStoresPublicController = async (
 };
 
 export const getStorePublicController = async (
-  req: Request<GetStorePublicParams, unknown, GetStorePublicBody, GetStorePublicQuery>,
+  req: Request<
+    GetStorePublicParams,
+    unknown,
+    GetStorePublicBody,
+    GetStorePublicQuery
+  >,
   res: Response<GetStorePublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -91,7 +101,12 @@ export const getStorePublicController = async (
 };
 
 export const listProductsPublicController = async (
-  req: Request<ListProductsPublicParams, unknown, ListProductsPublicBody, ListProductsPublicQuery>,
+  req: Request<
+    ListProductsPublicParams,
+    unknown,
+    ListProductsPublicBody,
+    ListProductsPublicQuery
+  >,
   res: Response<ListProductsPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -131,7 +146,12 @@ export const listProductsPublicController = async (
 };
 
 export const getProductPublicController = async (
-  req: Request<GetProductPublicParams, unknown, GetProductPublicBody, GetProductPublicQuery>,
+  req: Request<
+    GetProductPublicParams,
+    unknown,
+    GetProductPublicBody,
+    GetProductPublicQuery
+  >,
   res: Response<GetProductPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -155,7 +175,12 @@ export const getProductPublicController = async (
 };
 
 export const listItemsPublicController = async (
-  req: Request<ListItemsPublicParams, unknown, ListItemsPublicBody, ListItemsPublicQuery>,
+  req: Request<
+    ListItemsPublicParams,
+    unknown,
+    ListItemsPublicBody,
+    ListItemsPublicQuery
+  >,
   res: Response<ListItemsPublicResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

@@ -24,7 +24,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listItemsAdminController = async (
-  req: Request<ListItemsAdminParams, unknown, ListItemsAdminBody, ListItemsAdminQuery>,
+  req: Request<
+    ListItemsAdminParams,
+    unknown,
+    ListItemsAdminBody,
+    ListItemsAdminQuery
+  >,
   res: Response<ListItemsAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -71,16 +76,27 @@ export const listItemsAdminController = async (
       ],
     });
 
-    const items = rawItems.map(({ id, productId, name, isPublished, itemType, product, createdAt, updatedAt }) => ({
-      id,
-      productId,
-      name,
-      productName: product.name,
-      isPublished: isPublished ? 'Public' : 'Unlisted',
-      itemType: itemType.name,
-      createdAt,
-      updatedAt,
-    }));
+    const items = rawItems.map(
+      ({
+        id,
+        productId,
+        name,
+        isPublished,
+        itemType,
+        product,
+        createdAt,
+        updatedAt,
+      }) => ({
+        id,
+        productId,
+        name,
+        productName: product.name,
+        isPublished: isPublished ? 'Public' : 'Unlisted',
+        itemType: itemType.name,
+        createdAt,
+        updatedAt,
+      }),
+    );
 
     res.status(STATUS_CODE.OKAY).json({ items });
   } catch (e: any | unknown) {
@@ -89,7 +105,12 @@ export const listItemsAdminController = async (
 };
 
 export const getItemAdminController = async (
-  req: Request<GetItemAdminParams, unknown, GetItemAdminBody, GetItemAdminQuery>,
+  req: Request<
+    GetItemAdminParams,
+    unknown,
+    GetItemAdminBody,
+    GetItemAdminQuery
+  >,
   res: Response<GetItemAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -107,7 +128,12 @@ export const getItemAdminController = async (
 };
 
 export const updateItemAdminController = async (
-  req: Request<UpdateItemAdminParams, unknown, UpdateItemAdminBody, UpdateItemAdminQuery>,
+  req: Request<
+    UpdateItemAdminParams,
+    unknown,
+    UpdateItemAdminBody,
+    UpdateItemAdminQuery
+  >,
   res: Response<UpdateItemAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -124,7 +150,12 @@ export const updateItemAdminController = async (
 };
 
 export const deleteItemAdminController = async (
-  req: Request<DeleteItemAdminParams, unknown, DeleteItemAdminBody, DeleteItemAdminQuery>,
+  req: Request<
+    DeleteItemAdminParams,
+    unknown,
+    DeleteItemAdminBody,
+    DeleteItemAdminQuery
+  >,
   res: Response<DeleteItemAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

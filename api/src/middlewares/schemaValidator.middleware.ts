@@ -3,7 +3,11 @@ import { NextFunction, Request, Response } from 'express';
 import { ZodObject } from 'zod';
 import logger from '../config/logger';
 
-export default (schema: { body: ZodObject<any>; params: ZodObject<any>; query: ZodObject<any> }) => {
+export default (schema: {
+  body: ZodObject<any>;
+  params: ZodObject<any>;
+  query: ZodObject<any>;
+}) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.debug('SCHEMA VALIDATOR MIDDLEWARE: Validating schema...');

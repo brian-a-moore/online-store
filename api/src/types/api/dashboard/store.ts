@@ -1,9 +1,15 @@
 import { z } from 'zod';
 import * as storeSchema from '../../../schemas/dashboard/store';
 
-export type ListStoresDashboardBody = z.infer<typeof storeSchema.listStoresDashboardSchema.body>;
-export type ListStoresDashboardParams = z.infer<typeof storeSchema.listStoresDashboardSchema.params>;
-export type ListStoresDashboardQuery = z.infer<typeof storeSchema.listStoresDashboardSchema.query>;
+export type ListStoresDashboardBody = z.infer<
+  typeof storeSchema.listStoresDashboardSchema.body
+>;
+export type ListStoresDashboardParams = z.infer<
+  typeof storeSchema.listStoresDashboardSchema.params
+>;
+export type ListStoresDashboardQuery = z.infer<
+  typeof storeSchema.listStoresDashboardSchema.query
+>;
 export type ListStoresDashboardResponse = {
   stores: {
     id: string;
@@ -14,9 +20,15 @@ export type ListStoresDashboardResponse = {
   }[];
 };
 
-export type GetStoreDashboardBody = z.infer<typeof storeSchema.getStoreDashboardSchema.body>;
-export type GetStoreDashboardParams = z.infer<typeof storeSchema.getStoreDashboardSchema.params>;
-export type GetStoreDashboardQuery = z.infer<typeof storeSchema.getStoreDashboardSchema.query>;
+export type GetStoreDashboardBody = z.infer<
+  typeof storeSchema.getStoreDashboardSchema.body
+>;
+export type GetStoreDashboardParams = z.infer<
+  typeof storeSchema.getStoreDashboardSchema.params
+>;
+export type GetStoreDashboardQuery = z.infer<
+  typeof storeSchema.getStoreDashboardSchema.query
+>;
 export type GetStoreDashboardResponse = {
   store: {
     id: string;
@@ -45,9 +57,15 @@ export type GetStoreLoggeDInUserRelationDashboardResponse = {
   };
 };
 
-export type GetStoreTeamDashboardBody = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.body>;
-export type GetStoreTeamDashboardParams = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.params>;
-export type GetStoreTeamDashboardQuery = z.infer<typeof storeSchema.getStoreTeamDashboardSchema.query>;
+export type GetStoreTeamDashboardBody = z.infer<
+  typeof storeSchema.getStoreTeamDashboardSchema.body
+>;
+export type GetStoreTeamDashboardParams = z.infer<
+  typeof storeSchema.getStoreTeamDashboardSchema.params
+>;
+export type GetStoreTeamDashboardQuery = z.infer<
+  typeof storeSchema.getStoreTeamDashboardSchema.query
+>;
 export type GetStoreTeamDashboardResponse = {
   team: {
     id: string;
@@ -61,7 +79,13 @@ export type GetStoreTeamDashboardResponse = {
   }[];
 };
 
-export type UpdateStoreDashboardBody = z.infer<typeof storeSchema.updateStoreDashboardSchema.body>;
-export type UpdateStoreDashboardParams = z.infer<typeof storeSchema.updateStoreDashboardSchema.params>;
-export type UpdateStoreDashboardQuery = z.infer<typeof storeSchema.updateStoreDashboardSchema.query>;
+export type UpdateStoreDashboardBody = z.infer<
+  typeof storeSchema.updateStoreDashboardSchema.body
+>;
+export type UpdateStoreDashboardParams = z.infer<
+  typeof storeSchema.updateStoreDashboardSchema.params
+>;
+export type UpdateStoreDashboardQuery = z.infer<
+  typeof storeSchema.updateStoreDashboardSchema.query
+>;
 export type UpdateStoreDashboardResponse = never;

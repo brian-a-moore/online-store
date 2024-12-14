@@ -12,7 +12,9 @@ export const getPageNumber = (val: string) => {
   return page;
 };
 
-export const getRoleId: (val?: string) => number | undefined = (val?: string) => {
+export const getRoleId: (val?: string) => number | undefined = (
+  val?: string,
+) => {
   if (!val) return undefined;
   const roleId = parseInt(val, 10);
 

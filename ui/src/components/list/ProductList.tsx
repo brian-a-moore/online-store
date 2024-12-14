@@ -66,13 +66,17 @@ const columns: ColDef[] = [
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
 export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
   const navigate = useNavigate();
-  const [params, setParams] = useState<ListProductsDashboardQuery>({ storeId, ...DEFAULT_FORM_VALUES });
+  const [params, setParams] = useState<ListProductsDashboardQuery>({
+    storeId,
+    ...DEFAULT_FORM_VALUES,
+  });
 
   const { error, isLoading, response } = useApi<
     ListProductsDashboardBody,
@@ -107,7 +111,8 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const onRowClicked = (e: RowClickedEvent<Row>) => navigate(`product/${e.data!.id}`);
+  const onRowClicked = (e: RowClickedEvent<Row>) =>
+    navigate(`product/${e.data!.id}`);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -132,7 +137,11 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
         />
       </div>
       {products && products.length ? (
-        <AgGrid<Row> cols={columns} rows={products} onRowClicked={onRowClicked} />
+        <AgGrid<Row>
+          cols={columns}
+          rows={products}
+          onRowClicked={onRowClicked}
+        />
       ) : (
         <EmptyText className="text-center">No products found</EmptyText>
       )}

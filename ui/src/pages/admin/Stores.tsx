@@ -1,7 +1,11 @@
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse } from '../../../../api/src/types/api';
+import {
+  ListStoresAdminBody,
+  ListStoresAdminQuery,
+  ListStoresAdminResponse,
+} from '../../../../api/src/types/api';
 import { AgGrid } from '../../components/container';
 import { StoreAdminForm } from '../../components/form';
 import { EmptyText } from '../../components/typography';
@@ -28,13 +32,15 @@ const columns: ColDef[] = [
     field: 'createdAt',
     headerName: 'Created Date',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
   {
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
@@ -44,7 +50,11 @@ export const StoresAdmin: React.FC = () => {
   const [reload, setReload] = useState<string | undefined>();
   const [page, setPage] = useState<number>(1);
 
-  const { error, isLoading, response } = useApi<ListStoresAdminBody, ListStoresAdminQuery, ListStoresAdminResponse>(
+  const { error, isLoading, response } = useApi<
+    ListStoresAdminBody,
+    ListStoresAdminQuery,
+    ListStoresAdminResponse
+  >(
     {
       url: `/admin/store/list`,
       method: HTTP_METHOD.GET,
@@ -58,8 +68,10 @@ export const StoresAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openEditStoreForm = (id: string) => openModal(<StoreAdminForm storeId={id} forceReload={forceReload} />);
-  const onRowClicked = (e: RowClickedEvent<Row>) => openEditStoreForm(e.data!.id);
+  const openEditStoreForm = (id: string) =>
+    openModal(<StoreAdminForm storeId={id} forceReload={forceReload} />);
+  const onRowClicked = (e: RowClickedEvent<Row>) =>
+    openEditStoreForm(e.data!.id);
 
   if (isLoading) return <p>Loading...</p>;
 

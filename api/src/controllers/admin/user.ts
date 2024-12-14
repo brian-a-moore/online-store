@@ -35,7 +35,12 @@ import { generatePassword } from '../../utils/auth';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createUserAdminController = async (
-  req: Request<CreateUserAdminParams, unknown, CreateUserAdminBody, CreateUserAdminQuery>,
+  req: Request<
+    CreateUserAdminParams,
+    unknown,
+    CreateUserAdminBody,
+    CreateUserAdminQuery
+  >,
   res: Response<CreateUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -61,7 +66,12 @@ export const createUserAdminController = async (
 };
 
 export const listUsersAdminController = async (
-  req: Request<ListUsersAdminParams, unknown, ListUsersAdminBody, ListUsersAdminQuery>,
+  req: Request<
+    ListUsersAdminParams,
+    unknown,
+    ListUsersAdminBody,
+    ListUsersAdminQuery
+  >,
   res: Response<ListUsersAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -97,7 +107,12 @@ export const listUsersAdminController = async (
 };
 
 export const getUserAdminController = async (
-  req: Request<GetUserAdminParams, unknown, GetUserAdminBody, GetUserAdminQuery>,
+  req: Request<
+    GetUserAdminParams,
+    unknown,
+    GetUserAdminBody,
+    GetUserAdminQuery
+  >,
   res: Response<GetUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -122,7 +137,12 @@ export const getUserAdminController = async (
 };
 
 export const updateUserAdminController = async (
-  req: Request<UpdateUserAdminParams, unknown, UpdateUserAdminBody, UpdateUserAdminQuery>,
+  req: Request<
+    UpdateUserAdminParams,
+    unknown,
+    UpdateUserAdminBody,
+    UpdateUserAdminQuery
+  >,
   res: Response<UpdateUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -139,7 +159,12 @@ export const updateUserAdminController = async (
 };
 
 export const deleteUserAdminController = async (
-  req: Request<DeleteUserAdminParams, unknown, DeleteUserAdminBody, DeleteUserAdminQuery>,
+  req: Request<
+    DeleteUserAdminParams,
+    unknown,
+    DeleteUserAdminBody,
+    DeleteUserAdminQuery
+  >,
   res: Response<DeleteUserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -155,7 +180,12 @@ export const deleteUserAdminController = async (
 };
 
 export const resetUserPasswordAdminController = async (
-  req: Request<ResetUserPasswordAdminParams, unknown, ResetUserPasswordAdminBody, ResetUserPasswordAdminQuery>,
+  req: Request<
+    ResetUserPasswordAdminParams,
+    unknown,
+    ResetUserPasswordAdminBody,
+    ResetUserPasswordAdminQuery
+  >,
   res: Response<ResetUserPasswordAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -163,7 +193,10 @@ export const resetUserPasswordAdminController = async (
     const { userId } = req.params;
 
     const newPassword = generatePassword();
-    await db.user.update({ data: { password: await hashString(newPassword) }, where: { id: userId } });
+    await db.user.update({
+      data: { password: await hashString(newPassword) },
+      where: { id: userId },
+    });
 
     res.status(STATUS_CODE.OKAY).send({ newPassword });
   } catch (e: any | unknown) {

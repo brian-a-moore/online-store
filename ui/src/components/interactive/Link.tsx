@@ -5,10 +5,19 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
 }
 
-export const Link: React.FC<Props> = ({ href, children, className, ...props }) => {
+export const Link: React.FC<Props> = ({
+  href,
+  children,
+  className,
+  ...props
+}) => {
   return (
     <span>
-      <RouterLink className={`hover:underline ${className}`} to={href} {...props}>
+      <RouterLink
+        className={`hover:underline ${className}`}
+        to={href}
+        {...props}
+      >
         {children}
       </RouterLink>
     </span>

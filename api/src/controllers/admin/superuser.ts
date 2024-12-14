@@ -35,7 +35,12 @@ import { generatePassword } from '../../utils/auth';
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createSuperuserAdminController = async (
-  req: Request<CreateSuperuserAdminParams, unknown, CreateSuperuserAdminBody, CreateSuperuserAdminQuery>,
+  req: Request<
+    CreateSuperuserAdminParams,
+    unknown,
+    CreateSuperuserAdminBody,
+    CreateSuperuserAdminQuery
+  >,
   res: Response<CreateSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -61,7 +66,12 @@ export const createSuperuserAdminController = async (
 };
 
 export const listSuperusersAdminController = async (
-  req: Request<ListSuperusersAdminParams, unknown, ListSuperusersAdminBody, ListSuperusersAdminQuery>,
+  req: Request<
+    ListSuperusersAdminParams,
+    unknown,
+    ListSuperusersAdminBody,
+    ListSuperusersAdminQuery
+  >,
   res: Response<ListSuperusersAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -97,7 +107,12 @@ export const listSuperusersAdminController = async (
 };
 
 export const getSuperuserAdminController = async (
-  req: Request<GetSuperuserAdminParams, unknown, GetSuperuserAdminBody, GetSuperuserAdminQuery>,
+  req: Request<
+    GetSuperuserAdminParams,
+    unknown,
+    GetSuperuserAdminBody,
+    GetSuperuserAdminQuery
+  >,
   res: Response<GetSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -122,7 +137,12 @@ export const getSuperuserAdminController = async (
 };
 
 export const updateSuperuserAdminController = async (
-  req: Request<UpdateSuperuserAdminParams, unknown, UpdateSuperuserAdminBody, UpdateSuperuserAdminQuery>,
+  req: Request<
+    UpdateSuperuserAdminParams,
+    unknown,
+    UpdateSuperuserAdminBody,
+    UpdateSuperuserAdminQuery
+  >,
   res: Response<UpdateSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -130,7 +150,10 @@ export const updateSuperuserAdminController = async (
     const { superuserId } = req.params;
     const updatedSuperuserFields = req.body;
 
-    await db.superuser.update({ data: updatedSuperuserFields, where: { id: superuserId } });
+    await db.superuser.update({
+      data: updatedSuperuserFields,
+      where: { id: superuserId },
+    });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
@@ -139,7 +162,12 @@ export const updateSuperuserAdminController = async (
 };
 
 export const deleteSuperuserAdminController = async (
-  req: Request<DeleteSuperuserAdminParams, unknown, DeleteSuperuserAdminBody, DeleteSuperuserAdminQuery>,
+  req: Request<
+    DeleteSuperuserAdminParams,
+    unknown,
+    DeleteSuperuserAdminBody,
+    DeleteSuperuserAdminQuery
+  >,
   res: Response<DeleteSuperuserAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -168,7 +196,10 @@ export const resetSuperuserPasswordAdminController = async (
     const { superuserId } = req.params;
 
     const newPassword = generatePassword();
-    await db.superuser.update({ data: { password: await hashString(newPassword) }, where: { id: superuserId } });
+    await db.superuser.update({
+      data: { password: await hashString(newPassword) },
+      where: { id: superuserId },
+    });
 
     res.status(STATUS_CODE.OKAY).send({ newPassword });
   } catch (e: any | unknown) {

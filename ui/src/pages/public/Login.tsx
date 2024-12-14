@@ -35,7 +35,10 @@ export const Login: React.FC<Props> = () => {
 
   const onSubmit = async (loginCredentials: LoginAuthBody) => {
     try {
-      const { token, user } = await api.auth.authLogin(loginCredentials, domain);
+      const { token, user } = await api.auth.authLogin(
+        loginCredentials,
+        domain,
+      );
       setUser(user);
 
       localStorage.setItem(AUTH_TOKEN, token);
@@ -43,7 +46,10 @@ export const Login: React.FC<Props> = () => {
       if (error?.response?.status === 404) {
         setFormError('Account not found');
       } else {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        setFormError(
+          error?.response?.data?.message ||
+            'An unknown error occurred: Please try again later.',
+        );
       }
     }
   };
@@ -53,16 +59,27 @@ export const Login: React.FC<Props> = () => {
       <Card className="w-full max-w-[480px]">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center gap-4">
-            <TextButton onClick={() => setDomain('user')} isActive={domain === 'user'}>
+            <TextButton
+              onClick={() => setDomain('user')}
+              isActive={domain === 'user'}
+            >
               Dashboard Login
             </TextButton>
             |
-            <TextButton onClick={() => setDomain('admin')} isActive={domain === 'admin'}>
+            <TextButton
+              onClick={() => setDomain('admin')}
+              isActive={domain === 'admin'}
+            >
               Admin Login
             </TextButton>
           </div>
           <Separator />
-          <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
+          <TextInput
+            name="email"
+            label="Email"
+            control={control}
+            invalidText={errors?.email?.message}
+          />
           <TextInput
             type="password"
             name="password"

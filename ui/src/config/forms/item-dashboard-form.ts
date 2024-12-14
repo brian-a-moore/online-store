@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { FixedItemConfig, VariableItemConfig } from '../../../../api/src/types/itemConfigs';
+import {
+  FixedItemConfig,
+  VariableItemConfig,
+} from '../../../../api/src/types/itemConfigs';
 
 export type FixedItemDashboardFormType = {
   name: string;
@@ -70,10 +73,18 @@ export const variableItemDashboardFormSchema = z
     itemTypeId: z.literal(2),
     config: z
       .object({
-        defaultAmount: z.number().positive().min(1).max(999999).or(z.literal(0)),
+        defaultAmount: z
+          .number()
+          .positive()
+          .min(1)
+          .max(999999)
+          .or(z.literal(0)),
         minAmount: z.number().int().positive(),
         maxAmount: z.number().positive().min(1).max(999999),
-        presetAmounts: z.array(z.number().positive().min(1).max(999999)).min(0).max(5),
+        presetAmounts: z
+          .array(z.number().positive().min(1).max(999999))
+          .min(0)
+          .max(5),
       })
       .strict(),
     isPublished: z.boolean(),

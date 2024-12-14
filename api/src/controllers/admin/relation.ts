@@ -18,7 +18,12 @@ import {
 } from '../../types/api';
 
 export const addStoreRelationAdminController = async (
-  req: Request<AddStoreRelationAdminParams, unknown, AddStoreRelationAdminBody, AddStoreRelationAdminQuery>,
+  req: Request<
+    AddStoreRelationAdminParams,
+    unknown,
+    AddStoreRelationAdminBody,
+    AddStoreRelationAdminQuery
+  >,
   res: Response<AddStoreRelationAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -43,7 +48,12 @@ export const addStoreRelationAdminController = async (
 };
 
 export const updateStoreRelationAdminController = async (
-  req: Request<UpdateStoreRelationAdminParams, unknown, UpdateStoreRelationAdminBody, UpdateStoreRelationAdminQuery>,
+  req: Request<
+    UpdateStoreRelationAdminParams,
+    unknown,
+    UpdateStoreRelationAdminBody,
+    UpdateStoreRelationAdminQuery
+  >,
   res: Response<UpdateStoreRelationAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -51,7 +61,10 @@ export const updateStoreRelationAdminController = async (
     const { relationId } = req.params;
     const updatedRelation = req.body;
 
-    await db.userStoreRelation.update({ data: updatedRelation, where: { id: relationId } });
+    await db.userStoreRelation.update({
+      data: updatedRelation,
+      where: { id: relationId },
+    });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
@@ -60,7 +73,12 @@ export const updateStoreRelationAdminController = async (
 };
 
 export const deleteStoreRelationAdminController = async (
-  req: Request<DeleteStoreRelationAdminParams, unknown, DeleteStoreRelationAdminBody, DeleteStoreRelationAdminQuery>,
+  req: Request<
+    DeleteStoreRelationAdminParams,
+    unknown,
+    DeleteStoreRelationAdminBody,
+    DeleteStoreRelationAdminQuery
+  >,
   res: Response<DeleteStoreRelationAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

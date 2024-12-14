@@ -38,7 +38,11 @@ export const FixedPriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
       <>
         <H3>{item.name}</H3>
         <H5>Description:</H5>
-        {item.description ? <p>{item.description}</p> : <EmptyText>No description available for this item.</EmptyText>}
+        {item.description ? (
+          <p>{item.description}</p>
+        ) : (
+          <EmptyText>No description available for this item.</EmptyText>
+        )}
         <div className="flex justify-between">
           <Button variant="tertiary" onClick={closeModal}>
             Close
@@ -54,13 +58,19 @@ export const FixedPriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
       <div className="flex flex-1 flex-col gap-2">
         <H4>{formatCurrency(config.price)}</H4>
         <div>
-          <button className="text-left hover:underline text-sky-600 font-semibold" onClick={openMoreInfo}>
+          <button
+            className="text-left hover:underline text-sky-600 font-semibold"
+            onClick={openMoreInfo}
+          >
             <H5 className="text-sm line-clamp-3" title={item.name}>
               {item.name}
             </H5>
           </button>
         </div>
-        <p className="text-sm line-clamp-1 opacity-60 mt-[-4px]" title={item.product.name}>
+        <p
+          className="text-sm line-clamp-1 opacity-60 mt-[-4px]"
+          title={item.product.name}
+        >
           {item.product.name}
         </p>
       </div>

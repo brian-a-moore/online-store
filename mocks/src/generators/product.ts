@@ -11,7 +11,8 @@ export const generateProducts = async (storeIds: string[]) => {
       name: 'Nike Jordan',
       description:
         'Nike Jordans, also known as Air Jordans, are an iconic line of basketball shoes and athletic apparel created by Nike in collaboration with basketball legend Michael Jordan. First introduced in 1984, the brand revolutionized athletic footwear with its bold designs, advanced technology, and cultural influence. Known for their performance on the court and status as a fashion statement off the court, Jordans combine high-quality materials with cutting-edge features like air cushioning for comfort and support. Over the decades, the brand has released numerous models and retro editions, each with a unique style and story, making them a favorite among athletes, sneaker enthusiasts, and collectors alike. Jordans remain a symbol of sports excellence, innovation, and streetwear culture.',
-      image: 'https://i.pinimg.com/originals/8f/15/ea/8f15ea68524dc05acf40c69ed4adcb09.jpg',
+      image:
+        'https://i.pinimg.com/originals/8f/15/ea/8f15ea68524dc05acf40c69ed4adcb09.jpg',
       isPublished: true,
     },
     {
@@ -20,7 +21,8 @@ export const generateProducts = async (storeIds: string[]) => {
       name: 'Microsoft Xbox',
       description:
         'Xbox is a gaming brand created by Microsoft that has become one of the most recognized names in the video game industry. Launched in 2001 with the original Xbox console, the brand has since expanded to include a series of powerful gaming consoles, such as the Xbox 360, Xbox One, and Xbox Series X|S. Known for its high-performance hardware, robust online multiplayer service via Xbox Live, and extensive game library, the Xbox platform caters to casual gamers and hardcore enthusiasts alike. The ecosystem integrates seamlessly with PC gaming through services like Xbox Game Pass, offering access to hundreds of games across platforms. With a focus on innovation, community, and cross-platform play, Xbox continues to redefine interactive entertainment while fostering a global network of players.',
-      image: 'https://i.pinimg.com/originals/69/af/1b/69af1b021e6fe4d37383f80cdaf0cc26.png',
+      image:
+        'https://i.pinimg.com/originals/69/af/1b/69af1b021e6fe4d37383f80cdaf0cc26.png',
       isPublished: true,
     },
   ];
@@ -47,7 +49,9 @@ export const generateProducts = async (storeIds: string[]) => {
     },
   ];
 
-  await db.product.createMany({ data: [...amazonProducts, ...walmartProducts] });
+  await db.product.createMany({
+    data: [...amazonProducts, ...walmartProducts],
+  });
 
   console.log('Products created');
 

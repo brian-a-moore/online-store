@@ -59,16 +59,27 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId }) => {
       }
       closeModal();
     } catch (error: any | unknown) {
-      setFormError(error.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
   const isRedeemable = watch('config.isRedeemable');
 
   return (
-    <form className="flex flex-col gap-4 overflow-auto" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-4 overflow-auto"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <FormOverflow>
-        <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+        <TextInput
+          name="name"
+          label="Name"
+          control={control}
+          invalidText={errors?.name?.message}
+        />
         <TextAreaInput
           name="description"
           label="Description"
@@ -89,7 +100,12 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId }) => {
           control={control}
           invalidText={errors?.maxQuantityPerOrder?.message}
         />
-        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
+        <SwitchInput
+          name="isPublished"
+          label="Public"
+          control={control}
+          invalidText={errors.isPublished?.message}
+        />
         <div className="flex gap-4 items-center justify-between">
           <SwitchInput
             name="config.isRedeemable"
@@ -115,7 +131,14 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId }) => {
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (item?.id ? 'Updating' : 'Creating') : item?.id ? 'Update' : 'Create'} Item
+          {isSubmitting
+            ? item?.id
+              ? 'Updating'
+              : 'Creating'
+            : item?.id
+              ? 'Update'
+              : 'Create'}{' '}
+          Item
         </Button>
       </div>
     </form>

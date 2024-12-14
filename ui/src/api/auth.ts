@@ -9,7 +9,10 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants'; // dpr
 
-export const authLogin = async (loginCredentials: LoginAuthBody, domain: 'admin' | 'user') => {
+export const authLogin = async (
+  loginCredentials: LoginAuthBody,
+  domain: 'admin' | 'user',
+) => {
   return apiCall<LoginAuthBody, LoginAuthQuery, LoginAuthResponse>(
     {
       url: `/auth/login`,
@@ -23,7 +26,11 @@ export const authLogin = async (loginCredentials: LoginAuthBody, domain: 'admin'
 };
 
 export const authVerifyToken = async (token: string) => {
-  return apiCall<VerifyTokenAuthBody, VerifyTokenAuthQuery, VerifyTokenAuthResponse>(
+  return apiCall<
+    VerifyTokenAuthBody,
+    VerifyTokenAuthQuery,
+    VerifyTokenAuthResponse
+  >(
     {
       url: `/auth/verify_token`,
       method: HTTP_METHOD.POST,

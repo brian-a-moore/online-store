@@ -57,7 +57,10 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const addItem = (item: TCartItem) => {
     const existingItem = items.find((i) => i.id === item.id);
     if (existingItem) {
-      let updatedItem = { ...existingItem, quantity: existingItem.quantity + item.quantity };
+      let updatedItem = {
+        ...existingItem,
+        quantity: existingItem.quantity + item.quantity,
+      };
       if (updatedItem.quantity <= existingItem.maxQuantityPerOrder) {
         updateItem(item.id, updatedItem.quantity, true);
       } else {
@@ -70,7 +73,11 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   };
 
   // Update the quantity of an item in the cart
-  const updateItem = (itemId: string, quantity: number, shouldNotify: boolean) => {
+  const updateItem = (
+    itemId: string,
+    quantity: number,
+    shouldNotify: boolean,
+  ) => {
     setItems((prevItems) =>
       prevItems.map((item) => {
         if (item.id === itemId) {
@@ -79,7 +86,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         return item;
       }),
     );
-    if (shouldNotify) setToast({ type: 'success', message: 'Item quantity updated in cart' });
+    if (shouldNotify)
+      setToast({ type: 'success', message: 'Item quantity updated in cart' });
   };
 
   // Remove an item from the cart
@@ -87,5 +95,9 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
-  return <CartContext.Provider value={{ items, addItem, updateItem, removeItem }}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={{ items, addItem, updateItem, removeItem }}>
+      {children}
+    </CartContext.Provider>
+  );
 };

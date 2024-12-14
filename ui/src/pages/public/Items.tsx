@@ -1,6 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse } from '../../../../api/src/types/api';
+import {
+  ListItemsPublicBody,
+  ListItemsPublicQuery,
+  ListItemsPublicResponse,
+} from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { IconImage } from '../../components/display';
 import { FixedPriceItem, VariablePriceItem } from '../../components/store';
@@ -13,7 +17,11 @@ export const Items: React.FC = () => {
   const navigate = useNavigate();
   const { productId } = useParams<{ productId: string }>();
 
-  const { error, isLoading, response } = useApi<ListItemsPublicBody, ListItemsPublicQuery, ListItemsPublicResponse>(
+  const { error, isLoading, response } = useApi<
+    ListItemsPublicBody,
+    ListItemsPublicQuery,
+    ListItemsPublicResponse
+  >(
     {
       url: `/public/item/list`,
       method: HTTP_METHOD.GET,
@@ -33,7 +41,9 @@ export const Items: React.FC = () => {
   if (!items || items.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
-        <EmptyText>There are no items available right now, please check again later.</EmptyText>
+        <EmptyText>
+          There are no items available right now, please check again later.
+        </EmptyText>
       </div>
     );
   }
@@ -67,7 +77,12 @@ const Item: React.FC<{
   return (
     <Card key={item.id}>
       <div className="flex mx-auto">
-        <IconImage image={item.image} name={item.product.name} rounded={false} size="xl" />
+        <IconImage
+          image={item.image}
+          name={item.product.name}
+          rounded={false}
+          size="xl"
+        />
       </div>
       {item.itemTypeId === 1 ? (
         <FixedPriceItem item={item} addItemToCart={addItemToCart} />

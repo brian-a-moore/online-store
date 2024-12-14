@@ -33,13 +33,15 @@ const columns: ColDef[] = [
     field: 'createdAt',
     headerName: 'Created Date',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
   {
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
@@ -67,9 +69,14 @@ export const SuperusersAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openNewUserForm = () => openModal(<SuperuserAdminForm forceReload={forceReload} />);
-  const openEditUserForm = (id: string) => openModal(<SuperuserAdminForm superuserId={id} forceReload={forceReload} />);
-  const onRowClicked = (e: RowClickedEvent<Row>) => openEditUserForm(e.data!.id);
+  const openNewUserForm = () =>
+    openModal(<SuperuserAdminForm forceReload={forceReload} />);
+  const openEditUserForm = (id: string) =>
+    openModal(
+      <SuperuserAdminForm superuserId={id} forceReload={forceReload} />,
+    );
+  const onRowClicked = (e: RowClickedEvent<Row>) =>
+    openEditUserForm(e.data!.id);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -78,7 +85,11 @@ export const SuperusersAdmin: React.FC = () => {
   return (
     <>
       {superusers && superusers.length ? (
-        <AgGrid<Row> cols={columns} rows={superusers} onRowClicked={onRowClicked} />
+        <AgGrid<Row>
+          cols={columns}
+          rows={superusers}
+          onRowClicked={onRowClicked}
+        />
       ) : (
         <EmptyText>No superusers found</EmptyText>
       )}

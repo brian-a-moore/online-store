@@ -30,7 +30,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createProductDashboardController = async (
-  req: Request<CreateProductDashboardParams, unknown, CreateProductDashboardBody, CreateProductDashboardQuery>,
+  req: Request<
+    CreateProductDashboardParams,
+    unknown,
+    CreateProductDashboardBody,
+    CreateProductDashboardQuery
+  >,
   res: Response<CreateProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -55,7 +60,12 @@ export const createProductDashboardController = async (
 };
 
 export const listProductsDashboardController = async (
-  req: Request<ListProductsDashboardParams, unknown, ListProductsDashboardBody, ListProductsDashboardQuery>,
+  req: Request<
+    ListProductsDashboardParams,
+    unknown,
+    ListProductsDashboardBody,
+    ListProductsDashboardQuery
+  >,
   res: Response<ListProductsDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -107,14 +117,21 @@ export const listProductsDashboardController = async (
 };
 
 export const getProductDashboardController = async (
-  req: Request<GetProductDashboardParams, unknown, GetProductDashboardBody, GetProductDashboardQuery>,
+  req: Request<
+    GetProductDashboardParams,
+    unknown,
+    GetProductDashboardBody,
+    GetProductDashboardQuery
+  >,
   res: Response<GetProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;
 
   try {
-    const product = await db.product.findUniqueOrThrow({ where: { id: productId } });
+    const product = await db.product.findUniqueOrThrow({
+      where: { id: productId },
+    });
 
     res.status(STATUS_CODE.OKAY).json({ product });
   } catch (e: any | unknown) {
@@ -123,7 +140,12 @@ export const getProductDashboardController = async (
 };
 
 export const updateProductDashboardController = async (
-  req: Request<UpdateProductDashboardParams, unknown, UpdateProductDashboardBody, UpdateProductDashboardQuery>,
+  req: Request<
+    UpdateProductDashboardParams,
+    unknown,
+    UpdateProductDashboardBody,
+    UpdateProductDashboardQuery
+  >,
   res: Response<UpdateProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -131,7 +153,10 @@ export const updateProductDashboardController = async (
     const { productId } = req.params;
     const updatedProductFields = req.body;
 
-    await db.product.update({ data: updatedProductFields, where: { id: productId } });
+    await db.product.update({
+      data: updatedProductFields,
+      where: { id: productId },
+    });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
@@ -140,7 +165,12 @@ export const updateProductDashboardController = async (
 };
 
 export const deleteProductDashboardController = async (
-  req: Request<DeleteProductDashboardParams, unknown, DeleteProductDashboardBody, DeleteProductDashboardQuery>,
+  req: Request<
+    DeleteProductDashboardParams,
+    unknown,
+    DeleteProductDashboardBody,
+    DeleteProductDashboardQuery
+  >,
   res: Response<DeleteProductDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

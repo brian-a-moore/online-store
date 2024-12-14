@@ -4,9 +4,17 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse } from '../../../../../api/src/types/api';
+import {
+  GetUserAdminBody,
+  GetUserAdminQuery,
+  GetUserAdminResponse,
+} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, userAdminFormSchema, UserAdminFormType } from '../../../config/forms/user-admin-form';
+import {
+  DEFAULT_FORM_VALUES,
+  userAdminFormSchema,
+  UserAdminFormType,
+} from '../../../config/forms/user-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -27,7 +35,11 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<GetUserAdminBody, GetUserAdminQuery, GetUserAdminResponse>(
+  const { error, isLoading, response } = useApi<
+    GetUserAdminBody,
+    GetUserAdminQuery,
+    GetUserAdminResponse
+  >(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/user/${userId}`,
@@ -71,7 +83,10 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
         setToast({ type: 'success', message: 'User updated successfully' });
       }
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
@@ -79,10 +94,20 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
     openModal(
       <>
         <H3>Default Password</H3>
-        <p>{!isNew ? "The user's password has been reset. " : ''}Share this temporary password with the user:</p>
-        <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">{password}</p>
-        <Alert type="warn">This password will not be visable once this dialog is closed.</Alert>
-        <Alert type="warn">Users should immediately change their password upon {isNew ? 'first' : 'next'} login.</Alert>
+        <p>
+          {!isNew ? "The user's password has been reset. " : ''}Share this
+          temporary password with the user:
+        </p>
+        <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">
+          {password}
+        </p>
+        <Alert type="warn">
+          This password will not be visable once this dialog is closed.
+        </Alert>
+        <Alert type="warn">
+          Users should immediately change their password upon{' '}
+          {isNew ? 'first' : 'next'} login.
+        </Alert>
         <div className="flex justify-center">
           <Button
             onClick={() => {
@@ -105,7 +130,10 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
         forceReload();
         setToast({ type: 'success', message: 'User deleted successfully' });
       } catch (error: any | unknown) {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        setFormError(
+          error?.response?.data?.message ||
+            'An unknown error occurred: Please try again later.',
+        );
       }
     };
     openModal(
@@ -129,9 +157,13 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
     const onClick = async () => {
       try {
         const response = await api.admin.resetUserPassword(id);
-        if (response.newPassword) openShowDefaultPassword(response.newPassword, false);
+        if (response.newPassword)
+          openShowDefaultPassword(response.newPassword, false);
       } catch (error: any | unknown) {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        setFormError(
+          error?.response?.data?.message ||
+            'An unknown error occurred: Please try again later.',
+        );
       }
     };
     openModal(
@@ -156,23 +188,48 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
         <H3>{userId ? 'Edit' : 'New'} User</H3>
         {userId ? (
           <div className="flex gap-4">
-            <Button variant="tertiary" title="Delete User" onClick={() => openDeleteUserDialog(userId)}>
+            <Button
+              variant="tertiary"
+              title="Delete User"
+              onClick={() => openDeleteUserDialog(userId)}
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
-            <Button variant="tertiary" title="Reset Password" onClick={() => openResetPasswordDialog(userId)}>
+            <Button
+              variant="tertiary"
+              title="Reset Password"
+              onClick={() => openResetPasswordDialog(userId)}
+            >
               <Icon path={mdiFormTextboxPassword} size={0.75} />
             </Button>
           </div>
         ) : null}
       </div>
-      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-      <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
+      <TextInput
+        name="name"
+        label="Name"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
+      <TextInput
+        name="email"
+        label="Email"
+        control={control}
+        invalidText={errors?.email?.message}
+      />
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (userId ? 'Updating' : 'Creating') : userId ? 'Update' : 'Create'} User
+          {isSubmitting
+            ? userId
+              ? 'Updating'
+              : 'Creating'
+            : userId
+              ? 'Update'
+              : 'Create'}{' '}
+          User
         </Button>
       </div>
     </form>

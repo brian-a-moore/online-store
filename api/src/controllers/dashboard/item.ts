@@ -30,7 +30,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createItemDashboardController = async (
-  req: Request<CreateItemDashboardParams, unknown, CreateItemDashboardBody, CreateItemDashboardQuery>,
+  req: Request<
+    CreateItemDashboardParams,
+    unknown,
+    CreateItemDashboardBody,
+    CreateItemDashboardQuery
+  >,
   res: Response<CreateItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -57,7 +62,12 @@ export const createItemDashboardController = async (
 };
 
 export const listItemsDashboardController = async (
-  req: Request<ListItemsDashboardParams, unknown, ListItemsDashboardBody, ListItemsDashboardQuery>,
+  req: Request<
+    ListItemsDashboardParams,
+    unknown,
+    ListItemsDashboardBody,
+    ListItemsDashboardQuery
+  >,
   res: Response<ListItemsDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -107,7 +117,12 @@ export const listItemsDashboardController = async (
 };
 
 export const getItemDashboardController = async (
-  req: Request<GetItemDashboardParams, unknown, GetItemDashboardBody, GetItemDashboardQuery>,
+  req: Request<
+    GetItemDashboardParams,
+    unknown,
+    GetItemDashboardBody,
+    GetItemDashboardQuery
+  >,
   res: Response<GetItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -125,7 +140,12 @@ export const getItemDashboardController = async (
 };
 
 export const updateItemDashboardController = async (
-  req: Request<UpdateItemDashboardParams, unknown, UpdateItemDashboardBody, UpdateItemDashboardQuery>,
+  req: Request<
+    UpdateItemDashboardParams,
+    unknown,
+    UpdateItemDashboardBody,
+    UpdateItemDashboardQuery
+  >,
   res: Response<UpdateItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -147,7 +167,12 @@ export const updateItemDashboardController = async (
 };
 
 export const deleteItemDashboardController = async (
-  req: Request<DeleteItemDashboardParams, unknown, DeleteItemDashboardBody, DeleteItemDashboardQuery>,
+  req: Request<
+    DeleteItemDashboardParams,
+    unknown,
+    DeleteItemDashboardBody,
+    DeleteItemDashboardQuery
+  >,
   res: Response<DeleteItemDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

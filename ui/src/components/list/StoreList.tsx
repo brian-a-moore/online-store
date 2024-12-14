@@ -9,7 +9,10 @@ import {
   ListStoresDashboardResponse,
 } from '../../../../api/src/types/api';
 import { IconImage, IsPublished } from '../../components/display';
-import { DEFAULT_FORM_VALUES, storeDashboardParamsFormSchema } from '../../config/forms/store-dashboard-params-form';
+import {
+  DEFAULT_FORM_VALUES,
+  storeDashboardParamsFormSchema,
+} from '../../config/forms/store-dashboard-params-form';
 import { statusOptions } from '../../config/options';
 import { HTTP_METHOD } from '../../constants';
 import useApi from '../../hooks/useApi';
@@ -58,13 +61,15 @@ const columns: ColDef[] = [
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
 export const StoreList: React.FC = () => {
   const navigate = useNavigate();
-  const [params, setParams] = useState<ListStoresDashboardQuery>(DEFAULT_FORM_VALUES);
+  const [params, setParams] =
+    useState<ListStoresDashboardQuery>(DEFAULT_FORM_VALUES);
 
   const { error, isLoading, response } = useApi<
     ListStoresDashboardBody,
@@ -96,7 +101,8 @@ export const StoreList: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const onRowClicked = (e: RowClickedEvent<Row>) => navigate(`store/${e.data!.id}`);
+  const onRowClicked = (e: RowClickedEvent<Row>) =>
+    navigate(`store/${e.data!.id}`);
 
   if (isLoading) return <p>Loading...</p>;
 

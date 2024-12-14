@@ -1,6 +1,8 @@
 import { Request } from 'express';
 
-export const canUseAdminRoutes = async (req: Request): Promise<false | string> => {
+export const canUseAdminRoutes = async (
+  req: Request,
+): Promise<false | string> => {
   // TODO: Remove bypass before deploying
   const bypass = true;
 

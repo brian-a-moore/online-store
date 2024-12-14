@@ -1,5 +1,9 @@
 import z from 'zod';
-import { strLongOptional, strShort, strShortOptional } from '../../schemas/_presets';
+import {
+  strLongOptional,
+  strShort,
+  strShortOptional,
+} from '../../schemas/_presets';
 import { empty, page, uuid } from '../_presets';
 
 export const createStoreAdminSchema = {

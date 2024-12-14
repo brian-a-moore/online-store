@@ -10,7 +10,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Bypass authorization for certain routes
     if (req.routeId?.includes('-auth') || req.routeId?.includes('-public')) {
-      logger.debug('AUTHORIZATION MIDDLEWARE: Authorization middleware: Bypassed');
+      logger.debug(
+        'AUTHORIZATION MIDDLEWARE: Authorization middleware: Bypassed',
+      );
       next();
       return;
     }
@@ -28,7 +30,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 
     // Verify the token
-    const decodedToken = verifyToken<{ id: string; domain: 'admin' | 'user' }>(authToken);
+    const decodedToken = verifyToken<{ id: string; domain: 'admin' | 'user' }>(
+      authToken,
+    );
     logger.debug('AUTHORIZATION MIDDLEWARE: Token verified', { decodedToken });
 
     const userId = decodedToken.id;
@@ -36,7 +40,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     // Count the number of users with the provided ID, based on whether they are an admin or not
     if (decodedToken.domain === 'admin') {
-      userCount = await db.superuser.findUniqueOrThrow({ where: { id: userId } });
+      userCount = await db.superuser.findUniqueOrThrow({
+        where: { id: userId },
+      });
     } else {
       userCount = await db.user.findUniqueOrThrow({ where: { id: userId } });
     }
@@ -47,11 +53,16 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 
     // If a user is found, add their data to the request and continue
-    logger.debug('AUTHORIZATION MIDDLEWARE: Account found -- Continuing...', { decodedToken });
+    logger.debug('AUTHORIZATION MIDDLEWARE: Account found -- Continuing...', {
+      decodedToken,
+    });
     req.user = decodedToken;
     next();
   } catch (error: any | unknown) {
-    logger.error('AUTHORIZATION MIDDLEWARE: Unable to authorize', { error: error.message, stack: error.stack });
+    logger.error('AUTHORIZATION MIDDLEWARE: Unable to authorize', {
+      error: error.message,
+      stack: error.stack,
+    });
     res.status(STATUS_CODE.NO_AUTH).json({});
   }
 };

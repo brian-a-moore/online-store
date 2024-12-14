@@ -1,5 +1,12 @@
 import z from 'zod';
-import { empty, page, strLongOptional, strShort, strShortOptional, uuid } from '../_presets';
+import {
+  empty,
+  page,
+  strLongOptional,
+  strShort,
+  strShortOptional,
+  uuid,
+} from '../_presets';
 
 export const listStoresDashboardSchema = {
   body: empty,

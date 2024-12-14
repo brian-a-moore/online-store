@@ -40,7 +40,9 @@ export const Products: React.FC = () => {
   if (!products || products.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
-        <EmptyText>There are no products available right now, please check again later.</EmptyText>
+        <EmptyText>
+          There are no products available right now, please check again later.
+        </EmptyText>
       </div>
     );
   }
@@ -65,7 +67,12 @@ const Product: React.FC<{
   return (
     <Card key={product.id} className="!flex-row items-center">
       <div>
-        <IconImage image={product.image} name={product.name} rounded={false} size="xl" />
+        <IconImage
+          image={product.image}
+          name={product.name}
+          rounded={false}
+          size="xl"
+        />
       </div>
       <div className="flex flex-col gap-4">
         <H3 className="line-clamp-2" title={product.name}>

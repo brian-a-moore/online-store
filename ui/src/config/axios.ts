@@ -12,10 +12,14 @@ export const apiCall = async <D = undefined, P = undefined, R = undefined>(
   ctrl?: AbortController,
   isPrivateEndpoint = true,
 ): Promise<R> => {
-  const secureAxios = async (contoller: AbortController, args: Params<D, P>) => {
+  const secureAxios = async (
+    contoller: AbortController,
+    args: Params<D, P>,
+  ) => {
     const authToken = localStorage.getItem(AUTH_TOKEN);
 
-    if (!authToken && isPrivateEndpoint) throw new Error('Authentication required but no auth token found');
+    if (!authToken && isPrivateEndpoint)
+      throw new Error('Authentication required but no auth token found');
 
     const headers: any = {};
 

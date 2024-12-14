@@ -33,16 +33,30 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
 
-export const updateStore = async (storeId: string, store: UpdateStoreDashboardBody): Promise<void> => {
-  return apiCall<UpdateStoreDashboardBody, UpdateStoreDashboardQuery, UpdateStoreDashboardResponse>({
+export const updateStore = async (
+  storeId: string,
+  store: UpdateStoreDashboardBody,
+): Promise<void> => {
+  return apiCall<
+    UpdateStoreDashboardBody,
+    UpdateStoreDashboardQuery,
+    UpdateStoreDashboardResponse
+  >({
     url: `/dashboard/store/${storeId}`,
     method: HTTP_METHOD.PUT,
     data: store,
   });
 };
 
-export const createProduct = async (storeId: string, product: CreateProductDashboardBody) => {
-  return apiCall<CreateProductDashboardBody, CreateProductDashboardQuery, CreateProductDashboardResponse>({
+export const createProduct = async (
+  storeId: string,
+  product: CreateProductDashboardBody,
+) => {
+  return apiCall<
+    CreateProductDashboardBody,
+    CreateProductDashboardQuery,
+    CreateProductDashboardResponse
+  >({
     url: `/dashboard/product`,
     method: HTTP_METHOD.POST,
     data: product,
@@ -50,8 +64,15 @@ export const createProduct = async (storeId: string, product: CreateProductDashb
   });
 };
 
-export const updateProduct = async (productId: string, product: UpdateProductDashboardBody): Promise<void> => {
-  return apiCall<UpdateProductDashboardBody, UpdateProductDashboardQuery, UpdateProductDashboardResponse>({
+export const updateProduct = async (
+  productId: string,
+  product: UpdateProductDashboardBody,
+): Promise<void> => {
+  return apiCall<
+    UpdateProductDashboardBody,
+    UpdateProductDashboardQuery,
+    UpdateProductDashboardResponse
+  >({
     url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.PUT,
     data: product,
@@ -59,21 +80,34 @@ export const updateProduct = async (productId: string, product: UpdateProductDas
 };
 
 export const deleteProduct = async (productId: string) => {
-  return apiCall<DeleteProductDashboardBody, DeleteProductDashboardQuery, DeleteProductDashboardResponse>({
+  return apiCall<
+    DeleteProductDashboardBody,
+    DeleteProductDashboardQuery,
+    DeleteProductDashboardResponse
+  >({
     url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.DELETE,
   });
 };
 
-export const addStoreRelation = async (relation: AddStoreRelationDashboardBody) => {
-  return apiCall<AddStoreRelationDashboardBody, AddStoreRelationDashboardQuery, AddStoreRelationDashboardResponse>({
+export const addStoreRelation = async (
+  relation: AddStoreRelationDashboardBody,
+) => {
+  return apiCall<
+    AddStoreRelationDashboardBody,
+    AddStoreRelationDashboardQuery,
+    AddStoreRelationDashboardResponse
+  >({
     url: `/dashboard/relation`,
     method: HTTP_METHOD.POST,
     data: relation,
   });
 };
 
-export const updateStoreRelation = async (relationId: string, roleId: number) => {
+export const updateStoreRelation = async (
+  relationId: string,
+  roleId: number,
+) => {
   return apiCall<
     UpdateStoreRelationDashboardBody,
     UpdateStoreRelationDashboardQuery,
@@ -96,8 +130,15 @@ export const deleteStoreRelation = async (relationId: string) => {
   });
 };
 
-export const createItem = async (productId: string, item: CreateItemDashboardBody) => {
-  return apiCall<CreateItemDashboardBody, CreateItemDashboardQuery, CreateItemDashboardResponse>({
+export const createItem = async (
+  productId: string,
+  item: CreateItemDashboardBody,
+) => {
+  return apiCall<
+    CreateItemDashboardBody,
+    CreateItemDashboardQuery,
+    CreateItemDashboardResponse
+  >({
     url: `/dashboard/item`,
     method: HTTP_METHOD.POST,
     data: item,
@@ -105,8 +146,15 @@ export const createItem = async (productId: string, item: CreateItemDashboardBod
   });
 };
 
-export const updateItem = async (itemId: string, itemUpdate: UpdateItemDashboardBody) => {
-  return apiCall<UpdateItemDashboardBody, UpdateItemDashboardQuery, UpdateItemDashboardResponse>({
+export const updateItem = async (
+  itemId: string,
+  itemUpdate: UpdateItemDashboardBody,
+) => {
+  return apiCall<
+    UpdateItemDashboardBody,
+    UpdateItemDashboardQuery,
+    UpdateItemDashboardResponse
+  >({
     url: `/dashboard/item/${itemId}`,
     method: HTTP_METHOD.PUT,
     data: itemUpdate,
@@ -114,7 +162,11 @@ export const updateItem = async (itemId: string, itemUpdate: UpdateItemDashboard
 };
 
 export const deleteItem = async (itemId: string) => {
-  return apiCall<DeleteItemDashboardBody, DeleteItemDashboardQuery, DeleteItemDashboardResponse>({
+  return apiCall<
+    DeleteItemDashboardBody,
+    DeleteItemDashboardQuery,
+    DeleteItemDashboardResponse
+  >({
     url: `/dashboard/item/${itemId}`,
     method: HTTP_METHOD.DELETE,
   });

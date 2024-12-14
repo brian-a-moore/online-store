@@ -61,7 +61,8 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
   useEffect(() => {
     if (response?.store) {
       setValue('name', response.store.name);
-      if (response.store?.description) setValue('description', response.store.description);
+      if (response.store?.description)
+        setValue('description', response.store.description);
       setValue('isPublished', response.store.isPublished);
     }
   }, [response]);
@@ -72,25 +73,41 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
       closeModal();
       setToast({ type: 'success', message: 'Store updated successfully' });
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col flex-1 gap-4 overflow-hidden"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <H3>{storeId ? 'Edit' : 'New'} Store</H3>
       <Separator />
       <div className="flex flex-col flex-1 gap-4 overflow-y-auto">
-        <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+        <TextInput
+          name="name"
+          label="Name"
+          control={control}
+          invalidText={errors?.name?.message}
+        />
         <TextAreaInput
           name="description"
           label="Description"
           control={control}
           invalidText={errors?.description?.message}
         />
-        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
+        <SwitchInput
+          name="isPublished"
+          label="Public"
+          control={control}
+          invalidText={errors.isPublished?.message}
+        />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />
@@ -99,7 +116,14 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting || !isDirty}>
-          {isSubmitting ? (storeId ? 'Updating' : 'Creating') : storeId ? 'Update' : 'Create'} Store
+          {isSubmitting
+            ? storeId
+              ? 'Updating'
+              : 'Creating'
+            : storeId
+              ? 'Update'
+              : 'Create'}{' '}
+          Store
         </Button>
       </div>
     </form>

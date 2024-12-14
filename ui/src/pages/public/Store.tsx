@@ -2,7 +2,11 @@ import { mdiCart, mdiClose, mdiHome } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import { GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse } from '../../../../api/src/types/api';
+import {
+  GetStorePublicBody,
+  GetStorePublicQuery,
+  GetStorePublicResponse,
+} from '../../../../api/src/types/api';
 import { Cart } from '../../components/core';
 import { IconImage } from '../../components/display';
 import { Button, ButtonLink } from '../../components/interactive';
@@ -19,7 +23,11 @@ export const Store: React.FC = () => {
 
   const toggleCart = () => setShowCart((prevState) => !prevState);
 
-  const { error, isLoading, response } = useApi<GetStorePublicBody, GetStorePublicQuery, GetStorePublicResponse>(
+  const { error, isLoading, response } = useApi<
+    GetStorePublicBody,
+    GetStorePublicQuery,
+    GetStorePublicResponse
+  >(
     {
       url: `/public/store/${storeId}`,
       method: HTTP_METHOD.GET,
@@ -38,7 +46,11 @@ export const Store: React.FC = () => {
   return (
     <CartProvider>
       <div className="fixed top-0 left-0 w-screen h-screen flex flex-col">
-        <Header store={store} toggleCart={toggleCart} isCartVisible={showCart} />
+        <Header
+          store={store}
+          toggleCart={toggleCart}
+          isCartVisible={showCart}
+        />
         <div className="flex flex-1">
           <main className="flex flex-1 overflow-y-auto">
             <div className="w-full">
@@ -65,7 +77,11 @@ type HeaderProps = {
   toggleCart: () => void;
 };
 
-const Header: React.FC<HeaderProps> = ({ store, isCartVisible, toggleCart }) => {
+const Header: React.FC<HeaderProps> = ({
+  store,
+  isCartVisible,
+  toggleCart,
+}) => {
   const { items } = useContext(CartContext);
 
   return (
@@ -74,13 +90,29 @@ const Header: React.FC<HeaderProps> = ({ store, isCartVisible, toggleCart }) => 
         <ButtonLink href="/" title="Back to Home">
           <Icon path={mdiHome} size={1} color="white" />
         </ButtonLink>
-        <ButtonLink href={`/store/${store?.id}`} title="Back to Store" className="flex flex-row items-center gap-4">
-          <IconImage image={store?.image} name={store?.name || 'Store'} size="xs" />
+        <ButtonLink
+          href={`/store/${store?.id}`}
+          title="Back to Store"
+          className="flex flex-row items-center gap-4"
+        >
+          <IconImage
+            image={store?.image}
+            name={store?.name || 'Store'}
+            size="xs"
+          />
           <H4>{store?.name}</H4>
         </ButtonLink>
       </div>
-      <Button onClick={toggleCart} title={isCartVisible ? 'Close Cart' : 'Open Cart'} className="relative">
-        <Icon path={isCartVisible ? mdiClose : mdiCart} size={0.75} color="white" />
+      <Button
+        onClick={toggleCart}
+        title={isCartVisible ? 'Close Cart' : 'Open Cart'}
+        className="relative"
+      >
+        <Icon
+          path={isCartVisible ? mdiClose : mdiCart}
+          size={0.75}
+          color="white"
+        />
         <span
           className={`absolute -top-2 -right-2 text-xs font-semibold ${items.length === 0 ? 'bg-slate-800' : 'bg-sky-600'} px-[10px] py-2 rounded-md scale-75 pointer-events-none`}
         >

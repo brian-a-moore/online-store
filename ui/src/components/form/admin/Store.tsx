@@ -4,9 +4,17 @@ import Icon from '@mdi/react';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse } from '../../../../../api/src/types/api';
+import {
+  GetStoreAdminBody,
+  GetStoreAdminQuery,
+  GetStoreAdminResponse,
+} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, storeAdminFormSchema, StoreAdminFormType } from '../../../config/forms/store-admin-form';
+import {
+  DEFAULT_FORM_VALUES,
+  storeAdminFormSchema,
+  StoreAdminFormType,
+} from '../../../config/forms/store-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -26,7 +34,11 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<GetStoreAdminBody, GetStoreAdminQuery, GetStoreAdminResponse>(
+  const { error, isLoading, response } = useApi<
+    GetStoreAdminBody,
+    GetStoreAdminQuery,
+    GetStoreAdminResponse
+  >(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/store/${storeId}`,
@@ -51,7 +63,8 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
   useEffect(() => {
     if (response?.store) {
       setValue('name', response.store.name);
-      if (response.store?.description) setValue('description', response.store.description);
+      if (response.store?.description)
+        setValue('description', response.store.description);
       setValue('isPublished', response.store.isPublished);
     }
   }, [response]);
@@ -67,7 +80,10 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
       forceReload();
       setToast({ type: 'success', message: 'Store updated successfully' });
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
@@ -79,7 +95,10 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         forceReload();
         setToast({ type: 'success', message: 'Store deleted successfully' });
       } catch (error: any | unknown) {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        setFormError(
+          error?.response?.data?.message ||
+            'An unknown error occurred: Please try again later.',
+        );
       }
     };
     openModal(
@@ -106,27 +125,48 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         <H3>{storeId ? 'Edit' : 'New'} Store</H3>
         {storeId ? (
           <div className="flex gap-4">
-            <Button variant="tertiary" title="Delete Store" onClick={() => openDeleteStoreDialog(storeId)}>
+            <Button
+              variant="tertiary"
+              title="Delete Store"
+              onClick={() => openDeleteStoreDialog(storeId)}
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
         ) : null}
       </div>
-      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput
+        name="name"
+        label="Name"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
       <TextAreaInput
         name="description"
         label="Description"
         control={control}
         invalidText={errors?.description?.message}
       />
-      <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors?.isPublished?.message} />
+      <SwitchInput
+        name="isPublished"
+        label="Public"
+        control={control}
+        invalidText={errors?.isPublished?.message}
+      />
       {formError && <ErrorText>{formError}</ErrorText>}
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={closeModal}>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (storeId ? 'Updating' : 'Creating') : storeId ? 'Update' : 'Create'} Store
+          {isSubmitting
+            ? storeId
+              ? 'Updating'
+              : 'Creating'
+            : storeId
+              ? 'Update'
+              : 'Create'}{' '}
+          Store
         </Button>
       </div>
     </form>

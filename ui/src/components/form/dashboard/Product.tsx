@@ -27,7 +27,10 @@ type Props = {
   productId?: string;
 };
 
-export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId }) => {
+export const ProductDashboardForm: React.FC<Props> = ({
+  storeId,
+  productId,
+}) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
@@ -62,7 +65,8 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId }) =>
   useEffect(() => {
     if (response?.product) {
       setValue('name', response.product.name);
-      if (response.product?.description) setValue('description', response.product.description);
+      if (response.product?.description)
+        setValue('description', response.product.description);
       setValue('isPublished', response.product.isPublished);
     }
   }, [response]);
@@ -78,25 +82,41 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId }) =>
       }
       closeModal();
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col flex-1 gap-4 overflow-hidden"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <H3>{productId ? 'Edit' : 'New'} Product</H3>
       <Separator />
       <div className="flex flex-col flex-1 gap-4 overflow-y-auto">
-        <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+        <TextInput
+          name="name"
+          label="Name"
+          control={control}
+          invalidText={errors?.name?.message}
+        />
         <TextAreaInput
           name="description"
           label="Description"
           control={control}
           invalidText={errors?.description?.message}
         />
-        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
+        <SwitchInput
+          name="isPublished"
+          label="Public"
+          control={control}
+          invalidText={errors.isPublished?.message}
+        />
       </div>
       {formError && <ErrorText>{formError}</ErrorText>}
       <Separator />
@@ -105,7 +125,14 @@ export const ProductDashboardForm: React.FC<Props> = ({ storeId, productId }) =>
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting || !isDirty}>
-          {isSubmitting ? (productId ? 'Updating' : 'Creating') : productId ? 'Update' : 'Create'} Product
+          {isSubmitting
+            ? productId
+              ? 'Updating'
+              : 'Creating'
+            : productId
+              ? 'Update'
+              : 'Create'}{' '}
+          Product
         </Button>
       </div>
     </form>

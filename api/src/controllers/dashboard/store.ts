@@ -29,7 +29,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listStoresDashboardController = async (
-  req: Request<ListStoresDashboardParams, unknown, ListStoresDashboardBody, ListStoresDashboardQuery>,
+  req: Request<
+    ListStoresDashboardParams,
+    unknown,
+    ListStoresDashboardBody,
+    ListStoresDashboardQuery
+  >,
   res: Response<ListStoresDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -105,14 +110,21 @@ export const getStoreLoggedInUserRelationDashboardController = async (
       },
     });
 
-    res.status(STATUS_CODE.OKAY).json({ relation: { relationId: relation.id, roleId: relation.roleId } });
+    res
+      .status(STATUS_CODE.OKAY)
+      .json({ relation: { relationId: relation.id, roleId: relation.roleId } });
   } catch (e: any | unknown) {
     next(e);
   }
 };
 
 export const getStoreTeamDashboardController = async (
-  req: Request<GetStoreTeamDashboardParams, unknown, GetStoreTeamDashboardBody, GetStoreTeamDashboardQuery>,
+  req: Request<
+    GetStoreTeamDashboardParams,
+    unknown,
+    GetStoreTeamDashboardBody,
+    GetStoreTeamDashboardQuery
+  >,
   res: Response<GetStoreTeamDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -180,7 +192,12 @@ export const getStoreTeamDashboardController = async (
 };
 
 export const getStoreDashboardController = async (
-  req: Request<GetStoreDashboardParams, unknown, GetStoreDashboardBody, GetStoreDashboardQuery>,
+  req: Request<
+    GetStoreDashboardParams,
+    unknown,
+    GetStoreDashboardBody,
+    GetStoreDashboardQuery
+  >,
   res: Response<GetStoreDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -207,7 +224,12 @@ export const getStoreDashboardController = async (
 };
 
 export const updateStoreDashboardController = async (
-  req: Request<UpdateStoreDashboardParams, unknown, UpdateStoreDashboardBody, UpdateStoreDashboardQuery>,
+  req: Request<
+    UpdateStoreDashboardParams,
+    unknown,
+    UpdateStoreDashboardBody,
+    UpdateStoreDashboardQuery
+  >,
   res: Response<UpdateStoreDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

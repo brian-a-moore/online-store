@@ -27,15 +27,23 @@ export const loginAuthController = async (
     let user;
 
     if (domain === 'admin') {
-      user = await db.superuser.findUniqueOrThrow({ select: { id: true, password: true }, where: { email } });
+      user = await db.superuser.findUniqueOrThrow({
+        select: { id: true, password: true },
+        where: { email },
+      });
     } else {
-      user = await db.user.findUniqueOrThrow({ select: { id: true, password: true }, where: { email } });
+      user = await db.user.findUniqueOrThrow({
+        select: { id: true, password: true },
+        where: { email },
+      });
     }
 
     const isPasswordValid = await compareStrings(password, user.password);
 
     if (!isPasswordValid) {
-      logger.warn(`User with email ${email} tried to login with invalid password`);
+      logger.warn(
+        `User with email ${email} tried to login with invalid password`,
+      );
       res.status(STATUS_CODE.BAD_INPUT).json({ message: 'Password incorrect' });
       return;
     }
@@ -49,13 +57,21 @@ export const loginAuthController = async (
 };
 
 export const verifyTokenAuthController = async (
-  req: Request<VerifyTokenAuthParams, unknown, VerifyTokenAuthBody, VerifyTokenAuthQuery>,
+  req: Request<
+    VerifyTokenAuthParams,
+    unknown,
+    VerifyTokenAuthBody,
+    VerifyTokenAuthQuery
+  >,
   res: Response<VerifyTokenAuthResponse | ErrorResponse>,
 ) => {
   try {
     logger.debug('Verifying token', { token: req.body.token });
 
-    const { id, domain } = await verifyToken<{ id: string; domain: 'admin' | 'user' }>(req.body.token);
+    const { id, domain } = await verifyToken<{
+      id: string;
+      domain: 'admin' | 'user';
+    }>(req.body.token);
 
     if (domain === 'admin') {
       await db.superuser.findUniqueOrThrow({ where: { id } });
@@ -71,7 +87,11 @@ export const verifyTokenAuthController = async (
       refreshToken,
     });
   } catch (e: any | unknown) {
-    logger.error('Unable to verify token', { token: req.body.token, error: e.message, stack: e.stack });
+    logger.error('Unable to verify token', {
+      token: req.body.token,
+      error: e.message,
+      stack: e.stack,
+    });
     res.status(STATUS_CODE.NO_AUTH).send();
   }
 };

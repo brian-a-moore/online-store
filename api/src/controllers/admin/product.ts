@@ -24,7 +24,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const listProductsAdminController = async (
-  req: Request<ListProductsAdminParams, unknown, ListProductsAdminBody, ListProductsAdminQuery>,
+  req: Request<
+    ListProductsAdminParams,
+    unknown,
+    ListProductsAdminBody,
+    ListProductsAdminQuery
+  >,
   res: Response<ListProductsAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -83,14 +88,21 @@ export const listProductsAdminController = async (
 };
 
 export const getProductAdminController = async (
-  req: Request<GetProductAdminParams, unknown, GetProductAdminBody, GetProductAdminQuery>,
+  req: Request<
+    GetProductAdminParams,
+    unknown,
+    GetProductAdminBody,
+    GetProductAdminQuery
+  >,
   res: Response<GetProductAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
   const { productId } = req.params;
 
   try {
-    const product = await db.product.findUniqueOrThrow({ where: { id: productId } });
+    const product = await db.product.findUniqueOrThrow({
+      where: { id: productId },
+    });
 
     res.status(STATUS_CODE.OKAY).json({ product });
   } catch (e: any | unknown) {
@@ -99,7 +111,12 @@ export const getProductAdminController = async (
 };
 
 export const updateProductAdminController = async (
-  req: Request<UpdateProductAdminParams, unknown, UpdateProductAdminBody, UpdateProductAdminQuery>,
+  req: Request<
+    UpdateProductAdminParams,
+    unknown,
+    UpdateProductAdminBody,
+    UpdateProductAdminQuery
+  >,
   res: Response<UpdateProductAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -107,7 +124,10 @@ export const updateProductAdminController = async (
     const { productId } = req.params;
     const updatedProductFields = req.body;
 
-    await db.product.update({ data: updatedProductFields, where: { id: productId } });
+    await db.product.update({
+      data: updatedProductFields,
+      where: { id: productId },
+    });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {
@@ -116,7 +136,12 @@ export const updateProductAdminController = async (
 };
 
 export const deleteProductAdminController = async (
-  req: Request<DeleteProductAdminParams, unknown, DeleteProductAdminBody, DeleteProductAdminQuery>,
+  req: Request<
+    DeleteProductAdminParams,
+    unknown,
+    DeleteProductAdminBody,
+    DeleteProductAdminQuery
+  >,
   res: Response<DeleteProductAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

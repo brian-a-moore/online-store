@@ -1,11 +1,23 @@
-import { Control, Controller, FieldError, FieldErrorsImpl, FieldValues, Merge, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldErrorsImpl,
+  FieldValues,
+  Merge,
+  Path,
+} from 'react-hook-form';
 
 type Props<F extends FieldValues> = {
   name: Path<F>;
   label: string;
   control: Control<F, unknown>;
   options: Map<string | number, string>;
-  invalidText: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  invalidText:
+    | string
+    | FieldError
+    | Merge<FieldError, FieldErrorsImpl<any>>
+    | undefined;
   disabled?: boolean;
 };
 
@@ -32,7 +44,9 @@ export const SelectInput = <F extends FieldValues>({
               id={name}
               {...field}
               onChange={(e) => {
-                const value = options.has(Number(e.target.value)) ? Number(e.target.value) : e.target.value;
+                const value = options.has(Number(e.target.value))
+                  ? Number(e.target.value)
+                  : e.target.value;
                 field.onChange(value);
               }}
               className={`w-full h-12 px-4 rounded focus:outline-sky-300 ${invalidText ? 'bg-red-100 text-red-600 !outline-red-600' : 'bg-slate-100 text-slate-600'}`}
@@ -43,7 +57,9 @@ export const SelectInput = <F extends FieldValues>({
                 </option>
               ))}
             </select>
-            {typeof invalidText === 'string' && <p className="text-sm text-red-600">{invalidText}</p>}
+            {typeof invalidText === 'string' && (
+              <p className="text-sm text-red-600">{invalidText}</p>
+            )}
           </div>
         )}
       />

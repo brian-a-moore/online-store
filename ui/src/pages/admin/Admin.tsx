@@ -79,7 +79,10 @@ export const Admin: React.FC = () => {
             variant="destructive"
             onClick={() => {
               closeModal();
-              setToast({ message: 'You have signed out successfully', type: 'success' });
+              setToast({
+                message: 'You have signed out successfully',
+                type: 'success',
+              });
               deleteAuthToken();
               setUser(null);
             }}
@@ -98,7 +101,10 @@ export const Admin: React.FC = () => {
         <div className="flex gap-4">
           {addableSegments.includes(thisSegment) && (
             <Button onClick={openNewForm}>
-              <Icon path={buttonLabel.get(thisSegment)?.icon || mdiCloudQuestion} size={1} />
+              <Icon
+                path={buttonLabel.get(thisSegment)?.icon || mdiCloudQuestion}
+                size={1}
+              />
               <p className="text-sm">{buttonLabel.get(thisSegment)?.label}</p>
             </Button>
           )}
@@ -109,7 +115,9 @@ export const Admin: React.FC = () => {
       </header>
       <div className="flex flex-1 justify-stretch h-full">
         {navLinks.length > 0 && (
-          <nav className={`flex flex-col gap-2 justify-between bg-white border-r w-16 transition-all`}>
+          <nav
+            className={`flex flex-col gap-2 justify-between bg-white border-r w-16 transition-all`}
+          >
             <div className="flex flex-col gap-2 pt-4">
               {navLinks.map(({ label, path, icon }, index) => (
                 <Link

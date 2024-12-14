@@ -17,7 +17,10 @@ type Props = {
   forceReload: () => void;
 };
 
-export const UploadImageDashboardForm: React.FC<Props> = ({ existingImage, forceReload }) => {
+export const UploadImageDashboardForm: React.FC<Props> = ({
+  existingImage,
+  forceReload,
+}) => {
   const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,16 +36,25 @@ export const UploadImageDashboardForm: React.FC<Props> = ({ existingImage, force
       //   await api.dashboard.updateImage(upload, image);
       closeModal();
       forceReload();
-      setToast({ type: 'success', message: `Image ${existingImage ? 'updated' : 'uploaded'} successfully` });
+      setToast({
+        type: 'success',
+        message: `Image ${existingImage ? 'updated' : 'uploaded'} successfully`,
+      });
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form className="flex flex-col flex-1 gap-4 overflow-hidden" onSubmit={() => onSubmit()}>
+    <form
+      className="flex flex-col flex-1 gap-4 overflow-hidden"
+      onSubmit={() => onSubmit()}
+    >
       <H3>{existingImage ? 'Update' : 'Upload'} Image</H3>
       <Separator />
       <div className="flex items-center justify-center">
@@ -55,7 +67,14 @@ export const UploadImageDashboardForm: React.FC<Props> = ({ existingImage, force
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (existingImage ? 'Updating' : 'Uploading') : existingImage ? 'Update' : 'Upload'} Image
+          {isSubmitting
+            ? existingImage
+              ? 'Updating'
+              : 'Uploading'
+            : existingImage
+              ? 'Update'
+              : 'Upload'}{' '}
+          Image
         </Button>
       </div>
     </form>

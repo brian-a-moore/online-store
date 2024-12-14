@@ -45,7 +45,9 @@ export const ProductDashboard: React.FC = () => {
         closeModal();
         setToast({ type: 'success', message: 'Product deleted successfully' });
       } catch (error: any | unknown) {
-        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+        navigate(
+          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
+        );
       }
     };
     openModal(
@@ -63,8 +65,12 @@ export const ProductDashboard: React.FC = () => {
       </>,
     );
   };
-  const openEditProductForm = () => openModal(<ProductDashboardForm storeId={storeId} productId={productId!} />);
-  const openNewItemForm = () => openModal(<ItemDashboardForm productId={productId!} />);
+  const openEditProductForm = () =>
+    openModal(
+      <ProductDashboardForm storeId={storeId} productId={productId!} />,
+    );
+  const openNewItemForm = () =>
+    openModal(<ItemDashboardForm productId={productId!} />);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -73,15 +79,27 @@ export const ProductDashboard: React.FC = () => {
   return (
     <Container>
       <Card className="!flex-row">
-        <IconImage image={product?.image} name="Product Icon" upload={{ storeId: storeId!, productId }} />
+        <IconImage
+          image={product?.image}
+          name="Product Icon"
+          upload={{ storeId: storeId!, productId }}
+        />
         <div className="flex flex-col flex-1 gap-4">
           <div className="flex items-center justify-between">
             <H2 className="line-clamp-1">{product?.name}</H2>
             <div className="flex gap-4">
-              <Button variant="tertiary" onClick={openDeleteProductDialog} title="Delete Product">
+              <Button
+                variant="tertiary"
+                onClick={openDeleteProductDialog}
+                title="Delete Product"
+              >
                 <Icon path={mdiDelete} size={0.75} />
               </Button>
-              <Button variant="tertiary" onClick={openEditProductForm} title="Edit Product">
+              <Button
+                variant="tertiary"
+                onClick={openEditProductForm}
+                title="Edit Product"
+              >
                 <Icon path={mdiPencil} size={0.75} />
               </Button>
             </div>
@@ -94,9 +112,14 @@ export const ProductDashboard: React.FC = () => {
           <Separator />
           <div className="flex items-center justify-between">
             <p className="text-sm">
-              <strong>Last Updated:</strong> {new Date(product!.updatedAt).toLocaleDateString()}
+              <strong>Last Updated:</strong>{' '}
+              {new Date(product!.updatedAt).toLocaleDateString()}
             </p>
-            <IsPublished pathType="product" isPublished={!!product?.isPublished} longForm />
+            <IsPublished
+              pathType="product"
+              isPublished={!!product?.isPublished}
+              longForm
+            />
           </div>
         </div>
       </Card>

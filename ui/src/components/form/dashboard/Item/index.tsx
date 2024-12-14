@@ -29,7 +29,11 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
   const navigate = useNavigate();
   const [itemTypeId, setItemTypeId] = useState<number | null>(1);
 
-  const { error, isLoading, response } = useApi<GetItemDashboardBody, GetItemDashboardQuery, GetItemDashboardResponse>(
+  const { error, isLoading, response } = useApi<
+    GetItemDashboardBody,
+    GetItemDashboardQuery,
+    GetItemDashboardResponse
+  >(
     {
       method: HTTP_METHOD.GET,
       url: `/dashboard/item/${itemId}`,
@@ -54,7 +58,9 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
         navigate(-1);
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {
-        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+        navigate(
+          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
+        );
       }
     };
     openModal(
@@ -81,7 +87,11 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
         <H3>{itemId ? 'Edit' : 'New'} Item</H3>
         {itemId ? (
           <div className="flex gap-4">
-            <Button variant="tertiary" title="Delete Item" onClick={() => openDeleteItemDialog(itemId)}>
+            <Button
+              variant="tertiary"
+              title="Delete Item"
+              onClick={() => openDeleteItemDialog(itemId)}
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
@@ -89,11 +99,17 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
       </div>
       <Separator />
       <div className="flex items-center gap-4">
-        <TextButton onClick={() => setItemTypeId(1)} isActive={itemTypeId === 1}>
+        <TextButton
+          onClick={() => setItemTypeId(1)}
+          isActive={itemTypeId === 1}
+        >
           Fixed Price
         </TextButton>
         |
-        <TextButton onClick={() => setItemTypeId(2)} isActive={itemTypeId === 2}>
+        <TextButton
+          onClick={() => setItemTypeId(2)}
+          isActive={itemTypeId === 2}
+        >
           Variable Price
         </TextButton>
       </div>

@@ -10,7 +10,10 @@ import {
   SearchUsersDashboardResponse,
 } from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, teamMemberDashboardFormSchema } from '../../../config/forms/team-member-dashboard-form';
+import {
+  DEFAULT_FORM_VALUES,
+  teamMemberDashboardFormSchema,
+} from '../../../config/forms/team-member-dashboard-form';
 import { userRoleOptions } from '../../../config/options';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -27,7 +30,10 @@ type Props = {
 
 type TeamMember = SearchUsersDashboardResponse['users'][0];
 
-export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => {
+export const TeamMemberForm: React.FC<Props> = ({
+  storeId,
+  existingMember,
+}) => {
   const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
@@ -50,7 +56,11 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
     if (existingMember) {
       setValue('userId', existingMember.id);
       setValue('roleId', existingMember.store.roleId);
-      setTeamMember({ id: existingMember.id, name: existingMember.name, email: existingMember.email });
+      setTeamMember({
+        id: existingMember.id,
+        name: existingMember.name,
+        email: existingMember.email,
+      });
     }
   }, [existingMember]);
 
@@ -67,18 +77,32 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
     setTeamMember(null);
   };
 
-  const onSubmit = async (relation: Omit<AddStoreRelationDashboardBody, 'storeId'>) => {
+  const onSubmit = async (
+    relation: Omit<AddStoreRelationDashboardBody, 'storeId'>,
+  ) => {
     try {
       if (existingMember) {
-        await api.dashboard.updateStoreRelation(existingMember.store.id, relation.roleId);
-        setToast({ type: 'success', message: 'Team member updated successfully' });
+        await api.dashboard.updateStoreRelation(
+          existingMember.store.id,
+          relation.roleId,
+        );
+        setToast({
+          type: 'success',
+          message: 'Team member updated successfully',
+        });
       } else {
         await api.dashboard.addStoreRelation({ ...relation, storeId });
-        setToast({ type: 'success', message: 'Team member added successfully' });
+        setToast({
+          type: 'success',
+          message: 'Team member added successfully',
+        });
       }
       closeModal();
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
@@ -87,9 +111,14 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
       try {
         await api.dashboard.deleteStoreRelation(id);
         closeModal();
-        setToast({ type: 'success', message: 'User removed from team successfully' });
+        setToast({
+          type: 'success',
+          message: 'User removed from team successfully',
+        });
       } catch (error: any | unknown) {
-        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+        navigate(
+          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
+        );
       }
     };
     openModal(
@@ -117,7 +146,9 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
             <Button
               variant="tertiary"
               title="Remove Team Member"
-              onClick={() => openDeleteRelationshipDialog(existingMember.store.id)}
+              onClick={() =>
+                openDeleteRelationshipDialog(existingMember.store.id)
+              }
             >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
@@ -143,8 +174,8 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
         <>
           <SearchBox selectTeamMember={selectTeamMember} />
           <Alert type="info">
-            If you cannot find the user you are looking for, contact your administrator to have them added to the
-            application.
+            If you cannot find the user you are looking for, contact your
+            administrator to have them added to the application.
           </Alert>
         </>
       )}
@@ -159,12 +190,14 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
       {formError && <ErrorText>{formError}</ErrorText>}
       {roleId === 1 ? (
         <p className="text-sm">
-          <strong>Managers</strong> can add, change the role of and remove team members, update the store's information
-          and create, update and delete products and items.
+          <strong>Managers</strong> can add, change the role of and remove team
+          members, update the store's information and create, update and delete
+          products and items.
         </p>
       ) : (
         <p className="text-sm">
-          <strong>Editors</strong> can create, update and delete products and items.
+          <strong>Editors</strong> can create, update and delete products and
+          items.
         </p>
       )}
       <Separator />
@@ -173,7 +206,14 @@ export const TeamMemberForm: React.FC<Props> = ({ storeId, existingMember }) => 
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (existingMember ? 'Updating' : 'Adding') : existingMember ? 'Update' : 'Add'} Team Member
+          {isSubmitting
+            ? existingMember
+              ? 'Updating'
+              : 'Adding'
+            : existingMember
+              ? 'Update'
+              : 'Add'}{' '}
+          Team Member
         </Button>
       </div>
     </form>

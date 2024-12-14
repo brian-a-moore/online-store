@@ -60,7 +60,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (PRIVATE_PATHS.some((path) => location.pathname.includes(path)) && !user && !isLoading) {
+    if (
+      PRIVATE_PATHS.some((path) => location.pathname.includes(path)) &&
+      !user &&
+      !isLoading
+    ) {
       navigate('/login');
     }
     if (location.pathname.includes('/login') && user && !isLoading) {
@@ -76,5 +80,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  return <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

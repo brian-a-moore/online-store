@@ -1,4 +1,9 @@
-import { mdiAlertCircle, mdiCheckCircle, mdiInformation, mdiLightbulb } from '@mdi/js';
+import {
+  mdiAlertCircle,
+  mdiCheckCircle,
+  mdiInformation,
+  mdiLightbulb,
+} from '@mdi/js';
 import Icon from '@mdi/react';
 
 const ICON = {
@@ -38,12 +43,16 @@ type Props = {
 
 export const Alert: React.FC<Props> = ({ type, children }) => {
   return (
-    <div className={`flex ${COLORS[type].background} rounded border-[1px] border-[${COLORS[type].text}]`}>
+    <div
+      className={`flex ${COLORS[type].background} rounded border-[1px] border-[${COLORS[type].text}]`}
+    >
       <div className="bg-[rgba(100,100,100,0.1)] flex items-center justify-center px-4">
         <Icon path={ICON[type]} size={1.25} color={COLORS[type].icon} />
       </div>
       <div className="flex flex-col flex-1 gap-2 p-4">
-        <p className={`${COLORS[type].text} text-left line-clamp-3 text-sm`}>{children}</p>
+        <p className={`${COLORS[type].text} text-left line-clamp-3 text-sm`}>
+          {children}
+        </p>
       </div>
     </div>
   );

@@ -38,13 +38,15 @@ const columns: ColDef[] = [
     field: 'createdAt',
     headerName: 'Created Date',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
   {
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) => new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params) =>
+      new Date(params.value as string).toLocaleDateString(),
   },
 ];
 
@@ -62,7 +64,12 @@ export const ProductsAdmin: React.FC = () => {
     {
       url: `/admin/product/list`,
       method: HTTP_METHOD.GET,
-      params: { page: page.toString(), search: '', searchKey: 'name', statusFilter: 'all' },
+      params: {
+        page: page.toString(),
+        search: '',
+        searchKey: 'name',
+        statusFilter: 'all',
+      },
     },
     { reTrigger: reload },
   );
@@ -72,8 +79,10 @@ export const ProductsAdmin: React.FC = () => {
   }, [error]);
 
   const forceReload = () => setReload(new Date().toISOString());
-  const openEditProductForm = (id: string) => openModal(<ProductAdminForm productId={id} forceReload={forceReload} />);
-  const onRowClicked = (e: RowClickedEvent<Row>) => openEditProductForm(e.data!.id);
+  const openEditProductForm = (id: string) =>
+    openModal(<ProductAdminForm productId={id} forceReload={forceReload} />);
+  const onRowClicked = (e: RowClickedEvent<Row>) =>
+    openEditProductForm(e.data!.id);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -82,7 +91,11 @@ export const ProductsAdmin: React.FC = () => {
   return (
     <>
       {products && products.length ? (
-        <AgGrid<Row> cols={columns} rows={products} onRowClicked={onRowClicked} />
+        <AgGrid<Row>
+          cols={columns}
+          rows={products}
+          onRowClicked={onRowClicked}
+        />
       ) : (
         <EmptyText>No products found</EmptyText>
       )}

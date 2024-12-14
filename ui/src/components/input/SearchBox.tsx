@@ -13,19 +13,29 @@ import { Card } from '../container';
 import { EmptyText } from '../typography';
 
 type SearchBoxProps = {
-  selectTeamMember: (teamMember: { id: string; name: string; email: string }) => void;
+  selectTeamMember: (teamMember: {
+    id: string;
+    name: string;
+    email: string;
+  }) => void;
 };
 
 //TODO: This component is broken -- the popup is showing up in the wrong spot
 export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
   const [search, setSearch] = useState<string>('');
   const [field] = useState<'name' | 'email'>('name');
-  const [users, setUsersDashboard] = useState<SearchUsersDashboardResponse['users']>([]);
+  const [users, setUsersDashboard] = useState<
+    SearchUsersDashboardResponse['users']
+  >([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const debouncedSearch = useDebounce(search, 300);
 
-  const { error, response } = useApi<SearchUsersDashboardBody, SearchUsersDashboardQuery, SearchUsersDashboardResponse>(
+  const { error, response } = useApi<
+    SearchUsersDashboardBody,
+    SearchUsersDashboardQuery,
+    SearchUsersDashboardResponse
+  >(
     {
       url: `/dashboard/user/search`,
       method: HTTP_METHOD.GET,
@@ -68,7 +78,12 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
         placeholder="Search Users"
         ref={inputRef}
       />
-      <ListPopup users={users} inputRef={inputRef} search={debouncedSearch} onUserClick={onUserClick} />
+      <ListPopup
+        users={users}
+        inputRef={inputRef}
+        search={debouncedSearch}
+        onUserClick={onUserClick}
+      />
     </div>
   );
 };
@@ -82,9 +97,18 @@ type ListPopupProps = {
   onUserClick: (id: string) => void;
 };
 
-const ListPopup: React.FC<ListPopupProps> = ({ inputRef, search, users, onUserClick }) => {
+const ListPopup: React.FC<ListPopupProps> = ({
+  inputRef,
+  search,
+  users,
+  onUserClick,
+}) => {
   const popupRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<{ top: number; left: number; width: number } | null>(null);
+  const [position, setPosition] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  } | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   const updatePosition = () => {

@@ -25,7 +25,11 @@ export const listUsersAdminSchema = {
     .strict(),
 };
 
-export const getUserAdminSchema = { body: empty, params: z.object({ userId: uuid }).strict(), query: empty };
+export const getUserAdminSchema = {
+  body: empty,
+  params: z.object({ userId: uuid }).strict(),
+  query: empty,
+};
 
 export const updateUserAdminSchema = {
   body: z

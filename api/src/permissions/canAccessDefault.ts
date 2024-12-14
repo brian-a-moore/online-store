@@ -1,6 +1,8 @@
 import { Request } from 'express';
 
-export const canAccessDefault = async (req: Request): Promise<false | string> => {
+export const canAccessDefault = async (
+  req: Request,
+): Promise<false | string> => {
   if (typeof req === 'object') {
     return false;
   } else {

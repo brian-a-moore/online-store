@@ -4,9 +4,17 @@ import Icon from '@mdi/react';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { GetItemAdminBody, GetItemAdminQuery, GetItemAdminResponse } from '../../../../../api/src/types/api';
+import {
+  GetItemAdminBody,
+  GetItemAdminQuery,
+  GetItemAdminResponse,
+} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
-import { DEFAULT_FORM_VALUES, itemAdminFormSchema, ItemAdminFormType } from '../../../config/forms/item-admin-form';
+import {
+  DEFAULT_FORM_VALUES,
+  itemAdminFormSchema,
+  ItemAdminFormType,
+} from '../../../config/forms/item-admin-form';
 import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -25,7 +33,11 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<GetItemAdminBody, GetItemAdminQuery, GetItemAdminResponse>(
+  const { error, isLoading, response } = useApi<
+    GetItemAdminBody,
+    GetItemAdminQuery,
+    GetItemAdminResponse
+  >(
     {
       method: HTTP_METHOD.GET,
       url: `/admin/item/${itemId}`,
@@ -50,7 +62,8 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
   useEffect(() => {
     if (response?.item) {
       setValue('name', response.item.name);
-      if (response.item?.description) setValue('description', response.item.description);
+      if (response.item?.description)
+        setValue('description', response.item.description);
       setValue('isPublished', response.item.isPublished);
     }
   }, [response]);
@@ -62,7 +75,9 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
       forceReload();
       setToast({ type: 'success', message: 'Item updated successfully' });
     } catch (error: any | unknown) {
-      navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+      navigate(
+        `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
+      );
     }
   };
 
@@ -74,7 +89,9 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
         forceReload();
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {
-        navigate(`/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`);
+        navigate(
+          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
+        );
       }
     };
     openModal(
@@ -101,20 +118,34 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
         <H3>Edit Item</H3>
         {itemId ? (
           <div className="flex gap-4">
-            <Button variant="tertiary" title="Delete Item" onClick={() => openDeleteItemDialog(itemId)}>
+            <Button
+              variant="tertiary"
+              title="Delete Item"
+              onClick={() => openDeleteItemDialog(itemId)}
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
           </div>
         ) : null}
       </div>
-      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+      <TextInput
+        name="name"
+        label="Name"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
       <TextAreaInput
         name="description"
         label="Description"
         control={control}
         invalidText={errors?.description?.message}
       />
-      <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
+      <SwitchInput
+        name="isPublished"
+        label="Public"
+        control={control}
+        invalidText={errors.isPublished?.message}
+      />
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={closeModal}>
           Cancel

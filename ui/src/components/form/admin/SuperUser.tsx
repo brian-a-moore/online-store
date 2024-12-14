@@ -33,7 +33,10 @@ type Props = {
   forceReload: () => void;
 };
 
-export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }) => {
+export const SuperuserAdminForm: React.FC<Props> = ({
+  superuserId,
+  forceReload,
+}) => {
   const { user } = useContext(AuthContext);
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
@@ -61,7 +64,9 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: isSelf ? DEFAULT_FORM_VALUES_SELF : DEFAULT_FORM_VALUES,
-    resolver: zodResolver(isSelf ? superuserSelfAdminFormSchema : superuserAdminFormSchema),
+    resolver: zodResolver(
+      isSelf ? superuserSelfAdminFormSchema : superuserAdminFormSchema,
+    ),
   });
 
   useEffect(() => {
@@ -75,7 +80,9 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     }
   }, [response]);
 
-  const onSubmit = async (superUser: SuperuserAdminFormType | SuperuserSelfAdminFormType) => {
+  const onSubmit = async (
+    superUser: SuperuserAdminFormType | SuperuserSelfAdminFormType,
+  ) => {
     try {
       let sanitizedSuperUser, response;
       if (superuserId) {
@@ -86,7 +93,10 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
           },
           {} as Partial<SuperuserAdminFormType | SuperuserSelfAdminFormType>,
         );
-        response = await api.admin.updateSuperuser(superuserId, sanitizedSuperUser);
+        response = await api.admin.updateSuperuser(
+          superuserId,
+          sanitizedSuperUser,
+        );
       } else {
         response = await api.admin.createSuperuser(superUser);
       }
@@ -94,10 +104,16 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
       else {
         closeModal();
         forceReload();
-        setToast({ type: 'success', message: 'Superuser updated successfully' });
+        setToast({
+          type: 'success',
+          message: 'Superuser updated successfully',
+        });
       }
     } catch (error: any | unknown) {
-      setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error?.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
@@ -105,10 +121,20 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     openModal(
       <>
         <H3>Default Password</H3>
-        <p>{!isNew ? "The user's password has been reset. " : ''}Share this temporary password with the user:</p>
-        <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">{password}</p>
-        <Alert type="warn">This password will not be visable once this dialog is closed.</Alert>
-        <Alert type="warn">Users should immediately change their password upon {isNew ? 'first' : 'next'} login.</Alert>
+        <p>
+          {!isNew ? "The user's password has been reset. " : ''}Share this
+          temporary password with the user:
+        </p>
+        <p className="bg-sky-200 text-sky-800 font-semibold p-4 rounded text-center">
+          {password}
+        </p>
+        <Alert type="warn">
+          This password will not be visable once this dialog is closed.
+        </Alert>
+        <Alert type="warn">
+          Users should immediately change their password upon{' '}
+          {isNew ? 'first' : 'next'} login.
+        </Alert>
         <div className="flex justify-center">
           <Button
             onClick={() => {
@@ -129,9 +155,15 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
         await api.admin.deleteSuperuser(id);
         closeModal();
         forceReload();
-        setToast({ type: 'success', message: 'Superuser deleted successfully' });
+        setToast({
+          type: 'success',
+          message: 'Superuser deleted successfully',
+        });
       } catch (error: any | unknown) {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        setFormError(
+          error?.response?.data?.message ||
+            'An unknown error occurred: Please try again later.',
+        );
       }
     };
     openModal(
@@ -155,9 +187,13 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
     const onClick = async () => {
       try {
         const response = await api.admin.resetSuperuserPassword(id);
-        if (response.newPassword) openShowDefaultPassword(response.newPassword, false);
+        if (response.newPassword)
+          openShowDefaultPassword(response.newPassword, false);
       } catch (error: any | unknown) {
-        setFormError(error?.response?.data?.message || 'An unknown error occurred: Please try again later.');
+        setFormError(
+          error?.response?.data?.message ||
+            'An unknown error occurred: Please try again later.',
+        );
       }
     };
     openModal(
@@ -182,17 +218,35 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
         <H3>{superuserId ? 'Edit' : 'New'} Superuser</H3>
         {superuserId && !isSelf ? (
           <div className="flex gap-4">
-            <Button variant="tertiary" title="Delete Superuser" onClick={() => openDeleteSuperuserDialog(superuserId)}>
+            <Button
+              variant="tertiary"
+              title="Delete Superuser"
+              onClick={() => openDeleteSuperuserDialog(superuserId)}
+            >
               <Icon path={mdiDelete} size={0.75} />
             </Button>
-            <Button variant="tertiary" title="Reset Password" onClick={() => openResetPasswordDialog(superuserId)}>
+            <Button
+              variant="tertiary"
+              title="Reset Password"
+              onClick={() => openResetPasswordDialog(superuserId)}
+            >
               <Icon path={mdiFormTextboxPassword} size={0.75} />
             </Button>
           </div>
         ) : null}
       </div>
-      <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
-      <TextInput name="email" label="Email" control={control} invalidText={errors?.email?.message} />
+      <TextInput
+        name="name"
+        label="Name"
+        control={control}
+        invalidText={errors?.name?.message}
+      />
+      <TextInput
+        name="email"
+        label="Email"
+        control={control}
+        invalidText={errors?.email?.message}
+      />
       {isSelf ? (
         <>
           <TextInput<SuperuserSelfAdminFormType>
@@ -217,7 +271,14 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId, forceReload }
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (superuserId ? 'Updating' : 'Creating') : superuserId ? 'Update' : 'Create'} Superuser
+          {isSubmitting
+            ? superuserId
+              ? 'Updating'
+              : 'Creating'
+            : superuserId
+              ? 'Update'
+              : 'Create'}{' '}
+          Superuser
         </Button>
       </div>
     </form>

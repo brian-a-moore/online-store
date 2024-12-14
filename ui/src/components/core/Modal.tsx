@@ -23,7 +23,12 @@ export const Modal: React.FC<Props> = ({ modal }) => {
             ${state === 'opening' ? 'opacity-100 transition-opacity duration-200' : 'opacity-0 duration-200 delay-100'}
         `}
     >
-      {!clickOutsideDisabled && <button className="absolute top-0 left-0 w-full h-full" onClick={closeModal} />}
+      {!clickOutsideDisabled && (
+        <button
+          className="absolute top-0 left-0 w-full h-full"
+          onClick={closeModal}
+        />
+      )}
       <div
         className={`flex
                 w-full max-w-[640px] h-auto max-h-full overflow-hidden

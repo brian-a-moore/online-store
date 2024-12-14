@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ListStoresPublicBody, ListStoresPublicQuery, ListStoresPublicResponse } from '../../../../api/src/types/api';
+import {
+  ListStoresPublicBody,
+  ListStoresPublicQuery,
+  ListStoresPublicResponse,
+} from '../../../../api/src/types/api';
 import { Card } from '../../components/container';
 import { IconImage } from '../../components/display';
 import { Link } from '../../components/interactive';
@@ -13,7 +17,11 @@ type Props = {};
 export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<ListStoresPublicBody, ListStoresPublicQuery, ListStoresPublicResponse>(
+  const { error, isLoading, response } = useApi<
+    ListStoresPublicBody,
+    ListStoresPublicQuery,
+    ListStoresPublicResponse
+  >(
     {
       url: `/public/store/list`,
       method: HTTP_METHOD.GET,
@@ -34,7 +42,9 @@ export const Home: React.FC<Props> = () => {
     return (
       <div className="flex flex-col gap-4 w-screen h-screen items-center justify-center">
         <H2>Not much going on right now...</H2>
-        <EmptyText>There are no stores available, please check again later.</EmptyText>
+        <EmptyText>
+          There are no stores available, please check again later.
+        </EmptyText>
       </div>
     );
   }
@@ -57,7 +67,12 @@ const Store: React.FC<{
   return (
     <Card key={store.id} className="!flex-row items-center">
       <div>
-        <IconImage image={store.image} name={store.name} rounded={false} size="xl" />
+        <IconImage
+          image={store.image}
+          name={store.name}
+          rounded={false}
+          size="xl"
+        />
       </div>
       <div className="flex flex-col gap-4">
         <H3 className="line-clamp-2" title={store.name}>

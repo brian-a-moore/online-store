@@ -1,5 +1,11 @@
 {
-  "exclude": ["./cache", "./coverage", "./dist", "jest.config.int.js", "jest.config.unit.js"],
+  "exclude": [
+    "./cache",
+    "./coverage",
+    "./dist",
+    "jest.config.int.js",
+    "jest.config.unit.js"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "files": true

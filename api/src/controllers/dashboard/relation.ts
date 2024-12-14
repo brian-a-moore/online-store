@@ -19,7 +19,12 @@ import {
 } from '../../types/api';
 
 export const addStoreRelationDashboardController = async (
-  req: Request<AddStoreRelationDashboardParams, unknown, AddStoreRelationDashboardBody, AddStoreRelationDashboardQuery>,
+  req: Request<
+    AddStoreRelationDashboardParams,
+    unknown,
+    AddStoreRelationDashboardBody,
+    AddStoreRelationDashboardQuery
+  >,
   res: Response<AddStoreRelationDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -55,7 +60,10 @@ export const updateStoreRelationDashboardController = async (
     const { relationId } = req.params;
     const updatedRelation = req.body;
 
-    await db.userStoreRelation.update({ data: updatedRelation, where: { id: relationId } });
+    await db.userStoreRelation.update({
+      data: updatedRelation,
+      where: { id: relationId },
+    });
 
     res.status(STATUS_CODE.NO_CONTENT).send();
   } catch (e: any | unknown) {

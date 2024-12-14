@@ -9,7 +9,8 @@ export const itemTypes: ItemType[] = [
   {
     id: 2,
     name: 'Variable',
-    description: 'An item with variable and/or pre-set prices, such as a donation',
+    description:
+      'An item with variable and/or pre-set prices, such as a donation',
   },
 ];
 

@@ -13,7 +13,12 @@ type Props = {
 export const VariablePriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
   const [customAmount, setCustomAmount] = useState<number>(0);
 
-  const { defaultAmount, minAmount, maxAmount, presetAmounts }: VariableItemConfig = JSON.parse(item.config);
+  const {
+    defaultAmount,
+    minAmount,
+    maxAmount,
+    presetAmounts,
+  }: VariableItemConfig = JSON.parse(item.config);
 
   useEffect(() => {
     if (defaultAmount && !isNaN(defaultAmount)) setCustomAmount(defaultAmount);
@@ -21,14 +26,20 @@ export const VariablePriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    setCustomAmount(value < minAmount ? minAmount : value > maxAmount ? maxAmount : value);
+    setCustomAmount(
+      value < minAmount ? minAmount : value > maxAmount ? maxAmount : value,
+    );
   };
   return (
     <>
       {presetAmounts.length ? (
         <div className="flex flex-wrap gap-2">
           {presetAmounts.map((amount) => (
-            <Button variant="secondary" key={amount} onClick={() => setCustomAmount(amount)}>
+            <Button
+              variant="secondary"
+              key={amount}
+              onClick={() => setCustomAmount(amount)}
+            >
               {formatCurrency(amount)}
             </Button>
           ))}

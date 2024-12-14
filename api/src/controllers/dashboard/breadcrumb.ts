@@ -10,7 +10,12 @@ import {
 } from '../../types/api';
 
 export const getBreadcrumbDashboardController = async (
-  req: Request<GetBreadcrumbDashboardParams, unknown, GetBreadcrumbDashboardBody, GetBreadcrumbDashboardQuery>,
+  req: Request<
+    GetBreadcrumbDashboardParams,
+    unknown,
+    GetBreadcrumbDashboardBody,
+    GetBreadcrumbDashboardQuery
+  >,
   res: Response<GetBreadcrumbDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -20,7 +25,10 @@ export const getBreadcrumbDashboardController = async (
     const crumbs: { name: string; id: string }[] = [];
 
     if (ids.storeId) {
-      const store = await db.store.findUniqueOrThrow({ select: { id: true, name: true }, where: { id: ids.storeId } });
+      const store = await db.store.findUniqueOrThrow({
+        select: { id: true, name: true },
+        where: { id: ids.storeId },
+      });
       crumbs.push({ name: store.name, id: store.id });
     }
 

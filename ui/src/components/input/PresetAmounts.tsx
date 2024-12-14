@@ -12,9 +12,15 @@ type Props = {
   defaultValues?: number[];
 };
 
-export const PresetAmounts: React.FC<Props> = ({ onChange, config, defaultValues }) => {
+export const PresetAmounts: React.FC<Props> = ({
+  onChange,
+  config,
+  defaultValues,
+}) => {
   const [amounts, setAmounts] = useState<number[]>(defaultValues || []);
-  const [value, setValue] = useState<string>(config.defaultAmount.toString() || '');
+  const [value, setValue] = useState<string>(
+    config.defaultAmount.toString() || '',
+  );
 
   useEffect(() => {
     onChange(amounts);
@@ -60,13 +66,18 @@ export const PresetAmounts: React.FC<Props> = ({ onChange, config, defaultValues
         <div className="flex gap-2 flex-wrap">
           {amounts.map((amount, index) => (
             <div className="flex gap-4 p-2 bg-sky-200 items-center rounded">
-              <p key={index} className="flex-1 text-sky-700 text-sm font-semibold">
+              <p
+                key={index}
+                className="flex-1 text-sky-700 text-sm font-semibold"
+              >
                 {formatCurrency(amount)}
               </p>
               <Button
                 variant="tertiary"
                 className="!p-0"
-                onClick={() => setAmounts(amounts.filter((_, i) => i !== index))}
+                onClick={() =>
+                  setAmounts(amounts.filter((_, i) => i !== index))
+                }
               >
                 <Icon path={mdiClose} size={0.75} color="#EF4444" />
               </Button>

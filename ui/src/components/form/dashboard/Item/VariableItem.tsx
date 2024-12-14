@@ -12,7 +12,12 @@ import { ModalContext } from '../../../../context/ModalContext';
 import { ToastContext } from '../../../../context/ToastContext';
 import { FormOverflow } from '../../../container';
 import { Separator } from '../../../display';
-import { PresetAmounts, SwitchInput, TextAreaInput, TextInput } from '../../../input';
+import {
+  PresetAmounts,
+  SwitchInput,
+  TextAreaInput,
+  TextInput,
+} from '../../../input';
 import { Button } from '../../../interactive';
 import { ErrorText } from '../../../typography';
 
@@ -59,7 +64,10 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
       }
       closeModal();
     } catch (error: any | unknown) {
-      setFormError(error.response?.data?.message || 'An unknown error occurred: Please try again later.');
+      setFormError(
+        error.response?.data?.message ||
+          'An unknown error occurred: Please try again later.',
+      );
     }
   };
 
@@ -68,9 +76,17 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
   const defaultValues = !item ? [] : JSON.parse(item.config).presetAmounts;
 
   return (
-    <form className="flex flex-col gap-4 overflow-hidden" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-4 overflow-hidden"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <FormOverflow>
-        <TextInput name="name" label="Name" control={control} invalidText={errors?.name?.message} />
+        <TextInput
+          name="name"
+          label="Name"
+          control={control}
+          invalidText={errors?.name?.message}
+        />
         <TextAreaInput
           name="description"
           label="Description"
@@ -84,7 +100,12 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
           control={control}
           invalidText={errors?.maxQuantityPerOrder?.message}
         />
-        <SwitchInput name="isPublished" label="Public" control={control} invalidText={errors.isPublished?.message} />
+        <SwitchInput
+          name="isPublished"
+          label="Public"
+          control={control}
+          invalidText={errors.isPublished?.message}
+        />
         <div className="flex gap-4">
           <TextInput
             type="number"
@@ -109,7 +130,9 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
           />
         </div>
         <PresetAmounts
-          onChange={(presetAmounts: number[]) => setValue('config.presetAmounts', presetAmounts)}
+          onChange={(presetAmounts: number[]) =>
+            setValue('config.presetAmounts', presetAmounts)
+          }
           config={config as any}
           defaultValues={defaultValues}
         />
@@ -121,7 +144,14 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (productId ? 'Updating' : 'Creating') : productId ? 'Update' : 'Create'} Item
+          {isSubmitting
+            ? productId
+              ? 'Updating'
+              : 'Creating'
+            : productId
+              ? 'Update'
+              : 'Create'}{' '}
+          Item
         </Button>
       </div>
     </form>

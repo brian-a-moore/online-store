@@ -1,7 +1,10 @@
 import { Prisma } from '../../../api/node_modules/@prisma/client/default';
 import { db } from '../../../api/src/config/db';
 
-export const generateUserStoreRelations = async (ids: string[], storeIds: string[]) => {
+export const generateUserStoreRelations = async (
+  ids: string[],
+  storeIds: string[],
+) => {
   console.log('Creating user-store relations...');
 
   const relations: Prisma.UserStoreRelationUncheckedCreateInput[] = [];

@@ -1,4 +1,10 @@
-import { generateItems, generateProducts, generateStores, generateSuperusers, generateUsers } from './generators';
+import {
+  generateItems,
+  generateProducts,
+  generateStores,
+  generateSuperusers,
+  generateUsers,
+} from './generators';
 import { generateUserStoreRelations } from './generators/userStoreRelation';
 
 async function main() {

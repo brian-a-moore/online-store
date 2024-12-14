@@ -1,5 +1,11 @@
 import z from 'zod';
-import { empty, page, strLongOptional, strShortOptional, uuid } from '../_presets';
+import {
+  empty,
+  page,
+  strLongOptional,
+  strShortOptional,
+  uuid,
+} from '../_presets';
 
 export const listItemsAdminSchema = {
   body: empty,
@@ -14,7 +20,11 @@ export const listItemsAdminSchema = {
     .strict(),
 };
 
-export const getItemAdminSchema = { body: empty, params: z.object({ itemId: uuid }).strict(), query: empty };
+export const getItemAdminSchema = {
+  body: empty,
+  params: z.object({ itemId: uuid }).strict(),
+  query: empty,
+};
 
 export const updateItemAdminSchema = {
   body: z

@@ -38,7 +38,10 @@ export const Dashboard: React.FC = () => {
             variant="destructive"
             onClick={() => {
               closeModal();
-              setToast({ message: 'You have signed out successfully', type: 'success' });
+              setToast({
+                message: 'You have signed out successfully',
+                type: 'success',
+              });
               deleteAuthToken();
               setUser(null);
             }}

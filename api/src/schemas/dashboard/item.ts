@@ -1,5 +1,15 @@
 import z from 'zod';
-import { empty, itemTypeId, page, price, qty, strLongOptional, strShort, strShortOptional, uuid } from '../_presets';
+import {
+  empty,
+  itemTypeId,
+  page,
+  price,
+  qty,
+  strLongOptional,
+  strShort,
+  strShortOptional,
+  uuid,
+} from '../_presets';
 
 const fixedItemConfig = z
   .object({
@@ -50,7 +60,11 @@ export const listItemsDashboardSchema = {
     .strict(),
 };
 
-export const getItemDashboardSchema = { body: empty, params: z.object({ itemId: uuid }).strict(), query: empty };
+export const getItemDashboardSchema = {
+  body: empty,
+  params: z.object({ itemId: uuid }).strict(),
+  query: empty,
+};
 
 export const updateItemDashboardSchema = {
   body: z

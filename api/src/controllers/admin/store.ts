@@ -29,7 +29,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const createStoreAdminController = async (
-  req: Request<CreateStoreAdminParams, unknown, CreateStoreAdminBody, CreateStoreAdminQuery>,
+  req: Request<
+    CreateStoreAdminParams,
+    unknown,
+    CreateStoreAdminBody,
+    CreateStoreAdminQuery
+  >,
   res: Response<CreateStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -52,7 +57,12 @@ export const createStoreAdminController = async (
 };
 
 export const listStoresAdminController = async (
-  req: Request<ListStoresAdminParams, unknown, ListStoresAdminBody, ListStoresAdminQuery>,
+  req: Request<
+    ListStoresAdminParams,
+    unknown,
+    ListStoresAdminBody,
+    ListStoresAdminQuery
+  >,
   res: Response<ListStoresAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -78,13 +88,15 @@ export const listStoresAdminController = async (
       skip: (page - 1) * PAGE_SIZE,
     });
 
-    const stores = rawStores.map(({ id, name, createdAt, updatedAt, isPublished }) => ({
-      id,
-      name,
-      createdAt,
-      updatedAt,
-      isPublished: isPublished ? 'Public' : 'Unlisted',
-    }));
+    const stores = rawStores.map(
+      ({ id, name, createdAt, updatedAt, isPublished }) => ({
+        id,
+        name,
+        createdAt,
+        updatedAt,
+        isPublished: isPublished ? 'Public' : 'Unlisted',
+      }),
+    );
 
     res.status(STATUS_CODE.OKAY).json({ stores });
   } catch (e: any | unknown) {
@@ -93,7 +105,12 @@ export const listStoresAdminController = async (
 };
 
 export const getStoreAdminController = async (
-  req: Request<GetStoreAdminParams, unknown, GetStoreAdminBody, GetStoreAdminQuery>,
+  req: Request<
+    GetStoreAdminParams,
+    unknown,
+    GetStoreAdminBody,
+    GetStoreAdminQuery
+  >,
   res: Response<GetStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -120,7 +137,12 @@ export const getStoreAdminController = async (
 };
 
 export const updateStoreAdminController = async (
-  req: Request<UpdateStoreAdminParams, unknown, UpdateStoreAdminBody, UpdateStoreAdminQuery>,
+  req: Request<
+    UpdateStoreAdminParams,
+    unknown,
+    UpdateStoreAdminBody,
+    UpdateStoreAdminQuery
+  >,
   res: Response<UpdateStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {
@@ -137,7 +159,12 @@ export const updateStoreAdminController = async (
 };
 
 export const deleteStoreAdminController = async (
-  req: Request<DeleteStoreAdminParams, unknown, DeleteStoreAdminBody, DeleteStoreAdminQuery>,
+  req: Request<
+    DeleteStoreAdminParams,
+    unknown,
+    DeleteStoreAdminBody,
+    DeleteStoreAdminQuery
+  >,
   res: Response<DeleteStoreAdminResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

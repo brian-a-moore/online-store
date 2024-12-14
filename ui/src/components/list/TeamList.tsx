@@ -64,10 +64,14 @@ const columns: ColDef[] = [
   },
 ];
 
-export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) => {
+export const TeamList: React.FC<Props> = ({
+  storeId,
+  reload: passedInReload,
+}) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const [params, setParams] = useState<GetStoreTeamDashboardQuery>(DEFAULT_FORM_VALUES);
+  const [params, setParams] =
+    useState<GetStoreTeamDashboardQuery>(DEFAULT_FORM_VALUES);
   const [reload, setReload] = useState<string>();
 
   const { error, isLoading, response } = useApi<
@@ -107,7 +111,9 @@ export const TeamList: React.FC<Props> = ({ storeId, reload: passedInReload }) =
     if (passedInReload) setReload(passedInReload);
   }, [passedInReload]);
 
-  const openEditMemberForm = (teamMember: GetStoreTeamDashboardResponse['team'][0]) => {
+  const openEditMemberForm = (
+    teamMember: GetStoreTeamDashboardResponse['team'][0],
+  ) => {
     openModal(<TeamMemberForm storeId={storeId} existingMember={teamMember} />);
   };
   const onRowClicked = (e: RowClickedEvent<Row>) => openEditMemberForm(e.data!);

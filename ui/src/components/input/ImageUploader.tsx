@@ -13,7 +13,11 @@ type Props = {
   onUpload: (file: File) => void;
 };
 
-export const ImageUploader: React.FC<Props> = ({ existingImage, rounded = false, onUpload }) => {
+export const ImageUploader: React.FC<Props> = ({
+  existingImage,
+  rounded = false,
+  onUpload,
+}) => {
   const [image, setImage] = useState<string | File | null>(null);
   const [scale, setScale] = useState(1);
   const [roatation, setRotation] = useState(0);
@@ -75,7 +79,10 @@ export const ImageUploader: React.FC<Props> = ({ existingImage, rounded = false,
   };
 
   return (
-    <div className={`flex flex-col gap-4 items-center w-[270px]`} {...getRootProps()}>
+    <div
+      className={`flex flex-col gap-4 items-center w-[270px]`}
+      {...getRootProps()}
+    >
       <div className="bg-slate-300">
         <AvatarEditor
           backgroundColor="#CBD5E1"
@@ -93,7 +100,15 @@ export const ImageUploader: React.FC<Props> = ({ existingImage, rounded = false,
       </div>
       <div className="flex gap-2 w-full max-w-96 items-center">
         <Icon path={mdiResize} size={1} color="#475569" />
-        <input className="flex-1 slider" type="range" min={1} max={5} step={0.1} value={scale} onChange={updateScale} />
+        <input
+          className="flex-1 slider"
+          type="range"
+          min={1}
+          max={5}
+          step={0.1}
+          value={scale}
+          onChange={updateScale}
+        />
       </div>
       <div className="flex gap-2 w-full max-w-96 items-center">
         <Icon path={mdiRotateRight} size={1} color="#475569" />
@@ -118,7 +133,12 @@ export const ImageUploader: React.FC<Props> = ({ existingImage, rounded = false,
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
         </Button>
-        <Button disabled={!image} variant="destructive" className="text-sm" onClick={onClear}>
+        <Button
+          disabled={!image}
+          variant="destructive"
+          className="text-sm"
+          onClick={onClear}
+        >
           <Icon path={mdiDelete} size={0.75} />
         </Button>
       </div>

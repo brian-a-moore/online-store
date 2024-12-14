@@ -12,8 +12,15 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
 
-export const createItem = async (productId: string, newItem: CreateItemDashboardBody) => {
-  return apiCall<CreateItemDashboardBody, CreateItemDashboardQuery, CreateItemDashboardResponse>({
+export const createItem = async (
+  productId: string,
+  newItem: CreateItemDashboardBody,
+) => {
+  return apiCall<
+    CreateItemDashboardBody,
+    CreateItemDashboardQuery,
+    CreateItemDashboardResponse
+  >({
     url: `/dashboard/item`,
     method: HTTP_METHOD.POST,
     data: newItem,
@@ -22,14 +29,25 @@ export const createItem = async (productId: string, newItem: CreateItemDashboard
 };
 
 export const deleteItem = async (itemId: string) => {
-  return apiCall<DeleteItemDashboardBody, DeleteItemDashboardQuery, DeleteItemDashboardResponse>({
+  return apiCall<
+    DeleteItemDashboardBody,
+    DeleteItemDashboardQuery,
+    DeleteItemDashboardResponse
+  >({
     url: `/dashboard/item/${itemId}`,
     method: HTTP_METHOD.DELETE,
   });
 };
 
-export const updateItem = async (itemId: string, itemUpdate: UpdateItemDashboardBody) => {
-  return apiCall<UpdateItemDashboardBody, UpdateItemDashboardQuery, UpdateItemDashboardResponse>({
+export const updateItem = async (
+  itemId: string,
+  itemUpdate: UpdateItemDashboardBody,
+) => {
+  return apiCall<
+    UpdateItemDashboardBody,
+    UpdateItemDashboardQuery,
+    UpdateItemDashboardResponse
+  >({
     url: `/dashboard/item/${itemId}`,
     method: HTTP_METHOD.PUT,
     data: itemUpdate,

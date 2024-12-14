@@ -3,5 +3,7 @@ type Props = {
 };
 
 export const FormOverflow: React.FC<Props> = ({ children }) => {
-  return <div className="flex flex-col gap-4 overflow-y-auto pb-16">{children}</div>;
+  return (
+    <div className="flex flex-col gap-4 overflow-y-auto pb-16">{children}</div>
+  );
 };

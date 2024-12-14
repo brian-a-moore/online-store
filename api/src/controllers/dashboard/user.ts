@@ -13,7 +13,12 @@ import {
 import { getPageNumber } from '../../utils/queryParsing';
 
 export const searchUsersDashboardController = async (
-  req: Request<SearchUsersDashboardParams, unknown, SearchUsersDashboardBody, SearchUsersDashboardQuery>,
+  req: Request<
+    SearchUsersDashboardParams,
+    unknown,
+    SearchUsersDashboardBody,
+    SearchUsersDashboardQuery
+  >,
   res: Response<SearchUsersDashboardResponse | ErrorResponse>,
   next: NextFunction,
 ) => {

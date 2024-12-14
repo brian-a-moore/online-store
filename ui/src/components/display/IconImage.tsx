@@ -26,14 +26,27 @@ const sizeMap = new Map([
   ['xl', ['size-[132px]', 'text-sm', 2, 'gap-2']],
 ]);
 
-export const IconImage: React.FC<Props> = ({ className, image, name, size = 'xl', rounded = true, upload }) => {
+export const IconImage: React.FC<Props> = ({
+  className,
+  image,
+  name,
+  size = 'xl',
+  rounded = true,
+  upload,
+}) => {
   const { openModal } = useContext(ModalContext);
   const [isHovered, setIsHovered] = useState(false);
 
   const [imageSize, textSize, iconSize, gapSize] = sizeMap.get(size)!;
 
   const openUploadForm = () =>
-    openModal(<UploadImageDashboardForm existingImage={image || ''} upload={upload} forceReload={() => {}} />);
+    openModal(
+      <UploadImageDashboardForm
+        existingImage={image || ''}
+        upload={upload}
+        forceReload={() => {}}
+      />,
+    );
 
   return (
     <div
@@ -42,14 +55,26 @@ export const IconImage: React.FC<Props> = ({ className, image, name, size = 'xl'
       onMouseLeave={() => setIsHovered(false)}
     >
       {image ? (
-        <img className="w-full h-full text-xs object-contain" src={image} alt={name} />
+        <img
+          className="w-full h-full text-xs object-contain"
+          src={image}
+          alt={name}
+        />
       ) : (
-        <div className={`flex flex-col ${gapSize} items-center justify-center bg-slate-200 w-full h-full`}>
+        <div
+          className={`flex flex-col ${gapSize} items-center justify-center bg-slate-200 w-full h-full`}
+        >
           <Icon path={mdiImage} size={iconSize} color="#94A3B8" />
-          {size !== 'xs' && <p className={`${textSize} text-slate-400 font-semibold`}>No Image</p>}
+          {size !== 'xs' && (
+            <p className={`${textSize} text-slate-400 font-semibold`}>
+              No Image
+            </p>
+          )}
         </div>
       )}
-      {upload && isHovered ? <UpdateImageButton onClick={openUploadForm} /> : null}
+      {upload && isHovered ? (
+        <UpdateImageButton onClick={openUploadForm} />
+      ) : null}
     </div>
   );
 };
