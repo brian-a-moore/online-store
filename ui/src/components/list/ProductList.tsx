@@ -37,6 +37,7 @@ const columns: ColDef[] = [
     field: 'image',
     headerName: '',
     width: 50,
+    sortable: false,
     cellRenderer: (params: any) => (
       <div className="flex h-full items-center justify-center">
         <div>

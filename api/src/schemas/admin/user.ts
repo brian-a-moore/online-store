@@ -13,6 +13,12 @@ export const createUserAdminSchema = {
   query: empty,
 };
 
+export const getUserAdminSchema = {
+  body: empty,
+  params: z.object({ userId: uuid }).strict(),
+  query: empty,
+};
+
 export const listUsersAdminSchema = {
   body: empty,
   params: empty,
@@ -21,14 +27,9 @@ export const listUsersAdminSchema = {
       page: page,
       search: strShortOptional,
       searchKey: z.enum(['email', 'name']),
+      searchFilter: z.enum(['all', 'public', 'unlisted']),
     })
     .strict(),
-};
-
-export const getUserAdminSchema = {
-  body: empty,
-  params: z.object({ userId: uuid }).strict(),
-  query: empty,
 };
 
 export const updateUserAdminSchema = {

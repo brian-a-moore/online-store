@@ -13,6 +13,12 @@ export const createSuperuserAdminSchema = {
   query: empty,
 };
 
+export const getSuperuserAdminSchema = {
+  body: empty,
+  params: z.object({ superuserId: uuid }).strict(),
+  query: empty,
+};
+
 export const listSuperusersAdminSchema = {
   body: empty,
   params: empty,
@@ -21,14 +27,9 @@ export const listSuperusersAdminSchema = {
       page: page,
       search: strShortOptional,
       searchKey: z.enum(['email', 'name']),
+      searchFilter: z.enum(['all', 'public', 'unlisted']),
     })
     .strict(),
-};
-
-export const getSuperuserAdminSchema = {
-  body: empty,
-  params: z.object({ superuserId: uuid }).strict(),
-  query: empty,
 };
 
 export const updateSuperuserAdminSchema = {

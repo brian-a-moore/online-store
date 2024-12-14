@@ -7,6 +7,12 @@ import {
   uuid,
 } from '../_presets';
 
+export const getItemAdminSchema = {
+  body: empty,
+  params: z.object({ itemId: uuid }).strict(),
+  query: empty,
+};
+
 export const listItemsAdminSchema = {
   body: empty,
   params: empty,
@@ -15,15 +21,9 @@ export const listItemsAdminSchema = {
       page: page,
       search: strShortOptional,
       searchKey: z.enum(['name', 'product.name']),
-      statusFilter: z.enum(['public', 'unlisted', 'all']),
+      statusFilter: z.enum(['all', 'public', 'unlisted']),
     })
     .strict(),
-};
-
-export const getItemAdminSchema = {
-  body: empty,
-  params: z.object({ itemId: uuid }).strict(),
-  query: empty,
 };
 
 export const updateItemAdminSchema = {

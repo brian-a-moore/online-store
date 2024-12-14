@@ -2,6 +2,12 @@ import z from 'zod';
 import { strLongOptional, strShortOptional } from '../../schemas/_presets';
 import { empty, page, uuid } from '../_presets';
 
+export const getProductAdminSchema = {
+  body: empty,
+  params: z.object({ productId: uuid }).strict(),
+  query: empty,
+};
+
 export const listProductsAdminSchema = {
   body: empty,
   params: empty,
@@ -10,15 +16,9 @@ export const listProductsAdminSchema = {
       page: page,
       search: strShortOptional,
       searchKey: z.enum(['name', 'store.name']),
-      statusFilter: z.enum(['public', 'unlisted', 'all']),
+      statusFilter: z.enum(['all', 'public', 'unlisted']),
     })
     .strict(),
-};
-
-export const getProductAdminSchema = {
-  body: empty,
-  params: z.object({ productId: uuid }).strict(),
-  query: empty,
 };
 
 export const updateProductAdminSchema = {

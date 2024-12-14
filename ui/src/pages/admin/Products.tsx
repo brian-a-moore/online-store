@@ -6,7 +6,7 @@ import {
   ListProductsAdminQuery,
   ListProductsAdminResponse,
 } from '../../../../api/src/types/api';
-import { AgGrid } from '../../components/container';
+import { AgGrid, Card, Container } from '../../components/container';
 import { ProductAdminForm } from '../../components/form';
 import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -89,16 +89,18 @@ export const ProductsAdmin: React.FC = () => {
   const products = response?.products;
 
   return (
-    <>
-      {products && products.length ? (
-        <AgGrid<Row>
-          cols={columns}
-          rows={products}
-          onRowClicked={onRowClicked}
-        />
-      ) : (
-        <EmptyText>No products found</EmptyText>
-      )}
-    </>
+    <Container>
+      <Card>
+        {products && products.length ? (
+          <AgGrid<Row>
+            cols={columns}
+            rows={products}
+            onRowClicked={onRowClicked}
+          />
+        ) : (
+          <EmptyText className="text-center">No products found</EmptyText>
+        )}
+      </Card>
+    </Container>
   );
 };

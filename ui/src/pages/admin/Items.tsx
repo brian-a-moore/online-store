@@ -6,7 +6,7 @@ import {
   ListItemsAdminQuery,
   ListItemsAdminResponse,
 } from '../../../../api/src/types/api';
-import { AgGrid } from '../../components/container';
+import { AgGrid, Card, Container } from '../../components/container';
 import { ItemAdminForm } from '../../components/form';
 import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -89,12 +89,18 @@ export const ItemsAdmin: React.FC = () => {
   const items = response?.items;
 
   return (
-    <>
-      {items && items.length ? (
-        <AgGrid<Row> cols={columns} rows={items} onRowClicked={onRowClicked} />
-      ) : (
-        <EmptyText>No items found</EmptyText>
-      )}
-    </>
+    <Container>
+      <Card>
+        {items && items.length ? (
+          <AgGrid<Row>
+            cols={columns}
+            rows={items}
+            onRowClicked={onRowClicked}
+          />
+        ) : (
+          <EmptyText className="text-center">No items found</EmptyText>
+        )}
+      </Card>
+    </Container>
   );
 };

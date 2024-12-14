@@ -132,7 +132,7 @@ export const Admin: React.FC = () => {
             </div>
           </nav>
         )}
-        <main className="flex flex-col p-4 gap-4 flex-1 bg-white overflow-y-auto">
+        <main className="flex flex-col p-4 pb-[50vh] gap-4 flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

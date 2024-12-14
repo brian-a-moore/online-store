@@ -6,7 +6,7 @@ import {
   ListSuperusersAdminQuery,
   ListSuperusersAdminResponse,
 } from '../../../../api/src/types/api';
-import { AgGrid } from '../../components/container';
+import { AgGrid, Card, Container } from '../../components/container';
 import { SuperuserAdminForm } from '../../components/form';
 import { EmptyText } from '../../components/typography';
 import { HTTP_METHOD } from '../../constants';
@@ -83,16 +83,18 @@ export const SuperusersAdmin: React.FC = () => {
   const superusers = response?.superusers;
 
   return (
-    <>
-      {superusers && superusers.length ? (
-        <AgGrid<Row>
-          cols={columns}
-          rows={superusers}
-          onRowClicked={onRowClicked}
-        />
-      ) : (
-        <EmptyText>No superusers found</EmptyText>
-      )}
-    </>
+    <Container>
+      <Card>
+        {superusers && superusers.length ? (
+          <AgGrid<Row>
+            cols={columns}
+            rows={superusers}
+            onRowClicked={onRowClicked}
+          />
+        ) : (
+          <EmptyText className="text-center">No superusers found</EmptyText>
+        )}
+      </Card>
+    </Container>
   );
 };
