@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { hashString } from '@sunami/auth';
 import { STATUS_CODE } from '@sunami/constants';
 import * as crypto from 'crypto';
@@ -77,12 +78,22 @@ export const listSuperusersAdminController = async (
 ) => {
   try {
     let page;
+    const { search, searchKey } = req.query;
 
     try {
       page = getPageNumber(req.query.page);
     } catch (e: any | unknown) {
       res.status(STATUS_CODE.BAD_INPUT).json({ message: e.message });
       return;
+    }
+
+    const where: Prisma.SuperuserWhereInput = {};
+
+    if (search && search.length > 0) {
+      where[searchKey] = {
+        contains: search,
+        mode: 'insensitive',
+      };
     }
 
     const superusers = await db.superuser.findMany({
@@ -93,6 +104,7 @@ export const listSuperusersAdminController = async (
         createdAt: true,
         updatedAt: true,
       },
+      where,
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
       orderBy: {

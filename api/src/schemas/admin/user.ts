@@ -27,7 +27,6 @@ export const listUsersAdminSchema = {
       page: page,
       search: strShortOptional,
       searchKey: z.enum(['email', 'name']),
-      searchFilter: z.enum(['all', 'public', 'unlisted']),
     })
     .strict(),
 };
