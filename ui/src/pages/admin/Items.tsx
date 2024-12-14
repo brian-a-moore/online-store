@@ -1,5 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   ListItemsAdminBody,
@@ -8,10 +10,17 @@ import {
 } from '../../../../api/src/types/api';
 import { AgGrid, Card, Container } from '../../components/container';
 import { ItemAdminForm } from '../../components/form';
+import { SelectInput, TextInput } from '../../components/input';
 import { EmptyText } from '../../components/typography';
+import {
+  DEFAULT_FORM_VALUES,
+  itemAdminParamsFormSchema,
+} from '../../config/forms/item-admin-params-form';
+import { statusOptions } from '../../config/options';
 import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import useApi from '../../hooks/useApi';
+import useDebounce from '../../hooks/useDebounce';
 
 type Row = ListItemsAdminResponse['items'][0];
 
@@ -20,19 +29,16 @@ const columns: ColDef[] = [
     field: 'name',
     headerName: 'Item Name',
     flex: 2,
-    filter: true,
   },
   {
     field: 'productName',
     headerName: 'Product Name',
     flex: 2,
-    filter: true,
   },
   {
     field: 'isPublished',
     headerName: 'Status',
     flex: 1,
-    filter: true,
   },
   {
     field: 'createdAt',
@@ -54,7 +60,8 @@ export const ItemsAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [reload, setReload] = useState<string | undefined>();
-  const [page, setPage] = useState<number>(1);
+  const [params, setParams] =
+    useState<ListItemsAdminQuery>(DEFAULT_FORM_VALUES);
 
   const { error, isLoading, response } = useApi<
     ListItemsAdminBody,
@@ -64,15 +71,26 @@ export const ItemsAdmin: React.FC = () => {
     {
       url: `/admin/item/list`,
       method: HTTP_METHOD.GET,
-      params: {
-        page: page.toString(),
-        search: '',
-        searchKey: 'name',
-        statusFilter: 'all',
-      },
+      params,
     },
     { reTrigger: reload },
   );
+
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: DEFAULT_FORM_VALUES,
+    resolver: zodResolver(itemAdminParamsFormSchema),
+  });
+
+  const form = watch();
+  const debouncedSearch = useDebounce(form.search as string, 300);
+
+  useEffect(() => {
+    setParams(form);
+  }, [form.page, form.searchKey, form.statusFilter, debouncedSearch]);
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -91,6 +109,34 @@ export const ItemsAdmin: React.FC = () => {
   return (
     <Container>
       <Card>
+        <div className="flex gap-4">
+          <TextInput
+            type="search"
+            name="search"
+            label="Search Items"
+            control={control}
+            invalidText={errors?.search?.message}
+          />
+          <SelectInput
+            name="searchKey"
+            label="Search By"
+            options={
+              new Map([
+                ['name', 'Item Name'],
+                ['product.name', 'Product Name'],
+              ])
+            }
+            control={control}
+            invalidText={errors?.statusFilter?.message}
+          />
+          <SelectInput
+            name="statusFilter"
+            label="Status"
+            options={statusOptions}
+            control={control}
+            invalidText={errors?.statusFilter?.message}
+          />
+        </div>
         {items && items.length ? (
           <AgGrid<Row>
             cols={columns}
