@@ -2,6 +2,7 @@ import { STATUS_CODE } from '@sunami/constants';
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { db } from '../../config/db';
 import {
   ErrorResponse,
   GetImageMediaBody,
@@ -27,16 +28,39 @@ export const getImageMediaController = async (
 
     const { storeId, productId, itemId } = req.query;
 
-    const fileName = `${storeId}${productId ? `-${productId}` : ''}${itemId ? `-${itemId}` : ''}`;
+    if (!storeId && !productId && !itemId) {
+      res
+        .status(STATUS_CODE.BAD_INPUT)
+        .json({ message: 'A store, product or item ID is required.' });
+      return;
+    }
+
+    let pathName = '';
+
+    if (itemId) {
+      const item = await db.item.findUniqueOrThrow({
+        where: { id: itemId },
+        select: { image: true },
+      });
+      pathName = item.image || '';
+    } else if (productId) {
+      const product = await db.product.findUniqueOrThrow({
+        where: { id: productId },
+        select: { image: true },
+      });
+      pathName = product.image || '';
+    } else {
+      const store = await db.store.findUniqueOrThrow({
+        where: { id: storeId },
+        select: { image: true },
+      });
+      pathName = store.image || '';
+    }
 
     const uploadsDir = path.join(__dirname, '../../uploads');
 
-    const files = fs.readdirSync(uploadsDir);
-    const file = files.find((f) => f.startsWith(fileName));
-
-    if (file) {
-      const filePath = path.join(uploadsDir, file);
-      res.sendFile(filePath);
+    if (fs.existsSync(path.join(uploadsDir, pathName))) {
+      res.sendFile(path.join(uploadsDir, pathName));
     } else {
       const placeholderPath = path.join(
         __dirname,

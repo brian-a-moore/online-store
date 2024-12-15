@@ -4,11 +4,13 @@ import { empty, uuid } from '../_presets';
 export const getImageMediaSchema = {
   body: empty,
   params: empty,
-  query: z.object({
-    storeId: uuid,
-    productId: uuid.optional(),
-    itemId: uuid.optional(),
-  }),
+  query: z
+    .object({
+      storeId: uuid.optional(),
+      productId: uuid.optional(),
+      itemId: uuid.optional(),
+    })
+    .strict(),
 };
 
 export const uploadImageMediaSchema = {
@@ -20,7 +22,7 @@ export const uploadImageMediaSchema = {
   params: empty,
   query: z
     .object({
-      storeId: uuid,
+      storeId: uuid.optional(),
       productId: uuid.optional(),
       itemId: uuid.optional(),
     })

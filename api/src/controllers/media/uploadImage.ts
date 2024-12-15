@@ -30,6 +30,13 @@ export const uploadImageMediaController = async (
 
     const { storeId, productId, itemId } = req.query;
 
+    if (!storeId && !productId && !itemId) {
+      res
+        .status(STATUS_CODE.BAD_INPUT)
+        .json({ message: 'A store, product or item ID is required.' });
+      return;
+    }
+
     const form = formidable({ multiples: false });
 
     const { files }: { fields: Fields; files: Files } = await new Promise(
@@ -43,6 +50,8 @@ export const uploadImageMediaController = async (
         });
       },
     );
+
+    console.log({ files });
 
     const fileArray = files.image as unknown as File[];
     if (fileArray.length === 0) {
