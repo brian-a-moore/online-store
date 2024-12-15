@@ -72,7 +72,7 @@ export const IconImage: React.FC<Props> = ({
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading || !response) return <p>Loading...</p>;
 
   return (
     <div
@@ -82,7 +82,7 @@ export const IconImage: React.FC<Props> = ({
     >
       <img
         className="w-full h-full object-contain"
-        src={URL.createObjectURL(response!)}
+        src={URL.createObjectURL(response)}
         alt={name}
       />
       {upload && isHovered ? (

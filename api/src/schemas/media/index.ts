@@ -1,5 +1,5 @@
 import z from 'zod';
-import { empty, strLong, strLongOptional, uuid } from '../_presets';
+import { empty, strLong, uuid } from '../_presets';
 
 export const deleteImageMediaSchema = {
   body: empty,
@@ -16,7 +16,7 @@ export const getImageMediaSchema = {
   params: empty,
   query: z
     .object({
-      filePath: strLongOptional,
+      filePath: strLong.optional(),
     })
     .strict(),
 };

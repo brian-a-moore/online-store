@@ -24,7 +24,6 @@ router.delete(
 router.get(
   '/',
   schemaValidatorMiddleware(getImageMediaSchema),
-  checkPermissionMiddleware([canUseDashboardRoutes]),
   getImageMediaController,
 );
 router.post(
