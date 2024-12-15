@@ -62,6 +62,7 @@ export const IconImage: React.FC<Props> = ({
     openModal(
       <UploadImageDashboardForm
         existingImage={response}
+        existingFilePath={image}
         upload={upload}
         forceReload={() => {}}
       />,

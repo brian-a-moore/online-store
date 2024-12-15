@@ -8,6 +8,9 @@ import {
   CreateProductDashboardBody,
   CreateProductDashboardQuery,
   CreateProductDashboardResponse,
+  DeleteImageMediaBody,
+  DeleteImageMediaQuery,
+  DeleteImageMediaResponse,
   DeleteItemDashboardBody,
   DeleteItemDashboardQuery,
   DeleteItemDashboardResponse,
@@ -93,6 +96,18 @@ export const updateProduct = async (
     url: `/dashboard/product/${productId}`,
     method: HTTP_METHOD.PUT,
     data: product,
+  });
+};
+
+export const deleteImage = async (filePath: string) => {
+  return apiCall<
+    DeleteImageMediaBody,
+    DeleteImageMediaQuery,
+    DeleteImageMediaResponse
+  >({
+    url: '/media',
+    method: HTTP_METHOD.DELETE,
+    params: { filePath },
   });
 };
 

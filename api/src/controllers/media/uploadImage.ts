@@ -72,9 +72,9 @@ export const uploadImageMediaController = async (
     const ext = path.extname(file.originalFilename!);
     let newFileName = '';
 
-    if (itemId) newFileName = `item-${itemId}${ext}`;
-    else if (productId) newFileName = `product-${productId}${ext}`;
-    else newFileName = `store-${storeId}${ext}`;
+    if (itemId) newFileName = `itemId:${itemId}${ext}`;
+    else if (productId) newFileName = `productId:${productId}${ext}`;
+    else newFileName = `storeId:${storeId}${ext}`;
 
     const newFilePath = path.join(__dirname, '../../uploads', newFileName);
 
@@ -105,7 +105,7 @@ export const uploadImageMediaController = async (
         next(e);
       }
 
-      res.status(STATUS_CODE.OKAY).send();
+      res.status(STATUS_CODE.OKAY).json({ filePath: newFileName });
     });
   } catch (e: any | unknown) {
     next(e);

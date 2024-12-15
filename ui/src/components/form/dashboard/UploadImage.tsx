@@ -1,9 +1,16 @@
-import { mdiClose, mdiImageSearch, mdiResize, mdiRotateRight } from '@mdi/js';
+import {
+  mdiClose,
+  mdiDelete,
+  mdiImageSearch,
+  mdiResize,
+  mdiRotateRight,
+} from '@mdi/js';
 import Icon from '@mdi/react';
 import { SIZE } from '@sunami/constants';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { useDropzone } from 'react-dropzone';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../../api';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -13,6 +20,7 @@ import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   existingImage?: Blob | null;
+  existingFilePath?: string | null;
   upload?: {
     storeId?: string;
     productId?: string;
@@ -24,6 +32,7 @@ type Props = {
 
 export const UploadImageDashboardForm: React.FC<Props> = ({
   existingImage,
+  existingFilePath,
   upload,
   rounded = false,
   forceReload,
@@ -33,9 +42,9 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
     setScale(1);
     setRotation(0);
   }, []);
-  // Context
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
+  const navigate = useNavigate();
 
   // Reference
   const ref = useRef<AvatarEditor | null>();
@@ -120,12 +129,56 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
     }
   };
 
+  const openDeleteImageDialog = (filePath: string) => {
+    const onClick = async () => {
+      try {
+        await api.dashboard.deleteImage(filePath);
+        closeModal();
+        setToast({
+          type: 'success',
+          message: 'Image removed successfully',
+        });
+      } catch (error: any | unknown) {
+        navigate(
+          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
+        );
+      }
+    };
+    openModal(
+      <>
+        <H3>Remove Image</H3>
+        <p>Are you sure you want to remove this image?</p>
+        <div className="flex justify-between">
+          <Button variant="tertiary" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button variant="destructive" onClick={onClick}>
+            Remove Image
+          </Button>
+        </div>
+      </>,
+    );
+  };
+
   return (
     <form
       className="flex flex-col flex-1 gap-4 overflow-hidden"
       onSubmit={onSubmit}
     >
-      <H3>Update Image</H3>
+      <div className="flex justify-between">
+        <H3>Update Image</H3>
+        {existingImage && existingFilePath ? (
+          <div className="flex gap-4">
+            <Button
+              variant="tertiary"
+              title="Remove Image"
+              onClick={() => openDeleteImageDialog(existingFilePath)}
+            >
+              <Icon path={mdiDelete} size={0.75} />
+            </Button>
+          </div>
+        ) : null}
+      </div>
       <Separator />
       <div className="flex items-center justify-center">
         <div className={`flex flex-col gap-4 items-center`} {...getRootProps()}>
