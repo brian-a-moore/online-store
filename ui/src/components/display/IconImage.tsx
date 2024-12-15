@@ -1,7 +1,13 @@
-import { mdiImage } from '@mdi/js';
-import Icon from '@mdi/react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  GetImageMediaBody,
+  GetImageMediaQuery,
+  GetImageMediaResponse,
+} from '../../../../api/src/types/api';
+import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
+import useApi from '../../hooks/useApi';
 import { UploadImageDashboardForm } from '../form';
 import { UpdateImageButton } from '../interactive';
 
@@ -19,11 +25,11 @@ type Props = {
 };
 
 const sizeMap = new Map([
-  ['xs', ['size-[24px]', 'text-xs', 0.5, 'gap-0']],
-  ['sm', ['size-[48px]', 'text-xxs', 0.5, 'gap-0']],
-  ['md', ['size-[64px]', 'text-xxs', 0.5, 'gap-2']],
-  ['lg', ['size-[96px]', 'text-sm', 1, 'gap-2']],
-  ['xl', ['size-[132px]', 'text-sm', 2, 'gap-2']],
+  ['xs', 'size-[24px]'],
+  ['sm', 'size-[48px]'],
+  ['md', 'size-[64px]'],
+  ['lg', 'size-[96px]'],
+  ['xl', 'size-[132px]'],
 ]);
 
 export const IconImage: React.FC<Props> = ({
@@ -36,8 +42,21 @@ export const IconImage: React.FC<Props> = ({
 }) => {
   const { openModal } = useContext(ModalContext);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
-  const [imageSize, textSize, iconSize, gapSize] = sizeMap.get(size)!;
+  const imageSize = sizeMap.get(size)!;
+
+  const { error, isLoading, response } = useApi<
+    GetImageMediaBody,
+    GetImageMediaQuery,
+    GetImageMediaResponse
+  >({
+    method: HTTP_METHOD.GET,
+    url: '/media',
+    params: {
+      ...(image && { filePath: image }),
+    },
+  });
 
   const openUploadForm = () =>
     openModal(
@@ -48,30 +67,23 @@ export const IconImage: React.FC<Props> = ({
       />,
     );
 
+  useEffect(() => {
+    if (error) navigate(`/500?error=${error}`);
+  }, [error]);
+
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <div
       className={`relative bg-white flex items-center justify-center border ${imageSize} ${rounded ? 'rounded-full' : 'rounded-sm'} overflow-hidden  ${className} z-10`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {image ? (
-        <img
-          className="w-full h-full text-xs object-contain"
-          src={image}
-          alt={name}
-        />
-      ) : (
-        <div
-          className={`flex flex-col ${gapSize} items-center justify-center bg-slate-200 w-full h-full`}
-        >
-          <Icon path={mdiImage} size={iconSize} color="#94A3B8" />
-          {size !== 'xs' && (
-            <p className={`${textSize} text-slate-400 font-semibold`}>
-              No Image
-            </p>
-          )}
-        </div>
-      )}
+      <img
+        className="w-full h-full object-contain"
+        src={URL.createObjectURL(response!)}
+        alt={name}
+      />
       {upload && isHovered ? (
         <UpdateImageButton onClick={openUploadForm} />
       ) : null}

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AUTH_TOKEN } from '../constants';
 import { Params } from '../types';
 
@@ -13,7 +13,7 @@ export const apiCall = async <D = undefined, P = undefined, R = undefined>(
   isPrivateEndpoint = true,
 ): Promise<R> => {
   const secureAxios = async (
-    contoller: AbortController,
+    controller: AbortController,
     args: Params<D, P>,
   ) => {
     const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -21,15 +21,25 @@ export const apiCall = async <D = undefined, P = undefined, R = undefined>(
     if (!authToken && isPrivateEndpoint)
       throw new Error('Authentication required but no auth token found');
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
 
     if (isPrivateEndpoint) headers['Authorization'] = `Bearer ${authToken}`;
 
-    const res = await instance<any, AxiosResponse<R>>({
+    const config: AxiosRequestConfig = {
       ...args,
-      signal: contoller.signal,
+      signal: controller.signal,
       headers,
-    });
+    };
+
+    if (
+      args.url?.endsWith('.jpg') ||
+      args.url?.endsWith('.png') ||
+      args.url?.includes('media')
+    ) {
+      config.responseType = 'blob';
+    }
+
+    const res = await instance<any, AxiosResponse<R>>(config);
     return res.data;
   };
 
