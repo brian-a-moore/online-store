@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import formidable, { Fields, File, Files } from 'formidable';
 import fs from 'fs';
 import path from 'path';
+import { db } from '../../config/db';
 import {
   ErrorResponse,
   UploadImageMediaBody,
@@ -49,8 +50,6 @@ export const uploadImageMediaController = async (
     }
     const file = fileArray[0];
 
-    console.log({ file });
-
     const fileSize = file.size;
 
     if (file.mimetype && !file.mimetype.startsWith('image/')) {
@@ -65,12 +64,39 @@ export const uploadImageMediaController = async (
     }
 
     const ext = path.extname(file.originalFilename!);
-    const newFileName = `${storeId}${productId ? `-${productId}` : ''}${itemId ? `-${itemId}` : ''}${ext}`;
+    let newFileName = '';
+
+    if (itemId) newFileName = `item-${itemId}${ext}`;
+    else if (productId) newFileName = `product-${productId}${ext}`;
+    else newFileName = `store-${storeId}${ext}`;
+
     const newFilePath = path.join(__dirname, '../../uploads', newFileName);
 
-    fs.rename(file.filepath, newFilePath, (err) => {
+    fs.rename(file.filepath, newFilePath, async (err) => {
       if (err) {
         throw err;
+      }
+
+      try {
+        if (itemId) {
+          await db.item.update({
+            data: { image: newFileName },
+            where: { id: itemId },
+          });
+        } else if (productId) {
+          await db.product.update({
+            data: { image: newFileName },
+            where: { id: productId },
+          });
+        } else {
+          await db.store.update({
+            data: { image: newFileName },
+            where: { id: storeId },
+          });
+        }
+      } catch (e: any | unknown) {
+        fs.unlink(path.join(__dirname, '../../uploads', newFileName), () => {});
+        next(e);
       }
 
       res.status(STATUS_CODE.OKAY).send();
