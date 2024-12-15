@@ -29,7 +29,7 @@
   "description": "",
   "dependencies": {
     "@codegenie/serverless-express": "^4.16.0",
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "^6.0.1",
     "@sunami/auth": "^0.4.0",
     "@sunami/constants": "^0.1.0",
     "@sunami/logger": "^0.1.1",
@@ -37,8 +37,8 @@
     "cls-hooked": "^4.2.2",
     "cors": "^2.8.5",
     "express": "^4.21.1",
+    "formidable": "^3.5.2",
     "generate-password": "^1.7.1",
-    "prisma": "^5.22.0",
     "stripe": "^17.3.1",
     "zod": "^3.23.8"
   },
@@ -47,10 +47,12 @@
     "@types/cls-hooked": "^4.3.9",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/formidable": "^3.4.5",
     "@types/morgan": "^1.9.9",
     "dotenv": "^16.4.5",
     "morgan": "^1.10.0",
     "prettier": "^3.3.3",
+    "prisma": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }
