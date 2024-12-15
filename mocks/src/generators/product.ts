@@ -4,51 +4,53 @@ import { db } from '../../../api/src/config/db';
 export const generateProducts = async (storeIds: string[]) => {
   console.log('Creating products...');
 
-  const amazonProducts: Prisma.ProductUncheckedCreateInput[] = [
+  const carrollProducts: Prisma.ProductUncheckedCreateInput[] = [
     {
       id: 'ef8f05bf-c839-41ea-ae5a-05733f87656a',
       storeId: storeIds[0],
-      name: 'Nike Jordan',
+      name: 'CMMS Theatre Company',
       description:
-        'Nike Jordans, also known as Air Jordans, are an iconic line of basketball shoes and athletic apparel created by Nike in collaboration with basketball legend Michael Jordan. First introduced in 1984, the brand revolutionized athletic footwear with its bold designs, advanced technology, and cultural influence. Known for their performance on the court and status as a fashion statement off the court, Jordans combine high-quality materials with cutting-edge features like air cushioning for comfort and support. Over the decades, the brand has released numerous models and retro editions, each with a unique style and story, making them a favorite among athletes, sneaker enthusiasts, and collectors alike. Jordans remain a symbol of sports excellence, innovation, and streetwear culture.',
+        'The CMMS Theatre Company at Carroll Magnet Middle School is a vibrant and inclusive program dedicated to nurturing young performers’ talents and fostering a love for the performing arts. Known for its high-quality productions, the program provides students with opportunities to engage in all aspects of theater, including acting, stagecraft, and technical design. With a focus on creativity, collaboration, and building confidence, CMMS Theatre Company encourages students to explore their potential both on stage and behind the scenes. ',
       isPublished: true,
     },
     {
       id: 'fd8680ae-057a-4fd6-8397-af92b163c18b',
       storeId: storeIds[0],
-      name: 'Microsoft Xbox',
+      name: 'CMMS Conert Band Program',
       description:
-        'Xbox is a gaming brand created by Microsoft that has become one of the most recognized names in the video game industry. Launched in 2001 with the original Xbox console, the brand has since expanded to include a series of powerful gaming consoles, such as the Xbox 360, Xbox One, and Xbox Series X|S. Known for its high-performance hardware, robust online multiplayer service via Xbox Live, and extensive game library, the Xbox platform caters to casual gamers and hardcore enthusiasts alike. The ecosystem integrates seamlessly with PC gaming through services like Xbox Game Pass, offering access to hundreds of games across platforms. With a focus on innovation, community, and cross-platform play, Xbox continues to redefine interactive entertainment while fostering a global network of players.',
+        'The Carroll Magnet Middle School Band Program offers students a dynamic and enriching opportunity to explore instrumental music in a collaborative and supportive environment. Focused on developing musical skills, teamwork, and creativity, the program provides students with a strong foundation in performance and music theory. Through concerts, competitions, and other events, the CMMS Band Program encourages students to grow as musicians while fostering a lifelong appreciation for music.',
       isPublished: true,
     },
   ];
-  const walmartProducts: Prisma.ProductUncheckedCreateInput[] = [
+  const sandersonProducts: Prisma.ProductUncheckedCreateInput[] = [
     {
       id: '0800c253-fd54-4ef7-ad00-9c7a624c6d0c',
       storeId: storeIds[1],
-      name: 'Ozark Trail',
+      name: 'Sanderson High School Chiors',
       description:
-        'Ozark Trail is Walmart’s exclusive outdoor recreation brand, offering an extensive range of affordable, durable gear for camping, hiking, and other outdoor activities. Known for its practicality and value, the brand provides products like tents, sleeping bags, backpacks, coolers, and cookware designed to meet the needs of both beginner and experienced outdoor enthusiasts. Ozark Trail balances quality with cost-effectiveness, making outdoor adventure accessible to a broad audience. With a focus on reliability and convenience, its gear is a popular choice for family camping trips, weekend getaways, and backyard adventures, embodying the spirit of exploration and the great outdoors.',
+        'The Sanderson High School Choirs program is dedicated to cultivating musical excellence and fostering a sense of community through choral performance. With a variety of ensembles, the program provides students opportunities to develop their vocal skills, perform diverse repertoire, and engage in local and regional competitions. Through concerts and events, Sanderson Choirs inspire a love for music while promoting teamwork, artistry, and personal growth.',
       isPublished: true,
     },
     {
       id: '7a2a2b0b-5df9-4831-b90c-2b03698621fa',
       storeId: storeIds[1],
-      name: 'Coleman',
+      name: 'Marching Band',
       description:
-        'Coleman is a renowned outdoor recreation brand with a legacy of over a century, celebrated for its reliable and innovative gear that enhances the camping and outdoor experience. Known for its iconic products like lanterns, coolers, stoves, tents, and sleeping bags, Coleman combines quality craftsmanship with functionality to cater to outdoor enthusiasts of all levels. The brand emphasizes durability and ease of use, making it a trusted choice for everything from rugged wilderness adventures to family camping trips. With its commitment to creating products that inspire people to connect with nature, Coleman remains a cornerstone of the outdoor industry.',
+        "The Sanderson Band has a long history of excellence, dating back to the school's opening in 1968. Currently, the Sanderson Band program consists of the Marching Spartans, Wind Ensemble, Concert Band, and various other small ensembles, as well as annual performances with the Sanderson Theater Department in the spring musical. The band has performed extensively across North Carolina and the Southeastern United States in both marching band competitions and concert band festivals. ",
       isPublished: true,
     },
   ];
 
   await db.product.createMany({
-    data: [...amazonProducts, ...walmartProducts],
+    data: [...carrollProducts, ...sandersonProducts],
   });
 
   console.log('Products created');
 
   return {
-    amazonProductIds: amazonProducts.map((product) => product.id as string),
-    walmartProductIds: walmartProducts.map((product) => product.id as string),
+    carrollProductIds: carrollProducts.map((product) => product.id as string),
+    sandersonProductIds: sandersonProducts.map(
+      (product) => product.id as string,
+    ),
   };
 };
