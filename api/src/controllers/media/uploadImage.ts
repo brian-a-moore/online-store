@@ -51,14 +51,11 @@ export const uploadImageMediaController = async (
       },
     );
 
-    console.log({ files });
-
     const fileArray = files.image as unknown as File[];
     if (fileArray.length === 0) {
       throw new Error('No file uploaded');
     }
     const file = fileArray[0];
-
     const fileSize = file.size;
 
     if (file.mimetype && !file.mimetype.startsWith('image/')) {

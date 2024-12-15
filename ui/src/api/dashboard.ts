@@ -29,9 +29,26 @@ import {
   UpdateStoreRelationDashboardBody,
   UpdateStoreRelationDashboardQuery,
   UpdateStoreRelationDashboardResponse,
+  UploadImageMediaQuery,
+  UploadImageMediaResponse,
 } from '../../../api/src/types/api';
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
+
+export const updateImage = async (
+  upload: { storeId?: string; productId?: string; itemId?: string },
+  image: File,
+) => {
+  const formData = new FormData();
+  formData.append('image', image);
+
+  return apiCall<FormData, UploadImageMediaQuery, UploadImageMediaResponse>({
+    url: '/media',
+    method: HTTP_METHOD.POST,
+    data: formData,
+    params: upload,
+  });
+};
 
 export const updateStore = async (
   storeId: string,

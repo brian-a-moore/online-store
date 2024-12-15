@@ -1,5 +1,4 @@
 export * from './CheckboxInput';
-export * from './ImageUploader';
 export * from './PresetAmounts';
 export * from './SearchBox';
 export * from './SelectInput';

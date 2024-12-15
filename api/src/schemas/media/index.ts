@@ -12,11 +12,7 @@ export const getImageMediaSchema = {
 };
 
 export const uploadImageMediaSchema = {
-  body: z
-    .object({
-      image: z.any(),
-    })
-    .strict(),
+  body: z.object({}), // TODO: Fix this later
   params: empty,
   query: z
     .object({
