@@ -84,7 +84,7 @@ export const variableItemDashboardFormSchema = z
         presetAmounts: z
           .array(z.number().positive().min(1).max(999999))
           .min(0)
-          .max(5),
+          .max(6),
       })
       .strict(),
     isPublished: z.boolean(),

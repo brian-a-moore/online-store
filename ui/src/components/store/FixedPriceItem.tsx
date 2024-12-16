@@ -54,7 +54,7 @@ export const FixedPriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col flex-1 gap-2">
       <div className="flex flex-1 flex-col gap-2">
         <H4>{formatCurrency(config.price)}</H4>
         <div>
@@ -74,7 +74,7 @@ export const FixedPriceItem: React.FC<Props> = ({ item, addItemToCart }) => {
           {item.product.name}
         </p>
       </div>
-      <div className="self-end">
+      <div className="flex justify-end">
         <Button onClick={addToCart} title="Add to Cart">
           <Icon path={mdiPlus} size={0.75} />
         </Button>

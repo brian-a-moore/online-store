@@ -51,7 +51,7 @@ const columns: ColDef<Row>[] = [
     cellRenderer: (params: { value: boolean }) => (
       <div className="flex h-full items-center justify-center">
         <div>
-          <IsPublished pathType="product" isPublished={params.value} />
+          <IsPublished pathType="store" isPublished={params.value} />
         </div>
       </div>
     ),

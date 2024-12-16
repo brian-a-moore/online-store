@@ -50,7 +50,7 @@ export const PresetAmounts: React.FC<Props> = ({
       valueToAdd = convertedValue;
     }
     setAmounts((prevState) => {
-      if (prevState.length < 5) {
+      if (prevState.length < 6) {
         return [...prevState, valueToAdd];
       } else {
         return prevState;
