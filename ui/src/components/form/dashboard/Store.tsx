@@ -56,7 +56,7 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
 
   const onSubmit = async (store: StoreDashboardFormType) => {
     try {
-      await api.dashboard.updateStore(storeId!, store);
+      await api.store.updateStoreDashboard(storeId!, store);
       closeModal();
       setToast({ type: 'success', message: 'Store updated successfully' });
     } catch (error: any | unknown) {

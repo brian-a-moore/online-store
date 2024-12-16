@@ -30,7 +30,7 @@ export const ItemDashboard: React.FC = () => {
   const openDeleteProductDialog = () => {
     const onClick = async () => {
       try {
-        await api.dashboard.deleteItem(itemId!);
+        await api.item.deleteItemDashboard(itemId!);
         closeModal();
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {

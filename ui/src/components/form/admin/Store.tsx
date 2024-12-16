@@ -58,9 +58,9 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId }) => {
   const onSubmit = async (store: StoreAdminFormType) => {
     try {
       if (storeId) {
-        await api.admin.updateStore(storeId, store);
+        await api.store.updateStoreAdmin(storeId, store);
       } else {
-        await api.admin.createStore(store);
+        await api.store.createStoreAdmin(store);
       }
       closeModal();
       setToast({ type: 'success', message: 'Store updated successfully' });
@@ -75,7 +75,7 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId }) => {
   const openDeleteStoreDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.admin.deleteStore(id);
+        await api.store.deleteStoreAdmin(id);
         closeModal();
         setToast({ type: 'success', message: 'Store deleted successfully' });
       } catch (error: any | unknown) {

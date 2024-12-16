@@ -56,7 +56,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId }) => {
 
   const onSubmit = async (product: ProductAdminFormType) => {
     try {
-      await api.admin.updateProduct(productId, product);
+      await api.product.updateProductAdmin(productId, product);
       closeModal();
       setToast({ type: 'success', message: 'Product updated successfully' });
     } catch (error: any | unknown) {
@@ -69,7 +69,7 @@ export const ProductAdminForm: React.FC<Props> = ({ productId }) => {
   const openDeleteProductDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.admin.deleteProduct(id);
+        await api.product.deleteProductAdmin(id);
         closeModal();
         setToast({ type: 'success', message: 'Product deleted successfully' });
       } catch (error: any | unknown) {

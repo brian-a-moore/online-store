@@ -107,7 +107,7 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
             const blobFile = new File([blob], 'image.png', {
               type: 'image/png',
             });
-            await api.dashboard.updateImage(upload!, blobFile);
+            await api.media.updateImageMedia(upload!, blobFile);
             closeModal();
             forceReload();
             setToast({
@@ -132,7 +132,7 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
   const openDeleteImageDialog = (filePath: string) => {
     const onClick = async () => {
       try {
-        await api.dashboard.deleteImage(filePath);
+        await api.media.deleteImageMedia(filePath);
         closeModal();
         setToast({
           type: 'success',

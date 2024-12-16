@@ -56,7 +56,7 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId }) => {
 
   const onSubmit = async (item: ItemAdminFormType) => {
     try {
-      await api.admin.updateItem(itemId, item);
+      await api.item.updateItemAdmin(itemId, item);
       closeModal();
       setToast({ type: 'success', message: 'Item updated successfully' });
     } catch (error: any | unknown) {
@@ -69,7 +69,7 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId }) => {
   const openDeleteItemDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.admin.deleteItem(id);
+        await api.item.deleteItemAdmin(id);
         closeModal();
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {

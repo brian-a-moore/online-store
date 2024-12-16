@@ -58,9 +58,9 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
     try {
       let response;
       if (userId) {
-        response = await api.admin.updateUser(userId, user);
+        response = await api.user.updateUserAdmin(userId, user);
       } else {
-        response = await api.admin.createUser(user);
+        response = await api.user.createUserAdmin(user);
       }
       if (!userId) openShowDefaultPassword(response.defaultPassword, true);
       else {
@@ -109,7 +109,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
   const openDeleteUserDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.admin.deleteUser(id);
+        await api.user.deleteUserAdmin(id);
         closeModal();
         setToast({ type: 'success', message: 'User deleted successfully' });
       } catch (error: any | unknown) {
@@ -139,7 +139,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
   const openResetPasswordDialog = (id: string) => {
     const onClick = async () => {
       try {
-        const response = await api.admin.resetUserPassword(id);
+        const response = await api.user.resetUserPasswordAdmin(id);
         if (response.newPassword)
           openShowDefaultPassword(response.newPassword, false);
       } catch (error: any | unknown) {

@@ -61,10 +61,10 @@ export const ProductDashboardForm: React.FC<Props> = ({
   const onSubmit = async (product: ProductDashboardFormType) => {
     try {
       if (productId) {
-        await api.dashboard.updateProduct(productId!, product);
+        await api.product.updateProductDashboard(productId!, product);
         setToast({ type: 'success', message: 'Product updated successfully' });
       } else {
-        await api.dashboard.createProduct(storeId!, product);
+        await api.product.createProductDashboard(storeId!, product);
         setToast({ type: 'success', message: 'Product created successfully' });
       }
       closeModal();

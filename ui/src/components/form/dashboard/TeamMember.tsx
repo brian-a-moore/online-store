@@ -82,7 +82,7 @@ export const TeamMemberForm: React.FC<Props> = ({
   ) => {
     try {
       if (existingMember) {
-        await api.dashboard.updateStoreRelation(
+        await api.relation.updateStoreRelation(
           existingMember.store.id,
           relation.roleId,
         );
@@ -91,7 +91,7 @@ export const TeamMemberForm: React.FC<Props> = ({
           message: 'Team member updated successfully',
         });
       } else {
-        await api.dashboard.addStoreRelation({ ...relation, storeId });
+        await api.relation.addStoreRelation({ ...relation, storeId });
         setToast({
           type: 'success',
           message: 'Team member added successfully',
@@ -109,7 +109,7 @@ export const TeamMemberForm: React.FC<Props> = ({
   const openDeleteRelationshipDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.dashboard.deleteStoreRelation(id);
+        await api.relation.deleteStoreRelation(id);
         closeModal();
         setToast({
           type: 'success',

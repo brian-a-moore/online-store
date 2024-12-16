@@ -76,12 +76,12 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
           },
           {} as Partial<SuperuserAdminFormType | SuperuserSelfAdminFormType>,
         );
-        response = await api.admin.updateSuperuser(
+        response = await api.superuser.updateSuperuserAdmin(
           superuserId,
           sanitizedSuperUser,
         );
       } else {
-        response = await api.admin.createSuperuser(superUser);
+        response = await api.superuser.createSuperuserAdmin(superUser);
       }
       if (!superuserId) openShowDefaultPassword(response.defaultPassword, true);
       else {
@@ -133,7 +133,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
   const openDeleteSuperuserDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.admin.deleteSuperuser(id);
+        await api.superuser.deleteSuperuserAdmin(id);
         closeModal();
         setToast({
           type: 'success',
@@ -166,7 +166,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
   const openResetPasswordDialog = (id: string) => {
     const onClick = async () => {
       try {
-        const response = await api.admin.resetSuperuserPassword(id);
+        const response = await api.superuser.resetSuperuserPasswordAdmin(id);
         if (response.newPassword)
           openShowDefaultPassword(response.newPassword, false);
       } catch (error: any | unknown) {

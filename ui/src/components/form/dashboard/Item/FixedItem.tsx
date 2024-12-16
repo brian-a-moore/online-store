@@ -51,10 +51,10 @@ export const FixedItemForm: React.FC<Props> = ({ item, productId }) => {
   const onSubmit = async (data: FixedItemDashboardFormType) => {
     try {
       if (item?.id) {
-        await api.dashboard.updateItem(item.id, data);
+        await api.item.updateItemDashboard(item.id, data);
         setToast({ type: 'success', message: 'Item updated successfully' });
       } else {
-        await api.dashboard.createItem(productId, data);
+        await api.item.createItemDashboard(productId, data);
         setToast({ type: 'success', message: 'Item created successfully' });
       }
       closeModal();
