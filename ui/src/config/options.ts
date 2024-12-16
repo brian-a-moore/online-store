@@ -4,10 +4,15 @@ export const statusOptions = new Map([
   ['unlisted', 'Unlisted'],
 ]);
 
-export const userRoleOptions = new Map([
+export const userRoleFilterOptions = new Map([
   ['all', 'All'],
   ['manager', 'Manager'],
   ['editor', 'Editor'],
+]);
+
+export const userRoleOptions = new Map([
+  [1, 'Manager'],
+  [2, 'Editor'],
 ]);
 
 export const userSearchOptions = new Map([

@@ -1,6 +1,6 @@
 import { mdiDelete, mdiPencil, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../../api';
@@ -18,10 +18,27 @@ export const ProductDashboard: React.FC = () => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const { storeId, productId } = useParams();
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
-    queryKey: ['get-product', storeId],
+    queryKey: ['get-product-dashboard', productId],
     queryFn: () => api.product.getProductDashboard(productId!),
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: api.product.deleteProductDashboard,
+    onError: (error) => {
+      navigate(`/500?error=${error?.message || 'An unknown error occurred'}`);
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Product deleted successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-products-dashboard'] });
+      closeModal();
+      navigate(-1);
+    },
   });
 
   useEffect(() => {
@@ -29,17 +46,7 @@ export const ProductDashboard: React.FC = () => {
   }, [error]);
 
   const openDeleteProductDialog = () => {
-    const onClick = async () => {
-      try {
-        await api.product.deleteProductDashboard(productId!);
-        closeModal();
-        setToast({ type: 'success', message: 'Product deleted successfully' });
-      } catch (error: any | unknown) {
-        navigate(
-          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
-        );
-      }
-    };
+    const onClick = () => deleteProductMutation.mutate(productId!);
     openModal(
       <>
         <H3>Delete Product</H3>

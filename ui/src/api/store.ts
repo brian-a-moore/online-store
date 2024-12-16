@@ -177,10 +177,13 @@ export const updateStoreAdmin = async ({
   });
 };
 
-export const updateStoreDashboard = async (
-  storeId: string,
-  storeUpdate: UpdateStoreDashboardBody,
-) => {
+export const updateStoreDashboard = async ({
+  storeId,
+  storeUpdate,
+}: {
+  storeId: string;
+  storeUpdate: UpdateStoreDashboardBody;
+}) => {
   return apiCall<
     UpdateStoreDashboardBody,
     UpdateStoreDashboardQuery,

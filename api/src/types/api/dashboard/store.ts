@@ -68,14 +68,12 @@ export type GetStoreTeamDashboardQuery = z.infer<
 >;
 export type GetStoreTeamDashboardResponse = {
   team: {
-    id: string;
+    relationId: string;
+    userId: string;
+    storeId: string;
+    roleId: number;
     name: string;
     email: string;
-    store: {
-      id: string;
-      storeId: string;
-      roleId: number;
-    };
   }[];
 };
 

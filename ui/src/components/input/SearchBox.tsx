@@ -9,6 +9,7 @@ import { Card } from '../container';
 import { EmptyText } from '../typography';
 
 type SearchBoxProps = {
+  relationId?: string;
   selectTeamMember: (teamMember: {
     id: string;
     name: string;
@@ -30,6 +31,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
   const { error, data } = useQuery({
     queryKey: ['search-users-dashboard', debouncedSearch],
     queryFn: () => api.user.userSearchDashboard(field, debouncedSearch),
+    enabled: debouncedSearch.length > 2,
   });
 
   useEffect(() => {

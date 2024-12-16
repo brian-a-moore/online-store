@@ -23,7 +23,7 @@ export const StoreDashboard: React.FC = () => {
   const [tab, setTab] = useState<'product' | 'team'>('product');
 
   const { error, isLoading, data } = useQuery({
-    queryKey: ['get-store', storeId],
+    queryKey: ['get-store-dashboard', storeId],
     queryFn: () => api.store.getStoreDashboard(storeId!),
   });
 

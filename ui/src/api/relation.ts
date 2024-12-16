@@ -37,10 +37,13 @@ export const deleteStoreRelation = async (relationId: string) => {
   });
 };
 
-export const updateStoreRelation = async (
-  relationId: string,
-  roleId: number,
-) => {
+export const updateStoreRelation = async ({
+  relationId,
+  roleId,
+}: {
+  relationId: string;
+  roleId: number;
+}) => {
   return apiCall<
     UpdateStoreRelationDashboardBody,
     UpdateStoreRelationDashboardQuery,

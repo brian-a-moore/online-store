@@ -175,15 +175,13 @@ export const getStoreTeamDashboardController = async (
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
     });
-    const team = rawTeam.map((member) => ({
-      id: member.user.id,
-      name: member.user.name,
-      email: member.user.email,
-      store: {
-        id: member.id,
-        storeId: member.storeId,
-        roleId: member.roleId,
-      },
+    const team = rawTeam.map(({ id, roleId, storeId, user }) => ({
+      relationId: id,
+      userId: user.id,
+      storeId,
+      roleId,
+      name: user.name,
+      email: user.email,
     }));
     res.status(STATUS_CODE.OKAY).json({ team });
   } catch (e: any | unknown) {

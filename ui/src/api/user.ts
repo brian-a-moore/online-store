@@ -102,15 +102,13 @@ export const userSearchDashboard = async (
   field: 'email' | 'name',
   debouncedSearch: string,
 ) => {
-  if (debouncedSearch.length > 2) {
-    return apiCall<
-      SearchUsersDashboardBody,
-      SearchUsersDashboardQuery,
-      SearchUsersDashboardResponse
-    >({
-      url: `/dashboard/user/search`,
-      method: HTTP_METHOD.GET,
-      params: { search: debouncedSearch, field, page: '1' },
-    });
-  }
+  return apiCall<
+    SearchUsersDashboardBody,
+    SearchUsersDashboardQuery,
+    SearchUsersDashboardResponse
+  >({
+    url: `/dashboard/user/search`,
+    method: HTTP_METHOD.GET,
+    params: { search: debouncedSearch, field, page: '1' },
+  });
 };

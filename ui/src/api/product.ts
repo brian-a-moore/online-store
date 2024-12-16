@@ -33,10 +33,13 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
 
-export const createProductDashboard = async (
-  storeId: string,
-  newProduct: CreateProductDashboardBody,
-) => {
+export const createProductDashboard = async ({
+  storeId,
+  newProduct,
+}: {
+  storeId: string;
+  newProduct: CreateProductDashboardBody;
+}) => {
   return apiCall<
     CreateProductDashboardBody,
     CreateProductDashboardQuery,
@@ -158,10 +161,13 @@ export const updateProductAdmin = async ({
   });
 };
 
-export const updateProductDashboard = async (
-  productId: string,
-  productUpdate: UpdateProductDashboardBody,
-) => {
+export const updateProductDashboard = async ({
+  productId,
+  productUpdate,
+}: {
+  productId: string;
+  productUpdate: UpdateProductDashboardBody;
+}) => {
   return apiCall<
     UpdateProductDashboardBody,
     UpdateProductDashboardQuery,

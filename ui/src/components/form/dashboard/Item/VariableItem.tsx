@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GetItemDashboardResponse } from '../../../../../../api/src/types/api';
@@ -30,6 +31,7 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
   const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const {
     control,
@@ -53,22 +55,46 @@ export const VariableItemForm: React.FC<Props> = ({ item, productId }) => {
     }
   }, [item]);
 
-  const onSubmit = async (data: VariableItemDashboardFormType) => {
-    try {
-      if (item?.id) {
-        await api.item.updateItemDashboard(item.id, data);
-        setToast({ type: 'success', message: 'Item updated successfully' });
-      } else {
-        await api.item.createItemDashboard(productId, data);
-        setToast({ type: 'success', message: 'Item created successfully' });
-      }
+  const createItemMutation = useMutation({
+    mutationFn: api.item.createItemDashboard,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Item created successfully',
+      });
+      queryClient.refetchQueries({
+        queryKey: ['list-items-dashboard'],
+      });
       closeModal();
-    } catch (error: any | unknown) {
-      setFormError(
-        error.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    }
+    },
+  });
+
+  const updateItemMutation = useMutation({
+    mutationFn: api.item.updateItemDashboard,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Item updated successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['get-breadcrumb-dashboard'] });
+      queryClient.refetchQueries({ queryKey: ['list-items-dashboard'] });
+      queryClient.refetchQueries({
+        queryKey: ['get-item-dashboard', item!.id],
+      });
+      closeModal();
+    },
+  });
+
+  const onSubmit = async (data: VariableItemDashboardFormType) => {
+    if (item?.id)
+      return updateItemMutation.mutate({ itemId: item.id, itemUpdate: data });
+    createItemMutation.mutate({ productId, newItem: data });
   };
 
   const config = watch('config');

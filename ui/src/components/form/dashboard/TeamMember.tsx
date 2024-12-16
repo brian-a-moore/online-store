@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiClose, mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +29,9 @@ type Props = {
   existingMember?: GetStoreTeamDashboardResponse['team'][0];
 };
 
-type TeamMember = SearchUsersDashboardResponse['users'][0];
+type TeamMember = SearchUsersDashboardResponse['users'][0] & {
+  relationId?: string;
+};
 
 export const TeamMemberForm: React.FC<Props> = ({
   storeId,
@@ -39,6 +42,7 @@ export const TeamMemberForm: React.FC<Props> = ({
   const navigate = useNavigate();
   const [teamMember, setTeamMember] = useState<TeamMember | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const {
     control,
@@ -54,10 +58,11 @@ export const TeamMemberForm: React.FC<Props> = ({
 
   useEffect(() => {
     if (existingMember) {
-      setValue('userId', existingMember.id);
-      setValue('roleId', existingMember.store.roleId);
+      setValue('userId', existingMember.userId);
+      setValue('roleId', existingMember.roleId);
       setTeamMember({
-        id: existingMember.id,
+        relationId: existingMember.relationId,
+        id: existingMember.userId,
         name: existingMember.name,
         email: existingMember.email,
       });
@@ -77,50 +82,72 @@ export const TeamMemberForm: React.FC<Props> = ({
     setTeamMember(null);
   };
 
+  const createStoreRelationMutation = useMutation({
+    mutationFn: api.relation.addStoreRelation,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Team member added to store successfully',
+      });
+      queryClient.refetchQueries({
+        queryKey: ['get-team-dashboard'],
+      });
+      closeModal();
+    },
+  });
+
+  const updateStoreRelationMutation = useMutation({
+    mutationFn: api.relation.updateStoreRelation,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Team member role updated successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-relations-dashboard'] });
+      queryClient.refetchQueries({
+        queryKey: ['get-team-dashboard'],
+      });
+      closeModal();
+    },
+  });
+
+  const deleteRelationMutation = useMutation({
+    mutationFn: api.relation.deleteStoreRelation,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'User removed from store successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['get-team-dashboard'] });
+      closeModal();
+    },
+  });
+
   const onSubmit = async (
     relation: Omit<AddStoreRelationDashboardBody, 'storeId'>,
   ) => {
-    try {
-      if (existingMember) {
-        await api.relation.updateStoreRelation(
-          existingMember.store.id,
-          relation.roleId,
-        );
-        setToast({
-          type: 'success',
-          message: 'Team member updated successfully',
-        });
-      } else {
-        await api.relation.addStoreRelation({ ...relation, storeId });
-        setToast({
-          type: 'success',
-          message: 'Team member added successfully',
-        });
-      }
-      closeModal();
-    } catch (error: any | unknown) {
-      setFormError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    }
+    if (existingMember)
+      return updateStoreRelationMutation.mutate({
+        relationId: existingMember.relationId,
+        roleId: relation.roleId,
+      });
+    return createStoreRelationMutation.mutate({
+      ...relation,
+      storeId,
+    });
   };
 
-  const openDeleteRelationshipDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        await api.relation.deleteStoreRelation(id);
-        closeModal();
-        setToast({
-          type: 'success',
-          message: 'User removed from team successfully',
-        });
-      } catch (error: any | unknown) {
-        navigate(
-          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
-        );
-      }
-    };
+  const openDeleteRelationshipDialog = (relationId: string) => {
+    const onClick = () => deleteRelationMutation.mutate(relationId);
     openModal(
       <>
         <H3>Remove Team Member</H3>
@@ -147,7 +174,7 @@ export const TeamMemberForm: React.FC<Props> = ({
               variant="tertiary"
               title="Remove Team Member"
               onClick={() =>
-                openDeleteRelationshipDialog(existingMember.store.id)
+                openDeleteRelationshipDialog(existingMember.relationId)
               }
             >
               <Icon path={mdiDelete} size={0.75} />

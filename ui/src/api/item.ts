@@ -33,10 +33,13 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
 
-export const createItemDashboard = async (
-  productId: string,
-  item: CreateItemDashboardBody,
-) => {
+export const createItemDashboard = async ({
+  productId,
+  newItem,
+}: {
+  productId: string;
+  newItem: CreateItemDashboardBody;
+}) => {
   return apiCall<
     CreateItemDashboardBody,
     CreateItemDashboardQuery,
@@ -44,7 +47,7 @@ export const createItemDashboard = async (
   >({
     url: `/dashboard/item`,
     method: HTTP_METHOD.POST,
-    data: item,
+    data: newItem,
     params: { productId },
   });
 };
@@ -134,10 +137,13 @@ export const listItemsPublic = async (params: ListItemsPublicQuery) => {
   );
 };
 
-export const updateItemDashboard = async (
-  itemId: string,
-  itemUpdate: UpdateItemDashboardBody,
-) => {
+export const updateItemDashboard = async ({
+  itemId,
+  itemUpdate,
+}: {
+  itemId: string;
+  itemUpdate: UpdateItemDashboardBody;
+}) => {
   return apiCall<
     UpdateItemDashboardBody,
     UpdateItemDashboardQuery,

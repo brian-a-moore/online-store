@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -29,10 +29,48 @@ export const ProductDashboardForm: React.FC<Props> = ({
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-product-dashboard', productId],
     queryFn: () => api.product.getProductDashboard(productId),
+    enabled: !!productId,
+  });
+
+  const createProductMutation = useMutation({
+    mutationFn: api.product.createProductDashboard,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Product created successfully',
+      });
+      queryClient.refetchQueries({
+        queryKey: ['list-products-dashboard'],
+      });
+      closeModal();
+    },
+  });
+
+  const updateProductMutation = useMutation({
+    mutationFn: api.product.updateProductDashboard,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Product updated successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['get-breadcrumb-dashboard'] });
+      queryClient.refetchQueries({ queryKey: ['list-products-dashboard'] });
+      queryClient.refetchQueries({
+        queryKey: ['get-product-dashboard', productId],
+      });
+      closeModal();
+    },
   });
 
   const {
@@ -59,21 +97,15 @@ export const ProductDashboardForm: React.FC<Props> = ({
   }, [data]);
 
   const onSubmit = async (product: ProductDashboardFormType) => {
-    try {
-      if (productId) {
-        await api.product.updateProductDashboard(productId!, product);
-        setToast({ type: 'success', message: 'Product updated successfully' });
-      } else {
-        await api.product.createProductDashboard(storeId!, product);
-        setToast({ type: 'success', message: 'Product created successfully' });
-      }
-      closeModal();
-    } catch (error: any | unknown) {
-      setFormError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    }
+    if (productId)
+      return updateProductMutation.mutate({
+        productId,
+        productUpdate: product,
+      });
+    return createProductMutation.mutate({
+      storeId: storeId!,
+      newProduct: product,
+    });
   };
 
   if (isLoading) return <p>Loading...</p>;

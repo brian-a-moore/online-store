@@ -1,6 +1,6 @@
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../../../api';
@@ -22,10 +22,28 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [itemTypeId, setItemTypeId] = useState<number | null>(1);
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-item-dashboard', itemId],
     queryFn: () => api.item.getItemDashboard(itemId),
+    enabled: !!itemId,
+  });
+
+  const deleteItemMutation = useMutation({
+    mutationFn: api.item.deleteItemDashboard,
+    onError: (error) => {
+      navigate(`/500?error=${error?.message || 'An unknown error occurred'}`);
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Item deleted successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-items-dashboard'] });
+      closeModal();
+      navigate(-1);
+    },
   });
 
   useEffect(() => {
@@ -39,17 +57,7 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
   }, [data?.item]);
 
   const openDeleteItemDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        await api.item.deleteItemDashboard(id);
-        navigate(-1);
-        setToast({ type: 'success', message: 'Item deleted successfully' });
-      } catch (error: any | unknown) {
-        navigate(
-          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
-        );
-      }
-    };
+    const onClick = () => deleteItemMutation.mutate(id);
     openModal(
       <>
         <H3>Delete Item</H3>

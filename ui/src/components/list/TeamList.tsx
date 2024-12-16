@@ -15,7 +15,7 @@ import {
   DEFAULT_FORM_VALUES,
   teamMemberDashboardParamsFormSchema,
 } from '../../config/forms/team-member-dashboard-params-form';
-import { userRoleOptions, userSearchOptions } from '../../config/options';
+import { userRoleFilterOptions, userSearchOptions } from '../../config/options';
 import { ModalContext } from '../../context/ModalContext';
 import useDebounce from '../../hooks/useDebounce';
 import { AgGrid } from '../container';
@@ -124,7 +124,7 @@ export const TeamList: React.FC<Props> = ({ storeId }) => {
         <SelectInput
           name="roleFilter"
           label="Role"
-          options={userRoleOptions}
+          options={userRoleFilterOptions}
           control={control}
           invalidText={errors?.roleFilter?.message}
         />

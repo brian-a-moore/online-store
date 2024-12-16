@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -25,10 +25,30 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-store-dashboard', storeId],
     queryFn: () => api.store.getStoreDashboard(storeId),
+  });
+
+  const updateStoreMutation = useMutation({
+    mutationFn: api.store.updateStoreDashboard,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Store updated successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['get-breadcrumb-dashboard'] });
+      queryClient.refetchQueries({ queryKey: ['list-stores-dashboard'] });
+      queryClient.refetchQueries({
+        queryKey: ['get-store-dashboard', storeId],
+      });
+      closeModal();
+    },
   });
 
   const {
@@ -54,18 +74,8 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
     }
   }, [data]);
 
-  const onSubmit = async (store: StoreDashboardFormType) => {
-    try {
-      await api.store.updateStoreDashboard(storeId!, store);
-      closeModal();
-      setToast({ type: 'success', message: 'Store updated successfully' });
-    } catch (error: any | unknown) {
-      setFormError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    }
-  };
+  const onSubmit = async (store: StoreDashboardFormType) =>
+    updateStoreMutation.mutate({ storeId: storeId!, storeUpdate: store });
 
   if (isLoading) return <p>Loading...</p>;
 
