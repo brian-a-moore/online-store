@@ -22,7 +22,7 @@ export const BreadCrumb: React.FC = () => {
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-breadcrumb-dashboard', params],
-    queryFn: () => api.breadcrumb.getStoreDashboard(params),
+    queryFn: () => api.breadcrumb.getBreadcrumDashboard(params),
   });
 
   useEffect(() => {
