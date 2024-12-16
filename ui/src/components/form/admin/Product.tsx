@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -25,10 +25,41 @@ export const ProductAdminForm: React.FC<Props> = ({ productId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-product-admin', productId],
     queryFn: () => api.product.getProductAdmin(productId),
+  });
+
+  const updateProductMutation = useMutation({
+    mutationFn: api.product.updateProductAdmin,
+    onError: (error) => {
+      navigate(`/500?error=${error.message || 'An unknown error occurred'}`);
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Product created successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-products-admin'] });
+      closeModal();
+    },
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: api.product.deleteProductAdmin,
+    onError: (error) => {
+      navigate(`/500?error=${error.message || 'An unknown error occurred'}`);
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Product deleted successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-products-admin'] });
+      closeModal();
+    },
   });
 
   const {
@@ -54,30 +85,11 @@ export const ProductAdminForm: React.FC<Props> = ({ productId }) => {
     }
   }, [data]);
 
-  const onSubmit = async (product: ProductAdminFormType) => {
-    try {
-      await api.product.updateProductAdmin(productId, product);
-      closeModal();
-      setToast({ type: 'success', message: 'Product updated successfully' });
-    } catch (error: any | unknown) {
-      navigate(
-        `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
-      );
-    }
-  };
+  const onSubmit = (product: ProductAdminFormType) =>
+    updateProductMutation.mutate({ productId, productUpdate: product });
 
   const openDeleteProductDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        await api.product.deleteProductAdmin(id);
-        closeModal();
-        setToast({ type: 'success', message: 'Product deleted successfully' });
-      } catch (error: any | unknown) {
-        navigate(
-          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
-        );
-      }
-    };
+    const onClick = () => deleteProductMutation.mutate(id);
     openModal(
       <>
         <H3>Delete Product</H3>

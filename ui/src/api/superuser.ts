@@ -82,10 +82,13 @@ export const resetSuperuserPasswordAdmin = async (superuserId: string) => {
   });
 };
 
-export const updateSuperuserAdmin = async (
-  superuserId: string,
-  superuserUpdate: UpdateSuperuserAdminBody,
-) => {
+export const updateSuperuserAdmin = async ({
+  superuserId,
+  superuserUpdate,
+}: {
+  superuserId: string;
+  superuserUpdate: UpdateSuperuserAdminBody;
+}) => {
   return apiCall<
     UpdateSuperuserAdminBody,
     UpdateSuperuserAdminQuery,

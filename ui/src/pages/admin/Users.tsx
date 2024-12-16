@@ -58,7 +58,7 @@ export const UsersAdmin: React.FC = () => {
     useState<ListUsersAdminQuery>(DEFAULT_FORM_VALUES);
 
   const { error, isLoading, data } = useQuery({
-    queryKey: ['list-superusers-admin', params],
+    queryKey: ['list-users-admin', params],
     queryFn: () => api.user.listUsersAdmin(params),
   });
 

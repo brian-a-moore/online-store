@@ -140,10 +140,13 @@ export const listProductsPublic = async (params: ListProductsPublicQuery) => {
   );
 };
 
-export const updateProductAdmin = async (
-  productId: string,
-  productUpdate: UpdateProductAdminBody,
-) => {
+export const updateProductAdmin = async ({
+  productId,
+  productUpdate,
+}: {
+  productId: string;
+  productUpdate: UpdateProductAdminBody;
+}) => {
   return apiCall<
     UpdateProductAdminBody,
     UpdateProductAdminQuery,

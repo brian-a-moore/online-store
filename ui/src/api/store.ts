@@ -159,10 +159,13 @@ export const listStoresPublic = async (params: ListStoresPublicQuery) => {
   );
 };
 
-export const updateStoreAdmin = async (
-  storeId: string,
-  storeUpdate: UpdateStoreAdminBody,
-) => {
+export const updateStoreAdmin = async ({
+  storeId,
+  storeUpdate,
+}: {
+  storeId: string;
+  storeUpdate: UpdateStoreAdminBody;
+}) => {
   return apiCall<
     UpdateStoreAdminBody,
     UpdateStoreAdminQuery,

@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -27,10 +27,71 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-user-admin', userId],
     queryFn: () => api.user.getUserAdmin(userId),
+    enabled: !!userId,
+  });
+
+  const createUserMutation = useMutation({
+    mutationFn: api.user.createUserAdmin,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: (response) => {
+      setToast({
+        type: 'success',
+        message: 'User created successfully',
+      });
+      openShowDefaultPassword(response.defaultPassword, true);
+      queryClient.refetchQueries({ queryKey: ['list-users-admin'] });
+    },
+  });
+
+  const updateUserMutation = useMutation({
+    mutationFn: api.user.updateUserAdmin,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'User created successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-users-admin'] });
+      closeModal();
+    },
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: api.user.deleteUserAdmin,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'User deleted successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-users-admin'] });
+      closeModal();
+    },
+  });
+
+  const resetUserPasswordMutation = useMutation({
+    mutationFn: api.user.resetUserPasswordAdmin,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: (response) => {
+      setToast({
+        type: 'success',
+        message: 'User deleted successfully',
+      });
+      openShowDefaultPassword(response.newPassword, false);
+    },
   });
 
   const {
@@ -53,27 +114,6 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
       setValue('email', data.user.email);
     }
   }, [data]);
-
-  const onSubmit = async (user: UserAdminFormType) => {
-    try {
-      let response;
-      if (userId) {
-        response = await api.user.updateUserAdmin(userId, user);
-      } else {
-        response = await api.user.createUserAdmin(user);
-      }
-      if (!userId) openShowDefaultPassword(response.defaultPassword, true);
-      else {
-        closeModal();
-        setToast({ type: 'success', message: 'User updated successfully' });
-      }
-    } catch (error: any | unknown) {
-      setFormError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    }
-  };
 
   const openShowDefaultPassword = (password: string, isNew: boolean) => {
     openModal(
@@ -107,18 +147,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
   };
 
   const openDeleteUserDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        await api.user.deleteUserAdmin(id);
-        closeModal();
-        setToast({ type: 'success', message: 'User deleted successfully' });
-      } catch (error: any | unknown) {
-        setFormError(
-          error?.response?.data?.message ||
-            'An unknown error occurred: Please try again later.',
-        );
-      }
-    };
+    const onClick = async () => deleteUserMutation.mutate(id);
     openModal(
       <>
         <H3>Delete User</H3>
@@ -137,18 +166,7 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
   };
 
   const openResetPasswordDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        const response = await api.user.resetUserPasswordAdmin(id);
-        if (response.newPassword)
-          openShowDefaultPassword(response.newPassword, false);
-      } catch (error: any | unknown) {
-        setFormError(
-          error?.response?.data?.message ||
-            'An unknown error occurred: Please try again later.',
-        );
-      }
-    };
+    const onClick = () => resetUserPasswordMutation.mutate(id);
     openModal(
       <>
         <H3>Reset Password</H3>
@@ -161,6 +179,21 @@ export const UserAdminForm: React.FC<Props> = ({ userId }) => {
         </div>
       </>,
     );
+  };
+
+  const onSubmit = async (superUser: UserAdminFormType) => {
+    if (userId) {
+      let userUpdate = Object.entries(superUser).reduce((acc, [key, value]) => {
+        if (key !== 'confirmPassword') (acc as any)[key] = value;
+        return acc;
+      }, {} as Partial<UserAdminFormType>);
+      return updateUserMutation.mutate({
+        userId,
+        userUpdate,
+      });
+    } else {
+      return createUserMutation.mutate(superUser);
+    }
   };
 
   if (isLoading) return <p>Loading...</p>;

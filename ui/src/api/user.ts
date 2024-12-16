@@ -80,10 +80,13 @@ export const resetUserPasswordAdmin = async (userId: string) => {
   });
 };
 
-export const updateUserAdmin = async (
-  userId: string,
-  userUpdate: UpdateUserAdminBody,
-) => {
+export const updateUserAdmin = async ({
+  userId,
+  userUpdate,
+}: {
+  userId: string;
+  userUpdate: UpdateUserAdminBody;
+}) => {
   return apiCall<
     UpdateSuperuserAdminBody,
     UpdateUserAdminQuery,

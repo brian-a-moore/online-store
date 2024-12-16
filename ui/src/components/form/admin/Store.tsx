@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -26,10 +26,57 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-store-admin', storeId],
     queryFn: () => api.store.getStoreAdmin(storeId),
+    enabled: !!storeId,
+  });
+
+  const createStoreMutation = useMutation({
+    mutationFn: api.store.createStoreAdmin,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Store created successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-stores-admin'] });
+      closeModal();
+    },
+  });
+
+  const updateStoreMutation = useMutation({
+    mutationFn: api.store.updateStoreAdmin,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Store created successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-stores-admin'] });
+      closeModal();
+    },
+  });
+
+  const deleteStoreMutation = useMutation({
+    mutationFn: api.store.deleteStoreAdmin,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Store deleted successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-stores-admin'] });
+      closeModal();
+    },
   });
 
   const {
@@ -56,35 +103,18 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId }) => {
   }, [data]);
 
   const onSubmit = async (store: StoreAdminFormType) => {
-    try {
-      if (storeId) {
-        await api.store.updateStoreAdmin(storeId, store);
-      } else {
-        await api.store.createStoreAdmin(store);
-      }
-      closeModal();
-      setToast({ type: 'success', message: 'Store updated successfully' });
-    } catch (error: any | unknown) {
-      setFormError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
+    if (storeId) {
+      return updateStoreMutation.mutate({
+        storeId,
+        storeUpdate: store,
+      });
+    } else {
+      return createStoreMutation.mutate(store);
     }
   };
 
   const openDeleteStoreDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        await api.store.deleteStoreAdmin(id);
-        closeModal();
-        setToast({ type: 'success', message: 'Store deleted successfully' });
-      } catch (error: any | unknown) {
-        setFormError(
-          error?.response?.data?.message ||
-            'An unknown error occurred: Please try again later.',
-        );
-      }
-    };
+    const onClick = () => deleteStoreMutation.mutate(id);
     openModal(
       <>
         <H3>Delete Store</H3>

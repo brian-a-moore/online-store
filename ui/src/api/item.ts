@@ -149,10 +149,13 @@ export const updateItemDashboard = async (
   });
 };
 
-export const updateItemAdmin = async (
-  itemId: string,
-  itemUpdate: UpdateItemAdminBody,
-) => {
+export const updateItemAdmin = async ({
+  itemId,
+  itemUpdate,
+}: {
+  itemId: string;
+  itemUpdate: UpdateItemAdminBody;
+}) => {
   return apiCall<
     UpdateItemAdminBody,
     UpdateItemAdminQuery,

@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { Control, FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -32,12 +32,73 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const isSelf = user?.id === superuserId;
 
   const { error, isLoading, data } = useQuery({
     queryKey: ['get-superuser-admin', superuserId],
     queryFn: () => api.superuser.getSuperuserAdmin(superuserId),
+    enabled: !!superuserId,
+  });
+
+  const createSuperuserMutation = useMutation({
+    mutationFn: api.superuser.createSuperuserAdmin,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: (response) => {
+      setToast({
+        type: 'success',
+        message: 'Superuser created successfully',
+      });
+      openShowDefaultPassword(response.defaultPassword, true);
+      queryClient.refetchQueries({ queryKey: ['list-superusers-admin'] });
+    },
+  });
+
+  const updateSuperuserMutation = useMutation({
+    mutationFn: api.superuser.updateSuperuserAdmin,
+    onError: (error) => {
+      setFormError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Superuser created successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-superusers-admin'] });
+      closeModal();
+    },
+  });
+
+  const deleteSuperuserMutation = useMutation({
+    mutationFn: api.superuser.deleteSuperuserAdmin,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Superuser deleted successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['list-superusers-admin'] });
+      closeModal();
+    },
+  });
+
+  const resetSuperuserPasswordMutation = useMutation({
+    mutationFn: api.superuser.resetSuperuserPasswordAdmin,
+    onError: (error) => {
+      setFormError(error?.message || 'An unknown error occurred');
+    },
+    onSuccess: (response) => {
+      setToast({
+        type: 'success',
+        message: 'Superuser deleted successfully',
+      });
+      openShowDefaultPassword(response.newPassword, false);
+    },
   });
 
   const {
@@ -62,42 +123,6 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
       setValue('email', data.superuser.email);
     }
   }, [data]);
-
-  const onSubmit = async (
-    superUser: SuperuserAdminFormType | SuperuserSelfAdminFormType,
-  ) => {
-    try {
-      let sanitizedSuperUser, response;
-      if (superuserId) {
-        sanitizedSuperUser = Object.entries(superUser).reduce(
-          (acc, [key, value]) => {
-            if (key !== 'confirmPassword') (acc as any)[key] = value;
-            return acc;
-          },
-          {} as Partial<SuperuserAdminFormType | SuperuserSelfAdminFormType>,
-        );
-        response = await api.superuser.updateSuperuserAdmin(
-          superuserId,
-          sanitizedSuperUser,
-        );
-      } else {
-        response = await api.superuser.createSuperuserAdmin(superUser);
-      }
-      if (!superuserId) openShowDefaultPassword(response.defaultPassword, true);
-      else {
-        closeModal();
-        setToast({
-          type: 'success',
-          message: 'Superuser updated successfully',
-        });
-      }
-    } catch (error: any | unknown) {
-      setFormError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    }
-  };
 
   const openShowDefaultPassword = (password: string, isNew: boolean) => {
     openModal(
@@ -131,21 +156,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
   };
 
   const openDeleteSuperuserDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        await api.superuser.deleteSuperuserAdmin(id);
-        closeModal();
-        setToast({
-          type: 'success',
-          message: 'Superuser deleted successfully',
-        });
-      } catch (error: any | unknown) {
-        setFormError(
-          error?.response?.data?.message ||
-            'An unknown error occurred: Please try again later.',
-        );
-      }
-    };
+    const onClick = async () => deleteSuperuserMutation.mutate(id);
     openModal(
       <>
         <H3>Delete Superuser</H3>
@@ -164,18 +175,7 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
   };
 
   const openResetPasswordDialog = (id: string) => {
-    const onClick = async () => {
-      try {
-        const response = await api.superuser.resetSuperuserPasswordAdmin(id);
-        if (response.newPassword)
-          openShowDefaultPassword(response.newPassword, false);
-      } catch (error: any | unknown) {
-        setFormError(
-          error?.response?.data?.message ||
-            'An unknown error occurred: Please try again later.',
-        );
-      }
-    };
+    const onClick = () => resetSuperuserPasswordMutation.mutate(id);
     openModal(
       <>
         <H3>Reset Password</H3>
@@ -188,6 +188,26 @@ export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
         </div>
       </>,
     );
+  };
+
+  const onSubmit = async (
+    superUser: SuperuserAdminFormType | SuperuserSelfAdminFormType,
+  ) => {
+    if (superuserId) {
+      let superuserUpdate = Object.entries(superUser).reduce(
+        (acc, [key, value]) => {
+          if (key !== 'confirmPassword') (acc as any)[key] = value;
+          return acc;
+        },
+        {} as Partial<SuperuserAdminFormType | SuperuserSelfAdminFormType>,
+      );
+      return updateSuperuserMutation.mutate({
+        superuserId,
+        superuserUpdate,
+      });
+    } else {
+      return createSuperuserMutation.mutate(superUser);
+    }
   };
 
   if (isLoading) return <p>Loading...</p>;
