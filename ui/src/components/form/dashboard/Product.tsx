@@ -1,22 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetProductDashboardBody,
-  GetProductDashboardQuery,
-  GetProductDashboardResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
   productDashboardFormSchema,
   ProductDashboardFormType,
 } from '../../../config/forms/product-dashboard-form';
-import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { Separator } from '../../display';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
@@ -31,22 +25,15 @@ export const ProductDashboardForm: React.FC<Props> = ({
   storeId,
   productId,
 }) => {
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<
-    GetProductDashboardBody,
-    GetProductDashboardQuery,
-    GetProductDashboardResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/dashboard/product/${productId}`,
-    },
-    { isAutoTriggered: !!productId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-product-dashboard', productId],
+    queryFn: () => api.product.getProductDashboard(productId),
+  });
 
   const {
     control,
@@ -63,13 +50,13 @@ export const ProductDashboardForm: React.FC<Props> = ({
   }, [error]);
 
   useEffect(() => {
-    if (response?.product) {
-      setValue('name', response.product.name);
-      if (response.product?.description)
-        setValue('description', response.product.description);
-      setValue('isPublished', response.product.isPublished);
+    if (data?.product) {
+      setValue('name', data.product.name);
+      if (data.product?.description)
+        setValue('description', data.product.description);
+      setValue('isPublished', data.product.isPublished);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (product: ProductDashboardFormType) => {
     try {

@@ -1,34 +1,21 @@
+import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  ListStoresPublicBody,
-  ListStoresPublicQuery,
-  ListStoresPublicResponse,
-} from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { Card } from '../../components/container';
 import { IconImage } from '../../components/display';
 import { Link } from '../../components/interactive';
 import { EmptyText, H2, H3 } from '../../components/typography';
-import { HTTP_METHOD } from '../../constants';
-import useApi from '../../hooks/useApi';
 
 type Props = {};
 
 export const Home: React.FC<Props> = () => {
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    ListStoresPublicBody,
-    ListStoresPublicQuery,
-    ListStoresPublicResponse
-  >(
-    {
-      url: `/public/store/list`,
-      method: HTTP_METHOD.GET,
-      params: { page: '1' },
-    },
-    { isPrivateEndpoint: false },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-stores-public'],
+    queryFn: async () => api.store.listStoresPublic({ page: '1' }),
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -36,7 +23,7 @@ export const Home: React.FC<Props> = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const stores = response?.stores;
+  const stores = data?.stores;
 
   if (!stores || stores.length === 0) {
     return (

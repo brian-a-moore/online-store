@@ -1,13 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetImageMediaBody,
-  GetImageMediaQuery,
-  GetImageMediaResponse,
-} from '../../../../api/src/types/api';
-import { HTTP_METHOD } from '../../constants';
+import { GetImageMediaQuery } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { ModalContext } from '../../context/ModalContext';
-import useApi from '../../hooks/useApi';
 import { UploadImageDashboardForm } from '../form';
 import { UpdateImageButton } from '../interactive';
 
@@ -43,25 +39,23 @@ export const IconImage: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
+  const [params, setParams] = useState<GetImageMediaQuery>({});
+
+  useEffect(() => {
+    if (image) setParams({ filePath: image });
+  }, [image]);
 
   const imageSize = sizeMap.get(size)!;
 
-  const { error, isLoading, response } = useApi<
-    GetImageMediaBody,
-    GetImageMediaQuery,
-    GetImageMediaResponse
-  >({
-    method: HTTP_METHOD.GET,
-    url: '/media',
-    params: {
-      ...(image && { filePath: image }),
-    },
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-image-media', params],
+    queryFn: () => api.media.getImageMedia(params),
   });
 
   const openUploadForm = () =>
     openModal(
       <UploadImageDashboardForm
-        existingImage={response}
+        existingImage={data}
         existingFilePath={image}
         upload={upload}
         forceReload={() => {}}
@@ -72,7 +66,7 @@ export const IconImage: React.FC<Props> = ({
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  if (isLoading || !response) return <p>Loading...</p>;
+  if (isLoading || !data) return <p>Loading...</p>;
 
   return (
     <div
@@ -82,7 +76,7 @@ export const IconImage: React.FC<Props> = ({
     >
       <img
         className="w-full h-full object-contain"
-        src={URL.createObjectURL(response)}
+        src={URL.createObjectURL(data)}
         alt={name}
       />
       {upload && isHovered ? (

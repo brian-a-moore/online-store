@@ -1,20 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  ListItemsDashboardBody,
   ListItemsDashboardQuery,
   ListItemsDashboardResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import {
   DEFAULT_FORM_VALUES,
   itemDashboardParamsFormSchema,
 } from '../../config/forms/item-dashboard-params-form';
 import { statusOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 import { AgGrid } from '../container';
 import { IconImage, IsPublished } from '../display';
@@ -23,7 +22,6 @@ import { EmptyText } from '../typography';
 
 type Props = {
   productId: string;
-  reload?: string;
 };
 
 type Row = ListItemsDashboardResponse['items'][0];
@@ -72,25 +70,17 @@ const columns: ColDef[] = [
   },
 ];
 
-export const ItemList: React.FC<Props> = ({ productId, reload }) => {
+export const ItemList: React.FC<Props> = ({ productId }) => {
   const navigate = useNavigate();
   const [params, setParams] = useState<ListItemsDashboardQuery>({
     ...DEFAULT_FORM_VALUES,
     productId,
   });
 
-  const { error, isLoading, response } = useApi<
-    ListItemsDashboardBody,
-    ListItemsDashboardQuery,
-    ListItemsDashboardResponse
-  >(
-    {
-      url: `/dashboard/item/list`,
-      method: HTTP_METHOD.GET,
-      params,
-    },
-    { reTrigger: reload },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-items-dashboard', params],
+    queryFn: () => api.item.listItemsDashboard(params),
+  });
 
   const {
     control,
@@ -117,7 +107,7 @@ export const ItemList: React.FC<Props> = ({ productId, reload }) => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const items = response?.items;
+  const items = data?.items;
 
   return (
     <>

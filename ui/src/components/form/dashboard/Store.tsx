@@ -1,22 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetStoreDashboardBody,
-  GetStoreDashboardQuery,
-  GetStoreDashboardResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
   storeDashboardFormSchema,
   StoreDashboardFormType,
 } from '../../../config/forms/store-dashboard-form';
-import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { Separator } from '../../display';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
@@ -32,17 +26,10 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<
-    GetStoreDashboardBody,
-    GetStoreDashboardQuery,
-    GetStoreDashboardResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/dashboard/store/${storeId}`,
-    },
-    { isAutoTriggered: !!storeId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-store-dashboard', storeId],
+    queryFn: () => api.store.getStoreDashboard(storeId),
+  });
 
   const {
     control,
@@ -59,13 +46,13 @@ export const StoreDashboardForm: React.FC<Props> = ({ storeId }) => {
   }, [error]);
 
   useEffect(() => {
-    if (response?.store) {
-      setValue('name', response.store.name);
-      if (response.store?.description)
-        setValue('description', response.store.description);
-      setValue('isPublished', response.store.isPublished);
+    if (data?.store) {
+      setValue('name', data.store.name);
+      if (data.store?.description)
+        setValue('description', data.store.description);
+      setValue('isPublished', data.store.isPublished);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (store: StoreDashboardFormType) => {
     try {

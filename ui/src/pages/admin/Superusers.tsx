@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  ListSuperusersAdminBody,
   ListSuperusersAdminQuery,
   ListSuperusersAdminResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { AgGrid, Card, Container } from '../../components/container';
 import { SuperuserAdminForm } from '../../components/form';
 import { SelectInput, TextInput } from '../../components/input';
@@ -17,9 +18,7 @@ import {
   superuserAdminParamsFormSchema,
 } from '../../config/forms/superuser-admin-params-form';
 import { userSearchOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 
 type Row = ListSuperusersAdminResponse['superusers'][0];
@@ -55,22 +54,13 @@ const columns: ColDef[] = [
 export const SuperusersAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const [reload, setReload] = useState<string | undefined>();
   const [params, setParams] =
     useState<ListSuperusersAdminQuery>(DEFAULT_FORM_VALUES);
 
-  const { error, isLoading, response } = useApi<
-    ListSuperusersAdminBody,
-    ListSuperusersAdminQuery,
-    ListSuperusersAdminResponse
-  >(
-    {
-      url: `/admin/superuser/list`,
-      method: HTTP_METHOD.GET,
-      params,
-    },
-    { reTrigger: reload },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-superusers-admin', params],
+    queryFn: () => api.superuser.listSuperusersAdmin(params),
+  });
 
   const {
     control,
@@ -92,17 +82,14 @@ export const SuperusersAdmin: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const forceReload = () => setReload(new Date().toISOString());
   const openEditUserForm = (id: string) =>
-    openModal(
-      <SuperuserAdminForm superuserId={id} forceReload={forceReload} />,
-    );
+    openModal(<SuperuserAdminForm superuserId={id} />);
   const onRowClicked = (e: RowClickedEvent<Row>) =>
     openEditUserForm(e.data!.id);
 
   if (isLoading) return <p>Loading...</p>;
 
-  const superusers = response?.superusers;
+  const superusers = data?.superusers;
 
   return (
     <Container>

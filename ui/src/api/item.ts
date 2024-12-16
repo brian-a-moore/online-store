@@ -2,9 +2,30 @@ import {
   CreateItemDashboardBody,
   CreateItemDashboardQuery,
   CreateItemDashboardResponse,
+  DeleteItemAdminBody,
+  DeleteItemAdminQuery,
+  DeleteItemAdminResponse,
   DeleteItemDashboardBody,
   DeleteItemDashboardQuery,
   DeleteItemDashboardResponse,
+  GetItemAdminBody,
+  GetItemAdminQuery,
+  GetItemAdminResponse,
+  GetItemDashboardBody,
+  GetItemDashboardQuery,
+  GetItemDashboardResponse,
+  ListItemsAdminBody,
+  ListItemsAdminQuery,
+  ListItemsAdminResponse,
+  ListItemsDashboardBody,
+  ListItemsDashboardQuery,
+  ListItemsDashboardResponse,
+  ListItemsPublicBody,
+  ListItemsPublicQuery,
+  ListItemsPublicResponse,
+  UpdateItemAdminBody,
+  UpdateItemAdminQuery,
+  UpdateItemAdminResponse,
   UpdateItemDashboardBody,
   UpdateItemDashboardQuery,
   UpdateItemDashboardResponse,
@@ -12,9 +33,9 @@ import {
 import { apiCall } from '../config/axios';
 import { HTTP_METHOD } from '../constants';
 
-export const createItem = async (
+export const createItemDashboard = async (
   productId: string,
-  newItem: CreateItemDashboardBody,
+  item: CreateItemDashboardBody,
 ) => {
   return apiCall<
     CreateItemDashboardBody,
@@ -23,12 +44,23 @@ export const createItem = async (
   >({
     url: `/dashboard/item`,
     method: HTTP_METHOD.POST,
-    data: newItem,
+    data: item,
     params: { productId },
   });
 };
 
-export const deleteItem = async (itemId: string) => {
+export const deleteItemAdmin = async (itemId: string) => {
+  return apiCall<
+    DeleteItemAdminBody,
+    DeleteItemAdminQuery,
+    DeleteItemAdminResponse
+  >({
+    url: `/admin/item/${itemId}`,
+    method: HTTP_METHOD.DELETE,
+  });
+};
+
+export const deleteItemDashboard = async (itemId: string) => {
   return apiCall<
     DeleteItemDashboardBody,
     DeleteItemDashboardQuery,
@@ -39,7 +71,70 @@ export const deleteItem = async (itemId: string) => {
   });
 };
 
-export const updateItem = async (
+export const getItemAdmin = async (itemId?: string) => {
+  if (itemId) {
+    return apiCall<GetItemAdminBody, GetItemAdminQuery, GetItemAdminResponse>({
+      method: HTTP_METHOD.GET,
+      url: `/admin/item/${itemId}`,
+    });
+  }
+};
+
+export const getItemDashboard = async (itemId?: string) => {
+  if (itemId) {
+    return apiCall<
+      GetItemDashboardBody,
+      GetItemDashboardQuery,
+      GetItemDashboardResponse
+    >({
+      url: `/dashboard/item/${itemId}`,
+      method: HTTP_METHOD.GET,
+    });
+  }
+};
+
+export const listItemsAdmin = async (params: ListItemsAdminQuery) => {
+  return apiCall<
+    ListItemsAdminBody,
+    ListItemsAdminQuery,
+    ListItemsAdminResponse
+  >({
+    url: `/admin/item/list`,
+    method: HTTP_METHOD.GET,
+    params,
+  });
+};
+
+export const listItemsDashboard = async (params: ListItemsDashboardQuery) => {
+  return apiCall<
+    ListItemsDashboardBody,
+    ListItemsDashboardQuery,
+    ListItemsDashboardResponse
+  >({
+    url: `/dashboard/item/list`,
+    method: HTTP_METHOD.GET,
+    params,
+  });
+};
+
+export const listItemsPublic = async (params: ListItemsPublicQuery) => {
+  const controller = new AbortController();
+  return apiCall<
+    ListItemsPublicBody,
+    ListItemsPublicQuery,
+    ListItemsPublicResponse
+  >(
+    {
+      url: `/public/item/list`,
+      method: HTTP_METHOD.GET,
+      params,
+    },
+    controller,
+    false,
+  );
+};
+
+export const updateItemDashboard = async (
   itemId: string,
   itemUpdate: UpdateItemDashboardBody,
 ) => {
@@ -49,6 +144,21 @@ export const updateItem = async (
     UpdateItemDashboardResponse
   >({
     url: `/dashboard/item/${itemId}`,
+    method: HTTP_METHOD.PUT,
+    data: itemUpdate,
+  });
+};
+
+export const updateItemAdmin = async (
+  itemId: string,
+  itemUpdate: UpdateItemAdminBody,
+) => {
+  return apiCall<
+    UpdateItemAdminBody,
+    UpdateItemAdminQuery,
+    UpdateItemAdminResponse
+  >({
+    url: `/admin/item/${itemId}`,
     method: HTTP_METHOD.PUT,
     data: itemUpdate,
   });

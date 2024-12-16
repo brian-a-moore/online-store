@@ -1,19 +1,14 @@
 import { mdiCart, mdiClose, mdiHome } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import {
-  GetStorePublicBody,
-  GetStorePublicQuery,
-  GetStorePublicResponse,
-} from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { Cart } from '../../components/core';
 import { IconImage } from '../../components/display';
 import { Button, ButtonLink } from '../../components/interactive';
 import { H4 } from '../../components/typography';
-import { HTTP_METHOD } from '../../constants';
 import { CartContext, CartProvider } from '../../context/CartContext';
-import useApi from '../../hooks/useApi';
 import { totalItems } from '../../utils';
 
 export const Store: React.FC = () => {
@@ -23,17 +18,10 @@ export const Store: React.FC = () => {
 
   const toggleCart = () => setShowCart((prevState) => !prevState);
 
-  const { error, isLoading, response } = useApi<
-    GetStorePublicBody,
-    GetStorePublicQuery,
-    GetStorePublicResponse
-  >(
-    {
-      url: `/public/store/${storeId}`,
-      method: HTTP_METHOD.GET,
-    },
-    { isPrivateEndpoint: false },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-store-public', storeId],
+    queryFn: async () => api.store.getStorePublic(storeId!),
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
@@ -41,7 +29,7 @@ export const Store: React.FC = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const store = response?.store;
+  const store = data?.store;
 
   return (
     <CartProvider>

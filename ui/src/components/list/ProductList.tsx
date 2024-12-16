@@ -1,20 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  ListProductsDashboardBody,
   ListProductsDashboardQuery,
   ListProductsDashboardResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import {
   DEFAULT_FORM_VALUES,
   productDashboardParamsFormSchema,
 } from '../../config/forms/product-dashboard-params-form';
 import { statusOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 import { AgGrid } from '../container';
 import { IconImage, IsPublished } from '../display';
@@ -23,7 +22,6 @@ import { EmptyText } from '../typography';
 
 type Props = {
   storeId: string;
-  reload?: string;
 };
 
 type Row = ListProductsDashboardResponse['products'][0];
@@ -72,25 +70,17 @@ const columns: ColDef[] = [
   },
 ];
 
-export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
+export const ProductList: React.FC<Props> = ({ storeId }) => {
   const navigate = useNavigate();
   const [params, setParams] = useState<ListProductsDashboardQuery>({
     storeId,
     ...DEFAULT_FORM_VALUES,
   });
 
-  const { error, isLoading, response } = useApi<
-    ListProductsDashboardBody,
-    ListProductsDashboardQuery,
-    ListProductsDashboardResponse
-  >(
-    {
-      url: `/dashboard/product/list`,
-      method: HTTP_METHOD.GET,
-      params,
-    },
-    { reTrigger: reload },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-products-dashboard', params],
+    queryFn: () => api.product.listProductsDashboard(params),
+  });
 
   const {
     control,
@@ -117,7 +107,7 @@ export const ProductList: React.FC<Props> = ({ storeId, reload }) => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const products = response?.products;
+  const products = data?.products;
 
   return (
     <>

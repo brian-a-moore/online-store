@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  ListItemsAdminBody,
   ListItemsAdminQuery,
   ListItemsAdminResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { AgGrid, Card, Container } from '../../components/container';
 import { ItemAdminForm } from '../../components/form';
 import { SelectInput, TextInput } from '../../components/input';
@@ -17,9 +18,7 @@ import {
   itemAdminParamsFormSchema,
 } from '../../config/forms/item-admin-params-form';
 import { statusOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 
 type Row = ListItemsAdminResponse['items'][0];
@@ -59,22 +58,13 @@ const columns: ColDef[] = [
 export const ItemsAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const [reload, setReload] = useState<string | undefined>();
   const [params, setParams] =
     useState<ListItemsAdminQuery>(DEFAULT_FORM_VALUES);
 
-  const { error, isLoading, response } = useApi<
-    ListItemsAdminBody,
-    ListItemsAdminQuery,
-    ListItemsAdminResponse
-  >(
-    {
-      url: `/admin/item/list`,
-      method: HTTP_METHOD.GET,
-      params,
-    },
-    { reTrigger: reload },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-items-admin', params],
+    queryFn: () => api.item.listItemsAdmin(params),
+  });
 
   const {
     control,
@@ -96,15 +86,14 @@ export const ItemsAdmin: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const forceReload = () => setReload(new Date().toISOString());
   const openEditItemForm = (id: string) =>
-    openModal(<ItemAdminForm itemId={id} forceReload={forceReload} />);
+    openModal(<ItemAdminForm itemId={id} />);
   const onRowClicked = (e: RowClickedEvent<Row>) =>
     openEditItemForm(e.data!.id);
 
   if (isLoading) return <p>Loading...</p>;
 
-  const items = response?.items;
+  const items = data?.items;
 
   return (
     <Container>

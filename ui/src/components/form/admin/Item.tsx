@@ -1,49 +1,35 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetItemAdminBody,
-  GetItemAdminQuery,
-  GetItemAdminResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
   itemAdminFormSchema,
   ItemAdminFormType,
 } from '../../../config/forms/item-admin-form';
-import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { H3 } from '../../typography';
 
 type Props = {
   itemId: string;
-  forceReload: () => void;
 };
 
-export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
+export const ItemAdminForm: React.FC<Props> = ({ itemId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    GetItemAdminBody,
-    GetItemAdminQuery,
-    GetItemAdminResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/admin/item/${itemId}`,
-    },
-    { isAutoTriggered: !!itemId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-item-admin', itemId],
+    queryFn: () => api.item.getItemAdmin(itemId),
+  });
 
   const {
     control,
@@ -60,19 +46,18 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
   }, [error]);
 
   useEffect(() => {
-    if (response?.item) {
-      setValue('name', response.item.name);
-      if (response.item?.description)
-        setValue('description', response.item.description);
-      setValue('isPublished', response.item.isPublished);
+    if (data?.item) {
+      setValue('name', data.item.name);
+      if (data.item?.description)
+        setValue('description', data.item.description);
+      setValue('isPublished', data.item.isPublished);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (item: ItemAdminFormType) => {
     try {
       await api.admin.updateItem(itemId, item);
       closeModal();
-      forceReload();
       setToast({ type: 'success', message: 'Item updated successfully' });
     } catch (error: any | unknown) {
       navigate(
@@ -86,7 +71,6 @@ export const ItemAdminForm: React.FC<Props> = ({ itemId, forceReload }) => {
       try {
         await api.admin.deleteItem(id);
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {
         navigate(

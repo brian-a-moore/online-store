@@ -1,12 +1,9 @@
 import { mdiPencil, mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  GetStoreDashboardBody,
-  GetStoreDashboardQuery,
-  GetStoreDashboardResponse,
-} from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { Card, Container } from '../../components/container';
 import { IconImage, IsPublished, Separator } from '../../components/display';
 import {
@@ -17,9 +14,7 @@ import {
 import { Button, TextButton } from '../../components/interactive';
 import { ProductList, TeamList } from '../../components/list';
 import { EmptyText, H2 } from '../../components/typography';
-import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import useApi from '../../hooks/useApi';
 
 export const StoreDashboard: React.FC = () => {
   const { openModal } = useContext(ModalContext);
@@ -27,13 +22,9 @@ export const StoreDashboard: React.FC = () => {
   const { storeId } = useParams();
   const [tab, setTab] = useState<'product' | 'team'>('product');
 
-  const { error, isLoading, response } = useApi<
-    GetStoreDashboardBody,
-    GetStoreDashboardQuery,
-    GetStoreDashboardResponse
-  >({
-    url: `/dashboard/store/${storeId}`,
-    method: HTTP_METHOD.GET,
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-store', storeId],
+    queryFn: () => api.store.getStoreDashboard(storeId!),
   });
 
   useEffect(() => {
@@ -49,7 +40,7 @@ export const StoreDashboard: React.FC = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const store = response?.store;
+  const store = data?.store;
 
   return (
     <Container>

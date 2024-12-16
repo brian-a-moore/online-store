@@ -1,50 +1,36 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetStoreAdminBody,
-  GetStoreAdminQuery,
-  GetStoreAdminResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
   storeAdminFormSchema,
   StoreAdminFormType,
 } from '../../../config/forms/store-admin-form';
-import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   storeId?: string;
-  forceReload: () => void;
 };
 
-export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
+export const StoreAdminForm: React.FC<Props> = ({ storeId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<
-    GetStoreAdminBody,
-    GetStoreAdminQuery,
-    GetStoreAdminResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/admin/store/${storeId}`,
-    },
-    { isAutoTriggered: !!storeId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-store-admin', storeId],
+    queryFn: () => api.store.getStoreAdmin(storeId),
+  });
 
   const {
     control,
@@ -61,13 +47,13 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
   }, [error]);
 
   useEffect(() => {
-    if (response?.store) {
-      setValue('name', response.store.name);
-      if (response.store?.description)
-        setValue('description', response.store.description);
-      setValue('isPublished', response.store.isPublished);
+    if (data?.store) {
+      setValue('name', data.store.name);
+      if (data.store?.description)
+        setValue('description', data.store.description);
+      setValue('isPublished', data.store.isPublished);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (store: StoreAdminFormType) => {
     try {
@@ -77,7 +63,6 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
         await api.admin.createStore(store);
       }
       closeModal();
-      forceReload();
       setToast({ type: 'success', message: 'Store updated successfully' });
     } catch (error: any | unknown) {
       setFormError(
@@ -92,7 +77,6 @@ export const StoreAdminForm: React.FC<Props> = ({ storeId, forceReload }) => {
       try {
         await api.admin.deleteStore(id);
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'Store deleted successfully' });
       } catch (error: any | unknown) {
         setFormError(

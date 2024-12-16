@@ -1,22 +1,16 @@
 import { mdiDelete, mdiPencil } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  GetItemDashboardBody,
-  GetItemDashboardQuery,
-  GetItemDashboardResponse,
-} from '../../../../api/src/types/api';
 import { api } from '../../api';
 import { Card, Container } from '../../components/container';
 import { IconImage, IsPublished, Separator } from '../../components/display';
 import { ItemDashboardForm } from '../../components/form';
 import { Button } from '../../components/interactive';
 import { EmptyText, H2, H3 } from '../../components/typography';
-import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
 import { ToastContext } from '../../context/ToastContext';
-import useApi from '../../hooks/useApi';
 
 export const ItemDashboard: React.FC = () => {
   const { openModal, closeModal } = useContext(ModalContext);
@@ -24,13 +18,9 @@ export const ItemDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { storeId, productId, itemId } = useParams();
 
-  const { error, isLoading, response } = useApi<
-    GetItemDashboardBody,
-    GetItemDashboardQuery,
-    GetItemDashboardResponse
-  >({
-    url: `/dashboard/item/${itemId}`,
-    method: HTTP_METHOD.GET,
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-item', itemId],
+    queryFn: () => api.item.getItemDashboard(itemId!),
   });
 
   useEffect(() => {
@@ -69,7 +59,7 @@ export const ItemDashboard: React.FC = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const item = response?.item;
+  const item = data?.item;
 
   return (
     <Container>

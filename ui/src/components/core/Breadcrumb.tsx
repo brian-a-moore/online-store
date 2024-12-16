@@ -6,15 +6,11 @@ import {
   mdiTag,
 } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  GetBreadcrumbDashboardBody,
-  GetBreadcrumbDashboardQuery,
-  GetBreadcrumbDashboardResponse,
-} from '../../../../api/src/types/api';
-import { HTTP_METHOD } from '../../constants';
-import useApi from '../../hooks/useApi';
+import { GetBreadcrumbDashboardQuery } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { Link } from '../interactive';
 
 const LABELS = ['Go Home', 'Go to store: ', 'Go to product: ', 'Go to item: '];
@@ -24,21 +20,16 @@ export const BreadCrumb: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams() as unknown as GetBreadcrumbDashboardQuery;
 
-  const { error, isLoading, response } = useApi<
-    GetBreadcrumbDashboardBody,
-    GetBreadcrumbDashboardQuery,
-    GetBreadcrumbDashboardResponse
-  >({
-    url: '/dashboard/breadcrumb',
-    method: HTTP_METHOD.GET,
-    params,
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-breadcrumb-dashboard', params],
+    queryFn: () => api.breadcrumb.getStoreDashboard(params),
   });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const crumbs = [{ id: '/', name: 'Home' }, ...(response?.crumbs || [])];
+  const crumbs = [{ id: '/', name: 'Home' }, ...(data?.crumbs || [])];
 
   const getCrumbLink = (index: number) => {
     if (index === 0) return '/dashboard';

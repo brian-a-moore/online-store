@@ -1,52 +1,35 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetProductAdminBody,
-  GetProductAdminQuery,
-  GetProductAdminResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
   productAdminFormSchema,
   ProductAdminFormType,
 } from '../../../config/forms/product-admin-form';
-import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { SwitchInput, TextAreaInput, TextInput } from '../../input';
 import { Button } from '../../interactive';
 import { H3 } from '../../typography';
 
 type Props = {
   productId: string;
-  forceReload: () => void;
 };
 
-export const ProductAdminForm: React.FC<Props> = ({
-  productId,
-  forceReload,
-}) => {
+export const ProductAdminForm: React.FC<Props> = ({ productId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
 
-  const { error, isLoading, response } = useApi<
-    GetProductAdminBody,
-    GetProductAdminQuery,
-    GetProductAdminResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/admin/product/${productId}`,
-    },
-    { isAutoTriggered: !!productId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-product-admin', productId],
+    queryFn: () => api.product.getProductAdmin(productId),
+  });
 
   const {
     control,
@@ -63,19 +46,18 @@ export const ProductAdminForm: React.FC<Props> = ({
   }, [error]);
 
   useEffect(() => {
-    if (response?.product) {
-      setValue('name', response.product.name);
-      if (response.product?.description)
-        setValue('description', response.product.description);
-      setValue('isPublished', response.product.isPublished);
+    if (data?.product) {
+      setValue('name', data.product.name);
+      if (data.product?.description)
+        setValue('description', data.product.description);
+      setValue('isPublished', data.product.isPublished);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (product: ProductAdminFormType) => {
     try {
       await api.admin.updateProduct(productId, product);
       closeModal();
-      forceReload();
       setToast({ type: 'success', message: 'Product updated successfully' });
     } catch (error: any | unknown) {
       navigate(
@@ -89,7 +71,6 @@ export const ProductAdminForm: React.FC<Props> = ({
       try {
         await api.admin.deleteProduct(id);
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'Product deleted successfully' });
       } catch (error: any | unknown) {
         navigate(

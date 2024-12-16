@@ -1,17 +1,11 @@
 import { mdiDelete } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetItemDashboardBody,
-  GetItemDashboardQuery,
-  GetItemDashboardResponse,
-} from '../../../../../../api/src/types/api';
 import { api } from '../../../../api';
-import { HTTP_METHOD } from '../../../../constants';
 import { ModalContext } from '../../../../context/ModalContext';
 import { ToastContext } from '../../../../context/ToastContext';
-import useApi from '../../../../hooks/useApi';
 import { Separator } from '../../../display';
 import { Button, TextButton } from '../../../interactive';
 import { H3 } from '../../../typography';
@@ -29,32 +23,25 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
   const navigate = useNavigate();
   const [itemTypeId, setItemTypeId] = useState<number | null>(1);
 
-  const { error, isLoading, response } = useApi<
-    GetItemDashboardBody,
-    GetItemDashboardQuery,
-    GetItemDashboardResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/dashboard/item/${itemId}`,
-    },
-    { isAutoTriggered: !!itemId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-item-dashboard', itemId],
+    queryFn: () => api.item.getItemDashboard(itemId),
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
   useEffect(() => {
-    if (response?.item) {
-      setItemTypeId(response.item.itemTypeId);
+    if (data?.item) {
+      setItemTypeId(data.item.itemTypeId);
     }
-  }, [response?.item]);
+  }, [data?.item]);
 
   const openDeleteItemDialog = (id: string) => {
     const onClick = async () => {
       try {
-        await api.dashboard.deleteItem(id);
+        await api.item.deleteItemDashboard(id);
         navigate(-1);
         setToast({ type: 'success', message: 'Item deleted successfully' });
       } catch (error: any | unknown) {
@@ -114,9 +101,9 @@ export const ItemDashboardForm: React.FC<Props> = ({ itemId, productId }) => {
         </TextButton>
       </div>
       {itemTypeId === 1 ? (
-        <FixedItemForm item={response?.item} productId={productId} />
+        <FixedItemForm item={data?.item} productId={productId} />
       ) : (
-        <VariableItemForm item={response?.item} productId={productId} />
+        <VariableItemForm item={data?.item} productId={productId} />
       )}
     </div>
   );

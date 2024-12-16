@@ -1,21 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  ListStoresDashboardBody,
   ListStoresDashboardQuery,
   ListStoresDashboardResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { IconImage, IsPublished } from '../../components/display';
 import {
   DEFAULT_FORM_VALUES,
   storeDashboardParamsFormSchema,
 } from '../../config/forms/store-dashboard-params-form';
 import { statusOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 import { AgGrid } from '../container';
 import { SelectInput, TextInput } from '../input';
@@ -71,14 +70,9 @@ export const StoreList: React.FC = () => {
   const [params, setParams] =
     useState<ListStoresDashboardQuery>(DEFAULT_FORM_VALUES);
 
-  const { error, isLoading, response } = useApi<
-    ListStoresDashboardBody,
-    ListStoresDashboardQuery,
-    ListStoresDashboardResponse
-  >({
-    url: `/dashboard/store/list`,
-    method: HTTP_METHOD.GET,
-    params,
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-stores-dashboard', params],
+    queryFn: () => api.store.listStoresDashboard(params),
   });
 
   const {
@@ -106,7 +100,7 @@ export const StoreList: React.FC = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const stores = response?.stores;
+  const stores = data?.stores;
 
   return (
     <>

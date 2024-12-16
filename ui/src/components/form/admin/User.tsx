@@ -1,24 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetUserAdminBody,
-  GetUserAdminQuery,
-  GetUserAdminResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
   userAdminFormSchema,
   UserAdminFormType,
 } from '../../../config/forms/user-admin-form';
-import { HTTP_METHOD } from '../../../constants';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { Alert } from '../../container';
 import { TextInput } from '../../input';
 import { Button } from '../../interactive';
@@ -26,26 +20,18 @@ import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   userId?: string;
-  forceReload: () => void;
 };
 
-export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
+export const UserAdminForm: React.FC<Props> = ({ userId }) => {
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { error, isLoading, response } = useApi<
-    GetUserAdminBody,
-    GetUserAdminQuery,
-    GetUserAdminResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/admin/user/${userId}`,
-    },
-    { isAutoTriggered: !!userId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-user-admin', userId],
+    queryFn: () => api.user.getUserAdmin(userId),
+  });
 
   const {
     control,
@@ -62,11 +48,11 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
   }, [error]);
 
   useEffect(() => {
-    if (response?.user) {
-      setValue('name', response.user.name);
-      setValue('email', response.user.email);
+    if (data?.user) {
+      setValue('name', data.user.name);
+      setValue('email', data.user.email);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (user: UserAdminFormType) => {
     try {
@@ -79,7 +65,6 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
       if (!userId) openShowDefaultPassword(response.defaultPassword, true);
       else {
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'User updated successfully' });
       }
     } catch (error: any | unknown) {
@@ -111,7 +96,6 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
         <div className="flex justify-center">
           <Button
             onClick={() => {
-              forceReload();
               closeModal();
             }}
           >
@@ -127,7 +111,6 @@ export const UserAdminForm: React.FC<Props> = ({ userId, forceReload }) => {
       try {
         await api.admin.deleteUser(id);
         closeModal();
-        forceReload();
         setToast({ type: 'success', message: 'User deleted successfully' });
       } catch (error: any | unknown) {
         setFormError(

@@ -1,13 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import {
-  SearchUsersDashboardBody,
-  SearchUsersDashboardQuery,
-  SearchUsersDashboardResponse,
-} from '../../../../api/src/types/api';
-import { HTTP_METHOD } from '../../constants';
-import useApi from '../../hooks/useApi';
+import { SearchUsersDashboardResponse } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import useDebounce from '../../hooks/useDebounce';
 import { Card } from '../container';
 import { EmptyText } from '../typography';
@@ -31,28 +27,20 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ selectTeamMember }) => {
   const navigate = useNavigate();
   const debouncedSearch = useDebounce(search, 300);
 
-  const { error, response } = useApi<
-    SearchUsersDashboardBody,
-    SearchUsersDashboardQuery,
-    SearchUsersDashboardResponse
-  >(
-    {
-      url: `/dashboard/user/search`,
-      method: HTTP_METHOD.GET,
-      params: { search: debouncedSearch, field, page: '1' },
-    },
-    { isAutoTriggered: debouncedSearch.length > 2 },
-  );
+  const { error, data } = useQuery({
+    queryKey: ['search-users-dashboard', debouncedSearch],
+    queryFn: () => api.user.userSearchDashboard(field, debouncedSearch),
+  });
 
   useEffect(() => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
   useEffect(() => {
-    if (response?.users) {
-      setUsersDashboard(response.users);
+    if (data?.users) {
+      setUsersDashboard(data.users);
     }
-  }, [response?.users]);
+  }, [data?.users]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

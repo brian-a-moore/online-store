@@ -1,23 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiShieldAccount, mdiStoreEdit } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  GetStoreTeamDashboardBody,
   GetStoreTeamDashboardQuery,
   GetStoreTeamDashboardResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import {
   DEFAULT_FORM_VALUES,
   teamMemberDashboardParamsFormSchema,
 } from '../../config/forms/team-member-dashboard-params-form';
 import { userRoleOptions, userSearchOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 import { AgGrid } from '../container';
 import { TeamMemberForm } from '../form';
@@ -26,7 +25,6 @@ import { EmptyText } from '../typography';
 
 type Props = {
   storeId: string;
-  reload?: string;
 };
 
 type Row = GetStoreTeamDashboardResponse['team'][0];
@@ -64,28 +62,16 @@ const columns: ColDef[] = [
   },
 ];
 
-export const TeamList: React.FC<Props> = ({
-  storeId,
-  reload: passedInReload,
-}) => {
+export const TeamList: React.FC<Props> = ({ storeId }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const [params, setParams] =
     useState<GetStoreTeamDashboardQuery>(DEFAULT_FORM_VALUES);
-  const [reload, setReload] = useState<string>();
 
-  const { error, isLoading, response } = useApi<
-    GetStoreTeamDashboardBody,
-    GetStoreTeamDashboardQuery,
-    GetStoreTeamDashboardResponse
-  >(
-    {
-      url: `/dashboard/store/${storeId}/team`,
-      method: HTTP_METHOD.GET,
-      params,
-    },
-    { reTrigger: reload },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-team-dashboard', params],
+    queryFn: () => api.store.getTeamDashboard(storeId, params),
+  });
 
   const {
     control,
@@ -107,10 +93,6 @@ export const TeamList: React.FC<Props> = ({
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  useEffect(() => {
-    if (passedInReload) setReload(passedInReload);
-  }, [passedInReload]);
-
   const openEditMemberForm = (
     teamMember: GetStoreTeamDashboardResponse['team'][0],
   ) => {
@@ -120,7 +102,7 @@ export const TeamList: React.FC<Props> = ({
 
   if (isLoading) return <p>Loading...</p>;
 
-  const team = response?.team;
+  const team = data?.team;
 
   return (
     <>

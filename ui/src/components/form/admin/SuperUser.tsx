@@ -1,14 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { mdiDelete, mdiFormTextboxPassword } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { Control, FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetSuperuserAdminBody,
-  GetSuperuserAdminQuery,
-  GetSuperuserAdminResponse,
-} from '../../../../../api/src/types/api';
 import { api } from '../../../api';
 import {
   DEFAULT_FORM_VALUES,
@@ -18,11 +14,9 @@ import {
   superuserSelfAdminFormSchema,
   SuperuserSelfAdminFormType,
 } from '../../../config/forms/superuser-admin-form';
-import { HTTP_METHOD } from '../../../constants';
 import { AuthContext } from '../../../context/AuthContext';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
-import useApi from '../../../hooks/useApi';
 import { Alert } from '../../container';
 import { TextInput } from '../../input';
 import { Button } from '../../interactive';
@@ -30,13 +24,9 @@ import { ErrorText, H3 } from '../../typography';
 
 type Props = {
   superuserId?: string;
-  forceReload: () => void;
 };
 
-export const SuperuserAdminForm: React.FC<Props> = ({
-  superuserId,
-  forceReload,
-}) => {
+export const SuperuserAdminForm: React.FC<Props> = ({ superuserId }) => {
   const { user } = useContext(AuthContext);
   const { openModal, closeModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
@@ -45,17 +35,10 @@ export const SuperuserAdminForm: React.FC<Props> = ({
 
   const isSelf = user?.id === superuserId;
 
-  const { error, isLoading, response } = useApi<
-    GetSuperuserAdminBody,
-    GetSuperuserAdminQuery,
-    GetSuperuserAdminResponse
-  >(
-    {
-      method: HTTP_METHOD.GET,
-      url: `/admin/superuser/${superuserId}`,
-    },
-    { isAutoTriggered: !!superuserId },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['get-superuser-admin', superuserId],
+    queryFn: () => api.superuser.getSuperuserAdmin(superuserId),
+  });
 
   const {
     control,
@@ -74,11 +57,11 @@ export const SuperuserAdminForm: React.FC<Props> = ({
   }, [error]);
 
   useEffect(() => {
-    if (response?.superuser) {
-      setValue('name', response.superuser.name);
-      setValue('email', response.superuser.email);
+    if (data?.superuser) {
+      setValue('name', data.superuser.name);
+      setValue('email', data.superuser.email);
     }
-  }, [response]);
+  }, [data]);
 
   const onSubmit = async (
     superUser: SuperuserAdminFormType | SuperuserSelfAdminFormType,
@@ -103,7 +86,6 @@ export const SuperuserAdminForm: React.FC<Props> = ({
       if (!superuserId) openShowDefaultPassword(response.defaultPassword, true);
       else {
         closeModal();
-        forceReload();
         setToast({
           type: 'success',
           message: 'Superuser updated successfully',
@@ -138,7 +120,6 @@ export const SuperuserAdminForm: React.FC<Props> = ({
         <div className="flex justify-center">
           <Button
             onClick={() => {
-              forceReload();
               closeModal();
             }}
           >
@@ -154,7 +135,6 @@ export const SuperuserAdminForm: React.FC<Props> = ({
       try {
         await api.admin.deleteSuperuser(id);
         closeModal();
-        forceReload();
         setToast({
           type: 'success',
           message: 'Superuser deleted successfully',

@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
 import { ColDef, RowClickedEvent } from 'ag-grid-community';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
-  ListUsersAdminBody,
   ListUsersAdminQuery,
   ListUsersAdminResponse,
 } from '../../../../api/src/types/api';
+import { api } from '../../api';
 import { AgGrid, Card, Container } from '../../components/container';
 import { UserAdminForm } from '../../components/form/admin/User';
 import { SelectInput, TextInput } from '../../components/input';
@@ -17,9 +18,7 @@ import {
   userAdminParamsFormSchema,
 } from '../../config/forms/user-admin-params-form';
 import { userSearchOptions } from '../../config/options';
-import { HTTP_METHOD } from '../../constants';
 import { ModalContext } from '../../context/ModalContext';
-import useApi from '../../hooks/useApi';
 import useDebounce from '../../hooks/useDebounce';
 
 type Row = ListUsersAdminResponse['users'][0];
@@ -55,22 +54,13 @@ const columns: ColDef[] = [
 export const UsersAdmin: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const [reload, setReload] = useState<string | undefined>();
   const [params, setParams] =
     useState<ListUsersAdminQuery>(DEFAULT_FORM_VALUES);
 
-  const { error, isLoading, response } = useApi<
-    ListUsersAdminBody,
-    ListUsersAdminQuery,
-    ListUsersAdminResponse
-  >(
-    {
-      url: `/admin/user/list`,
-      method: HTTP_METHOD.GET,
-      params,
-    },
-    { reTrigger: reload },
-  );
+  const { error, isLoading, data } = useQuery({
+    queryKey: ['list-superusers-admin', params],
+    queryFn: () => api.user.listUsersAdmin(params),
+  });
 
   const {
     control,
@@ -92,15 +82,14 @@ export const UsersAdmin: React.FC = () => {
     if (error) navigate(`/500?error=${error}`);
   }, [error]);
 
-  const forceReload = () => setReload(new Date().toISOString());
   const openEditUserForm = (id: string) =>
-    openModal(<UserAdminForm userId={id} forceReload={forceReload} />);
+    openModal(<UserAdminForm userId={id} />);
   const onRowClicked = (e: RowClickedEvent<Row>) =>
     openEditUserForm(e.data!.id);
 
   if (isLoading) return <p>Loading...</p>;
 
-  const users = response?.users;
+  const users = data?.users;
 
   return (
     <Container>
