@@ -26,7 +26,7 @@ type Props = {
 
 type Row = ListItemsDashboardResponse['items'][0];
 
-const columns: ColDef[] = [
+const columns: ColDef<Row>[] = [
   {
     field: 'id',
     hide: true,
@@ -36,7 +36,7 @@ const columns: ColDef[] = [
     headerName: '',
     width: 50,
     sortable: false,
-    cellRenderer: (params: any) => (
+    cellRenderer: (params: { value: string }) => (
       <div className="flex h-full items-center justify-center">
         <div>
           <IconImage image={params?.value} name="Store Icon" size="xs" />

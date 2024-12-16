@@ -7,9 +7,7 @@ import { IconImage } from '../../components/display';
 import { Link } from '../../components/interactive';
 import { EmptyText, H2, H3 } from '../../components/typography';
 
-type Props = {};
-
-export const Home: React.FC<Props> = () => {
+export const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const { error, isLoading, data } = useQuery({

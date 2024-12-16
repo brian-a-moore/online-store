@@ -38,7 +38,7 @@
   border: 2px solid #fff;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s ease-in-out;
+  transition: 'background' 0.3s ease-in-out;
 }
 
 .slider::-webkit-slider-thumb:hover {

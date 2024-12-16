@@ -29,9 +29,9 @@ type Props = {
 
 type Row = GetStoreTeamDashboardResponse['team'][0];
 
-const columns: ColDef[] = [
+const columns: ColDef<Row>[] = [
   {
-    field: 'id',
+    field: 'relationId',
     hide: true,
   },
   {
@@ -45,10 +45,10 @@ const columns: ColDef[] = [
     flex: 2,
   },
   {
-    field: 'store.roleId',
+    field: 'roleId',
     headerName: 'Role',
     width: 100,
-    cellRenderer: (params: any) => (
+    cellRenderer: (params: { value: 1 | 2 }) => (
       <div className="flex h-full items-center justify-center">
         <div>
           <Icon

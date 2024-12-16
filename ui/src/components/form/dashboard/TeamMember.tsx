@@ -4,7 +4,6 @@ import Icon from '@mdi/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import {
   AddStoreRelationDashboardBody,
   GetStoreTeamDashboardResponse,
@@ -39,7 +38,6 @@ export const TeamMemberForm: React.FC<Props> = ({
 }) => {
   const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
-  const navigate = useNavigate();
   const [teamMember, setTeamMember] = useState<TeamMember | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const queryClient = useQueryClient();

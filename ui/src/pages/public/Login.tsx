@@ -12,14 +12,12 @@ import { ErrorText } from '../../components/typography';
 import { AUTH_TOKEN } from '../../constants';
 import { AuthContext } from '../../context/AuthContext';
 
-type Props = {};
-
 const DEFAULT_VALUES: LoginAuthBody = {
   email: '',
   password: '',
 };
 
-export const Login: React.FC<Props> = () => {
+export const Login: React.FC = () => {
   const { setUser } = useContext(AuthContext);
   const [formError, setFormError] = useState<string | null>(null);
   const [domain, setDomain] = useState<'admin' | 'user'>('user');

@@ -3,9 +3,7 @@ import { Separator } from '../../components/display';
 import { Link } from '../../components/interactive';
 import { H3 } from '../../components/typography';
 
-type Props = {};
-
-export const ServerError: React.FC<Props> = () => {
+export const ServerError: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const error = queryParams.get('error');

@@ -56,11 +56,11 @@ export const Admin: React.FC = () => {
   const openNewForm = () => {
     switch (thisSegment) {
       case 'superusers':
-        return openModal(<SuperuserAdminForm forceReload={() => {}} />);
+        return openModal(<SuperuserAdminForm />);
       case 'users':
-        return openModal(<UserAdminForm forceReload={() => {}} />);
+        return openModal(<UserAdminForm />);
       case 'stores':
-        return openModal(<StoreAdminForm forceReload={() => {}} />);
+        return openModal(<StoreAdminForm />);
       default:
         return null;
     }

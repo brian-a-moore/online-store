@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import { ListItemsPublicResponse } from '../../../../api/src/types/api';
 import { VariableItemConfig } from '../../../../api/src/types/itemConfigs';
 import { TCartItem } from '../../context/CartContext';
-import { Item } from '../../pages/public';
 import { formatCurrency } from '../../utils';
 import { Button } from '../interactive';
 
 type Props = {
-  item: Item;
+  item: ListItemsPublicResponse['items'][0];
   addItemToCart: (item: TCartItem) => void;
 };
 

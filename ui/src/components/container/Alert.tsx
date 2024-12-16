@@ -15,24 +15,24 @@ const ICON = {
 
 const COLORS = {
   error: {
-    background: 'bg-red-200',
+    background: 'bg-red-100',
     text: 'text-red-800',
-    icon: '#991B1B',
+    icon: '#B91C1C',
   },
   info: {
-    background: 'bg-sky-200',
-    text: 'text-sky-800',
-    icon: '#075985',
+    background: 'bg-white',
+    text: 'text-slate-700',
+    icon: '#334155',
   },
   warn: {
-    background: 'bg-yellow-200',
-    text: 'text-yellow-800',
-    icon: '#854D0E',
+    background: 'bg-yellow-100',
+    text: 'text-yellow-700',
+    icon: '#A16207',
   },
   success: {
-    background: 'bg-green-200',
+    background: 'bg-green-100',
     text: 'text-green-800',
-    icon: '#166534',
+    icon: '#15803D',
   },
 };
 

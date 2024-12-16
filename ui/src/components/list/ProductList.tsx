@@ -26,7 +26,7 @@ type Props = {
 
 type Row = ListProductsDashboardResponse['products'][0];
 
-const columns: ColDef[] = [
+const columns: ColDef<Row>[] = [
   {
     field: 'id',
     hide: true,
@@ -36,7 +36,7 @@ const columns: ColDef[] = [
     headerName: '',
     width: 50,
     sortable: false,
-    cellRenderer: (params: any) => (
+    cellRenderer: (params: { value: string }) => (
       <div className="flex h-full items-center justify-center">
         <div>
           <IconImage image={params?.value} name="Store Icon" size="xs" />
@@ -53,7 +53,7 @@ const columns: ColDef[] = [
     field: 'isPublished',
     headerName: 'Status',
     width: 100,
-    cellRenderer: (params: any) => (
+    cellRenderer: (params: { value: boolean }) => (
       <div className="flex h-full items-center justify-center">
         <div>
           <IsPublished pathType="product" isPublished={params.value} />
@@ -65,8 +65,8 @@ const columns: ColDef[] = [
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) =>
-      new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params: { value: Date }) =>
+      new Date(params.value).toLocaleDateString(),
   },
 ];
 

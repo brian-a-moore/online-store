@@ -21,11 +21,11 @@ type Props = {
 };
 
 const sizeMap = new Map([
-  ['xs', 'size-[24px]'],
-  ['sm', 'size-[48px]'],
-  ['md', 'size-[64px]'],
-  ['lg', 'size-[96px]'],
-  ['xl', 'size-[132px]'],
+  ['xs', 'size-6'],
+  ['sm', 'size-12'],
+  ['md', 'size-16'],
+  ['lg', 'size-24'],
+  ['xl', 'size-32'],
 ]);
 
 export const IconImage: React.FC<Props> = ({

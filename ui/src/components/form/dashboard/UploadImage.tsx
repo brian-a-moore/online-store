@@ -11,7 +11,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { useDropzone } from 'react-dropzone';
-import { useNavigate } from 'react-router-dom';
 import { api } from '../../../api';
 import { ModalContext } from '../../../context/ModalContext';
 import { ToastContext } from '../../../context/ToastContext';
@@ -36,7 +35,6 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
   existingFilePath,
   upload,
   rounded = false,
-  forceReload,
 }) => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setImage(acceptedFiles[0]);
@@ -45,7 +43,6 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
   }, []);
   const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   // Reference

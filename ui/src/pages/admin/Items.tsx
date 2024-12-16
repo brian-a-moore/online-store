@@ -23,7 +23,7 @@ import useDebounce from '../../hooks/useDebounce';
 
 type Row = ListItemsAdminResponse['items'][0];
 
-const columns: ColDef[] = [
+const columns: ColDef<Row>[] = [
   {
     field: 'name',
     headerName: 'Item Name',
@@ -43,15 +43,15 @@ const columns: ColDef[] = [
     field: 'createdAt',
     headerName: 'Created Date',
     flex: 1,
-    valueFormatter: (params) =>
-      new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params: { value: Date }) =>
+      new Date(params.value).toLocaleDateString(),
   },
   {
     field: 'updatedAt',
     headerName: 'Last Updated',
     flex: 1,
-    valueFormatter: (params) =>
-      new Date(params.value as string).toLocaleDateString(),
+    valueFormatter: (params: { value: Date }) =>
+      new Date(params.value).toLocaleDateString(),
   },
 ];
 
