@@ -31,10 +31,13 @@ export const getImageMedia = async (params: GetImageMediaQuery) => {
   });
 };
 
-export const updateImageMedia = async (
-  upload: { storeId?: string; productId?: string; itemId?: string },
-  image: File,
-) => {
+export const updateImageMedia = async ({
+  upload,
+  image,
+}: {
+  upload: { storeId?: string; productId?: string; itemId?: string };
+  image: File;
+}) => {
   const formData = new FormData();
   formData.append('image', image);
 

@@ -7,6 +7,7 @@ import {
 } from '@mdi/js';
 import Icon from '@mdi/react';
 import { SIZE } from '@sunami/constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { useDropzone } from 'react-dropzone';
@@ -45,6 +46,7 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
   const { closeModal, openModal } = useContext(ModalContext);
   const { setToast } = useContext(ToastContext);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Reference
   const ref = useRef<AvatarEditor | null>();
@@ -97,35 +99,37 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
     setError(null);
   };
 
+  const updateImageMutation = useMutation({
+    mutationFn: api.media.updateImageMedia,
+    onError: (error) => {
+      setError(error.message || 'An unknown error occurred');
+      setIsSubmitting(false);
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: `Image ${existingImage ? 'updated' : 'uploaded'} successfully`,
+      });
+      queryClient.refetchQueries({
+        queryKey: ['get-image-media'],
+      });
+      closeModal();
+      setIsSubmitting(false);
+    },
+  });
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      if (ref.current) {
-        const canvas = ref.current.getImage();
-        canvas.toBlob(async (blob: Blob | null) => {
-          if (blob) {
-            const blobFile = new File([blob], 'image.png', {
-              type: 'image/png',
-            });
-            await api.media.updateImageMedia(upload!, blobFile);
-            closeModal();
-            forceReload();
-            setToast({
-              type: 'success',
-              message: `Image ${existingImage ? 'updated' : 'uploaded'} successfully`,
-            });
-          }
-        });
-      } else {
-        setError('An error occurred. Please try again later.');
-      }
-    } catch (error: any | unknown) {
-      setError(
-        error?.response?.data?.message ||
-          'An unknown error occurred: Please try again later.',
-      );
-    } finally {
-      setIsSubmitting(false);
+    if (ref.current) {
+      const canvas = ref.current.getImage();
+      canvas.toBlob(async (blob: Blob | null) => {
+        if (blob) {
+          const blobFile = new File([blob], 'image.png', {
+            type: 'image/png',
+          });
+          updateImageMutation.mutate({ upload: upload!, image: blobFile });
+        }
+      });
     }
   };
 
