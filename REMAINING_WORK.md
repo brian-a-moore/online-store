@@ -27,11 +27,10 @@ N/A
   - [ ] Perhaps the option to view the TeamMemberEdit form should just not show up for the logged in user?
 - [ ]Add page or dialog to allow the logged in user to change their password
   - [ ] Probably need a button in the top-right corner that does this as well as sign out
-- [ ] Add custom image upload components that will allow users to update images
+- [x] Add custom image upload components that will allow users to update images
   - [x] Custom Image Component
   - [x] Update Image component to have a button to open a form
-  - [ ] Custom Image Uploader Form
-  - [ ] Prevent form button from showing up if the user is not of the right role
+  - [x] Custom Image Uploader Form
 - [x] Revamp the navigation menu for the admin portal
   - [x] The current navigation will not work on small screens
 - [ ] Do something with the home page for the admin portal
