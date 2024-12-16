@@ -118,6 +118,21 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
     },
   });
 
+  const deleteImageMutation = useMutation({
+    mutationFn: api.media.deleteImageMedia,
+    onError: (error) => {
+      setError(error.message || 'An unknown error occurred');
+    },
+    onSuccess: () => {
+      setToast({
+        type: 'success',
+        message: 'Image removed successfully',
+      });
+      queryClient.refetchQueries({ queryKey: ['get-image-media'] });
+      closeModal();
+    },
+  });
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (ref.current) {
@@ -134,20 +149,7 @@ export const UploadImageDashboardForm: React.FC<Props> = ({
   };
 
   const openDeleteImageDialog = (filePath: string) => {
-    const onClick = async () => {
-      try {
-        await api.media.deleteImageMedia(filePath);
-        closeModal();
-        setToast({
-          type: 'success',
-          message: 'Image removed successfully',
-        });
-      } catch (error: any | unknown) {
-        navigate(
-          `/500?error=${error.response?.data?.message || 'An unknown error occurred: Please try again later.'}`,
-        );
-      }
-    };
+    const onClick = () => deleteImageMutation.mutate(filePath);
     openModal(
       <>
         <H3>Remove Image</H3>
